@@ -82,7 +82,7 @@ public class Masine implements LoadStoreData{
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
-			if (line.equals("") || line.startsWith("#"))
+			if (line.equals(""))
 				continue;
 			Aktivnost.loadAktivnost(line);
 		}
