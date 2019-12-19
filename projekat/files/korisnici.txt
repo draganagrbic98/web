@@ -1,0 +1,4 @@
+korime1;loz1;email1;pera;peric;0;organizacija1
+korime2;loz2;email2;djoka;djokic;1;organizacija2
+korime3;loz1;email3;miki;mikic;2;organizacija2
+korime4;loz2;email1;soki;sokic;0;organizacija2

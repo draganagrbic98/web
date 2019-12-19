@@ -1,0 +1,4 @@
+masina1;01.01.2018.;true
+masina1;10.09.2019.;false
+masina2;01.01.2019.;true
+masina2;02.01.2018.;false

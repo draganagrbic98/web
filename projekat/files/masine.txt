@@ -1,0 +1,4 @@
+masina1;organizacija1;kategorija1
+masina2;organizacija2;kategorija2
+masina3;organizacija1;kategorija1
+masina4;organizacija2;kategorija1
