@@ -90,7 +90,7 @@ public class Organizacija implements CSVData{
 	}
 	
 	public void dodajKorisnika(Korisnik k) {
-		this.korisnici.add(k.getKorisnickoIme());
+		this.korisnici.add(k.getUser().getKorisnickoIme());
 	}
 	
 	public void dodajMasinu(VirtuelnaMasina m) {

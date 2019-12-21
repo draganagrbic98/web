@@ -4,24 +4,17 @@ import model.Main;
 
 public class Korisnik implements CSVData{
 	
-	private String korisnickoIme;
-	private String lozinka;
+	private User user;
 	private String email;
 	private String ime;
 	private String prezime;
 	private Uloga uloga;
 	private String organizacija;
-	public String getKorisnickoIme() {
-		return korisnickoIme;
+	public User getUser() {
+		return user;
 	}
-	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
-	}
-	public String getLozinka() {
-		return lozinka;
-	}
-	public void setLozinka(String lozinka) {
-		this.lozinka = lozinka;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getEmail() {
 		return email;
@@ -59,8 +52,7 @@ public class Korisnik implements CSVData{
 	public Korisnik(String korisnickoIme, String lozinka, String email, String ime, String prezime, Uloga uloga,
 			String organizacija) {
 		this();
-		this.korisnickoIme = korisnickoIme;
-		this.lozinka = lozinka;
+		this.user = new User(korisnickoIme, lozinka);
 		this.email = email;
 		this.ime = ime;
 		this.prezime = prezime;
@@ -71,20 +63,20 @@ public class Korisnik implements CSVData{
 	}
 	public Korisnik(String korisnickoIme) {
 		super();
-		this.korisnickoIme = korisnickoIme;
+		this.user = new User(korisnickoIme);
 	}
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Korisnicko ime: %s, lozinka: %s, email: %s, ime: %s, prezime: %s, uloga: %s, organizaicja: %s", this.korisnickoIme, this.lozinka, this.email, this.ime, this.prezime, this.uloga, this.organizacija);
+		return String.format("Korisnik: %s, email: %s, ime: %s, prezime: %s, uloga: %s, organizaicja: %s", this.user, this.email, this.ime, this.prezime, this.uloga, this.organizacija);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		if (!(obj instanceof Korisnik)) return false;
-		return ((Korisnik) obj).korisnickoIme.equals(this.korisnickoIme) || ((Korisnik) obj).email.equals(this.email);
+		return ((Korisnik) obj).user.equals(this.user) || ((Korisnik) obj).email.equals(this.email);
 	}
 	
 	public static Korisnik parse(String line) {
@@ -103,7 +95,7 @@ public class Korisnik implements CSVData{
 	@Override
 	public String csvLine() {
 		// TODO Auto-generated method stub
-		return this.korisnickoIme + ";" + this.lozinka + ";" + this.email + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal() + ";" + this.organizacija;
+		return this.user.csvLine() + ";" + this.email + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal() + ";" + this.organizacija;
 	}
 	
 	public Organizacija getOrganizacija() {

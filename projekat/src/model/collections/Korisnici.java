@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Korisnik;
+import model.beans.User;
 
 public class Korisnici implements LoadStoreData{
 		
@@ -63,6 +64,13 @@ public class Korisnici implements LoadStoreData{
 			out.flush();
 		}
 		out.close();
+	}
+	
+	public Korisnik login(User u) {
+		for (Korisnik k: this.korisnici) {
+			if (k.getUser().login(u)) return k;
+		}
+		return null;
 	}
 
 }

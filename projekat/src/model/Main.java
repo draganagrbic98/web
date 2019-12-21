@@ -1,12 +1,16 @@
 package model;
 
+import model.beans.Korisnik;
+import model.beans.User;
 import model.collections.Diskovi;
 import model.collections.Kategorije;
 import model.collections.Korisnici;
 import model.collections.Masine;
 import model.collections.Organizacije;
+import spark.Session;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
@@ -76,9 +80,24 @@ public class Main {
 			res.type("application/json");
 			return g.toJson(diskovi.getDiskovi());
 		});
+
+
 		//spreci da kada korisnik ukuca ove urlove dobije jsone na podatke, treba da mu sepokaze 404 erorr
 		
+		
+		post("rest/user/login", (req, res) -> {
+			res.type("application/json");
+			User u = g.fromJson(req.body(), User.class);
+			Korisnik k = korisnici.login(u);
+			Session ss = req.session(true);
+			if (k != null && ss.attribute("user") == null)
+				ss.attribute("user", k);
+			return g.toJson(k);
+		});
+		
 	
+
+		
 	}
 
 }

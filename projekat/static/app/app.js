@@ -3,6 +3,8 @@ const organizacije = {template: '<organizacije></organizacije>'}
 const korisnici = {template: '<korisnici></korisnici>'}
 const masine = {template: '<masine></masine>'}
 const diskovi = {template: '<diskovi></diskovi>'}
+const login = {template: '<login></login>'}
+
 
 
 const router = new VueRouter({
@@ -12,13 +14,24 @@ const router = new VueRouter({
 		{path: '/organizacije', component: organizacije}, 
 		{path: '/korisnici', component: korisnici}, 
 		{path: '/masine', component: masine}, 
-		{path: '/diskovi', component: diskovi}
+		{path: '/diskovi', component: diskovi}, 
+		{path: '/', component: login}
+
 	]
 });
 
 var app = new Vue({
 	router: router, 
-	el: '#mainDiv'
+	el: '#mainDiv', 
+	data: {
+		user: null
+	}, 
+	mounted() {
+		this.$router.$on('fromLogin', u => {
+			this.user = u;
+		});
+	},
+	
 });
 
 
