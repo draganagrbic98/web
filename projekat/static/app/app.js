@@ -39,7 +39,7 @@ var app = new Vue({
 		}
 	},
 	mounted() {
-		this.$root.$on('login', u => {
+		this.$root.$on('login', k => {
 			this.korisnik = k;
 		});
 	},

@@ -1,7 +1,7 @@
 Vue.component("pregled", {
 	data: function(){
 		return {
-			diskovi: [],
+			diskovi: null,
 			uloga: ''
 		}
 	},
