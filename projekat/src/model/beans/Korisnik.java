@@ -2,53 +2,67 @@ package model.beans;
 
 import model.Main;
 
-public class Korisnik implements CSVData{
-	
+public class Korisnik implements CSVData {
+
 	private User user;
 	private String email;
 	private String ime;
 	private String prezime;
 	private Uloga uloga;
 	private String organizacija;
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getIme() {
 		return ime;
 	}
+
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+
 	public String getPrezime() {
 		return prezime;
 	}
+
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
+
 	public Uloga getUloga() {
 		return uloga;
 	}
+
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
+
 	public String getOrganizacijaID() {
 		return organizacija;
 	}
+
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}
+
 	public Korisnik() {
 		super();
 	}
+
 	public Korisnik(String korisnickoIme, String lozinka, String email, String ime, String prezime, Uloga uloga,
 			String organizacija) {
 		this();
@@ -61,24 +75,27 @@ public class Korisnik implements CSVData{
 		if (this.getOrganizacija() != null)
 			this.getOrganizacija().dodajKorisnika(this);
 	}
+
 	public Korisnik(String korisnickoIme) {
 		super();
 		this.user = new User(korisnickoIme);
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Korisnik: %s, email: %s, ime: %s, prezime: %s, uloga: %s, organizaicja: %s", this.user, this.email, this.ime, this.prezime, this.uloga, this.organizacija);
+		return String.format("Korisnik: %s, email: %s, ime: %s, prezime: %s, uloga: %s, organizaicja: %s", this.user,
+				this.email, this.ime, this.prezime, this.uloga, this.organizacija);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof Korisnik)) return false;
+		if (!(obj instanceof Korisnik))
+			return false;
 		return ((Korisnik) obj).user.equals(this.user) || ((Korisnik) obj).email.equals(this.email);
 	}
-	
+
 	public static Korisnik parse(String line) {
 		String[] array = line.split(";");
 		String korisnickoIme = array[0].trim();
@@ -89,15 +106,16 @@ public class Korisnik implements CSVData{
 		Uloga uloga = Uloga.values()[(Integer.parseInt(array[5].trim()))];
 		String organizacija = array[6].trim();
 		return new Korisnik(korisnickoIme, lozinka, email, ime, prezime, uloga, organizacija);
-		
+
 	}
-	
+
 	@Override
 	public String csvLine() {
 		// TODO Auto-generated method stub
-		return this.user.csvLine() + ";" + this.email + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal() + ";" + this.organizacija;
+		return this.user.csvLine() + ";" + this.email + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal()
+				+ ";" + this.organizacija;
 	}
-	
+
 	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}

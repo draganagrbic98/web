@@ -21,13 +21,11 @@ Vue.component("login", {
 	methods: {
 		login(){
 
-			axios.post('rest/user/login', {"korisnockoIme": this.username, "lozinka": this.password})
+			axios.post('rest/user/login', {"korisnickoIme": this.username, "lozinka": this.password})
 			.then(response => {
-	    		this.username = 'mama';
-
+				this.$root.$emit('login', response.data);
 			});
-			//ocu da sacuvam response 
-			this.$router.$emit(resposse);
+			// ocu da sacuvam response
 			this.$router.push('kategorije');
 		}
 	}

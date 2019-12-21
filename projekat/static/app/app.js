@@ -25,10 +25,10 @@ var app = new Vue({
 	el: '#mainDiv', 
 	data: {
 		user: null
-	}, 
+	},
 	mounted() {
-		this.$router.$on('fromLogin', u => {
-			this.user = u;
+		this.$root.$on('login', u => {
+			this.user = 'dadawd';
 		});
 	},
 	
