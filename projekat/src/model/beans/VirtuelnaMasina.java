@@ -141,5 +141,17 @@ public class VirtuelnaMasina implements CSVData{
 		return diskovi;
 		
 	}
+	public void removeDisk(Disk d) {
+		
+		this.diskovi.remove(d.getIme());
+		
+	}
+	public void updateDisk(String oldIme, String newIme) {
+		// TODO Auto-generated method stub
+		
+		int index = this.diskovi.indexOf(oldIme);
+		this.diskovi.set(index, newIme);
+		
+	}
 
 }

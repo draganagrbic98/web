@@ -13,6 +13,7 @@ public class Disk implements CSVData {
 		return ime;
 	}
 	public void setIme(String ime) {
+		this.getMasina().updateDisk(this.ime, ime);
 		this.ime = ime;
 	}
 	public TipDiska getTip() {

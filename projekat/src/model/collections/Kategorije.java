@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import model.Main;
 import model.beans.Kategorija;
 import model.dmanipulation.JKategorijaChange;
 import model.dmanipulation.KategorijaManipulation;
@@ -99,6 +100,7 @@ public class Kategorije implements LoadStoreData{
 		kategorija.setRAM(k.getNovaKategorija().getRAM());
 		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
 		this.store();
+		Main.masine.store();
 		return KategorijaManipulation.OK;
 		
 	}

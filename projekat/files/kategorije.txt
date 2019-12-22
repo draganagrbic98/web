@@ -1,4 +1,4 @@
-kategorija111;30;150;1
+kategorija1;30;150;1
 kategorija3;30;150;1
 asdqwe;1;1;0
 qwer;1;1;0

@@ -79,6 +79,7 @@ public class Diskovi implements LoadStoreData {
 	public DiskManipulation obrisiDisk(Disk d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) return DiskManipulation.DOESNT_EXIST;
+		disk.getMasina().removeDisk(d);
 		this.diskovi.remove(disk);
 		this.store();
 		return DiskManipulation.OK;
