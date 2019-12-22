@@ -8,6 +8,7 @@ public class Kategorija implements CSVData{
 	private int brojJezgara;
 	private int RAM;
 	private int GPUjezgra;
+	
 	public String getIme() {
 		return ime;
 	}
@@ -32,8 +33,13 @@ public class Kategorija implements CSVData{
 	public void setGPUjezgra(int gPUjezgra) {
 		GPUjezgra = gPUjezgra;
 	}
+	
 	public Kategorija() {
 		super();
+	}
+	public Kategorija(String ime) {
+		this();
+		this.ime = ime;
 	}
 	public Kategorija(String ime, int brojJezgara, int rAM, int gPUjezgra) {
 		this();
@@ -41,10 +47,6 @@ public class Kategorija implements CSVData{
 		this.brojJezgara = brojJezgara;
 		RAM = rAM;
 		GPUjezgra = gPUjezgra;
-	}
-	public Kategorija(String ime) {
-		super();
-		this.ime = ime;
 	}
 	
 	@Override
@@ -85,6 +87,5 @@ public class Kategorija implements CSVData{
 		return false;
 		
 	}
-
 
 }

@@ -8,12 +8,12 @@ Vue.component("dodajKategoriju", {
                 "RAM": 1, 
                 "GPUjezgra": 0
             }, 
-            greska: false, 
             greskaIme: '', 
             greskaBrojJezgara: '', 
             greskaRAM: '', 
             greskaGPUjezgra: '', 
-            greskaUnos: ''
+            greskaUnos: '', 
+            greska: false   
         }
     }, 
 
@@ -29,19 +29,27 @@ Vue.component("dodajKategoriju", {
             <button v-on:click="dodaj()">Dodaj</button><br><br>
             {{greskaUnos}}
 
+            <router-link to="/masine">MAIN PAGE</router-link>
+
         </div>
     
     `, 
 
     methods: {
+
         dodaj: function(){
 
+            this.greskaIme = '';
             this.greskaBrojJezgara = '';
             this.greskaRAM = '';
             this.greskaGPUjezgra = '';
-            this.greska = false;
-            this.greskaIme = '';
             this.greskaUnos = '';
+            this.greska = false;
+
+            if (this.novaKategorija.ime == ''){
+                this.greskaIme = "Ime kategorije ne sme biti prazno. ";
+                this.greska = true;
+            }
 
             if (isNaN(this.novaKategorija.brojJezgara) || parseInt(this.novaKategorija.brojJezgara) <= 0){
                 this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
@@ -58,22 +66,14 @@ Vue.component("dodajKategoriju", {
                 this.greska = true;
             }
 
-            if (this.novaKategorija.ime == ''){
-                this.greskaIme = "Ime kategorije ne sme biti prazno";
-                this.greska = true;
-            }
-
-            if (this.greska == true) return;
+            if (this.greska) return;
 
             axios.post("rest/kategorije/dodavanje", this.novaKategorija)
             .then(response => {
-                if (response.data.result == "true"){
-                    this.$router.push("kategorije");
-                }
-                else{
-                    this.greskaUnos = "Uneta kategorija vec postoji. ";
-                    return;
-                }
+                this$router.push("kategorije");
+            })
+            .catch(error => {
+                this.greskaUnos = error.response.data.result;
             });
             
         }
