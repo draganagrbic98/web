@@ -97,9 +97,6 @@ public class Kategorije implements LoadStoreData{
 	public boolean dodajKategoriju(Kategorija k) throws Exception {
 		
 		if (this.nadjiKategoriju(k.getIme()) != null) return false;
-		if (k.getBrojJezgara() <= 0) return false;
-		if (k.getRAM() <= 0) return false;
-		if (k.getGPUjezgra() < 0) return false;
 		this.kategorije.add(k);
 		this.store();
 		return true;

@@ -12,7 +12,8 @@ Vue.component("dodajKategoriju", {
             greskaIme: '', 
             greskaBrojJezgara: '', 
             greskaRAM: '', 
-            greskaGPUjezgra: ''
+            greskaGPUjezgra: '', 
+            greskaUnos: ''
         }
     }, 
 
@@ -26,6 +27,7 @@ Vue.component("dodajKategoriju", {
             RAM: <input type="text" v-model="novaKategorija.RAM"> {{greskaRAM}} <br><br>
             GPU jezgra: <input type="text" v-model="novaKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
             <button v-on:click="dodaj()">Dodaj</button><br><br>
+            {{greskaUnos}}
 
         </div>
     
@@ -39,6 +41,7 @@ Vue.component("dodajKategoriju", {
             this.greskaGPUjezgra = '';
             this.greska = false;
             this.greskaIme = '';
+            this.greskaUnos = '';
 
             if (isNaN(this.novaKategorija.brojJezgara) || parseInt(this.novaKategorija.brojJezgara) <= 0){
                 this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
@@ -68,7 +71,8 @@ Vue.component("dodajKategoriju", {
                     this.$router.push("kategorije");
                 }
                 else{
-                    this.greska = "Uneta kategorija vec postoji. Ponovo. ";
+                    this.greskaUnos = "Uneta kategorija vec postoji. ";
+                    return;
                 }
             });
             
