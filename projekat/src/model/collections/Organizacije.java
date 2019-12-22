@@ -27,15 +27,6 @@ public class Organizacije implements LoadStoreData{
 		this.organizacije = new ArrayList<Organizacija>();
 	}
 	
-	public Organizacija nadjiOrganizaciju(String ime) {
-		for (Organizacija o: this.organizacije) {
-			System.out.println(o.getIme() + ": "  + ime + (o.equals(new Organizacija(ime))));
-		}
-		int index = this.organizacije.indexOf(new Organizacija(ime));
-		if (index == -1) return null;
-		return this.organizacije.get(index);
-	}
-	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -70,6 +61,21 @@ public class Organizacije implements LoadStoreData{
 		out.close();
 	}
 	
+	public Organizacija nadjiOrganizaciju(String ime) {
+		int index = this.organizacije.indexOf(new Organizacija(ime));
+		if (index == -1) return null;
+		return this.organizacije.get(index);
+	}
+	
+	public OrganizacijaManipulation dodajOrganizaciju(Organizacija o) throws Exception {
+		
+		if (this.nadjiOrganizaciju(o.getIme()) != null) return OrganizacijaManipulation.AL_EXISTS;
+		this.organizacije.add(o);
+		this.store();
+		return OrganizacijaManipulation.OK;
+		
+	}
+
 	public OrganizacijaManipulation izmeniOrganizaciju(JOrganizacijaChange o) throws Exception {
 		
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
@@ -81,19 +87,6 @@ public class Organizacije implements LoadStoreData{
 		organizacija.setLogo(o.getNovaOrganizacija().getLogo());
 		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
 		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
-		this.store();
-		return OrganizacijaManipulation.OK;
-		
-	}
-	
-	
-	
-	
-	
-	public OrganizacijaManipulation dodajOrganizaciju(Organizacija o) throws Exception {
-		
-		if (this.nadjiOrganizaciju(o.getIme()) != null) return OrganizacijaManipulation.AL_EXISTS;
-		this.organizacije.add(o);
 		this.store();
 		return OrganizacijaManipulation.OK;
 		

@@ -15,7 +15,6 @@ public class Organizacija implements CSVData {
 	public String getIme() {
 		return ime;
 	}
-
 	public void setIme(String ime) {
 		for (Korisnik k: Main.korisnici.getKorisnici()) {
 			if (k.getOrganizacijaID().equals(this.ime))
@@ -25,59 +24,47 @@ public class Organizacija implements CSVData {
 			if (m.getOrganizacijaID().equals(this.ime))
 				m.setOrganizacija(ime);
 		}
-		
-		
 		this.ime = ime;
 	}
-
 	public String getOpis() {
 		return opis;
 	}
-
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
-
 	public String getLogo() {
 		return logo;
 	}
-
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-
 	public ArrayList<String> getKorisnici() {
 		return korisnici;
 	}
-
 	public void setKorisnici(ArrayList<String> korisnici) {
 		this.korisnici = korisnici;
 	}
-
 	public ArrayList<String> getMasine() {
 		return masine;
 	}
-
 	public void setMasine(ArrayList<String> masine) {
 		this.masine = masine;
 	}
-
+	
+	public Organizacija(String ime) {
+		this();
+		this.ime = ime;
+	}
 	public Organizacija() {
 		super();
 		this.korisnici = new ArrayList<String>();
 		this.masine = new ArrayList<String>();
 	}
-
 	public Organizacija(String ime, String opis, String logo) {
 		this();
 		this.ime = ime;
 		this.opis = opis;
 		this.logo = logo;
-	}
-
-	public Organizacija(String ime) {
-		super();
-		this.ime = ime;
 	}
 
 	@Override
@@ -106,6 +93,7 @@ public class Organizacija implements CSVData {
 		String ime = array[0].trim();
 		String opis = array[1].trim();
 		String logo = array[2].trim();
+		if (logo == "null") logo = "slike/default.jpg";
 		return new Organizacija(ime, opis, logo);
 	}
 
