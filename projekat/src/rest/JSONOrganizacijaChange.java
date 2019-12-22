@@ -1,9 +1,9 @@
-package model.dmanipulation;
+package rest;
 
 import model.beans.Organizacija;
 
-public class JOrganizacijaChange {
-	
+public class JSONOrganizacijaChange {
+
 	private String staroIme;
 	private Organizacija novaOrganizacija;
 	public String getStaroIme() {
@@ -18,7 +18,7 @@ public class JOrganizacijaChange {
 	public void setNovaOrganizacija(Organizacija novaOrganizacija) {
 		this.novaOrganizacija = novaOrganizacija;
 	}
-	public JOrganizacijaChange() {
+	public JSONOrganizacijaChange() {
 		super();
 	}
 	
@@ -27,5 +27,5 @@ public class JOrganizacijaChange {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.novaOrganizacija);
 	}
-
+	
 }

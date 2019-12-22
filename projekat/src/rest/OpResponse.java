@@ -1,6 +1,6 @@
-package model.dmanipulation;
+package rest;
 
-public class OpResult {
+public class OpResponse {
 	
 	private String result;
 
@@ -12,13 +12,19 @@ public class OpResult {
 		this.result = result;
 	}
 
-	public OpResult() {
+	public OpResponse() {
 		super();
 	}
 
-	public OpResult(String result) {
+	public OpResponse(String result) {
 		super();
 		this.result = result;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.result;
 	}
 
 }

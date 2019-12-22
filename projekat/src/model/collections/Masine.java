@@ -32,12 +32,6 @@ public class Masine implements LoadStoreData{
 		this.masine = new ArrayList<VirtuelnaMasina>();
 	}
 	
-	public VirtuelnaMasina nadjiMasinu(String ime) {
-		int index = this.masine.indexOf(new VirtuelnaMasina(ime));
-		if (index == -1) return null;
-		return this.masine.get(index);
-	}
-	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -93,8 +87,37 @@ public class Masine implements LoadStoreData{
 		
 	}
 	
+	public VirtuelnaMasina nadjiMasinu(String ime) {
+		int index = this.masine.indexOf(new VirtuelnaMasina(ime));
+		if (index == -1) return null;
+		return this.masine.get(index);
+	}
+	
+	public boolean dodajMasinu(VirtuelnaMasina m) throws Exception {
+		
+		if (this.nadjiMasinu(m.getIme()) != null) return false;
+		this.masine.add(m);
+		this.store();
+		return true;
+		
+	}
+	
+	public boolean obrisiMasinu(VirtuelnaMasina m) throws Exception {
+		
+		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
+		if (masina == null) return false;
+		for (Disk d: Main.diskovi.getDiskovi()) {
+			if (d.getMasinaID().equals(masina.getIme()))
+				d.setMasina("null");
+		}
+		this.masine.remove(masina);
+		this.store();
+		return true;
+		
+	}
 	
 	public boolean izmeniMasinu(JMasinaChange m) throws Exception {
+		
 		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null && (!(m.getStaroIme().equals(m.getNovaMasina().getIme())))) return false;
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 		if (masina == null) return false;
@@ -105,7 +128,6 @@ public class Masine implements LoadStoreData{
 			return false;
 		}
 
-		//menjanje rama i ostalo se radi preko kategorije
 		masina.setIme(m.getNovaMasina().getIme());
 		masina.setOrganizacija(m.getNovaMasina().getOrganizacijaID());
 		masina.setKategorija(m.getNovaMasina().getKategorija());
@@ -114,29 +136,6 @@ public class Masine implements LoadStoreData{
 		masina.setGPUjezgra(m.getNovaMasina().getGPUjezgra());
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
 		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
-		this.store();
-		return true;
-	}
-	
-	
-	public boolean dodajMasinu(VirtuelnaMasina m) throws Exception {
-		
-		if (this.nadjiMasinu(m.getIme()) != null) return false;
-		this.masine.add(m);
-		this.store();
-		return true;
-		
-	}
-
-	public boolean obrisiMasinu(VirtuelnaMasina m) throws Exception {
-		
-		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
-		if (masina == null) return false;
-		for (Disk d: Main.diskovi.getDiskovi()) {
-			if (d.getMasinaID().equals(masina.getIme()))
-				d.setMasina("null");
-		}
-		this.masine.remove(masina);
 		this.store();
 		return true;
 		

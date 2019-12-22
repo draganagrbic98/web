@@ -14,6 +14,7 @@ public class VirtuelnaMasina implements CSVData{
 	private int GPUjezgra;
 	private ArrayList<Aktivnost> aktivnosti;
 	private ArrayList<String> diskovi;
+	
 	public String getIme() {
 		return ime;
 	}
@@ -22,6 +23,7 @@ public class VirtuelnaMasina implements CSVData{
 			if (d.getMasinaID().equals(this.ime))
 				d.setMasina(ime);
 		}
+		this.getOrganizacija().updateMasina(this.ime, ime);
 		this.ime = ime;
 	}
 	public String getOrganizacijaID() {
@@ -66,6 +68,7 @@ public class VirtuelnaMasina implements CSVData{
 	public void setDiskovi(ArrayList<String> diskovi) {
 		this.diskovi = diskovi;
 	}
+	
 	public VirtuelnaMasina() {
 		super();
 		this.aktivnosti = new ArrayList<Aktivnost>();
@@ -83,7 +86,7 @@ public class VirtuelnaMasina implements CSVData{
 			this.getOrganizacija().dodajMasinu(this);
 	}
 	public VirtuelnaMasina(String ime) {
-		super();
+		this();
 		this.ime = ime;
 	}
 	
@@ -132,15 +135,6 @@ public class VirtuelnaMasina implements CSVData{
 	public void dodajDisk(Disk d) {
 		this.diskovi.add(d.getIme());
 	}
-	
-	public ArrayList<Disk> getDiskovi(){
-	
-		ArrayList<Disk> diskovi = new ArrayList<Disk>();
-		for (String d: this.diskovi)
-			diskovi.add(Main.diskovi.nadjiDisk(d));
-		return diskovi;
-		
-	}
 	public void removeDisk(Disk d) {
 		
 		this.diskovi.remove(d.getIme());
@@ -153,5 +147,15 @@ public class VirtuelnaMasina implements CSVData{
 		this.diskovi.set(index, newIme);
 		
 	}
+	public ArrayList<Disk> getDiskovi(){
+	
+		ArrayList<Disk> diskovi = new ArrayList<Disk>();
+		for (String d: this.diskovi)
+			diskovi.add(Main.diskovi.nadjiDisk(d));
+		return diskovi;
+		
+	}
+	
+	
 
 }

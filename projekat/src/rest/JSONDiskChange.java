@@ -1,8 +1,8 @@
-package model.dmanipulation;
+package rest;
 
 import model.beans.Disk;
 
-public class JDiskChange {
+public class JSONDiskChange {
 
 	private String staroIme;
 	private Disk noviDisk;
@@ -23,14 +23,8 @@ public class JDiskChange {
 		this.noviDisk = noviDisk;
 	}
 
-	public JDiskChange() {
+	public JSONDiskChange() {
 		super();
 	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("%s, %s", this.staroIme, this.noviDisk);
-	}
-
+	
 }

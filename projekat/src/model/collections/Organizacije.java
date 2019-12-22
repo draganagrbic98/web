@@ -8,7 +8,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Organizacija;
-import model.dmanipulation.JOrganizacijaChange;
+import rest.JSONOrganizacijaChange;
+import rest.OpResult.OrganizacijaResponse;
 
 public class Organizacije implements LoadStoreData{
 		
@@ -67,28 +68,28 @@ public class Organizacije implements LoadStoreData{
 		return this.organizacije.get(index);
 	}
 	
-	public OrganizacijaManipulation dodajOrganizaciju(Organizacija o) throws Exception {
+	public OrganizacijaResponse dodajOrganizaciju(Organizacija o) throws Exception {
 		
-		if (this.nadjiOrganizaciju(o.getIme()) != null) return OrganizacijaManipulation.AL_EXISTS;
+		if (this.nadjiOrganizaciju(o.getIme()) != null) return OrganizacijaResponse.AL_EXISTS;
 		this.organizacije.add(o);
 		this.store();
-		return OrganizacijaManipulation.OK;
+		return OrganizacijaResponse.OK;
 		
 	}
 
-	public OrganizacijaManipulation izmeniOrganizaciju(JOrganizacijaChange o) throws Exception {
+	public OrganizacijaResponse izmeniOrganizaciju(JSONOrganizacijaChange o) throws Exception {
 		
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
-		if (organizacija == null) return OrganizacijaManipulation.DOESNT_EXIST;
+		if (organizacija == null) return OrganizacijaResponse.DOESNT_EXIST;
 		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme()))))
-			return OrganizacijaManipulation.AL_EXISTS;
+			return OrganizacijaResponse.AL_EXISTS;
 		organizacija.setIme(o.getNovaOrganizacija().getIme());
 		organizacija.setOpis(o.getNovaOrganizacija().getOpis());
 		organizacija.setLogo(o.getNovaOrganizacija().getLogo());
 		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
 		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
 		this.store();
-		return OrganizacijaManipulation.OK;
+		return OrganizacijaResponse.OK;
 		
 	}
 

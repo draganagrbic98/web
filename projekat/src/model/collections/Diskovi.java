@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Disk;
-import model.dmanipulation.DiskManipulation;
-import model.dmanipulation.JDiskChange;
+import rest.JSONDiskChange;
+import rest.OpResult.DiskResponse;
 
 public class Diskovi implements LoadStoreData {
 
@@ -69,35 +69,35 @@ public class Diskovi implements LoadStoreData {
 		return this.diskovi.get(index);
 	}
 	
-	public DiskManipulation dodajDisk(Disk d) throws Exception {
-		if (this.nadjiDisk(d.getIme()) != null) return DiskManipulation.AL_EXISTS;
+	public DiskResponse dodajDisk(Disk d) throws Exception {
+		if (this.nadjiDisk(d.getIme()) != null) return DiskResponse.AL_EXISTS;
 		this.diskovi.add(d);
 		this.store();
-		return DiskManipulation.OK;
+		return DiskResponse.OK;
 	}
 	
-	public DiskManipulation obrisiDisk(Disk d) throws Exception {
+	public DiskResponse obrisiDisk(Disk d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getIme());
-		if (disk == null) return DiskManipulation.DOESNT_EXIST;
+		if (disk == null) return DiskResponse.DOESNT_EXIST;
 		disk.getMasina().removeDisk(d);
 		this.diskovi.remove(disk);
 		this.store();
-		return DiskManipulation.OK;
+		return DiskResponse.OK;
 	}
 
-	public DiskManipulation izmeniDisk(JDiskChange d) throws Exception {
+	public DiskResponse izmeniDisk(JSONDiskChange d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getStaroIme());
-		if (disk == null) return DiskManipulation.DOESNT_EXIST;
+		if (disk == null) return DiskResponse.DOESNT_EXIST;
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
-			return DiskManipulation.AL_EXISTS;
+			return DiskResponse.AL_EXISTS;
 		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) 
-			return DiskManipulation.MAC_DOESN_EXIST;
+			return DiskResponse.MAC_DOESN_EXIST;
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
 		disk.setMasina(d.getNoviDisk().getMasinaID());
 		this.store();
-		return DiskManipulation.OK;
+		return DiskResponse.OK;
 	}
 	
 }
