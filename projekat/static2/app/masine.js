@@ -33,7 +33,7 @@ Vue.component("masine", {
                 </div>
 
                 <div>
-                	<button v-on:click="dodaj()">Dodaj</button>
+                	<button v-on:click="logout()">Odjava</button>
                 </div>
             </div>
 
@@ -58,9 +58,8 @@ Vue.component("masine", {
                 Broj GPU jezgara: <input type="text" v-model="selectedMasina.GPUjezgra" disabled><br><br>
         
                 <div v-if="uloga!='KORISNIK'">
-
-                <button v-on:click="izmeni()">Izmeni</button><br><br>
-                <button v-on:click="obrisi()">Obrisi</button>
+	                <button v-on:click="izmeni()">Izmeni</button><br><br>
+	                <button v-on:click="obrisi()">Obrisi</button>
                 </div>
 
             </div>
@@ -117,6 +116,15 @@ Vue.component("masine", {
                 if (response.data.result == "true"){
                     this.selected = false;
                     location.reload();
+                }
+            });
+        },
+        
+        logout: function(){
+            axios.post("rest/user/logout")
+            .then(response => {
+                if (response.data.result == "true"){
+                    this.$router.push("/");
                 }
             });
         }

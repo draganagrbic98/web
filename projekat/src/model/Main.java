@@ -116,6 +116,14 @@ public class Main {
 			
 		});
 
+		post("rest/user/logout", (req, res) -> {
+			res.type("application/json");
+			Session ss = req.session(true);
+			ss.invalidate();
+			return g.toJson(new OpResult("true"));
+			
+		});
+		
 		post("rest/masine/izmena", (req, res) -> {
 			res.type("application/json");
 			JMasinaChange m = g.fromJson(req.body(), JMasinaChange.class);
