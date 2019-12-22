@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Kategorija;
+import model.dmanipulation.JKategorijaChange;
 
 public class Kategorije implements LoadStoreData{
 	
@@ -64,6 +65,45 @@ public class Kategorije implements LoadStoreData{
 			out.flush();
 		}
 		out.close();
+	}
+	
+public boolean izmeniKategoriju(JKategorijaChange k) throws Exception {
+		
+		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) return false;
+		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
+		if (kategorija == null) return false;
+		kategorija.setIme(k.getNovaKategorija().getIme());
+		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
+		kategorija.setRAM(k.getNovaKategorija().getRAM());
+		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
+		this.store();
+		return true;
+		
+	}
+	
+	
+	
+	public boolean obrisiKategoriju(Kategorija k) throws Exception {
+		
+		Kategorija kategorija = this.nadjiKategoriju(k.getIme());
+		if (kategorija == null) return false;
+		if (kategorija.hasMasina()) return false;
+		this.kategorije.remove(kategorija);
+		this.store();
+		return true;
+		
+	}
+	
+	public boolean dodajKategoriju(Kategorija k) throws Exception {
+		
+		if (this.nadjiKategoriju(k.getIme()) != null) return false;
+		if (k.getBrojJezgara() <= 0) return false;
+		if (k.getRAM() <= 0) return false;
+		if (k.getGPUjezgra() < 0) return false;
+		this.kategorije.add(k);
+		this.store();
+		return true;
+		
 	}
 
 }

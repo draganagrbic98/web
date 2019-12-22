@@ -66,6 +66,7 @@ Vue.component("masine", {
 
             <div v-if="uloga=='SUPER_ADMIN' && selected==false">
                 <router-link to="/organizacije"> Organizacije</router-link>
+                <router-link to="/kategorije"> Kategorije</router-link>
             </div>
 
         </div>

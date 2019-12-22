@@ -1,5 +1,7 @@
 package model.beans;
 
+import model.Main;
+
 public class Kategorija implements CSVData{
 	
 	private String ime;
@@ -74,5 +76,15 @@ public class Kategorija implements CSVData{
 		// TODO Auto-generated method stub
 		return this.ime + ";" + this.brojJezgara + ";" + this.RAM + ";" + this.GPUjezgra;
 	}
+	
+	public boolean hasMasina() {
+		
+		for (VirtuelnaMasina m: Main.masine.getMasine()) {
+			if (m.getKategorija().equals(this)) return true;
+		}
+		return false;
+		
+	}
+
 
 }

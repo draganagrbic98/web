@@ -1,5 +1,6 @@
 package model;
 
+import model.beans.Kategorija;
 import model.beans.Korisnik;
 import model.beans.Uloga;
 import model.beans.User;
@@ -9,6 +10,7 @@ import model.collections.Kategorije;
 import model.collections.Korisnici;
 import model.collections.Masine;
 import model.collections.Organizacije;
+import model.dmanipulation.JKategorijaChange;
 import model.dmanipulation.JMasinaChange;
 import model.dmanipulation.JOrganizacijaChange;
 import model.dmanipulation.OpResult;
@@ -139,9 +141,23 @@ public class Main {
 
 		});
 		
+		post("rest/kategorije/izmena", (req, res) -> {
+			
+			res.type("application/json");
+			JKategorijaChange k = g.fromJson(req.body(), JKategorijaChange.class);
+			return g.toJson(new OpResult(kategorije.izmeniKategoriju(k) + ""));
+			
+			
+		});
+		
 		post("rest/masine/brisanje", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(new OpResult(masine.obrisiMasinu(g.fromJson(req.body(), VirtuelnaMasina.class)) + ""));
+		});
+		
+		post("rest/kategorije/brisanje", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(new OpResult(kategorije.obrisiKategoriju(g.fromJson(req.body(), Kategorija.class)) + ""));
 		});
 		
 		post("rest/masine/dodavanje", (req, res) -> {
@@ -149,6 +165,11 @@ public class Main {
 			g.fromJson(req.body(), VirtuelnaMasina.class);
 			System.out.println("PROSLA");
 			return g.toJson(new OpResult(masine.dodajMasinu(g.fromJson(req.body(), VirtuelnaMasina.class)) + ""));
+		});
+		
+		post("rest/kategorije/dodavanje", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(new OpResult(kategorije.dodajKategoriju(g.fromJson(req.body(), Kategorija.class)) + ""));
 		});
 		
 		
@@ -176,6 +197,12 @@ public class Main {
 			return g.toJson(kategorije.getKategorije());
 		});
 		
+		get("rest/kategorije/pregled", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = req.session(true).attribute("korisnik");
+			return g.toJson((k != null) ? (k.getMojeKategorije()) : null);
+			
+		});
 		get("rest/masine/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = req.session(true).attribute("korisnik");
