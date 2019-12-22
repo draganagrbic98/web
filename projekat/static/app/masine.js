@@ -6,7 +6,6 @@ Vue.component("masine", {
             selectedMasina: {}, 
             selected: false, 
             uloga: '', 
-            organizacije: [], 
             kategorije: [], 
             kat: ''
         }
@@ -49,12 +48,7 @@ Vue.component("masine", {
             <div v-if="selected">
                 Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"><br><br>
 
-                Organizacija: <select v-model="selectedMasina.organizacija" v-bind:disabled="uloga=='KORISNIK'">
-                    <option v-for="o in organizacije">
-                        {{o.ime}}
-                    </option>
-                </select>
-                <br><br>
+                Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled><br><br>
 
                 Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
                     <option v-for="k in kategorije">
@@ -151,10 +145,7 @@ Vue.component("masine", {
             
         });
 
-        axios.get("rest/organizacije/unos/pregled")
-        .then(response => {
-            this.organizacije = response.data;
-        });
+        
 
         axios.get("rest/kategorije/unos/pregled")
         .then(response => {
