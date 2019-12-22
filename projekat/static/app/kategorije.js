@@ -6,7 +6,13 @@ Vue.component("kategorije", {
             selectedKategorija: {}, 
             selectedKategorijaId: '', 
             selected: false, 
-            uloga: ''
+            uloga: '', 
+            greska: false, 
+            greskaIme: '', 
+            greskaBrojJezgara: '', 
+            greskaRAM: '', 
+            greskaGPUjezgra: '', 
+            greskaUnos: ''
         }
     }, 
 
@@ -16,13 +22,13 @@ Vue.component("kategorije", {
 
             <div v-if="selected">
 
-                Ime: <input type="text" v-model="selectedKategorija.ime"><br><br>
-                Broj jezgara: <input type="text" v-model="selectedKategorija.brojJezgara"><br><br>
-                RAM: <input type="text" v-model="selectedKategorija.RAM"><br><br>
-                GPU jezgra: <input type="text" v-model="selectedKategorija.GPUjezgra"><br><br>
-
+                Ime: <input type="text" v-model="selectedKategorija.ime"> {{greskaIme}} <br><br>
+                Broj jezgara: <input type="text" v-model="selectedKategorija.brojJezgara"> {{greskaBrojJezgara}} <br><br>
+                RAM: <input type="text" v-model="selectedKategorija.RAM"> {{greskaRAM}} <br><br>
+                GPU jezgra: <input type="text" v-model="selectedKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
                 <button v-on:click="izmeni()">Izmeni</button><br><br>
                 <button v-on:click="obrisi()">Obrisi</button><br><br>
+                {{greskaUnos}}
                 
             </div>
 
@@ -68,11 +74,46 @@ Vue.component("kategorije", {
         }, 
 
         izmeni: function(){
+
+            this.greskaBrojJezgara = '';
+            this.greskaRAM = '';
+            this.greskaGPUjezgra = '';
+            this.greska = false;
+            this.greskaIme = '';
+            this.greskaUnos = '';
+
+            if (isNaN(this.selectedKategorija.brojJezgara) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
+                this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
+                this.greska = true;
+            }
+
+            if (isNaN(this.selectedKategorija.RAM) || parseInt(this.selectedKategorija.RAM) <= 0){
+                this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
+                this.greska = true;
+            }
+
+            if (isNaN(this.selectedKategorija.GPUjezgra) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
+                this.greskaGPUjezgra = "GPU jezgra mora biti nenegativan ceo broj. ";
+                this.greska = true;
+            }
+
+            if (this.selectedKategorija.ime == ''){
+                this.greskaIme = "Ime kategorije ne sme biti prazno";
+                this.greska = true;
+            }
+
+            if (this.greska == true) return;
+
             axios.post("rest/kategorije/izmena", {"staroIme": this.selectedKategorijaId, "novaKategorija": this.selectedKategorija})
             .then(response => {
                 if (response.data.result == "true"){
                     this.selected = false;
                     location.reload();
+                }
+                else{
+                    this.greskaUnos = "Uneta kategorija vec postoji. ";
+                    return;
+
                 }
             })
         }, 

@@ -1,6 +1,6 @@
 kategorija1;10;122;2
 kategorija3;30;150;1
-kat1233;1;1;1
+asd4;1;1;0
 kat123444;1;1;0
 asd;1;1;0
 asd2;1;1;0
