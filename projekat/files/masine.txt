@@ -1,4 +1,4 @@
-masina35;organizacija88;kategorija1
+masina35;organizacija88;kategorija3
 masina4;organizacija88;kategorija1
 masina5;organizacija2;kategorija1
 masina6;organizacija2;kategorija1

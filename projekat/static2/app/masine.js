@@ -13,8 +13,7 @@ Vue.component("masine", {
     }, 
 
     template: `
-        <div>   
-
+        <div>
         
             <div v-if="!selected">
                 <h1>Registrovane masine</h1>
@@ -30,14 +29,15 @@ Vue.component("masine", {
                 </table><br><br>
 
                 <div v-if="uloga!='KORISNIK'">
-                <button v-on:click="dodaj()">Dodaj</button>
+                	<button v-on:click="dodaj()">Dodaj</button>
                 </div>
 
-
+                <div>
+                	<button v-on:click="dodaj()">Dodaj</button>
+                </div>
             </div>
 
             <div v-if="selected">
-                {{uloga}}
                 Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"><br><br>
 
                 Organizacija: <select v-model="selectedMasina.organizacija" v-bind:disabled="uloga=='KORISNIK'">
@@ -48,10 +48,8 @@ Vue.component("masine", {
                 <br><br>
 
                 Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
-
                     <option v-for="k in kategorije">
                         {{k.ime}}
-
                     </option>
                 </select><br><br>
 
@@ -65,11 +63,9 @@ Vue.component("masine", {
                 <button v-on:click="obrisi()">Obrisi</button>
                 </div>
 
-
-
             </div>
 
-            <div v-if="uloga=='SUPER_ADMIN'">
+            <div v-if="uloga=='SUPER_ADMIN' && selected==false">
                 <router-link to="/organizacije"> Organizacije</router-link>
             </div>
 

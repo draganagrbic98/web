@@ -33,6 +33,7 @@ Vue.component("login", {
                 this.greskaKorisnickoIme = "Niste uneli korisnicko ime. ";
                 this.greska = true;
             }
+            
             if (this.lozinka == null){
                 this.lozinka = "Niste uneli lozinku. ";
                 this.greska = true;
@@ -41,23 +42,16 @@ Vue.component("login", {
             if (this.greska == false){
                 axios.post("rest/user/login", {"korisnickoIme": this.korisnickoIme, "lozinka": this.lozinka})
                 .then(response1 => {
-                if (response1.data == null){
-                    this.greskaLogin = "Unet korisnik ne postoji. ";
-                    this.greska = true;
-                }
-
+	                if (response1.data == null){
+	                    this.greskaLogin = "Unet korisnik ne postoji. ";
+	                    this.greska = true;
+	                }
                 
-                if (this.greska == false){
-                    
-                    this.$router.push("masine");
-
-                }
-    
-            });
+	                if (this.greska == false){
+	                    this.$router.push("masine");
+	                }
+                });
             }
-            
         }
-
     }
-
 });
