@@ -22,7 +22,8 @@ Vue.component("organizacije", {
                     <td>{{o.logo}}</td>
 
             	</tr>
-                    </table>
+                </table><br><br>
+                <button v-on:click="dodaj()">Dodaj</button><br><br>
 
             </div>
 
@@ -56,6 +57,10 @@ Vue.component("organizacije", {
 
                 }
             });
+        }, 
+
+        dodaj: function(){
+            this.$router.push("dodajOrganizaciju");
         }
     },
 

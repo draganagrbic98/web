@@ -140,7 +140,7 @@ public class Korisnik implements CSVData {
 		return organizacije;
 	}
 	
-public ArrayList<Kategorija> getMojeKategorije(){
+	public ArrayList<Kategorija> getMojeKategorije(){
 		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.kategorije.getKategorije();
 		return null;

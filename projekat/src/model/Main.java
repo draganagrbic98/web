@@ -2,6 +2,7 @@ package model;
 
 import model.beans.Kategorija;
 import model.beans.Korisnik;
+import model.beans.Organizacija;
 import model.beans.Uloga;
 import model.beans.User;
 import model.beans.VirtuelnaMasina;
@@ -105,6 +106,8 @@ public class Main {
 //				ss.attribute("user", k);
 //			return g.toJson(k);
 //		});
+		
+		
 //		
 //		
 		post("rest/user/login", (req, res) -> {
@@ -160,10 +163,14 @@ public class Main {
 			return g.toJson(new OpResult(kategorije.obrisiKategoriju(g.fromJson(req.body(), Kategorija.class)) + ""));
 		});
 		
+		post("rest/organizacije/dodavanje", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(new OpResult(organizacije.dodajOrganizaciju(g.fromJson(req.body(), Organizacija.class)) + ""));
+			
+		});
+		
 		post("rest/masine/dodavanje", (req, res) -> {
 			res.type("application/json");
-			g.fromJson(req.body(), VirtuelnaMasina.class);
-			System.out.println("PROSLA");
 			return g.toJson(new OpResult(masine.dodajMasinu(g.fromJson(req.body(), VirtuelnaMasina.class)) + ""));
 		});
 		

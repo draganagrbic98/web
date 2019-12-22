@@ -2,3 +2,4 @@ organizacija88;opis5;logo2
 organizacija2;opis2;logo2
 organizacija5;opis1;logo2
 organizacija4;opis3;logo2
+organizacija999;mala lepa organizacija;

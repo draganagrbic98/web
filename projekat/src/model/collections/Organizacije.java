@@ -87,5 +87,14 @@ public class Organizacije implements LoadStoreData{
 		return true;
 		
 	}
+	
+	public boolean dodajOrganizaciju(Organizacija o) throws Exception {
+		
+		if (this.nadjiOrganizaciju(o.getIme()) != null) return false;
+		this.organizacije.add(o);
+		this.store();
+		return true;
+		
+	}
 
 }
