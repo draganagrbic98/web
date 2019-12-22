@@ -59,7 +59,13 @@ Vue.component("masine", {
                 Broj jezgara: <input type="text" v-model="selectedMasina.brojJezgara" disabled><br><br>
                 RAM: <input type="text" v-model="selectedMasina.RAM" disabled><br><br>
                 Broj GPU jezgara: <input type="text" v-model="selectedMasina.GPUjezgra" disabled><br><br>
-        
+                Diskovi: <br>
+                <ol>
+                    <li v-for="d in selectedMasina.diskovi">{{d}}</li>
+
+                </ol>
+
+
                 <div v-if="uloga!='KORISNIK'">
 	                <button v-on:click="izmeni()">Izmeni</button><br><br>
 	                <button v-on:click="obrisi()">Obrisi</button>
