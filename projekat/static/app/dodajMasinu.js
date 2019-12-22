@@ -19,7 +19,6 @@ Vue.component("dodajMasinu", {
                 "aktivnosti": [], 
                 "diskovi": []
             }, 
-            greska: '', 
             kategorije: [], 
             organizacije: [], 
             greskaIme: '',
@@ -115,7 +114,7 @@ Vue.component("dodajMasinu", {
                     this.$router.push("masine");
                 }
                 else{
-                    this.greska = "Uneta masina vec postoji. ";
+                    this.greskaUnos = "Uneta masina vec postoji. ";
                     this.greska = true;
                     return;
                 }

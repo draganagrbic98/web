@@ -7,7 +7,13 @@ Vue.component("masine", {
             selected: false, 
             uloga: '', 
             kategorije: [], 
-            kat: ''
+            kat: '', 
+            greskaIme: '',
+            greskaOrganizacija: '', 
+            greskaKategorija: '', 
+            greskaUnos: '', 
+            greska: false
+            
         }
     }, 
 
@@ -46,15 +52,15 @@ Vue.component("masine", {
             </div>
 
             <div v-if="selected">
-                Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"><br><br>
+                Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
 
-                Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled><br><br>
+                Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled> {{greskaOrganizacija}} <br><br>
 
                 Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
                     <option v-for="k in kategorije">
                         {{k.ime}}
                     </option>
-                </select><br><br>
+                </select> {{greskaKategorija}} <br><br>
 
                 Broj jezgara: <input type="text" v-model="selectedMasina.brojJezgara" disabled><br><br>
                 RAM: <input type="text" v-model="selectedMasina.RAM" disabled><br><br>
@@ -77,6 +83,8 @@ Vue.component("masine", {
 	                <button v-on:click="izmeni()">Izmeni</button><br><br>
 	                <button v-on:click="obrisi()">Obrisi</button>
                 </div>
+
+                {{greskaUnos}}
 
             </div>
 
@@ -108,12 +116,42 @@ Vue.component("masine", {
         }, 
 
         izmeni: function(){
+
+            this.greskaIme = '';
+            this.greskaOrganizacija = '';
+            this.greskaKategorija = '';
+            this.greskaUnos = '';
+            this.greska = false;
+
+            if (this.selectedMasina.ime == ''){
+                this.greskaIme = "Ime ne sme biti prazno";
+                this.greska = true;
+            }
+
+            if (this.selectedMasina.organizacija == ''){
+                this.greskaOrganizacija = "Organizacija ne sme biti prazna";
+                this.greska = true;
+            }
+
+            if (this.selectedMasina.kategorija == '' || this.kat == ''){
+                this.greskaKategorija = "Kategorija ne sme biti prazna. ";
+                this.greska = true;
+            }
+
+            if (this.greska == true) return;
+
             axios.post("rest/masine/izmena", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
                 if (response.data.result == "true"){
                     this.selected = false;
                     location.reload();
 
+                }
+                else{
+                    this.greskaUnos = "Uneta masina vec postoji. ";
+                    this.greska = true;
+                    return;
+ 
                 }
             });
         },
