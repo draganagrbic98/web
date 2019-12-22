@@ -33,7 +33,6 @@ Vue.component("dodajOrganizaciju", {
         dodaj: function(){
 
             this.greskaIme = '';
-            this.greskaOpis = '';
             this.greskaUnos = '';
             this.greska = false;
 

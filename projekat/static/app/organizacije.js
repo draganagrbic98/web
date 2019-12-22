@@ -5,7 +5,10 @@ Vue.component("organizacije", {
             selectedOrganizacijaId: '',
             selectedOrganizacija: {}, 
             selected: false, 
-            uloga: ''
+            uloga: '', 
+            greskaIme: '', 
+            greskaUnos: '', 
+            greskas: false
         }
     }, 
 
@@ -30,10 +33,11 @@ Vue.component("organizacije", {
 
             <div v-if="selected">
 
-                Ime: <input type="text" v-model="selectedOrganizacija.ime"><br><br>
+                Ime: <input type="text" v-model="selectedOrganizacija.ime"> {{greskaIme}} <br><br>
                 Opis: <input type="text" v-model="selectedOrganizacija.opis"><br><br>
                 Logo: <input type="text" v-model="selectedOrganizacija.logo"><br><br>
                 <button v-on:click="izmeni()">Izmeni</button><br><br>
+                {{greskaUnos}}
 
             </div>
 
@@ -50,12 +54,30 @@ Vue.component("organizacije", {
         }, 
 
         izmeni: function(){
+
+            this.greskaIme = '';
+            this.greskaUnos = '';
+            this.greska = false;
+
+            if (this.selectedOrganizacija.ime == ''){
+                this.greskaIme = "Ime ne sme biti prazno";
+                this.greska = true;
+            }
+
+            if (this.greska == true) return;
+
+
             axios.post("rest/organizacije/izmena", {"staroIme": this.selectedOrganizacijaId, "novaOrganizacija": this.selectedOrganizacija})
             .then(response => {
                 if (response.data.result == "true"){
                     this.selected = false;
                     location.reload();
 
+                }
+                else{
+                    this.greskaUnos = "Uneta organizacija vec postoji. ";
+                    this.greska = true;
+                    return;
                 }
             });
         }, 
