@@ -3,3 +3,4 @@ asd3;opis2;logo2
 organizacija4;opis3;logo2
 organizacija999;mala lepa organizacija;logo5
 asdasd;null;null
+qweqwe;asdasdqwe;null

@@ -18,7 +18,7 @@ Vue.component("organizacije", {
 
             <div v-if="selected">
                 Ime: <input type="text" v-model="selectedOrganizacija.ime"> {{greskaIme}} <br><br>
-                Opis: <input type="text" v-model="selectedOrganizacija.opis"><br><br>
+                Opis: <br><textarea v-model="selectedOrganizacija.opis"></textarea><br><br>
                 Logo: <input type="text" v-model="selectedOrganizacija.logo"><br><br>
                 Korisnici: 
                 <p v-if="selectedOrganizacija.korisnici.length==0">NEMA</p>
