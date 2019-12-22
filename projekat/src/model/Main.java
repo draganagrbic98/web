@@ -66,50 +66,9 @@ public class Main {
 		// storeData();
 
 		port(8080);
-		staticFiles.externalLocation(new File("static2").getCanonicalPath());
-//		get("rest/kategorije/pregled", (req, res) -> {
-//			res.type("application/json");
-//			return g.toJson(kategorije.getKategorije());
-//		});
-//		get("rest/organizacije/pregled", (req, res) -> {
-//			res.type("application/json");
-//			return g.toJson(organizacije.getOrganizacije());
-//		});
-//
-//		get("rest/korisnici/pregled", (req, res) -> {
-//			res.type("application/json");
-//			return g.toJson(korisnici.getKorisnici());
-//		});
-//
-////		get("rest/masine/pregled", (req, res) -> {
-////			res.type("application/json");
-////			return g.toJson(masine.getMasine());
-////		});
-//
-//		get("rest/diskovi/pregled", (req, res) -> {
-//			res.type("application/json");
-//			return g.toJson(diskovi.getDiskovi());
-//		});
-//		
-//		
-		
+		staticFiles.externalLocation(new File("static").getCanonicalPath());
 
-		// spreci da kada korisnik ukuca ove urlove dobije jsone na podatke, treba da mu
-		// sepokaze 404 erorr
-
-//		post("rest/user/login", (req, res) -> {
-//			res.type("application/json");
-//			User u = g.fromJson(req.body(), User.class);
-//			Korisnik k = korisnici.login(u);
-//			Session ss = req.session(true);
-//			if (k != null && ss.attribute("user") == null)
-//				ss.attribute("user", k);
-//			return g.toJson(k);
-//		});
 		
-		
-//		
-//		
 		post("rest/user/login", (req, res) -> {
 			res.type("application/json");
 			User u = g.fromJson(req.body(), User.class);

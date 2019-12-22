@@ -1,42 +1,26 @@
-const kategorije = {template: '<kategorije></kategorije>'}
-const organizacije = {template: '<organizacije></organizacije>'}
-const korisnici = {template: '<korisnici></korisnici>'}
-const masine = {template: '<masine></masine>'}
-const diskovi = {template: '<diskovi></diskovi>'}
 const login = {template: '<login></login>'}
-
-
+const kategorije = {template: '<kategorije></kategorije>'}
+const masine = {template: '<masine></masine>'}
+const organizacije = {template: '<organizacije></organizacije>'}
+const dodajMasinu = {template: '<dodajMasinu></dodajMasinu>'}
+const dodajKategoriju = {template: '<dodajKategoriju></dodajKategoriju>'}
+const dodajOrganizaciju = {template: '<dodajOrganizaciju></dodajOrganizaciju>'}
 
 const router = new VueRouter({
-	mode: 'hash', 
-	routes: [
-		{path: '/kategorije', component: kategorije}, 
-		{path: '/organizacije', component: organizacije}, 
-		{path: '/korisnici', component: korisnici}, 
-		{path: '/masine', component: masine}, 
-		{path: '/diskovi', component: diskovi}, 
-		{path: '/', component: login}
-	]
+    mode: 'hash', 
+    routes: [
+        {path: '/', component: login}, 
+        {path: '/kategorije', component: kategorije}, 
+        {path: '/masine', component: masine}, 
+        {path: '/organizacije', component: organizacije}, 
+        {path: '/dodajMasinu', component: dodajMasinu}, 
+        {path: '/dodajKategoriju', component: dodajKategoriju}, 
+        {path: '/dodajOrganizaciju', component: dodajOrganizaciju}
+
+    ]
 });
 
 var app = new Vue({
-	router: router, 
-	el: '#mainDiv', 
-	data: {
-		korisnik: {
-			'user' : {
-				'korisnickoIme' : '',
-				'lozinka' : ''
-			},
-			'email' : '',
-			'ime' : '',
-			'prezime' : '',
-			'uloga' : '',
-			'organizacija' : ''
-		}
-	},
-	
+    router: router, 
+    el: '#mainDiv'
 });
-
-
-
