@@ -2,14 +2,17 @@ Vue.component("dodajKategoriju", {
 
     data: function(){
         return{
-            uloga: '', 
             novaKategorija: {
                 "ime": '', 
-                "brojJezgara": 0, 
-                "RAM": 0, 
+                "brojJezgara": 1, 
+                "RAM": 1, 
                 "GPUjezgra": 0
             }, 
-            greska: ''
+            greska: false, 
+            greskaIme: '', 
+            greskaBrojJezgara: '', 
+            greskaRAM: '', 
+            greskaGPUjezgra: ''
         }
     }, 
 
@@ -18,12 +21,11 @@ Vue.component("dodajKategoriju", {
         <div>
 
             <h1>Registracija nove kategorije</h1>
-            Ime: <input type="text" v-model="novaKategorija.ime"><br><br>
-            Broj jezgara: <input type="text" v-model="novaKategorija.brojJezgara"><br><br>
-            RAM: <input type="text" v-model="novaKategorija.RAM"><br><br>
-            GPU jezgra: <input type="text" v-model="novaKategorija.GPUjezgra"><br><br>
+            Ime: <input type="text" v-model="novaKategorija.ime"> {{greskaIme}} <br><br>
+            Broj jezgara: <input type="text" v-model="novaKategorija.brojJezgara"> {{greskaBrojJezgara}} <br><br>
+            RAM: <input type="text" v-model="novaKategorija.RAM"> {{greskaRAM}} <br><br>
+            GPU jezgra: <input type="text" v-model="novaKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
             <button v-on:click="dodaj()">Dodaj</button><br><br>
-            {{greska}}
 
         </div>
     
@@ -31,6 +33,35 @@ Vue.component("dodajKategoriju", {
 
     methods: {
         dodaj: function(){
+
+            this.greskaBrojJezgara = '';
+            this.greskaRAM = '';
+            this.greskaGPUjezgra = '';
+            this.greska = false;
+            this.greskaIme = '';
+
+            if (isNaN(this.novaKategorija.brojJezgara) || parseInt(this.novaKategorija.brojJezgara) <= 0){
+                this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
+                this.greska = true;
+            }
+
+            if (isNaN(this.novaKategorija.RAM) || parseInt(this.novaKategorija.RAM) <= 0){
+                this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
+                this.greska = true;
+            }
+
+            if (isNaN(this.novaKategorija.GPUjezgra) || parseInt(this.novaKategorija.GPUjezgra) < 0){
+                this.greskaGPUjezgra = "GPU jezgra mora biti nenegativan ceo broj. ";
+                this.greska = true;
+            }
+
+            if (this.novaKategorija.ime == ''){
+                this.greskaIme = "Ime kategorije ne sme biti prazno";
+                this.greska = true;
+            }
+
+            if (this.greska == true) return;
+
             axios.post("rest/kategorije/dodavanje", this.novaKategorija)
             .then(response => {
                 if (response.data.result == "true"){
@@ -39,15 +70,9 @@ Vue.component("dodajKategoriju", {
                 else{
                     this.greska = "Uneta kategorija vec postoji. Ponovo. ";
                 }
-            })
+            });
+            
         }
-    }, 
-
-    mounted(){
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        });
     }
 
 })

@@ -67,7 +67,7 @@ public class Kategorije implements LoadStoreData{
 		out.close();
 	}
 	
-public boolean izmeniKategoriju(JKategorijaChange k) throws Exception {
+	public boolean izmeniKategoriju(JKategorijaChange k) throws Exception {
 		
 		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) return false;
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());

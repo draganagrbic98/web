@@ -99,11 +99,9 @@ public class Masine implements LoadStoreData{
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 		if (masina == null) return false;
 		if (Main.organizacije.nadjiOrganizaciju(m.getNovaMasina().getOrganizacijaID()) == null) {
-			System.out.println("JEBOTE2");
 			return false;
 		}
 		if (Main.kategorije.nadjiKategoriju(m.getNovaMasina().getKategorija().getIme()) == null) {
-			System.out.println("JEBOTE");
 			return false;
 		}
 

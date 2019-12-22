@@ -1,3 +1,5 @@
 kategorija1;10;122;2
 kategorija3;30;150;1
 kat1233;1;1;1
+kat123444;1;1;0
+asd;1;1;0
