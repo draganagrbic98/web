@@ -122,42 +122,22 @@ public class Korisnik implements CSVData {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
 	
-	public ArrayList<Korisnik> getMojiKorisnici(){
-		
-		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.korisnici.getKorisnici();
-		if (this.uloga.equals(Uloga.KORISNIK)) return new ArrayList<Korisnik>();
-		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
-		for (Korisnik k: Main.korisnici.getKorisnici()) {
-			if (k.getOrganizacijaID().equals(this.organizacija))
-				korisnici.add(k);
-		}
-		return korisnici;
-		
-	}
-	
 	public ArrayList<VirtuelnaMasina> getMojeMasine(){
-		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.masine.getMasine();
-		if (this.uloga.equals(Uloga.KORISNIK)) return new ArrayList<VirtuelnaMasina>();
 		ArrayList<VirtuelnaMasina> masine = new ArrayList<VirtuelnaMasina>();
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
 			if (m.getOrganizacijaID().equals(this.organizacija))
 				masine.add(m);
 		}
 		return masine;
-		
 	}
 	
-	public ArrayList<Disk> getMojiDiskovi(){
-		
-		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.diskovi.getDiskovi();
-		ArrayList<Disk> diskovi = new ArrayList<Disk>();
-		for (Disk d: Main.diskovi.getDiskovi()) {
-			if (d.getMasina().getOrganizacijaID().equals(this.organizacija))
-				diskovi.add(d);
-		}
-		return diskovi;
-		
+	public ArrayList<Organizacija> getMojeOrganizacije(){
+		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.organizacije.getOrganizacije();
+		if (this.uloga.equals(Uloga.KORISNIK)) return null;
+		ArrayList<Organizacija> organizacije = new ArrayList<Organizacija>();
+		organizacije.add(this.getOrganizacija());
+		return organizacije;
 	}
 
 }

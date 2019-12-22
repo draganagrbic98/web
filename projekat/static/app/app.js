@@ -4,7 +4,6 @@ const korisnici = {template: '<korisnici></korisnici>'}
 const masine = {template: '<masine></masine>'}
 const diskovi = {template: '<diskovi></diskovi>'}
 const login = {template: '<login></login>'}
-const pregled = {template: '<pregled></pregled>'}
 
 
 
@@ -16,9 +15,7 @@ const router = new VueRouter({
 		{path: '/korisnici', component: korisnici}, 
 		{path: '/masine', component: masine}, 
 		{path: '/diskovi', component: diskovi}, 
-		{path: '/', component: login},
-		{path: '/pregled', component: pregled}
-
+		{path: '/', component: login}
 	]
 });
 
@@ -37,11 +34,6 @@ var app = new Vue({
 			'uloga' : '',
 			'organizacija' : ''
 		}
-	},
-	mounted() {
-		this.$root.$on('login', k => {
-			this.korisnik = k;
-		});
 	},
 	
 });

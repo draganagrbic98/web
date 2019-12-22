@@ -2,6 +2,8 @@ package model.beans;
 
 import java.util.ArrayList;
 
+import model.Main;
+
 public class Organizacija implements CSVData {
 
 	private String ime;
@@ -15,6 +17,11 @@ public class Organizacija implements CSVData {
 	}
 
 	public void setIme(String ime) {
+		for (VirtuelnaMasina m: Main.masine.getMasine()) {
+			if (m.getOrganizacijaID().equals(this.ime))
+				m.setOrganizacija(ime);
+		}
+		
 		this.ime = ime;
 	}
 

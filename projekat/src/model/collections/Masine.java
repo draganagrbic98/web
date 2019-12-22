@@ -9,8 +9,11 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import model.Main;
 import model.beans.Aktivnost;
+import model.beans.Disk;
 import model.beans.VirtuelnaMasina;
+import model.dmanipulation.JMasinaChange;
 
 public class Masine implements LoadStoreData{
 	
@@ -87,6 +90,59 @@ public class Masine implements LoadStoreData{
 			Aktivnost.loadAktivnost(line);
 		}
 		in.close();
+		
+	}
+	
+	
+	public boolean izmeniMasinu(JMasinaChange m) throws Exception {
+		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null && (!(m.getStaroIme().equals(m.getNovaMasina().getIme())))) return false;
+		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
+		if (masina == null) return false;
+		if (Main.organizacije.nadjiOrganizaciju(m.getNovaMasina().getOrganizacijaID()) == null) {
+			System.out.println("JEBOTE2");
+			return false;
+		}
+		if (Main.kategorije.nadjiKategoriju(m.getNovaMasina().getKategorija().getIme()) == null) {
+			System.out.println("JEBOTE");
+			return false;
+		}
+
+		//menjanje rama i ostalo se radi preko kategorije
+		masina.setIme(m.getNovaMasina().getIme());
+		masina.setOrganizacija(m.getNovaMasina().getOrganizacijaID());
+		masina.setKategorija(m.getNovaMasina().getKategorija());
+		masina.setBrojJezgara(m.getNovaMasina().getBrojJezgara());
+		masina.setRAM(m.getNovaMasina().getRAM());
+		masina.setGPUjezgra(m.getNovaMasina().getGPUjezgra());
+		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
+		masina.setDiskovi(m.getNovaMasina().getDiskovi());
+		this.store();
+		return true;
+	}
+	
+	
+	public boolean dodajMasinu(VirtuelnaMasina m) throws Exception {
+		
+		if (this.nadjiMasinu(m.getIme()) != null) return false;
+		this.masine.add(m);
+		this.store();
+		return true;
+		
+	}
+
+	public boolean obrisiMasinu(VirtuelnaMasina m) throws Exception {
+		
+		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
+		if (masina == null) return false;
+		System.out.println(this.masine.size());
+		for (Disk d: Main.diskovi.getDiskovi()) {
+			if (d.getMasinaID().equals(masina.getIme()))
+				d.setMasina("null");
+		}
+		this.masine.remove(masina);
+		System.out.println(this.masine.size());
+		this.store();
+		return true;
 		
 	}
 

@@ -8,7 +8,7 @@ public class VirtuelnaMasina implements CSVData{
 	
 	private String ime;
 	private String organizacija;
-	private String kategorija;
+	private Kategorija kategorija;
 	private int brojJezgara;
 	private int RAM;
 	private int GPUjezgra;
@@ -18,6 +18,10 @@ public class VirtuelnaMasina implements CSVData{
 		return ime;
 	}
 	public void setIme(String ime) {
+		for (Disk d: Main.diskovi.getDiskovi()) {
+			if (d.getMasinaID().equals(this.ime))
+				d.setMasina(ime);
+		}
 		this.ime = ime;
 	}
 	public String getOrganizacijaID() {
@@ -26,10 +30,10 @@ public class VirtuelnaMasina implements CSVData{
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}
-	public String getKategorijaID() {
+	public Kategorija getKategorija() {
 		return kategorija;
 	}
-	public void setKategorija(String kategorija) {
+	public void setKategorija(Kategorija kategorija) {
 		this.kategorija = kategorija;
 	}
 	public int getBrojJezgara() {
@@ -67,14 +71,14 @@ public class VirtuelnaMasina implements CSVData{
 		this.aktivnosti = new ArrayList<Aktivnost>();
 		this.diskovi = new ArrayList<String>();
 	}
-	public VirtuelnaMasina(String ime, String organizacija, String kategorija) {
+	public VirtuelnaMasina(String ime, String organizacija, Kategorija kategorija) {
 		this();
 		this.ime = ime;
 		this.organizacija = organizacija;
 		this.kategorija = kategorija;
-		this.brojJezgara = this.getKategorija().getBrojJezgara();
-		this.RAM = this.getKategorija().getRAM();
-		this.GPUjezgra = this.getKategorija().getGPUjezgra();
+		this.brojJezgara = this.kategorija.getBrojJezgara();
+		this.RAM = this.kategorija.getRAM();
+		this.GPUjezgra = this.kategorija.getGPUjezgra();
 		if (this.getOrganizacija() != null)
 			this.getOrganizacija().dodajMasinu(this);
 	}
@@ -107,22 +111,18 @@ public class VirtuelnaMasina implements CSVData{
 		String[] array = line.split(";");
 		String ime = array[0].trim();
 		String organizacija = array[1].trim();
-		String kategorija = array[2].trim();
+		Kategorija kategorija = Main.kategorije.nadjiKategoriju(array[2].trim());
 		return new VirtuelnaMasina(ime, organizacija, kategorija);
 	}
 	
 	@Override
 	public String csvLine() {
 		// TODO Auto-generated method stub
-		return this.ime + ";" + this.organizacija + ";" + this.kategorija;
+		return this.ime + ";" + this.organizacija + ";" + this.kategorija.getIme();
 	}
 	
 	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
-	}
-	
-	public Kategorija getKategorija() {
-		return Main.kategorije.nadjiKategoriju(this.kategorija);
 	}
 	
 	public void dodajAktivnost(Aktivnost a) {

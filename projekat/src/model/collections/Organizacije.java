@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Organizacija;
+import model.dmanipulation.JOrganizacijaChange;
 
 public class Organizacije implements LoadStoreData{
 		
@@ -27,6 +28,9 @@ public class Organizacije implements LoadStoreData{
 	}
 	
 	public Organizacija nadjiOrganizaciju(String ime) {
+		for (Organizacija o: this.organizacije) {
+			System.out.println(o.getIme() + ": "  + ime + (o.equals(new Organizacija(ime))));
+		}
 		int index = this.organizacije.indexOf(new Organizacija(ime));
 		if (index == -1) return null;
 		return this.organizacije.get(index);
@@ -64,6 +68,24 @@ public class Organizacije implements LoadStoreData{
 			out.flush();
 		}
 		out.close();
+	}
+	
+	public boolean izmeniOrganizaciju(JOrganizacijaChange o) throws Exception {
+		
+		
+		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme())))) return false;
+		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
+		if (organizacija == null) return false;
+		organizacija.setIme(o.getNovaOrganizacija().getIme());
+		organizacija.setOpis(o.getNovaOrganizacija().getOpis());
+		organizacija.setLogo(o.getNovaOrganizacija().getLogo());
+		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
+		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
+		this.store();
+		//kad izmenim organizaciju moram da promenim reference kod masina
+		
+		return true;
+		
 	}
 
 }

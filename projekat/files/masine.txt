@@ -1,4 +1,8 @@
-masina1;organizacija1;kategorija1
-masina2;organizacija2;kategorija2
-masina3;organizacija1;kategorija1
-masina4;organizacija2;kategorija1
+masina35;organizacija88;kategorija1
+masina4;organizacija88;kategorija1
+masina5;organizacija2;kategorija1
+masina6;organizacija2;kategorija1
+masina7;organizacija2;kategorija1
+masina8;organizacija88;kategorija1
+masina123;organizacija88;kategorija3
+masina124;organizacija88;kategorija1
