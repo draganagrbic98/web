@@ -21,7 +21,13 @@ Vue.component("dodajMasinu", {
             }, 
             greska: '', 
             kategorije: [], 
-            organizacije: []
+            organizacije: [], 
+            greskaIme: '',
+            greskaOrganizacija: '',
+            greskaKategorija: '', 
+            greskaUnos: '',
+            greska: false
+
         }
     }, 
 
@@ -32,13 +38,13 @@ Vue.component("dodajMasinu", {
             
 
             <h1>Registracija nove masine</h1>
-                Ime: <input type="text" v-model="novaMasina.ime"><br><br>
+                Ime: <input type="text" v-model="novaMasina.ime"> {{greskaIme}} <br><br>
                 Organizacija: <select v-model="novaMasina.organizacija">
 
                 <option v-for="o in organizacije">
                     {{o.ime}}
                 </option>
-                </select><br><br>
+                </select> {{greskaOrganizacija}} <br><br>
 
                 Kategorija: <select v-model="kat">
 
@@ -47,33 +53,16 @@ Vue.component("dodajMasinu", {
                 <option v-for="k in kategorije">
                     {{k.ime}}
                     </option>
-                </select><br><br>
+                </select> {{greskaKategorija}} <br><br>
                 Broj jezgara: <input type="text" v-model="novaMasina.brojJezgara" disabled><br><br>
                 RAM: <input type="text" v-model="novaMasina.RAM" disabled><br><br>
                 GPU jezgra: <input type="text" v-model="novaMasina.GPUjezgra" disabled><br><br>
                 <button v-on:click="dodaj()">Dodaj</button><br><br>
-                {{greska}}
+                {{greskaUnos}}
                 
         </div>
     
     `, 
-
-    methods: {
-        dodaj: function(){
-            axios.post("rest/masine/dodavanje", this.novaMasina)
-            .then(response => {
-                if (response.data.result == "true"){
-                    this.$router.push("masine");
-                }
-                else{
-                    this.greska = "Uneta masina vec postoji. Ponovo. ";
-                }
-            });
-        }, 
-
-        
-       
-    }, 
 
     watch: {
         kat: function() {
@@ -92,6 +81,52 @@ Vue.component("dodajMasinu", {
 
         }
     },
+
+    methods: {
+        dodaj: function(){
+
+
+            this.greskaIme = '';
+            this.greskaOrganizacija = '';
+            this.greskaKategorija = '';
+            this.greskaUnos = '';
+            this.greska = false;
+
+            if (this.novaMasina.ime == ''){
+                this.greskaIme = "Ime ne sme biti prazno";
+                this.greska = true;
+            }
+
+            if (this.novaMasina.organizacija == ''){
+                this.greskaOrganizacija = "Organizacija ne sme biti prazna";
+                this.greska = true;
+            }
+
+            if (this.novaMasina.kategorija == '' || this.kat == ''){
+                this.greskaKategorija = "Kategorija ne sme biti prazna. ";
+                this.greska = true;
+            }
+
+            if (this.greska == true) return;
+
+            axios.post("rest/masine/dodavanje", this.novaMasina)
+            .then(response => {
+                if (response.data.result == "true"){
+                    this.$router.push("masine");
+                }
+                else{
+                    this.greska = "Uneta masina vec postoji. ";
+                    this.greska = true;
+                    return;
+                }
+            });
+        }, 
+
+        
+       
+    }, 
+
+    
 
     mounted(){
 

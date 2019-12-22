@@ -2,5 +2,3 @@ organizacija88;opis5;logo2
 asd3;opis2;logo2
 organizacija4;opis3;logo2
 organizacija999;mala lepa organizacija;logo5
-asd;asd;
-asd2;asd;

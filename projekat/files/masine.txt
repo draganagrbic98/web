@@ -9,3 +9,4 @@ masina7;organizacija2;kategorija1
 masina8;organizacija88;kategorija1
 masina123;organizacija88;kategorija3
 masina124;organizacija88;kategorija1
+imence;organizacija88;kat123444
