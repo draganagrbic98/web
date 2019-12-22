@@ -13,6 +13,7 @@ import model.collections.Kategorije;
 import model.collections.Korisnici;
 import model.collections.Masine;
 import model.collections.Organizacije;
+import model.dmanipulation.DiskManipulation;
 import model.dmanipulation.JDiskChange;
 import model.dmanipulation.JKategorijaChange;
 import model.dmanipulation.JKorisnikChange;
@@ -109,6 +110,80 @@ public class Main {
 		});
 		
 	}
+	
+	public static void diskoviManipulation() {
+		
+		get("rest/diskovi/pregled", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			return g.toJson(k.getMojiDiskovi());
+		});
+		
+		get("rest/diskovi/unos/tipovi", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(TipDiska.values());
+		});
+		
+		
+		
+		post("rest/diskovi/brisanje", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			DiskManipulation result = diskovi.obrisiDisk(g.fromJson(req.body(), Disk.class));
+			if (result != DiskManipulation.OK) res.status(400);
+			return g.toJson(new OpResult(result + ""));
+		});
+		
+		post("rest/diskovi/izmena", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			DiskManipulation result = diskovi.izmeniDisk(g.fromJson(req.body(), JDiskChange.class));
+			if (result != DiskManipulation.OK) res.status(400);
+			return g.toJson(new OpResult(result + ""));
+		});
+		
+		post("rest/diskovi/dodavanje", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			DiskManipulation result = diskovi.dodajDisk(g.fromJson(req.body(), Disk.class));
+			if (result != DiskManipulation.OK) res.status(400);
+			return g.toJson(new OpResult(result + ""));
+		});
+		
+		
+		
+		
+		
+	}
+	
+	public static void userManipulation() {
+		
+		
+		
+		
+		get("rest/user/uloga", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = req.session(true).attribute("korisnik");
+			return g.toJson(new OpResult((k != null) ? (k.getUloga() + "") : null));
+		});
+		
+	}
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -126,6 +201,8 @@ public class Main {
 
 		
 		kategorijeManipulation();
+		diskoviManipulation();
+		userManipulation();
 		
 		//GARBAGE :D
 		
@@ -192,11 +269,7 @@ public class Main {
 
 		
 
-		get("rest/user/uloga", (req, res) -> {
-			res.type("application/json");
-			Korisnik k = req.session(true).attribute("korisnik");
-			return g.toJson(new OpResult((k != null) ? (k.getUloga() + "") : null));
-		});
+		
 
 		get("rest/organizacije/pregled", (req, res) -> {
 			res.type("application/json");
@@ -205,23 +278,9 @@ public class Main {
 			return g.toJson((k != null) ? k.getMojeOrganizacije() : null);
 		});
 		
-		
-		
-//		post("rest/kategorije/dodavanje", (req, res) -> {
-//			res.type("application/json");
-//			
-//			return g.toJson(new OpResult(kategorije.dodajKategoriju(g.fromJson(req.body(), Kategorija.class)) + ""));
-//		});
 
-		get("rest/diskovi/unos/tipovi", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(TipDiska.values());
-		});
-		
-		get("rest/organizacije/unos/pregled", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(organizacije.getOrganizacije());
-		});
+
+
 
 		get("rest/kategorije/unos/pregled", (req, res) -> {
 			res.type("application/json");
@@ -238,29 +297,10 @@ public class Main {
 			ArrayList<VirtuelnaMasina> masine = (k != null) ? k.getMojeMasine() : null;
 			return g.toJson(masine);
 		});
+		
+		
 
-		get("rest/diskovi/pregled", (req, res) -> {
-			res.type("application/json");
-			Korisnik k = req.session(true).attribute("korisnik");
-			ArrayList<Disk> diskovi = (k != null) ? k.getMojiDiskovi() : null;
-			return g.toJson(diskovi);
-		});
 		
-		post("rest/diskovi/dodavanje", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(new OpResult(diskovi.dodajDisk(g.fromJson(req.body(), Disk.class)) + ""));
-		});
-		
-		post("rest/diskovi/izmena", (req, res) -> {
-			res.type("application/json");
-			JDiskChange d = g.fromJson(req.body(), JDiskChange.class);
-			return g.toJson(new OpResult(diskovi.izmeniDisk(d) + ""));
-		});
-		
-		post("rest/diskovi/brisanje", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(new OpResult(diskovi.obrisiDisk(g.fromJson(req.body(), Disk.class)) + ""));
-		});
 		
 	}
 

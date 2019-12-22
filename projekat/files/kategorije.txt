@@ -1,6 +1,7 @@
-kategorija1;10;122;2
+kategorija111;30;150;1
 kategorija3;30;150;1
 asdqwe;1;1;0
-asd;1;1;0
-asd2;1;1;0
-asd123;1;1;0
+qwer;1;1;0
+kategorija11;1;1;0
+kategorija12;1;1;0
+kategorija13;1;1;0

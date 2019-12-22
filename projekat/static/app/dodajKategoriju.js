@@ -4,15 +4,15 @@ Vue.component("dodajKategoriju", {
         return{
             novaKategorija: {
                 "ime": '', 
-                "brojJezgara": 1, 
-                "RAM": 1, 
+                "brojJezgara": 0, 
+                "RAM": 0, 
                 "GPUjezgra": 0
             }, 
             greskaIme: '', 
             greskaBrojJezgara: '', 
             greskaRAM: '', 
             greskaGPUjezgra: '', 
-            greskaUnos: '', 
+            greskaServer: '', 
             greska: false   
         }
     }, 
@@ -27,9 +27,8 @@ Vue.component("dodajKategoriju", {
             RAM: <input type="text" v-model="novaKategorija.RAM"> {{greskaRAM}} <br><br>
             GPU jezgra: <input type="text" v-model="novaKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
             <button v-on:click="dodaj()">Dodaj</button><br><br>
-            {{greskaUnos}}
-
-            <router-link to="/masine">MAIN PAGE</router-link>
+            <router-link to="/kategorije">Kategorije</router-link><br><br>
+            {{greskaServer}}
 
         </div>
     
@@ -43,40 +42,36 @@ Vue.component("dodajKategoriju", {
             this.greskaBrojJezgara = '';
             this.greskaRAM = '';
             this.greskaGPUjezgra = '';
-            this.greskaUnos = '';
+            this.greskaServer = '';
             this.greska = false;
 
             if (this.novaKategorija.ime == ''){
                 this.greskaIme = "Ime kategorije ne sme biti prazno. ";
                 this.greska = true;
             }
-
-            if (isNaN(this.novaKategorija.brojJezgara) || parseInt(this.novaKategorija.brojJezgara) <= 0){
+            if (this.novaKategorija.brojJezgara === '' || isNaN(this.novaKategorija.brojJezgara) || parseInt(this.novaKategorija.brojJezgara) <= 0){
                 this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
-
-            if (isNaN(this.novaKategorija.RAM) || parseInt(this.novaKategorija.RAM) <= 0){
+            if (this.novaKategorija.RAM === '' || isNaN(this.novaKategorija.RAM) || parseInt(this.novaKategorija.RAM) <= 0){
                 this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
-
-            if (isNaN(this.novaKategorija.GPUjezgra) || parseInt(this.novaKategorija.GPUjezgra) < 0){
+            if (this.novaKategorija.GPUjezgra === '' || isNaN(this.novaKategorija.GPUjezgra) || parseInt(this.novaKategorija.GPUjezgra) < 0){
                 this.greskaGPUjezgra = "GPU jezgra mora biti nenegativan ceo broj. ";
                 this.greska = true;
             }
-
             if (this.greska) return;
 
             axios.post("rest/kategorije/dodavanje", this.novaKategorija)
             .then(response => {
-                this$router.push("kategorije");
+                this.$router.push("kategorije");
             })
             .catch(error => {
-                this.greskaUnos = error.response.data.result;
+                this.greskaServer = error.response.data.result;
             });
             
         }
     }
 
-})
+});

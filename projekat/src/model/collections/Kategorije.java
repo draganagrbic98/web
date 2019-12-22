@@ -92,7 +92,8 @@ public class Kategorije implements LoadStoreData{
 
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
 		if (kategorija == null) return KategorijaManipulation.DOESNT_EXIST;
-		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) return KategorijaManipulation.AL_EXISTS;
+		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
+			return KategorijaManipulation.AL_EXISTS;
 		kategorija.setIme(k.getNovaKategorija().getIme());
 		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
 		kategorija.setRAM(k.getNovaKategorija().getRAM());

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Disk;
+import model.dmanipulation.DiskManipulation;
 import model.dmanipulation.JDiskChange;
 
 public class Diskovi implements LoadStoreData {
@@ -28,20 +29,12 @@ public class Diskovi implements LoadStoreData {
 		this.diskovi = new ArrayList<Disk>();
 	}
 
-	public Disk nadjiDisk(String ime) {
-		int index = this.diskovi.indexOf(new Disk(ime));
-		if (index == -1)
-			return null;
-		return this.diskovi.get(index);
-	}
-
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		String suma = "DISKOVI: \n";
-		for (Disk d : this.diskovi) {
+		for (Disk d : this.diskovi) 
 			suma += d + "\n";
-		}
 		return suma;
 	}
 
@@ -70,52 +63,40 @@ public class Diskovi implements LoadStoreData {
 		out.close();
 	}
 
+	public Disk nadjiDisk(String ime) {
+		int index = this.diskovi.indexOf(new Disk(ime));
+		if (index == -1) return null;
+		return this.diskovi.get(index);
+	}
 	
+	public DiskManipulation dodajDisk(Disk d) throws Exception {
+		if (this.nadjiDisk(d.getIme()) != null) return DiskManipulation.AL_EXISTS;
+		this.diskovi.add(d);
+		this.store();
+		return DiskManipulation.OK;
+	}
+	
+	public DiskManipulation obrisiDisk(Disk d) throws Exception {
+		Disk disk = this.nadjiDisk(d.getIme());
+		if (disk == null) return DiskManipulation.DOESNT_EXIST;
+		this.diskovi.remove(disk);
+		this.store();
+		return DiskManipulation.OK;
+	}
 
-	public boolean izmeniDisk(JDiskChange d) throws Exception {
-		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme()))))
-			return false;
-
+	public DiskManipulation izmeniDisk(JDiskChange d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getStaroIme());
-
-		if (disk == null)
-			return false;
-
-		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) {
-			return false;
-		}
-
+		if (disk == null) return DiskManipulation.DOESNT_EXIST;
+		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
+			return DiskManipulation.AL_EXISTS;
+		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) 
+			return DiskManipulation.MAC_DOESN_EXIST;
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
-
+		disk.setMasina(d.getNoviDisk().getMasinaID());
 		this.store();
-		return true;
+		return DiskManipulation.OK;
 	}
-
-	public boolean dodajDisk(Disk d) throws Exception {
-		if (this.nadjiDisk(d.getIme()) != null)
-			return false;
-
-		this.diskovi.add(d);
-		this.store();
-		return true;
-	}
-
-	public boolean obrisiDisk(Disk d) throws Exception {
-		Disk disk = this.nadjiDisk(d.getIme());
-
-		
-		
-		if (disk == null)
-			return false;
-
-
-		this.diskovi.remove(disk);
-
-
-		this.store();
-
-		return true;
-	}
+	
 }

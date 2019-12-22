@@ -70,6 +70,10 @@ Vue.component("kategorije", {
             this.selectedKategorijaId = kategorija.ime;
             this.selected = true;
         }, 
+        
+        dodaj: function(){
+            this.$router.push("dodajKategoriju");
+        },
 
         izmeni: function(){
 
@@ -84,22 +88,18 @@ Vue.component("kategorije", {
                 this.greskaIme = "Ime kategorije ne sme biti prazno";
                 this.greska = true;
             }
-
-            if (isNaN(this.selectedKategorija.brojJezgara) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
+            if (this.selectedKategorija.brojJezgara === '' || isNaN(this.selectedKategorija.brojJezgara) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
                 this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
-
-            if (isNaN(this.selectedKategorija.RAM) || parseInt(this.selectedKategorija.RAM) <= 0){
+            if (this.selectedKategorija.RAM === '' || isNaN(this.selectedKategorija.RAM) || parseInt(this.selectedKategorija.RAM) <= 0){
                 this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
-
-            if (isNaN(this.selectedKategorija.GPUjezgra) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
+            if (this.selectedKategorija.GPUjezgra === '' || isNaN(this.selectedKategorija.GPUjezgra) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
                 this.greskaGPUjezgra = "GPU jezgra mora biti nenegativan ceo broj. ";
                 this.greska = true;
             }
-
             if (this.greska) return;
 
             axios.post("rest/kategorije/izmena", {"staroIme": this.selectedKategorijaId, "novaKategorija": this.selectedKategorija})
@@ -125,12 +125,8 @@ Vue.component("kategorije", {
                 this.greskaUnos = error.response.data.result;
             });
 
-        }, 
-
-        dodaj: function(){
-            this.$router.push("dodajKategoriju");
         }
 
     }
 
-})
+});
