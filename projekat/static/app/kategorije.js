@@ -57,7 +57,7 @@ Vue.component("kategorije", {
         .then(response => {
             this.kategorije = response.data;
         })
-        .catch(response => {
+        .catch(error => {
             this.$router.push("masine");
         });
 
