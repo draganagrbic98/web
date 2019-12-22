@@ -113,7 +113,7 @@ public class Masine implements LoadStoreData{
 		masina.setRAM(m.getNovaMasina().getRAM());
 		masina.setGPUjezgra(m.getNovaMasina().getGPUjezgra());
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
-		masina.setDiskovi(m.getNovaMasina().getDiskovi());
+		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
 		this.store();
 		return true;
 	}
@@ -132,13 +132,11 @@ public class Masine implements LoadStoreData{
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
 		if (masina == null) return false;
-		System.out.println(this.masine.size());
 		for (Disk d: Main.diskovi.getDiskovi()) {
 			if (d.getMasinaID().equals(masina.getIme()))
 				d.setMasina("null");
 		}
 		this.masine.remove(masina);
-		System.out.println(this.masine.size());
 		this.store();
 		return true;
 		

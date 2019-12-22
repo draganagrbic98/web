@@ -60,7 +60,7 @@ public class VirtuelnaMasina implements CSVData{
 	public void setAktivnosti(ArrayList<Aktivnost> aktivnosti) {
 		this.aktivnosti = aktivnosti;
 	}
-	public ArrayList<String> getDiskovi() {
+	public ArrayList<String> getDiskoviID() {
 		return diskovi;
 	}
 	public void setDiskovi(ArrayList<String> diskovi) {
@@ -131,6 +131,15 @@ public class VirtuelnaMasina implements CSVData{
 	
 	public void dodajDisk(Disk d) {
 		this.diskovi.add(d.getIme());
+	}
+	
+	public ArrayList<Disk> getDiskovi(){
+	
+		ArrayList<Disk> diskovi = new ArrayList<Disk>();
+		for (String d: this.diskovi)
+			diskovi.add(Main.diskovi.nadjiDisk(d));
+		return diskovi;
+		
 	}
 
 }

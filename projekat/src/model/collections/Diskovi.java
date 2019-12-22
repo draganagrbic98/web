@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Disk;
-import model.beans.VirtuelnaMasina;
 import model.dmanipulation.JDiskChange;
 
 public class Diskovi implements LoadStoreData {
@@ -71,16 +70,7 @@ public class Diskovi implements LoadStoreData {
 		out.close();
 	}
 
-	public ArrayList<Disk> getDiskoviMasine(VirtuelnaMasina vm) {
-		ArrayList<Disk> diskovi = new ArrayList<Disk>();
-
-		for (Disk d : Main.diskovi.getDiskovi()) {
-			if (d.getMasinaID().equals(vm.getIme()))
-				diskovi.add(d);
-		}
-
-		return diskovi;
-	}
+	
 
 	public boolean izmeniDisk(JDiskChange d) throws Exception {
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme()))))
@@ -92,7 +82,6 @@ public class Diskovi implements LoadStoreData {
 			return false;
 
 		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) {
-			System.out.println("Lele");
 			return false;
 		}
 
@@ -116,14 +105,14 @@ public class Diskovi implements LoadStoreData {
 	public boolean obrisiDisk(Disk d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getIme());
 
+		
+		
 		if (disk == null)
 			return false;
 
-		System.out.println(this.diskovi.size());
 
 		this.diskovi.remove(disk);
 
-		System.out.println(this.diskovi.size());
 
 		this.store();
 

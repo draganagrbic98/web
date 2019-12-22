@@ -152,8 +152,8 @@ public class Korisnik implements CSVData {
 		
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
 		
-		for (VirtuelnaMasina vm : this.getMojeMasine()) {
-			diskovi.addAll(Main.diskovi.getDiskoviMasine(vm));
+		for (VirtuelnaMasina m : this.getMojeMasine()) {
+			diskovi.addAll(m.getDiskovi());
 		}
 		
 		return diskovi;
