@@ -2,39 +2,49 @@ package model.beans;
 
 import model.Main;
 
-public class Disk implements CSVData{
-	
+public class Disk implements CSVData {
+
 	private String ime;
 	private TipDiska tip;
 	private int kapacitet;
 	private String masina;
+
 	public String getIme() {
 		return ime;
 	}
+
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+
 	public TipDiska getTip() {
 		return tip;
 	}
+
 	public void setTip(TipDiska tip) {
 		this.tip = tip;
 	}
+
 	public int getKapacitet() {
 		return kapacitet;
 	}
+
 	public void setKapacitet(int kapacitet) {
 		this.kapacitet = kapacitet;
 	}
+
 	public String getMasinaID() {
 		return masina;
 	}
+
 	public void setMasina(String masina) {
 		this.masina = masina;
 	}
+
 	public Disk() {
 		super();
 	}
+
 	public Disk(String ime, TipDiska tip, int kapacitet, String masina) {
 		this();
 		this.ime = ime;
@@ -44,24 +54,27 @@ public class Disk implements CSVData{
 		if (this.getMasina() != null)
 			this.getMasina().dodajDisk(this);
 	}
+
 	public Disk(String ime) {
 		super();
 		this.ime = ime;
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Ime: %s, tip: %s, kapacitet: %s, masina: %s", this.ime, this.tip, this.kapacitet, this.masina);
+		return String.format("Ime: %s, tip: %s, kapacitet: %s, masina: %s", this.ime, this.tip, this.kapacitet,
+				this.masina);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof Disk)) return false;
+		if (!(obj instanceof Disk))
+			return false;
 		return ((Disk) obj).ime.equals(this.ime);
 	}
-	
+
 	public static Disk parse(String line) {
 		String[] array = line.split(";");
 		String ime = array[0].trim();
@@ -70,13 +83,13 @@ public class Disk implements CSVData{
 		String masina = array[3].trim();
 		return new Disk(ime, tip, kapacitet, masina);
 	}
-	
+
 	@Override
 	public String csvLine() {
 		// TODO Auto-generated method stub
 		return this.ime + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + this.masina;
 	}
-	
+
 	public VirtuelnaMasina getMasina() {
 		return Main.masine.nadjiMasinu(this.masina);
 	}

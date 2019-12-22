@@ -7,10 +7,13 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import model.Main;
 import model.beans.Disk;
+import model.beans.VirtuelnaMasina;
+import model.dmanipulation.JDiskChange;
 
-public class Diskovi implements LoadStoreData{
-	
+public class Diskovi implements LoadStoreData {
+
 	private ArrayList<Disk> diskovi;
 
 	public ArrayList<Disk> getDiskovi() {
@@ -25,23 +28,24 @@ public class Diskovi implements LoadStoreData{
 		super();
 		this.diskovi = new ArrayList<Disk>();
 	}
-	
+
 	public Disk nadjiDisk(String ime) {
 		int index = this.diskovi.indexOf(new Disk(ime));
-		if (index == -1) return null;
+		if (index == -1)
+			return null;
 		return this.diskovi.get(index);
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		String suma = "DISKOVI: \n";
-		for (Disk d: this.diskovi) {
+		for (Disk d : this.diskovi) {
 			suma += d + "\n";
 		}
 		return suma;
 	}
-	
+
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
@@ -55,16 +59,74 @@ public class Diskovi implements LoadStoreData{
 		}
 		in.close();
 	}
-	
+
 	@Override
 	public void store() throws Exception {
 		// TODO Auto-generated method stub
 		PrintWriter out = new PrintWriter(new FileWriter("files" + File.separatorChar + FileNames.DISKOVI_FILE));
-		for (Disk d: this.diskovi) {
+		for (Disk d : this.diskovi) {
 			out.println(d.csvLine());
 			out.flush();
 		}
 		out.close();
 	}
 
+	public ArrayList<Disk> getDiskoviMasine(VirtuelnaMasina vm) {
+		ArrayList<Disk> diskovi = new ArrayList<Disk>();
+
+		for (Disk d : Main.diskovi.getDiskovi()) {
+			if (d.getMasinaID().equals(vm.getIme()))
+				diskovi.add(d);
+		}
+
+		return diskovi;
+	}
+
+	public boolean izmeniDisk(JDiskChange d) throws Exception {
+		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme()))))
+			return false;
+
+		Disk disk = this.nadjiDisk(d.getStaroIme());
+
+		if (disk == null)
+			return false;
+
+		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) {
+			System.out.println("Lele");
+			return false;
+		}
+
+		disk.setIme(d.getNoviDisk().getIme());
+		disk.setTip(d.getNoviDisk().getTip());
+		disk.setKapacitet(d.getNoviDisk().getKapacitet());
+
+		this.store();
+		return true;
+	}
+
+	public boolean dodajDisk(Disk d) throws Exception {
+		if (this.nadjiDisk(d.getIme()) != null)
+			return false;
+
+		this.diskovi.add(d);
+		this.store();
+		return true;
+	}
+
+	public boolean obrisiDisk(Disk d) throws Exception {
+		Disk disk = this.nadjiDisk(d.getIme());
+
+		if (disk == null)
+			return false;
+
+		System.out.println(this.diskovi.size());
+
+		this.diskovi.remove(disk);
+
+		System.out.println(this.diskovi.size());
+
+		this.store();
+
+		return true;
+	}
 }

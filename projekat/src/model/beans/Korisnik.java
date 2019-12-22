@@ -147,5 +147,15 @@ public class Korisnik implements CSVData {
 		
 	}
 
-
+	public ArrayList<Disk> getMojiDiskovi(){
+		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.diskovi.getDiskovi();
+		
+		ArrayList<Disk> diskovi = new ArrayList<Disk>();
+		
+		for (VirtuelnaMasina vm : this.getMojeMasine()) {
+			diskovi.addAll(Main.diskovi.getDiskoviMasine(vm));
+		}
+		
+		return diskovi;
+	}
 }

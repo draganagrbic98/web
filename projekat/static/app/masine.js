@@ -32,6 +32,13 @@ Vue.component("masine", {
                 	<button v-on:click="dodaj()">Dodaj</button>
                 </div>
 
+                <div v-if="uloga=='SUPER_ADMIN'">
+                	<router-link to="/organizacije">Organizacije</router-link>
+                	<router-link to="/kategorije"> Kategorije</router-link>
+    			</div>
+    			
+               	<router-link to="/diskovi">Diskovi</router-link>
+
                 <div>
                 	<button v-on:click="logout()">Odjava</button>
                 </div>
@@ -62,11 +69,6 @@ Vue.component("masine", {
 	                <button v-on:click="obrisi()">Obrisi</button>
                 </div>
 
-            </div>
-
-            <div v-if="uloga=='SUPER_ADMIN' && selected==false">
-                <router-link to="/organizacije"> Organizacije</router-link>
-                <router-link to="/kategorije"> Kategorije</router-link>
             </div>
 
         </div>

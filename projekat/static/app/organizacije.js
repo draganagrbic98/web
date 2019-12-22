@@ -25,6 +25,7 @@ Vue.component("organizacije", {
                 </table><br><br>
                 <button v-on:click="dodaj()">Dodaj</button><br><br>
 
+    			<router-link to="/masine">Masine</router-link>
             </div>
 
             <div v-if="selected">

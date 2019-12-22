@@ -2,3 +2,5 @@ disk1;0;120;masina1
 disk2;1;140;masina2
 disk3;0;100;masina1
 disk4;0;200;masina1
+diskic1;1;1251;masina35
+diskic2;1;123;masina2

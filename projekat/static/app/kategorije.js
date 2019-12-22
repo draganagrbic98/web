@@ -23,7 +23,7 @@ Vue.component("kategorije", {
 
                 <button v-on:click="izmeni()">Izmeni</button><br><br>
                 <button v-on:click="obrisi()">Obrisi</button><br><br>
-
+                
             </div>
 
             <div v-if="!selected">
@@ -41,7 +41,8 @@ Vue.component("kategorije", {
                 </table><br><br>
 
                 <button v-on:click="dodaj()">Dodaj</button><br><br>
-
+                
+            	<router-link to="/masine">Masine</router-link>
             </div>
 
         </div>
