@@ -33,11 +33,13 @@ Vue.component("masine", {
                 </div>
 
                 <div v-if="uloga=='SUPER_ADMIN'">
-                	<router-link to="/organizacije">Organizacije</router-link>
+                	<router-link to="/organizacije">Organizacije</router-link> <br>
                 	<router-link to="/kategorije"> Kategorije</router-link>
     			</div>
     			
-               	<router-link to="/diskovi">Diskovi</router-link>
+               	<router-link to="/diskovi">Diskovi</router-link> <br>
+
+    			<router-link to="/profil">Profil</router-link>
 
                 <div>
                 	<button v-on:click="logout()">Odjava</button>
