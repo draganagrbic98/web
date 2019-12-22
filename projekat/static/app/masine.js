@@ -59,17 +59,19 @@ Vue.component("masine", {
                 Broj jezgara: <input type="text" v-model="selectedMasina.brojJezgara" disabled><br><br>
                 RAM: <input type="text" v-model="selectedMasina.RAM" disabled><br><br>
                 Broj GPU jezgara: <input type="text" v-model="selectedMasina.GPUjezgra" disabled><br><br>
-                Diskovi: <br>
+                Diskovi: 
+                <p v-if="selectedMasina.diskovi.length==0">NEMA</p>
                 <ol>
                     <li v-for="d in selectedMasina.diskovi">{{d}}</li>
 
-                </ol><br><br>
+                </ol><br>
                 Aktivnosti: 
+                <p v-if="selectedMasina.aktivnosti.length==0">NEMA</p>
                 <ol>
 
                     <li v-for="a in selectedMasina.aktivnosti">{{a.datum}} {{a.upaljen}}</li>
 
-                </ol>
+                </ol><br>
 
                 <div v-if="uloga!='KORISNIK'">
 	                <button v-on:click="izmeni()">Izmeni</button><br><br>
