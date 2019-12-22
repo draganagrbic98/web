@@ -15,6 +15,7 @@ import model.collections.Masine;
 import model.collections.Organizacije;
 import model.dmanipulation.JDiskChange;
 import model.dmanipulation.JKategorijaChange;
+import model.dmanipulation.JKorisnikChange;
 import model.dmanipulation.JMasinaChange;
 import model.dmanipulation.JOrganizacijaChange;
 import model.dmanipulation.OpResult;
@@ -76,7 +77,7 @@ public class Main {
 			User u = g.fromJson(req.body(), User.class);
 			Korisnik k = korisnici.login(u);
 			Session ss = req.session(true);
-			
+
 			if (k != null && ss.attribute("korisnik") == null)
 				ss.attribute("korisnik", k);
 			return g.toJson(k);
@@ -90,12 +91,22 @@ public class Main {
 
 		});
 
+		get("rest/user/profil", (req, res) -> {
+			res.type("application/json");
+			Session ss = req.session(true);
+			return g.toJson((Korisnik)ss.attribute("korisnik"));
+		});
+		
+		post("rest/user/izmena", (req, res) -> {
+			res.type("application/json");
+			JKorisnikChange jkc = g.fromJson(req.body(), JKorisnikChange.class);
+			return g.toJson(new OpResult(korisnici.izmeniKorisnika(jkc) + ""));
+		});
+		
 		post("rest/masine/izmena", (req, res) -> {
 			res.type("application/json");
 			JMasinaChange m = g.fromJson(req.body(), JMasinaChange.class);
-
 			return g.toJson(new OpResult(masine.izmeniMasinu(m) + ""));
-
 		});
 
 		post("rest/organizacije/izmena", (req, res) -> {

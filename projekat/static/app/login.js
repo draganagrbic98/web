@@ -30,7 +30,7 @@ Vue.component("login", {
             this.greska = false;
 
             if (this.korisnickoIme == ''){
-                this.greskaKorisnickoIme = "Niste uneli korisnicko ime. ";
+                this.greskaKorisnickoIme = "Niste uneli korisnicko ime.";
                 this.greska = true;
             }
             

@@ -1,16 +1,22 @@
+body {
+	vertical-align: middle;
+	text-align: center;
+}
+
 th, td{
 	min-width: 200px;
 	text-align: center;
 }
 
 h1{
-	color: orange;
+	color: #00dfff;
 }
 
 table {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     width: 70%;
     border-collapse: collapse;
+    margin: auto;
 }
 
 td, th {
