@@ -63,8 +63,13 @@ Vue.component("masine", {
                 <ol>
                     <li v-for="d in selectedMasina.diskovi">{{d}}</li>
 
-                </ol>
+                </ol><br><br>
+                Aktivnosti: 
+                <ol>
 
+                    <li v-for="a in selectedMasina.aktivnosti">{{a.datum}} {{a.upaljen}}</li>
+
+                </ol>
 
                 <div v-if="uloga!='KORISNIK'">
 	                <button v-on:click="izmeni()">Izmeni</button><br><br>
