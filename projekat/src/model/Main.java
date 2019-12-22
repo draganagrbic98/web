@@ -12,6 +12,7 @@ import model.collections.Diskovi;
 import model.collections.Kategorije;
 import model.collections.Korisnici;
 import model.collections.Masine;
+import model.collections.OrganizacijaManipulation;
 import model.collections.Organizacije;
 import model.dmanipulation.DiskManipulation;
 import model.dmanipulation.JDiskChange;
@@ -184,6 +185,51 @@ public class Main {
 		});
 		
 	}
+	
+	public static void organizacijeManipulation() {
+		
+		
+		post("rest/organizacije/izmena", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			OrganizacijaManipulation result = organizacije.izmeniOrganizaciju(g.fromJson(req.body(), JOrganizacijaChange.class));
+			if (result != OrganizacijaManipulation.OK) res.status(400);
+			return g.toJson(new OpResult(result + ""));
+			
+		});
+		
+		post("rest/organizacije/dodavanje", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			OrganizacijaManipulation result = organizacije.dodajOrganizaciju(g.fromJson(req.body(), Organizacija.class));
+			if (result != OrganizacijaManipulation.OK) res.status(400);
+			return g.toJson(new OpResult(result + ""));
+			
+		});
+		
+		get("rest/organizacije/pregled", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return g.toJson(new OpResult("Forbidden"));
+			}
+			return g.toJson(k.getMojeOrganizacije());
+			
+		});
+
+		
+		
+	}
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -203,6 +249,7 @@ public class Main {
 		kategorijeManipulation();
 		diskoviManipulation();
 		userManipulation();
+		organizacijeManipulation();
 		
 		//GARBAGE :D
 		
@@ -243,12 +290,7 @@ public class Main {
 			return g.toJson(new OpResult(masine.izmeniMasinu(m) + ""));
 		});
 
-		post("rest/organizacije/izmena", (req, res) -> {
-			res.type("application/json");
-			JOrganizacijaChange o = g.fromJson(req.body(), JOrganizacijaChange.class);
-			return g.toJson(new OpResult(organizacije.izmeniOrganizaciju(o) + ""));
-		});
-
+		
 
 		post("rest/masine/brisanje", (req, res) -> {
 			res.type("application/json");
@@ -256,11 +298,7 @@ public class Main {
 		});
 
 		
-
-		post("rest/organizacije/dodavanje", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(new OpResult(organizacije.dodajOrganizaciju(g.fromJson(req.body(), Organizacija.class)) + ""));
-		});
+		
 
 		post("rest/masine/dodavanje", (req, res) -> {
 			res.type("application/json");
@@ -270,22 +308,15 @@ public class Main {
 		
 
 		
-
-		get("rest/organizacije/pregled", (req, res) -> {
-			res.type("application/json");
-			Korisnik k = req.session(true).attribute("korisnik");
-			if (k != null && k.getUloga().equals(Uloga.KORISNIK)) res.status(403);
-			return g.toJson((k != null) ? k.getMojeOrganizacije() : null);
-		});
 		
 
 
 
-
-		get("rest/kategorije/unos/pregled", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(kategorije.getKategorije());
-		});
+//
+//		get("rest/kategorije/unos/pregled", (req, res) -> {
+//			res.type("application/json");
+//			return g.toJson(kategorije.getKategorije());
+//		});
 
 		
 		

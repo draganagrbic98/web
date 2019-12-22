@@ -4,13 +4,13 @@ Vue.component("dodajOrganizaciju", {
         return{
             novaOrganizacija: {
                 "ime": '', 
-                "opis": '', 
-                "logo": '', 
+                "opis": null, 
+                "logo": null,
                 "korisnici": [], 
                 "masine": []
             }, 
             greskaIme: '', 
-            greskaUnos: '', 
+            greskaServer: '', 
             greska: false
         }
     }, 
@@ -22,41 +22,37 @@ Vue.component("dodajOrganizaciju", {
             <h1>Registracija nove organizacije</h1>
             Ime: <input type="text" v-model="novaOrganizacija.ime"> {{greskaIme}} <br><br>
             Opis: <input type="text" v-model="novaOrganizacija.opis"><br><br>
-            <button v-on:click="dodaj()">Dodaj</button><br><br>
-            {{greskaUnos}}
+            <button v-on:click="dodaj()">Dodaj organizaciju</button><br><br>
+            <router-link to="/organizacije">Organizacije</router-link><br><br>
+            {{greskaServer}}
 
         </div>
 
     `, 
 
     methods: {
+
         dodaj: function(){
 
             this.greskaIme = '';
-            this.greskaUnos = '';
+            this.greskaServer = '';
             this.greska = false;
 
             if (this.novaOrganizacija.ime == ''){
-                this.greskaIme = "Ime ne sme biti prazno";
+                this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
-
             if (this.greska == true) return;
 
             axios.post("rest/organizacije/dodavanje", this.novaOrganizacija)
             .then(response => {
-                if (response.data.result == "true"){
-                    this.$router.push("organizacije");
-                }
-                else{
-                    this.greskaUnos = "Uneta organizacija vec postoji. ";
-                    this.greska = true;
-                    return;
-                }
+                this.$router.push("organizacije")
             })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
+            })
+           
         }
     }, 
 
-    
-
-})
+});

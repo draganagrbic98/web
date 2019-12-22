@@ -17,10 +17,15 @@ public class Organizacija implements CSVData {
 	}
 
 	public void setIme(String ime) {
+		for (Korisnik k: Main.korisnici.getKorisnici()) {
+			if (k.getOrganizacijaID().equals(this.ime))
+				k.setOrganizacija(ime);
+		}
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
 			if (m.getOrganizacijaID().equals(this.ime))
 				m.setOrganizacija(ime);
 		}
+		
 		
 		this.ime = ime;
 	}

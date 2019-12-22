@@ -132,7 +132,17 @@ public class Korisnik implements CSVData {
 		
 	}
 	
-	
+	public ArrayList<Organizacija> getMojeOrganizacije(){
+		
+		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.organizacije.getOrganizacije();
+		if (this.uloga.equals(Uloga.KORISNIK)) return null;
+		ArrayList<Organizacija> organizacije = new ArrayList<Organizacija>();
+		organizacije.add(this.getOrganizacija());
+		return organizacije;
+		
+	}
+
+
 	
 	public ArrayList<VirtuelnaMasina> getMojeMasine(){
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.masine.getMasine();
@@ -144,13 +154,7 @@ public class Korisnik implements CSVData {
 		return masine;
 	}
 	
-	public ArrayList<Organizacija> getMojeOrganizacije(){
-		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.organizacije.getOrganizacije();
-		if (this.uloga.equals(Uloga.KORISNIK)) return null;
-		ArrayList<Organizacija> organizacije = new ArrayList<Organizacija>();
-		organizacije.add(this.getOrganizacija());
-		return organizacije;
-	}
+	
 	
 	
 

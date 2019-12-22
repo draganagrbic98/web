@@ -70,30 +70,32 @@ public class Organizacije implements LoadStoreData{
 		out.close();
 	}
 	
-	public boolean izmeniOrganizaciju(JOrganizacijaChange o) throws Exception {
+	public OrganizacijaManipulation izmeniOrganizaciju(JOrganizacijaChange o) throws Exception {
 		
-		
-		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme())))) return false;
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
-		if (organizacija == null) return false;
+		if (organizacija == null) return OrganizacijaManipulation.DOESNT_EXIST;
+		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme()))))
+			return OrganizacijaManipulation.AL_EXISTS;
 		organizacija.setIme(o.getNovaOrganizacija().getIme());
 		organizacija.setOpis(o.getNovaOrganizacija().getOpis());
 		organizacija.setLogo(o.getNovaOrganizacija().getLogo());
 		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
 		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
 		this.store();
-		//kad izmenim organizaciju moram da promenim reference kod masina
-		
-		return true;
+		return OrganizacijaManipulation.OK;
 		
 	}
 	
-	public boolean dodajOrganizaciju(Organizacija o) throws Exception {
+	
+	
+	
+	
+	public OrganizacijaManipulation dodajOrganizaciju(Organizacija o) throws Exception {
 		
-		if (this.nadjiOrganizaciju(o.getIme()) != null) return false;
+		if (this.nadjiOrganizaciju(o.getIme()) != null) return OrganizacijaManipulation.AL_EXISTS;
 		this.organizacije.add(o);
 		this.store();
-		return true;
+		return OrganizacijaManipulation.OK;
 		
 	}
 
