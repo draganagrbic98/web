@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import model.beans.Korisnik;
 import model.beans.User;
-import model.dmanipulation.JKorisnikChange;
 import rest.data.JSONKorisnikChange;
 import rest.data.OpResult.KorisnikResult;
 
@@ -135,18 +134,5 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public boolean izmeniKorisnika(JKorisnikChange jkc) throws Exception {
-		Korisnik korisnik = this.nadjiKorisnika(jkc.getKorisnickoIme());
-
-		if (korisnik == null)
-			return false;
-		
-		korisnik.setIme(jkc.getNoviKorisnik().getIme());
-		korisnik.setPrezime(jkc.getNoviKorisnik().getPrezime());
-		korisnik.setEmail(jkc.getNoviKorisnik().getEmail());
-		korisnik.getUser().setLozinka(jkc.getNoviKorisnik().getUser().getLozinka());
-
-		this.store();
-		return true;
-	}
+	
 }
