@@ -6,17 +6,17 @@ Vue.component("masine", {
             selectedMasina: {}, 
             selectedMasinaId: '',
             selected: false, 
+            pretragaIme: '',
+            pretragaBrojJezgara: '', 
+            pretragaRAM: '', 
+            pretragaGPUjezgra: '',
             greskaIme: '',
             greskaServer: '', 
             greska: false, 
             kategorije: [], 
-            uloga: '', 
-            kat: '', 
             backup: [],
-            pretragaIme: '',
-            pretragaBrojJezgara: '', 
-            pretragaRAM: '', 
-            pretragaGPUjezgra: ''
+            uloga: '', 
+            kat: ''
         }
     }, 
 
@@ -26,6 +26,7 @@ Vue.component("masine", {
 
             <div v-if="selected">
 
+                <h1>Izmena masine</h1>
                 Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
                 Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled><br><br>
                 Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
@@ -47,14 +48,15 @@ Vue.component("masine", {
                     <li v-for="d in selectedMasina.diskovi">{{d}}</li>
                 </ol><br>
                 <div v-if="uloga!='KORISNIK'">
-	                <button v-on:click="izmeni()">Izmeni</button><br><br>
-	                <button v-on:click="obrisi()">Obrisi</button>
+	                <button v-on:click="izmeni()">IZMENI</button><br><br>
+	                <button v-on:click="obrisi()">OBRISI</button><br><br>
                 </div>
                 {{greskaServer}}
 
             </div>
         
             <div v-if="!selected">
+
                 <h1>Registrovane masine</h1>
                 <table border="1">
                 <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th><th>Organizacija</th></tr>
@@ -67,60 +69,34 @@ Vue.component("masine", {
                 </tr>
                 </table><br><br>
 
-                <div v-if="uloga!='KORISNIK'">
-                	<button v-on:click="dodaj()">Dodaj masinu</button>
-                	<router-link to="/korisnici">Korisnici</router-link><br><br>
-                </div>
-
-                <div v-if="uloga=='SUPER_ADMIN'">
-                    <router-link to="/kategorije">Kategorije</router-link><br><br>
-                    <router-link to="/organizacije">Organizacije</router-link><br><br>
-    			</div>
-    			
-               	<router-link to="/diskovi">Diskovi</router-link><br><br>
-    			<router-link to="/profil">Profil</router-link><br><br>
-                <button v-on:click="logout()">Odjava</button><br><br>
-
                 <h1>Pretraga</h1>
                 Ime: <input type="text" v-model="pretragaIme"><br><br>
                 Broj jezgara: <input type="number" min="1" v-model="pretragaBrojJezgara"><br><br>
                 RAM: <input type="number" min="1" v-model="pretragaRAM"><br><br>
                 GPU jezgra: <input type="number" min="0" v-model="pretragaGPUjezgra"><br><br>
-                <button v-on:click="pretrazi()">Filtriraj</button><br><br>
+                <button v-on:click="pretrazi()">FILTRIRAJ</button><br><br>
+
+                <span v-if="uloga!='KORISNIK'">
+                	<button v-on:click="dodaj()">DODAJ MASINU</button><br><br>
+                	<router-link to="/korisnici">KORISNICI</router-link> &nbsp&nbsp
+                </span>
+
+                <span v-if="uloga=='SUPER_ADMIN'">
+                    <router-link to="/kategorije">KATEGORIJE</router-link> &nbsp&nbsp
+                    <router-link to="/organizacije">ORGANIZACIJE</router-link> &nbsp&nbsp
+    			</span>
+
+                <router-link to="/diskovi">DISKOVI</router-link> &nbsp&nbsp
+                <router-link to="/profil">PROFIL</router-link><br><br>
+                <button v-on:click="logout()">ODJAVA</button><br><br>
 
             </div>
 
         </div>
     `, 
 
-    mounted(){
-
-        axios.get("rest/masine/pregled")
-        .then(response => {
-            this.masine = response.data;
-            this.backup = response.data;
-        })
-        .catch(error => {
-            this.$router.push("/");
-        });
-
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        });
-
-        
-
-        axios.get("rest/kategorije/unos/pregled")
-        .then(response => {
-            this.kategorije = response.data;
-        });
-
-    },
-
     watch: {
-
-        kat: function(oldKat, newKat){
+        kat: function(){
             for (let k of this.kategorije){
                 if (k.ime == this.kat){
                     this.selectedMasina.kategorija.ime = k.ime;
@@ -135,16 +111,45 @@ Vue.component("masine", {
         }
     },
 
+    mounted(){
+
+        axios.get("rest/masine/pregled")
+        .then(response => {
+            this.masine = response.data;
+            this.backup = response.data;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
+
+        axios.get("rest/kategorije/unos/pregled")
+        .then(response => {
+            this.kategorije = response.data;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
+
+        axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
+
+    },
+
     methods: {
 
         pretrazi: function(){
 
             this.masine = [];
             for (let m of this.backup){
-                imePassed = (this.pretragaIme != '') ? (m.ime == this.pretragaIme) : true;
-                brojJezgaraPassed = (this.pretragaBrojJezgara != '') ? (m.brojJezgara == this.pretragaBrojJezgara) : true;
-                RAMPassed = (this.pretragaRAM != '') ? (m.RAM == this.pretragaRAM) : true;
-                GPUjezgraPassed = (this.pretragaGPUjezgra != '') ? (m.GPUjezgra == this.pretragaGPUjezgra) : true;
+                let imePassed = (this.pretragaIme != '') ? (m.ime == this.pretragaIme) : true;
+                let brojJezgaraPassed = (this.pretragaBrojJezgara != '') ? (m.brojJezgara == this.pretragaBrojJezgara) : true;
+                let RAMPassed = (this.pretragaRAM != '') ? (m.RAM == this.pretragaRAM) : true;
+                let GPUjezgraPassed = (this.pretragaGPUjezgra != '') ? (m.GPUjezgra == this.pretragaGPUjezgra) : true;
                 if (imePassed && brojJezgaraPassed && RAMPassed && GPUjezgraPassed) this.masine.push(m);
             }
 
@@ -156,6 +161,22 @@ Vue.component("masine", {
             this.selected = true;
             this.kat = this.selectedMasina.kategorija.ime;
         }, 
+
+        dodaj: function(){
+            this.$router.push("dodajMasinu");
+        },
+
+        obrisi: function(){
+            this.selectMasina.ime = this.selectedMasinaId;
+            axios.post("rest/masine/brisanje", this.selectedMasina)
+            .then(response => {
+                this.selected = false;
+                location.reload();
+            })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
+            });
+        },
 
         izmeni: function(){
 
@@ -180,24 +201,12 @@ Vue.component("masine", {
 
         },
 
-        dodaj: function(){
-            this.$router.push("dodajMasinu");
-        },
-
-        obrisi: function(){
-            axios.post("rest/masine/brisanje", this.selectedMasina)
-            .then(response => {
-                this.selected = false;
-                location.reload();
-            })
-            .catch(error => {
-                this.greskaServer = error.response.data.result;
-            });
-        },
-
         logout: function(){
             axios.get("rest/user/logout")
             .then(response => {
+                this.$router.push("/");
+            })
+            .catch(error => {
                 this.$router.push("/");
             });
         }

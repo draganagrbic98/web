@@ -1,5 +1,2 @@
-kategorija1;12;15;12
-kategorija2;123;12;14
-kategorija3;4;4;2
-kategorija4;1;1;0
-kategorija5;14;16;1
+kategorija1;1;1;0
+kategorija2;12;12;12

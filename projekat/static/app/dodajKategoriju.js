@@ -26,8 +26,8 @@ Vue.component("dodajKategoriju", {
             Broj jezgara: <input type="text" v-model="novaKategorija.brojJezgara"> {{greskaBrojJezgara}} <br><br>
             RAM: <input type="text" v-model="novaKategorija.RAM"> {{greskaRAM}} <br><br>
             GPU jezgra: <input type="text" v-model="novaKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
-            <button v-on:click="dodaj()">Dodaj</button><br><br>
-            <router-link to="/kategorije">Kategorije</router-link><br><br>
+            <button v-on:click="dodaj()">DODAJ</button><br><br>
+            <router-link to="/kategorije">KATEGORIJE</router-link><br><br>
             {{greskaServer}}
 
         </div>
@@ -46,7 +46,7 @@ Vue.component("dodajKategoriju", {
             this.greska = false;
 
             if (this.novaKategorija.ime == ''){
-                this.greskaIme = "Ime kategorije ne sme biti prazno. ";
+                this.greskaIme = "Kategorija ne sme biti prazna. ";
                 this.greska = true;
             }
             if (this.novaKategorija.brojJezgara === '' || isNaN(this.novaKategorija.brojJezgara) || parseInt(this.novaKategorija.brojJezgara) <= 0){
@@ -58,7 +58,7 @@ Vue.component("dodajKategoriju", {
                 this.greska = true;
             }
             if (this.novaKategorija.GPUjezgra === '' || isNaN(this.novaKategorija.GPUjezgra) || parseInt(this.novaKategorija.GPUjezgra) < 0){
-                this.greskaGPUjezgra = "GPU jezgra mora biti nenegativan ceo broj. ";
+                this.greskaGPUjezgra = "GPU jezgra moraju biti nenegativan ceo broj. ";
                 this.greska = true;
             }
             if (this.greska) return;

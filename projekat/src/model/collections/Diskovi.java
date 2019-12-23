@@ -63,30 +63,40 @@ public class Diskovi implements LoadStoreData {
 	}
 
 	public Disk nadjiDisk(String ime) {
+		
 		int index = this.diskovi.indexOf(new Disk(ime));
 		if (index == -1) return null;
 		return this.diskovi.get(index);
+		
 	}
 	
 	public DiskResult dodajDisk(Disk d) throws Exception {
-		if (this.nadjiDisk(d.getIme()) != null) return DiskResult.AL_EXISTS;
+		
+		if (this.nadjiDisk(d.getIme()) != null) 
+			return DiskResult.AL_EXISTS;
 		this.diskovi.add(d);
 		this.store();
 		return DiskResult.OK;
+		
 	}
 	
 	public DiskResult obrisiDisk(Disk d) throws Exception {
+		
 		Disk disk = this.nadjiDisk(d.getIme());
-		if (disk == null) return DiskResult.DOESNT_EXIST;
+		if (disk == null) 
+			return DiskResult.DOESNT_EXIST;
 		disk.notifyRemoval();
 		this.diskovi.remove(disk);
 		this.store();
 		return DiskResult.OK;
+		
 	}
 
 	public DiskResult izmeniDisk(JSONDiskChange d) throws Exception {
+		
 		Disk disk = this.nadjiDisk(d.getStaroIme());
-		if (disk == null) return DiskResult.DOESNT_EXIST;
+		if (disk == null) 
+			return DiskResult.DOESNT_EXIST;
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
 		disk.setIme(d.getNoviDisk().getIme());
@@ -95,6 +105,7 @@ public class Diskovi implements LoadStoreData {
 		disk.setMasina(d.getNoviDisk().getMasinaID());
 		this.store();
 		return DiskResult.OK;
+		
 	}
 	
 }

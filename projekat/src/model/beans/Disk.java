@@ -88,17 +88,11 @@ public class Disk implements CSVData, ReferenceManager {
 		// TODO Auto-generated method stub
 		return this.ime + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + this.masina;
 	}
-
-	public VirtuelnaMasina getMasina() {
-		return Main.masine.nadjiMasinu(this.masina);
-	}
 	
-	
-
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
 		// TODO Auto-generated method stub
-		if (this.masina.equals(oldId))
+		if (this.masina != null && this.masina.equals(oldId))
 			this.masina = newId;
 	}
 
@@ -113,7 +107,7 @@ public class Disk implements CSVData, ReferenceManager {
 	@Override
 	public void removeReference(String className, String id) {
 		// TODO Auto-generated method stub
-		if (this.masina.equals(id))
+		if (this.masina != null && this.masina.equals(id))
 			this.masina = null;
 	}
 
@@ -124,6 +118,8 @@ public class Disk implements CSVData, ReferenceManager {
 			m.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
-	
+	private VirtuelnaMasina getMasina() {
+		return Main.masine.nadjiMasinu(this.masina);
+	}
 
 }

@@ -6,18 +6,23 @@ public class JSONMasinaChange {
 
 	private String staroIme;
 	private VirtuelnaMasina novaMasina;
+	
 	public String getStaroIme() {
 		return staroIme;
 	}
+	
 	public void setStaroIme(String staroIme) {
 		this.staroIme = staroIme;
 	}
+	
 	public VirtuelnaMasina getNovaMasina() {
 		return novaMasina;
 	}
+	
 	public void setNovaMasina(VirtuelnaMasina novaMasina) {
 		this.novaMasina = novaMasina;
 	}
+	
 	public JSONMasinaChange() {
 		super();
 	}

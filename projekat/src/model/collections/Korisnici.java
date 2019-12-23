@@ -68,23 +68,6 @@ public class Korisnici implements LoadStoreData{
 		}
 		out.close();
 	}
-	
-	public Korisnik login(User u) {
-		for (Korisnik k: this.korisnici) {
-			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) && k.getLozinka().equals(u.getLozinka()))
-				return k;
-		}
-		return null;
-	}
-	
-	public boolean hasEmail(String email) {
-		
-		for (Korisnik k: this.korisnici) {
-			if (k.getEmail().equals(email)) return true;
-		}
-		return false;
-		
-	}
 
 	public KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
 		
@@ -118,6 +101,7 @@ public class Korisnici implements LoadStoreData{
 			return KorisnikResult.AL_EXISTS;
 		if (this.hasEmail(k.getNoviKorisnik().getEmail()) && (!(korisnik.getEmail().equals(k.getNoviKorisnik().getEmail()))))
 			return KorisnikResult.EMAIL_EXISTS;
+		
 		if (k.getStaroIme().equals(u.getIme())) {
 			u.setKorisnickoIme(k.getNoviKorisnik().getKorisnickoIme());
 			u.setLozinka(k.getNoviKorisnik().getLozinka());
@@ -127,6 +111,7 @@ public class Korisnici implements LoadStoreData{
 			u.setUloga(k.getNoviKorisnik().getUloga());
 			u.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
 		}
+		
 		korisnik.setKorisnickoIme(k.getNoviKorisnik().getKorisnickoIme());
 		korisnik.setLozinka(k.getNoviKorisnik().getLozinka());
 		korisnik.setEmail(k.getNoviKorisnik().getEmail());
@@ -148,12 +133,29 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
+	private boolean hasEmail(String email) {
+		
+		for (Korisnik k: this.korisnici) {
+			if (k.getEmail().equals(email)) return true;
+		}
+		return false;
+		
+	}
+	
 	public void addSuperAdmin() throws Exception {
 		
 		if (!this.hasSuperAdmin()) {
 			this.korisnici.add(new Korisnik("super", "super", "super", "super", "super", Uloga.SUPER_ADMIN, null));
 			this.store();
 		}
+	}
+	
+	public Korisnik login(User u) {
+		for (Korisnik k: this.korisnici) {
+			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) && k.getLozinka().equals(u.getLozinka()))
+				return k;
+		}
+		return null;
 	}
 	
 	

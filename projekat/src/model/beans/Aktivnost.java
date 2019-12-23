@@ -10,21 +10,27 @@ public class Aktivnost implements CSVData{
 	
 	private Date datum;
 	private boolean upaljen;
+	
 	public Date getDatum() {
 		return datum;
 	}
+	
 	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
+	
 	public boolean isUpaljen() {
 		return upaljen;
 	}
+	
 	public void setUpaljen(boolean upaljen) {
 		this.upaljen = upaljen;
 	}
+	
 	public Aktivnost() {
 		super();
 	}
+	
 	public Aktivnost(Date datum, boolean upaljen) {
 		this();
 		this.datum = datum;

@@ -108,16 +108,6 @@ public class Organizacija implements CSVData, ReferenceManager {
 		return this.ime + ";" + this.opis + ";" + this.logo;
 	}
 
-	public void dodajKorisnika(Korisnik k) {
-		this.korisnici.add(k.getKorisnickoIme());
-	}
-
-	public void dodajMasinu(VirtuelnaMasina m) {
-		this.masine.add(m.getIme());
-	}
-	
-	
-
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
 		// TODO Auto-generated method stub
@@ -139,7 +129,7 @@ public class Organizacija implements CSVData, ReferenceManager {
 		for (Korisnik k: Main.korisnici.getKorisnici())
 			k.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 		for (VirtuelnaMasina m: Main.masine.getMasine())
-			m.updateOrganizacija(this.ime, newId);
+			m.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 
 	}
 
@@ -165,5 +155,12 @@ public class Organizacija implements CSVData, ReferenceManager {
 			m.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 	
+	public void dodajKorisnika(Korisnik k) {
+		this.korisnici.add(k.getKorisnickoIme());
+	}
+
+	public void dodajMasinu(VirtuelnaMasina m) {
+		this.masine.add(m.getIme());
+	}
 
 }

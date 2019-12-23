@@ -28,15 +28,17 @@ Vue.component("dodajDisk", {
 	            <option v-for="t in tipovi">
 	                {{t}}
 	            </option>
-            </select> {{greskaTip}} <br><br>
+            </select> 
+            {{greskaTip}} <br><br>
     		Kapacitet: <input type="text" v-model="noviDisk.kapacitet"> {{greskaKapacitet}} <br><br>
     		Virtuelna Masina: <select v-model="noviDisk.masina">
 	            <option v-for="m in masine">
 	                {{m.ime}}
 	            </option>
-            </select><br><br>
-            <button v-on:click="dodaj()">Dodaj masinu</button><br><br>
-            <router-link to="/diskovi">Diskovi</router-link><br><br>
+            </select>
+            <br><br>
+            <button v-on:click="dodaj()">DODAJ</button><br><br>
+            <router-link to="/diskovi">DISKOVI</router-link><br><br>
             {{greskaServer}}
 
         </div>
@@ -44,14 +46,20 @@ Vue.component("dodajDisk", {
 
     mounted(){
 
-        axios.get("rest/diskovi/unos/tipovi")
+        axios.get("rest/diskovi/unos/pregled")
         .then(response => {
             this.tipovi = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
         });
 
         axios.get("rest/masine/pregled")
         .then(response => {
             this.masine = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
         });
 
     }, 

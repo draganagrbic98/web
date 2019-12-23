@@ -17,13 +17,13 @@ public class Korisnik implements CSVData, ReferenceManager {
 		return this.user.getKorisnickoIme();
 	}
 	
-	public String getLozinka() {
-		return this.user.getLozinka();
-	}
-	
 	public void setKorisnickoIme(String korisnickoIme) {
 		this.notifyUpdate(korisnickoIme);
 		this.user.setKorisnickoIme(korisnickoIme);
+	}
+	
+	public String getLozinka() {
+		return this.user.getLozinka();
 	}
 	
 	public void setLozinka(String lozinka) {
@@ -74,8 +74,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 		super();
 	}
 
-	public Korisnik(String korisnickoIme, String lozinka, String email, String ime, String prezime, Uloga uloga,
-			String organizacija) {
+	public Korisnik(String korisnickoIme, String lozinka, String email, String ime, String prezime, Uloga uloga, String organizacija) {
 		this();
 		this.user = new User(korisnickoIme, lozinka);
 		this.email = email;
@@ -117,7 +116,6 @@ public class Korisnik implements CSVData, ReferenceManager {
 		Uloga uloga = Uloga.values()[(Integer.parseInt(array[5].trim()))];
 		String organizacija = array[6].trim();
 		return new Korisnik(korisnickoIme, lozinka, email, ime, prezime, uloga, organizacija);
-
 	}
 
 	@Override
@@ -125,20 +123,6 @@ public class Korisnik implements CSVData, ReferenceManager {
 		// TODO Auto-generated method stub
 		return this.user.csvLine() + ";" + this.email + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal()
 				+ ";" + this.organizacija;
-	}
-
-	public Organizacija getOrganizacija() {
-		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
-	}
-	
-	public ArrayList<Disk> getMojiDiskovi(){
-		
-		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.diskovi.getDiskovi();
-		ArrayList<Disk> diskovi = new ArrayList<Disk>();
-		for (VirtuelnaMasina m: this.getMojeMasine())
-			diskovi.addAll(m.getDiskovi());
-		return diskovi;
-		
 	}
 	
 	public ArrayList<Organizacija> getMojeOrganizacije(){
@@ -163,6 +147,16 @@ public class Korisnik implements CSVData, ReferenceManager {
 		
 	}
 	
+	public ArrayList<Disk> getMojiDiskovi(){
+		
+		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.diskovi.getDiskovi();
+		ArrayList<Disk> diskovi = new ArrayList<Disk>();
+		for (VirtuelnaMasina m: this.getMojeMasine())
+			diskovi.addAll(m.getDiskovi());
+		return diskovi;
+		
+	}
+	
 	public ArrayList<Korisnik> getMojiKorisnici(){
 		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.korisnici.getKorisnici();
@@ -179,7 +173,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
 		// TODO Auto-generated method stub
-		if (this.organizacija.equals(oldId))
+		if (this.organizacija != null && this.organizacija.equals(oldId))
 			this.organizacija = newId;
 	}
 
@@ -194,7 +188,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 	@Override
 	public void removeReference(String className, String id) {
 		// TODO Auto-generated method stub
-		if (this.organizacija.equals(id))
+		if (this.organizacija != null && this.organizacija.equals(id))
 			this.organizacija = null;
 	}
 
@@ -203,6 +197,10 @@ public class Korisnik implements CSVData, ReferenceManager {
 		// TODO Auto-generated method stub
 		for (Organizacija o: Main.organizacije.getOrganizacije())
 			o.removeReference(this.getClass().getSimpleName(), this.ime);
+	}
+	
+	private Organizacija getOrganizacija() {
+		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
 	
 }

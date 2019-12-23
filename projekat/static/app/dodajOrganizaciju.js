@@ -22,8 +22,8 @@ Vue.component("dodajOrganizaciju", {
             <h1>Registracija nove organizacije</h1>
             Ime: <input type="text" v-model="novaOrganizacija.ime"> {{greskaIme}} <br><br>
             Opis: <br><textarea v-model="novaOrganizacija.opis"></textarea><br><br>
-            <button v-on:click="dodaj()">Dodaj organizaciju</button><br><br>
-            <router-link to="/organizacije">Organizacije</router-link><br><br>
+            <button v-on:click="dodaj()">DODAJ</button><br><br>
+            <router-link to="/organizacije">ORGANIZACIJE</router-link><br><br>
             {{greskaServer}}
 
         </div>

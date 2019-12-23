@@ -14,11 +14,12 @@ Vue.component("login", {
     }, 
 
     template: `
+
         <div>
             <h1>Prijava</h1>
             Korisnicko ime: <input type="text" v-model="user.korisnickoIme"> {{greskaKorisnickoIme}} <br><br>
             Lozinka: <input type="password" v-model="user.lozinka"> {{greskaLozinka}} <br><br>
-            <button v-on:click="login()">Prijava</button><br><br>
+            <button v-on:click="login()">PRIJAVA</button><br><br>
             {{greskaLogin}}
         </div>
     `, 

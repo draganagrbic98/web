@@ -44,15 +44,18 @@ Vue.component("dodajKorisnika", {
             Prezime: <input type="text" v-model="noviKorisnik.prezime"> {{greskaPrezime}} <br><br>
             Uloga: <select v-model="noviKorisnik.uloga"> 
                 <option v-for="u in uloge">{{u}}</option>
-            </select> {{greskaUloga}} <br><br>
+            </select> 
+            {{greskaUloga}} <br><br>
             Organizacija: 
-            <input type="text" v-model="organizacija.ime" disabled v-bind:hidden="organizacije.length>1">
+            <input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
             <select v-model="noviKorisnik.organizacija" v-bind:hidden="organizacije.length<=1">    
                 <option v-for="o in organizacije">{{o.ime}}</option>
-            </select> {{greskaOrganizacija}} <br><br>
+            </select> 
+            {{greskaOrganizacija}} <br><br>
             Lozinka: <input type="password" v-model="novaLozinka"> {{greskaLozinka}} <br><br>
             Ponovljena lozinka: <input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"> {{greskaPonovljenaLozinka}} <br><br>
-            <button v-on:click="dodaj()">Dodaj</button><br><br>
+            <button v-on:click="dodaj()">DODAJ</button><br><br>
+            <router-link to="/korisnici">KORISNICI</router-link><br><br>
             {{greskaServer}}
  
         </div>
@@ -60,11 +63,32 @@ Vue.component("dodajKorisnika", {
     `, 
 
     watch: {
-        novaLozinka: function(oldLoz, newLoz){
+        novaLozinka: function(){
             if (this.novaLozinka == '')
             this.ponovljenaLozinka = '';
         } 
      }, 
+
+     mounted(){
+
+        axios.get("rest/uloge/unos/pregled")
+        .then(response => {
+            this.uloge = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
+        
+        axios.get("rest/organizacije/pregled")
+        .then(response => {
+            this.organizacije = response.data;
+            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {}
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
+
+    },
 
     methods: {
 
@@ -128,24 +152,6 @@ Vue.component("dodajKorisnika", {
 
         }
 
-    },
-
-    mounted(){
-
-        axios.get("rest/organizacije/pregled")
-        .then(response => {
-            this.organizacije = response.data;
-            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {}
-        })
-        .catch(error => {
-            this.$router.push("masine");
-        });
-
-        axios.get("rest/uloge/unos/pregled")
-        .then(response => {
-            this.uloge = response.data;
-        });
-
     }
 
-})
+});

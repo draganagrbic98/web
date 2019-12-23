@@ -27,4 +27,10 @@ public class JSONDiskChange {
 		super();
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("%s, %s", this.staroIme, this.noviDisk);
+	}
+	
 }

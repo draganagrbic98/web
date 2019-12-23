@@ -1,4 +1,2 @@
-disk1;0;1;masina2
-disk3;1;123;masina4
-disk4;1;123;masina5
-disk5;1;11;masina2
+disk2;0;12;masina1
+disk3;0;123;masina2

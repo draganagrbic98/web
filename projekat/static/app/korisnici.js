@@ -19,23 +19,28 @@ Vue.component("korisnici", {
         <div>
 
             <div v-if="selected">
-                Email: <input type="text" v-model="selectedKorisnik.email" disabled> <br><br>
+
+                <h1>Izmena korisnika</h1>
+                Email: <input type="text" v-model="selectedKorisnik.email"> <br><br>
                 Ime: <input type="text" v-model="selectedKorisnik.ime"> {{greskaIme}} <br><br>
                 Prezime: <input type="text" v-model="selectedKorisnik.prezime"> {{greskaPrezime}} <br><br>
-                Uloga: <select v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga=='SUPER_ADMIN'">
+                Uloga: 
+                <input type="text" v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga!='SUPER_ADMIN'" disabled>
+                <select v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga=='SUPER_ADMIN'">
                     <option v-for="u in uloge">
                         {{u}}
                     </option>
                 </select>
-                <input type="text" v-model="selectedKorisnik.uloga" disabled v-bind:hidden="selectedKorisnik.uloga!='SUPER_ADMIN'">
                 <br><br>
                 Organizacija: <input type="text" v-model="selectedKorisnik.organizacija" disabled><br><br>
-                <button v-on:click="izmeni()">Izmeni</button><br><br>
-                <button v-on:click="obrisi()">Obrisi</button><br><br>
+                <button v-on:click="izmeni()">IZMENI</button><br><br>
+                <button v-on:click="obrisi()">OBRISI</button><br><br>
                 {{greskaServer}}
+
             </div>
 
             <div v-if="!selected">
+
                 <h1>Registrovani korisnici</h1>
                 <table border="1">
                 <tr><th>Email</th><th>Ime</th><th>Prezime</th><th>Organizacija</th></tr>
@@ -46,12 +51,11 @@ Vue.component("korisnici", {
                     <td>{{k.organizacija}}</td>
                 </tr>
                 </table><br><br>
-                <button v-on:click="dodaj()">Dodaj korisnika</button><br><br>
-                <router-link to="/masine">MAIN PAGE</router-link>
-            </div>
+                <button v-on:click="dodaj()">DODAJ KORISNIKA</button><br><br>
+                <router-link to="/masine">MAIN PAGE</router-link><br><br>
 
+            </div>
         </div>
-    
     `, 
 
     mounted(){
@@ -67,9 +71,10 @@ Vue.component("korisnici", {
         axios.get("rest/uloge/unos/pregled")
         .then(response => {
             this.uloge = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
         });
-
-
 
     }, 
 
@@ -83,7 +88,6 @@ Vue.component("korisnici", {
 
         dodaj: function(){
             this.$router.push("dodajKorisnika");
-
         }, 
 
         obrisi: function(){

@@ -14,7 +14,6 @@ public class KorisniciRest implements RestEntity{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		
 		get("rest/korisnici/pregled", (req, res) -> {
 			res.type("application/json");
@@ -60,11 +59,6 @@ public class KorisniciRest implements RestEntity{
 			KorisnikResult result = Main.korisnici.obrisiKorisnika(jsonConvertor.fromJson(req.body(), Korisnik.class), k);
 			if (result != KorisnikResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
-		});
-		
-		get("rest/uloge/unos/pregled", (req, res) -> {
-			res.type("application/json");
-			return jsonConvertor.toJson(new Uloga[] {Uloga.ADMIN, Uloga.KORISNIK});
 		});
 		
 	}

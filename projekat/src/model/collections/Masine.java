@@ -95,7 +95,8 @@ public class Masine implements LoadStoreData{
 	
 	public MasinaResult dodajMasinu(VirtuelnaMasina m) throws Exception {
 		
-		if (this.nadjiMasinu(m.getIme()) != null) return MasinaResult.AL_EXISTS;
+		if (this.nadjiMasinu(m.getIme()) != null) 
+			return MasinaResult.AL_EXISTS;
 		this.masine.add(m);
 		this.store();
 		return MasinaResult.OK;
@@ -105,7 +106,8 @@ public class Masine implements LoadStoreData{
 	public MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
-		if (masina == null) return MasinaResult.DOESNT_EXIST;
+		if (masina == null) 
+			return MasinaResult.DOESNT_EXIST;
 		masina.notifyRemoval();
 		this.masine.remove(masina);
 		this.store();
@@ -117,13 +119,10 @@ public class Masine implements LoadStoreData{
 	public MasinaResult izmeniMasinu(JSONMasinaChange m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
-		if (masina == null) return MasinaResult.DOESNT_EXIST;
+		if (masina == null) 
+			return MasinaResult.DOESNT_EXIST;
 		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null && (!(m.getStaroIme().equals(m.getNovaMasina().getIme())))) 
 			return MasinaResult.AL_EXISTS;
-		if (Main.organizacije.nadjiOrganizaciju(m.getNovaMasina().getOrganizacijaID()) == null)
-			return MasinaResult.OR_DOESNT_EXIST;
-		if (Main.kategorije.nadjiKategoriju(m.getNovaMasina().getKategorija().getIme()) == null)
-			return MasinaResult.KAT_DOESNT_EXIST;
 
 		masina.setIme(m.getNovaMasina().getIme());
 		masina.setOrganizacija(m.getNovaMasina().getOrganizacijaID());

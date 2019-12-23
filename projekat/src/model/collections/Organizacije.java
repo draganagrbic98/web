@@ -71,7 +71,8 @@ public class Organizacije implements LoadStoreData{
 	
 	public OrganizacijaResponse dodajOrganizaciju(Organizacija o) throws Exception {
 		
-		if (this.nadjiOrganizaciju(o.getIme()) != null) return OrganizacijaResponse.AL_EXISTS;
+		if (this.nadjiOrganizaciju(o.getIme()) != null) 
+			return OrganizacijaResponse.AL_EXISTS;
 		this.organizacije.add(o);
 		this.store();
 		return OrganizacijaResponse.OK;
@@ -81,9 +82,11 @@ public class Organizacije implements LoadStoreData{
 	public OrganizacijaResponse izmeniOrganizaciju(JSONOrganizacijaChange o) throws Exception {
 		
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
-		if (organizacija == null) return OrganizacijaResponse.DOESNT_EXIST;
+		if (organizacija == null) 
+			return OrganizacijaResponse.DOESNT_EXIST;
 		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme()))))
 			return OrganizacijaResponse.AL_EXISTS;
+		
 		organizacija.setIme(o.getNovaOrganizacija().getIme());
 		organizacija.setOpis(o.getNovaOrganizacija().getOpis());
 		organizacija.setLogo(o.getNovaOrganizacija().getLogo());

@@ -29,16 +29,16 @@ public class Kategorija implements CSVData{
 		return RAM;
 	}
 	
-	public void setRAM(int rAM) {
-		RAM = rAM;
+	public void setRAM(int RAM) {
+		this.RAM = RAM;
 	}
 	
 	public int getGPUjezgra() {
 		return GPUjezgra;
 	}
 	
-	public void setGPUjezgra(int gPUjezgra) {
-		GPUjezgra = gPUjezgra;
+	public void setGPUjezgra(int GPUjezgra) {
+		this.GPUjezgra = GPUjezgra;
 	}
 	
 	public Kategorija() {

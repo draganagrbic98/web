@@ -52,16 +52,16 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 		return RAM;
 	}
 	
-	public void setRAM(int rAM) {
-		RAM = rAM;
+	public void setRAM(int RAM) {
+		this.RAM = RAM;
 	}
 	
 	public int getGPUjezgra() {
 		return GPUjezgra;
 	}
 	
-	public void setGPUjezgra(int gPUjezgra) {
-		GPUjezgra = gPUjezgra;
+	public void setGPUjezgra(int GPUjezgra) {
+		this.GPUjezgra = GPUjezgra;
 	}
 	
 	public ArrayList<Aktivnost> getAktivnosti() {
@@ -85,6 +85,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 		this.aktivnosti = new ArrayList<Aktivnost>();
 		this.diskovi = new ArrayList<String>();
 	}
+	
 	public VirtuelnaMasina(String ime, String organizacija, Kategorija kategorija) {
 		this();
 		this.ime = ime;
@@ -96,6 +97,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 		if (this.getOrganizacija() != null)
 			this.getOrganizacija().dodajMasinu(this);
 	}
+	
 	public VirtuelnaMasina(String ime) {
 		this();
 		this.ime = ime;
@@ -135,7 +137,52 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 		return this.ime + ";" + this.organizacija + ";" + this.kategorija.getIme();
 	}
 	
-	public Organizacija getOrganizacija() {
+	@Override
+	public void updateReference(String className, String oldId, String newId) {
+		// TODO Auto-generated method stub
+		if (className.equals("Disk")) {
+			int index = this.diskovi.indexOf(oldId);
+			if (index != -1) this.diskovi.set(index, newId);
+		}
+		else {
+			if (this.organizacija != null && this.organizacija.equals(oldId))
+				this.organizacija = newId;
+		}
+	}
+
+	@Override
+	public void notifyUpdate(String newId) {
+		// TODO Auto-generated method stub
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.updateReference(this.getClass().getSimpleName(), this.ime, newId);
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.updateReference(this.getClass().getSimpleName(), this.ime, newId);
+
+	}
+
+	@Override
+	public void removeReference(String className, String id) {
+		// TODO Auto-generated method stub
+		if (className.equals("Disk")) {
+			int index = this.diskovi.indexOf(id);
+			if (index != -1) this.diskovi.remove(index);
+		}
+		else {
+			if (this.organizacija != null && this.organizacija.equals(id))
+				this.organizacija = null;
+		}
+	}
+
+	@Override
+	public void notifyRemoval() {
+		// TODO Auto-generated method stub
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.removeReference(this.getClass().getSimpleName(), this.ime);
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.removeReference(this.getClass().getSimpleName(), this.ime);
+	}
+	
+	private Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
 	
@@ -148,50 +195,12 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 	}
 	
 	public ArrayList<Disk> getDiskovi(){
-	
+		
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
 		for (String d: this.diskovi)
 			diskovi.add(Main.diskovi.nadjiDisk(d));
 		return diskovi;
 		
-	}
-	public void updateOrganizacija(String staroIme, String novoIme) {
-		// TODO Auto-generated method stub
-		if (this.organizacija.equals(staroIme))
-			this.organizacija = novoIme;
-	}
-	@Override
-	public void updateReference(String className, String oldId, String newId) {
-		// TODO Auto-generated method stub
-		int index = this.diskovi.indexOf(oldId);
-		if (index != -1) this.diskovi.set(index, newId);
-	}
-
-	@Override
-	public void notifyUpdate(String newId) {
-		// TODO Auto-generated method stub
-		for (Disk d: Main.diskovi.getDiskovi())
-			d.updateReference(this.getClass().getSimpleName(), this.ime, newId);
-		for (Organizacija o: Main.organizacije.getOrganizacije())
-			o.updateReference(this.getClass().getSimpleName(), this.ime, newId);
-
-		
-	}
-
-	@Override
-	public void removeReference(String className, String id) {
-		// TODO Auto-generated method stub
-		int index = this.diskovi.indexOf(id);
-		if (index != -1) this.diskovi.remove(index);
-	}
-
-	@Override
-	public void notifyRemoval() {
-		// TODO Auto-generated method stub
-		for (Disk d: Main.diskovi.getDiskovi())
-			d.removeReference(this.getClass().getSimpleName(), this.ime);
-		for (Organizacija o: Main.organizacije.getOrganizacije())
-			o.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
 }

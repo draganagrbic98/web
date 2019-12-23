@@ -12,12 +12,10 @@ import rest.data.OpResponse;
 import rest.data.OpResult.KategorijaResult;
 
 public class KategorijeRest implements RestEntity{
-
-	
 	
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+
 		get("rest/kategorije/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = req.session(true).attribute("korisnik");
@@ -38,7 +36,6 @@ public class KategorijeRest implements RestEntity{
 			KategorijaResult result = Main.kategorije.dodajKategoriju(jsonConvertor.fromJson(req.body(), Kategorija.class));
 			if (result != KategorijaResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
-			
 		});
 		
 		post("rest/kategorije/izmena", (req, res) -> {

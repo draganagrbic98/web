@@ -22,26 +22,29 @@ Vue.component("diskovi", {
         
             <div v-if="selected">
 
+                <h1>Izmena diska</h1>
                 Ime: <input type="text" v-model="selectedDisk.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
                 Tip: <select v-model="selectedDisk.tip" v-bind:disabled="uloga=='KORISNIK'"> 
 	                <option v-for="t in tipovi">
 	                    {{t}}
 	                </option>
-                </select> {{greskaTip}} <br><br>
+                </select> 
+                {{greskaTip}} <br><br>
                 Kapacitet: <input type="text" v-model="selectedDisk.kapacitet" v-bind:disabled="uloga=='KORISNIK'"> {{greskaKapacitet}} <br><br>
-                Virtuelna Masina: <input type="text" v-model="selectedDisk.masina" disabled><br><br>
+                Virtuelna masina: <input type="text" v-model="selectedDisk.masina" disabled><br><br>
                 <div v-if="uloga!='KORISNIK'">
-	                <button v-on:click="izmeni()">Izmeni</button><br><br>
-	                <button v-on:click="obrisi()">Obrisi</button><br><br>
+	                <button v-on:click="izmeni()">IZMENI</button><br><br>
+	                <button v-on:click="obrisi()">OBRISI</button><br><br>
                 </div>
                 {{greskaServer}}
+
             </div>
 
             <div v-if="!selected">
 
                 <h1>Registrovani diskovi</h1>
                 <table border="1">
-                <tr><th>Ime</th><th>Tip</th><th>Kapacitet</th><th>Virutelna Masina</th></tr>
+                <tr><th>Ime</th><th>Tip</th><th>Kapacitet</th><th>Virutelna masina</th></tr>
                 <tr v-for="d in diskovi" v-on:click="selectDisk(d)">
                     <td>{{d.ime}}</td>
                     <td>{{d.tip}}</td>
@@ -50,9 +53,9 @@ Vue.component("diskovi", {
                 </tr>
                 </table><br><br>
                 <div v-if="uloga!='KORISNIK'">
-                	<button v-on:click="dodaj()">Dodaj disk</button>
+                	<button v-on:click="dodaj()">DODAJ DISK</button><br><br>
                 </div>
-            	<router-link to="/masine">MAIN PAGE</router-link>
+            	<router-link to="/masine">MAIN PAGE</router-link><br><br>
             	
             </div>
         </div>
@@ -65,17 +68,23 @@ Vue.component("diskovi", {
             this.diskovi = response.data
         })
         .catch(error => {
-            this.$router.push("/");
+            this.$router.push("masine");
         });
         
+        axios.get("rest/diskovi/unos/pregled")
+        .then(response => {
+            this.tipovi = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
+
         axios.get("rest/user/uloga")
         .then(response => {
             this.uloga = response.data.result;
-        });
-
-        axios.get("rest/diskovi/unos/tipovi")
-        .then(response => {
-            this.tipovi = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
         });
 
     },
@@ -92,17 +101,18 @@ Vue.component("diskovi", {
             this.$router.push("dodajDisk");
         }, 
 
-    },
+        obrisi: function(){
 
-    methods: {
-        selectDisk: function(disk){
-            this.selectedDisk = disk;
-            this.selected = true;
-            this.selectedDiskId = disk.ime;
-        }, 
+            this.selectedDisk.ime = this.selectedDiskId;
+            axios.post("rest/diskovi/brisanje", this.selectedDisk)
+            .then(response => {
+                this.selected = false;
+                location.reload();
+            })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
+            });
 
-        dodaj: function(){
-            this.$router.push("dodajDisk");
         },
 
         izmeni: function(){
@@ -138,18 +148,6 @@ Vue.component("diskovi", {
 
         },
 
-        obrisi: function(){
+    }
 
-            this.selectedDisk.ime = this.selectedDiskId;
-            axios.post("rest/diskovi/brisanje", this.selectedDisk)
-            .then(response => {
-                this.selected = false;
-                location.reload();
-            })
-            .catch(error => {
-                this.greskaServer = error.response.data.result;
-            });
-
-        }
-    }, 
 });

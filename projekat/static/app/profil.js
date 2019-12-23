@@ -19,7 +19,6 @@ Vue.component("profil", {
 			greskaIme: '',
 			greskaPrezime: '', 
 			greskaLozinka: '', 
-			greskaPonovljenaLozinka: '',
 			greskaServer: '',
 			greska: false
 		}
@@ -28,18 +27,19 @@ Vue.component("profil", {
 	template: `
 	
 		<div>
+
 			<h1>Podaci o korisniku</h1><br><br>
 
-			Korisnicko Ime: <input type="text" v-model="korisnik.user.korisnickoIme" disabled> <br><br>
-			Email: <input type="text" v-model="korisnik.email"> {{greskaEmail}}<br><br>
-			Ime: <input type="text" v-model="korisnik.ime"> {{greskaIme}}<br><br>
-			Prezime: <input type="text" v-model="korisnik.prezime"> {{greskaPrezime}}<br><br>
-			Uloga: <input type="text" v-model="korisnik.uloga" disabled> <br><br>
+			Korisnicko Ime: <input type="text" v-model="korisnik.user.korisnickoIme" disabled><br><br>
+			Email: <input type="text" v-model="korisnik.email">{{greskaEmail}}<br><br>
+			Ime: <input type="text" v-model="korisnik.ime">{{greskaIme}}<br><br>
+			Prezime: <input type="text" v-model="korisnik.prezime">{{greskaPrezime}}<br><br>
+			Uloga: <input type="text" v-model="korisnik.uloga" disabled><br><br>
 			Organizacija: <input type="text" v-model="korisnik.organizacija" disabled><br><br>
-			Nova Lozinka: <input type="password" v-model="novaLozinka"> {{greskaLozinka}}<br><br>
-			Unesite Ponovo: <input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"> {{greskaPonovljenaLozinka}}<br><br>
-			<button v-on:click="izmeni()">Izmeni</button><br><br>
-			<router-link to="/masine">MAIN PAGE</router-link>
+			Nova Lozinka: <input type="password" v-model="novaLozinka"><br><br>
+			Ponovljena lozinka: <input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''">{{greskaLozinka}}<br><br>
+			<button v-on:click="izmeni()">IZMENI</button><br><br>
+			<router-link to="/masine">MAIN PAGE</router-link><br><br>
 			{{greskaServer}}
 
 		</div>
@@ -52,14 +52,24 @@ Vue.component("profil", {
 		}
 	},
 
+	mounted(){
+		axios.get("rest/user/profil")
+		.then(response => {
+			this.korisnik = response.data
+		})
+		.catch(error => {
+			this.$router.push("/");
+		})
+	},
+
 	methods: {
+		
 		izmeni: function(){
 			
 			this.greskaEmail = '';
 			this.greskaIme = '';
 			this.greskaPrezime = '';
 			this.greskaLozinka = '';
-			this.greskaPonovljenaLozinka = '';
 			this.greska = false;
 
 			if (this.korisnik.email == ''){
@@ -75,7 +85,7 @@ Vue.component("profil", {
 				this.greska = true;
 			}
 			if (this.novaLozinka != '' && this.novaLozinka != this.ponovljenaLozinka){
-				this.greskaPonovljenaLozinka = "Lozinke se ne poklapaju. ";
+				this.greskaLozinka = "Lozinke se ne poklapaju. ";
 				this.greska = true;
 			}
 			if (this.greska) return;
@@ -90,16 +100,6 @@ Vue.component("profil", {
 			})
 
 		}
-	}, 
-
-	mounted(){
-		axios.get("rest/user/profil")
-		.then(response => {
-			this.korisnik = response.data
-		})
-		.catch(error => {
-			this.$router.push("/");
-		})
 	}
 
 });
