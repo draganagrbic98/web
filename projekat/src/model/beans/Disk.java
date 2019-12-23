@@ -2,7 +2,7 @@ package model.beans;
 
 import model.Main;
 
-public class Disk implements CSVData {
+public class Disk implements CSVData, UpdateReference {
 
 	private String ime;
 	private TipDiska tip;
@@ -12,26 +12,33 @@ public class Disk implements CSVData {
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
-		if (this.getMasina() != null)
-			this.getMasina().updateDisk(this.ime, ime);
+		for (VirtuelnaMasina m: Main.masine.getMasine())
+			m.updateReference(this.getClass().getSimpleName(), this.ime, ime);
 		this.ime = ime;
 	}
+	
 	public TipDiska getTip() {
 		return tip;
 	}
+	
 	public void setTip(TipDiska tip) {
 		this.tip = tip;
 	}
+	
 	public int getKapacitet() {
 		return kapacitet;
 	}
+	
 	public void setKapacitet(int kapacitet) {
 		this.kapacitet = kapacitet;
 	}
+	
 	public String getMasinaID() {
 		return masina;
 	}
+	
 	public void setMasina(String masina) {
 		this.masina = masina;
 	}
@@ -39,10 +46,12 @@ public class Disk implements CSVData {
 	public Disk() {
 		super();
 	}
+	
 	public Disk(String ime) {
 		this();
 		this.ime = ime;
 	}
+	
 	public Disk(String ime, TipDiska tip, int kapacitet, String masina) {
 		this();
 		this.ime = ime;
@@ -84,10 +93,18 @@ public class Disk implements CSVData {
 	public VirtuelnaMasina getMasina() {
 		return Main.masine.nadjiMasinu(this.masina);
 	}
-	public void obrisiMasinu(VirtuelnaMasina masina) {
+	
+	public void otkaciMasinu(VirtuelnaMasina masina) {
 		// TODO Auto-generated method stub
 		if (this.masina.equals(masina.getIme()))
 			this.masina = null;
+	}
+
+	@Override
+	public void updateReference(String className, String oldId, String newId) {
+		// TODO Auto-generated method stub
+		if (this.masina.equals(oldId))
+			this.masina = newId;
 	}
 
 }

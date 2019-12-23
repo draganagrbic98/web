@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.Main;
 
-public class VirtuelnaMasina implements CSVData{
+public class VirtuelnaMasina implements CSVData, UpdateReference{
 	
 	private String ime;
 	private String organizacija;
@@ -19,11 +19,10 @@ public class VirtuelnaMasina implements CSVData{
 		return ime;
 	}
 	public void setIme(String ime) {
-		for (Disk d: Main.diskovi.getDiskovi()) {
-			if (d.getMasinaID().equals(this.ime))
-				d.setMasina(ime);
-		}
-		this.getOrganizacija().updateMasina(this.ime, ime);
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.updateReference(this.getClass().getSimpleName(), this.ime, ime);
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.updateReference(this.getClass().getSimpleName(), this.ime, ime);
 		this.ime = ime;
 	}
 	public String getOrganizacijaID() {
@@ -153,6 +152,17 @@ public class VirtuelnaMasina implements CSVData{
 			diskovi.add(Main.diskovi.nadjiDisk(d));
 		return diskovi;
 		
+	}
+	public void updateOrganizacija(String staroIme, String novoIme) {
+		// TODO Auto-generated method stub
+		if (this.organizacija.equals(staroIme))
+			this.organizacija = novoIme;
+	}
+	@Override
+	public void updateReference(String className, String oldId, String newId) {
+		// TODO Auto-generated method stub
+		int index = this.diskovi.indexOf(oldId);
+		if (index != -1) this.diskovi.set(index, newId);
 	}
 
 }

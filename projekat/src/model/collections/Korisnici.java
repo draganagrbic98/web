@@ -71,7 +71,8 @@ public class Korisnici implements LoadStoreData{
 	
 	public Korisnik login(User u) {
 		for (Korisnik k: this.korisnici) {
-			if (k.getUser().login(u)) return k;
+			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) && k.getLozinka().equals(u.getLozinka()))
+				return k;
 		}
 		return null;
 	}
@@ -87,7 +88,7 @@ public class Korisnici implements LoadStoreData{
 
 	public KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
 		
-		if (this.nadjiKorisnika(k.getUser().getKorisnickoIme()) != null) 
+		if (this.nadjiKorisnika(k.getKorisnickoIme()) != null) 
 			return KorisnikResult.AL_EXISTS;
 		if (this.hasEmail(k.getEmail()))
 			return KorisnikResult.EMAIL_EXISTS;
@@ -99,7 +100,7 @@ public class Korisnici implements LoadStoreData{
 	
 	public KorisnikResult obrisiKorisnika(Korisnik k, Korisnik u) throws Exception {
 		
-		Korisnik korisnik = this.nadjiKorisnika(k.getUser().getKorisnickoIme());
+		Korisnik korisnik = this.nadjiKorisnika(k.getKorisnickoIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
 		if (korisnik.equals(u)) return KorisnikResult.CANT_DEL_SELF;
 		korisnik.getOrganizacija().obrisiKorisnika(korisnik);
@@ -113,19 +114,21 @@ public class Korisnici implements LoadStoreData{
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
-		if (this.nadjiKorisnika(k.getNoviKorisnik().getUser().getKorisnickoIme()) != null && (!(k.getStaroIme().equals(k.getNoviKorisnik().getUser().getKorisnickoIme()))))
+		if (this.nadjiKorisnika(k.getNoviKorisnik().getKorisnickoIme()) != null && (!(k.getStaroIme().equals(k.getNoviKorisnik().getKorisnickoIme()))))
 			return KorisnikResult.AL_EXISTS;
 		if (this.hasEmail(k.getNoviKorisnik().getEmail()) && (!(korisnik.getEmail().equals(k.getNoviKorisnik().getEmail()))))
 			return KorisnikResult.EMAIL_EXISTS;
 		if (k.getStaroIme().equals(u.getIme())) {
-			u.setUser(k.getNoviKorisnik().getUser());
+			u.setKorisnickoIme(k.getNoviKorisnik().getKorisnickoIme());
+			u.setLozinka(k.getNoviKorisnik().getLozinka());
 			u.setEmail(k.getNoviKorisnik().getEmail());
 			u.setIme(k.getNoviKorisnik().getIme());
 			u.setPrezime(k.getNoviKorisnik().getPrezime());
 			u.setUloga(k.getNoviKorisnik().getUloga());
 			u.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
 		}
-		korisnik.setUser(k.getNoviKorisnik().getUser());
+		korisnik.setKorisnickoIme(k.getNoviKorisnik().getKorisnickoIme());
+		korisnik.setLozinka(k.getNoviKorisnik().getLozinka());
 		korisnik.setEmail(k.getNoviKorisnik().getEmail());
 		korisnik.setIme(k.getNoviKorisnik().getIme());
 		korisnik.setPrezime(k.getNoviKorisnik().getPrezime());

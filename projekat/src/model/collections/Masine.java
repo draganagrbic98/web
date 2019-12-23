@@ -111,7 +111,7 @@ public class Masine implements LoadStoreData{
 		for (Organizacija o: Main.organizacije.getOrganizacije())
 			o.obrisiMasinu(masina);
 		for (Disk d: Main.diskovi.getDiskovi())
-			d.obrisiMasinu(masina);
+			d.otkaciMasinu(masina);
 		this.masine.remove(masina);
 		this.store();
 		return MasinaResult.OK;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import model.Main;
 import model.collections.FileNames;
 
-public class Organizacija implements CSVData {
+public class Organizacija implements CSVData, UpdateReference {
 
 	private String ime;
 	private String opis;
@@ -16,51 +16,58 @@ public class Organizacija implements CSVData {
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
-		for (Korisnik k: Main.korisnici.getKorisnici()) {
-			if (k.getOrganizacijaID() != null && k.getOrganizacijaID().equals(this.ime))
-				k.setOrganizacija(ime);
-		}
-		for (VirtuelnaMasina m: Main.masine.getMasine()) {
-			if (m.getOrganizacijaID().equals(this.ime))
-				m.setOrganizacija(ime);
-		}
+		for (Korisnik k: Main.korisnici.getKorisnici())
+			k.updateReference(this.getClass().getSimpleName(), this.ime, ime);
+		for (VirtuelnaMasina m: Main.masine.getMasine())
+			m.updateOrganizacija(this.ime, ime);
 		this.ime = ime;
 	}
+	
 	public String getOpis() {
 		return opis;
 	}
+	
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
+	
 	public String getLogo() {
 		return logo;
 	}
+	
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
+	
 	public ArrayList<String> getKorisnici() {
 		return korisnici;
 	}
+	
 	public void setKorisnici(ArrayList<String> korisnici) {
 		this.korisnici = korisnici;
 	}
+	
 	public ArrayList<String> getMasine() {
 		return masine;
 	}
+	
 	public void setMasine(ArrayList<String> masine) {
 		this.masine = masine;
 	}
 	
-	public Organizacija(String ime) {
-		this();
-		this.ime = ime;
-	}
 	public Organizacija() {
 		super();
 		this.korisnici = new ArrayList<String>();
 		this.masine = new ArrayList<String>();
 	}
+
+	public Organizacija(String ime) {
+		this();
+		this.ime = ime;
+	}
+	
 	public Organizacija(String ime, String opis, String logo) {
 		this();
 		this.ime = ime;
@@ -105,27 +112,41 @@ public class Organizacija implements CSVData {
 	}
 
 	public void dodajKorisnika(Korisnik k) {
-		this.korisnici.add(k.getUser().getKorisnickoIme());
+		this.korisnici.add(k.getKorisnickoIme());
 	}
 
 	public void dodajMasinu(VirtuelnaMasina m) {
 		this.masine.add(m.getIme());
 	}
 	
+	public void obrisiKorisnika(Korisnik k) {
+		// TODO Auto-generated method stub
+		int index = this.korisnici.indexOf(k.getKorisnickoIme());
+		if (index != -1) this.korisnici.remove(index);
+	}
+	
 	public void obrisiMasinu(VirtuelnaMasina m) {
 		int index = this.masine.indexOf(m.getIme());
 		if (index != -1) this.masine.remove(index);
 	}
+
+	@Override
+	public void updateReference(String className, String oldId, String newId) {
+		// TODO Auto-generated method stub
+		
+		if (className.equals("Korisnik")) {
+			int index = this.korisnici.indexOf(oldId);
+			if (index != -1) this.korisnici.set(index, newId);
+		}
+		else {
+			int index = this.masine.indexOf(oldId);
+			if (index != -1) this.masine.set(index, newId);
+		}
+		
+	}
 	
-	public void updateMasina(String oldIme, String newIme) {
-		// TODO Auto-generated method stub
-		int index = this.masine.indexOf(oldIme);
-		if (index != -1) this.masine.set(index, newIme);
-	}
-	public void obrisiKorisnika(Korisnik k) {
-		// TODO Auto-generated method stub
-		int index = this.korisnici.indexOf(k.getUser().getKorisnickoIme());
-		if (index != -1) this.korisnici.remove(index);
-	}
+	
+	
+	
 
 }

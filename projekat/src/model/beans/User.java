@@ -4,7 +4,7 @@ public class User implements CSVData {
 
 	private String korisnickoIme;
 	private String lozinka;
-
+	
 	public String getKorisnickoIme() {
 		return korisnickoIme;
 	}
@@ -54,10 +54,6 @@ public class User implements CSVData {
 	public String csvLine() {
 		// TODO Auto-generated method stub
 		return this.korisnickoIme + ";" + this.lozinka;
-	}
-
-	public boolean login(User u) {
-		return this.korisnickoIme.equals(u.korisnickoIme) && this.lozinka.equals(u.lozinka);
 	}
 
 }

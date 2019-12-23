@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.Main;
 
-public class Korisnik implements CSVData {
+public class Korisnik implements CSVData, UpdateReference {
 
 	private User user;
 	private String email;
@@ -12,13 +12,23 @@ public class Korisnik implements CSVData {
 	private String prezime;
 	private Uloga uloga;
 	private String organizacija;
-
-	public User getUser() {
-		return user;
+	
+	public String getKorisnickoIme() {
+		return this.user.getKorisnickoIme();
 	}
-
-	public void setUser(User user) {
-		this.user = user;
+	
+	public String getLozinka() {
+		return this.user.getLozinka();
+	}
+	
+	public void setKorisnickoIme(String korisnickoIme) {
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.updateReference(this.getClass().getSimpleName(), this.getKorisnickoIme(), korisnickoIme);
+		this.user.setKorisnickoIme(korisnickoIme);
+	}
+	
+	public void setLozinka(String lozinka) {
+		this.user.setLozinka(lozinka);
 	}
 
 	public String getEmail() {
@@ -164,6 +174,14 @@ public class Korisnik implements CSVData {
 				korisnici.add(k);
 		}
 		return korisnici;
+	}
+
+	
+	@Override
+	public void updateReference(String className, String oldId, String newId) {
+		// TODO Auto-generated method stub
+		if (this.organizacija.equals(oldId))
+			this.organizacija = newId;
 	}
 	
 }

@@ -1,4 +1,4 @@
 super;super;super;super;super;0;null
 asd;;asd;asd;asd;2;organizacija1
-asd2;;asd2;asd;asd;1;organizacija1
 asdd;;asdd;asd;asd;1;organizacija1
+qweqw;;qwe;qwe;qwe;1;organizacija1
