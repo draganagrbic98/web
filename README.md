@@ -7,3 +7,5 @@ e da pise kod diska da postoji opcija filtriranje i pretragu ali nigde se ne poj
 treba da proverimo jer ono sto je napisao da korisnik ima listu aktivnosti to sigurno greska (i da se odnosi na masinu)
 treba da proverimo da li prilikom unosa organizacije mogu da unosim odmah korisnike i masine i da li prilikom izmene organizacije mogu da menjam te liste (uopsteno da li se liste mogu menjati u detaljnom pregledu i dodavati na samom dodavanju)
 na nekim mestima mu pise da brisanje moze biti neuspesno (a po meni se to ne moze desiti). da proverimo da li mozda ima neko ogranicenje kog se nismo setili
+
+e da glugluj kako kad kliknem na back dugme kada menjam npr masinu ne odem na prijavu korisnika (jer je pregled masina i izmena jedna komponenta) nego da se prikaze tabela (tipa kad pritisnem na back dugme da se reloauduje stranica)
