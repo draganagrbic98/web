@@ -110,7 +110,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public KorisnikResult izmeniKorisnika(JSONKorisnikChange k, Korisnik u) {
+	public KorisnikResult izmeniKorisnika(JSONKorisnikChange k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
@@ -134,6 +134,7 @@ public class Korisnici implements LoadStoreData{
 		korisnik.setPrezime(k.getNoviKorisnik().getPrezime());
 		korisnik.setUloga(k.getNoviKorisnik().getUloga());
 		korisnik.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
+		this.store();
 		return KorisnikResult.OK;
 		
 	}

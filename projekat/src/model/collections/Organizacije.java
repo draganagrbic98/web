@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import model.Main;
 import model.beans.Organizacija;
 import rest.data.JSONOrganizacijaChange;
 import rest.data.OpResult.OrganizacijaResponse;
@@ -89,6 +90,8 @@ public class Organizacije implements LoadStoreData{
 		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
 		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
 		this.store();
+		Main.korisnici.store();
+		Main.masine.store();
 		return OrganizacijaResponse.OK;
 		
 	}

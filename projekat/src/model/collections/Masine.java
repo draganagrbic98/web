@@ -109,6 +109,7 @@ public class Masine implements LoadStoreData{
 		masina.notifyRemoval();
 		this.masine.remove(masina);
 		this.store();
+		Main.diskovi.store();
 		return MasinaResult.OK;
 		
 	}
@@ -133,6 +134,7 @@ public class Masine implements LoadStoreData{
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
 		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
 		this.store();
+		Main.diskovi.store();
 		return MasinaResult.OK;
 		
 	}
