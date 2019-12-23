@@ -1,30 +1,20 @@
 package model;
 
-import model.beans.Korisnik;
-import model.beans.User;
 import model.collections.Diskovi;
 import model.collections.Kategorije;
 import model.collections.Korisnici;
 import model.collections.Masine;
 import model.collections.Organizacije;
-import model.dmanipulation.JKorisnikChange;
 import rest.DiskoviRest;
 import rest.KategorijeRest;
 import rest.KorisniciRest;
 import rest.MasineRest;
 import rest.OrganizacijeRest;
 import rest.UserRest;
-import rest.data.OpResponse;
-import spark.Session;
-
-import static spark.Spark.get;
-import static spark.Spark.post;
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
-
-import com.google.gson.Gson;
 
 public class Main {
 
@@ -34,7 +24,6 @@ public class Main {
 	public static Kategorije kategorije = new Kategorije();
 	public static Diskovi diskovi = new Diskovi();
 
-	public static Gson g = new Gson();
 
 	public static void loadData() throws Exception {
 		kategorije.load();
@@ -45,28 +34,7 @@ public class Main {
 	}
 
 	
-	public static void userManipulation() {
-		
-		
-		get("rest/user/uloga", (req, res) -> {
-			res.type("application/json");
-			Korisnik k = req.session(true).attribute("korisnik");
-			return g.toJson(new OpResponse((k != null) ? (k.getUloga() + "") : null));
-		});
-		
-		get("rest/user/profil", (req, res) -> {
-			res.type("application/json");
-			Session ss = req.session(true);
-			return g.toJson((Korisnik)ss.attribute("korisnik"));
-		});
-		
-		post("rest/user/izmena", (req, res) -> {
-			res.type("application/json");
-			JKorisnikChange jkc = g.fromJson(req.body(), JKorisnikChange.class);
-			return g.toJson(new OpResponse(korisnici.izmeniKorisnika(jkc) + ""));
-		});
-		
-	}
+	
 	
 
 	public static void main(String[] args) throws Exception {
@@ -90,7 +58,6 @@ public class Main {
 		new KorisniciRest().init();
 		new UserRest().init();
 
-		userManipulation();
 		
 		
 	}

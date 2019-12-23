@@ -1,92 +1,104 @@
 Vue.component("profil", {
-    data: function(){
-        return {
-            korisnik: {
-            	user: {
-            		korisnickoIme: '',
-            		lozinka: ''
-            	},
-            	email: '',
-            	ime: '',
-            	prezime: '',
-            	uloga: '',
-            	organizacija: ''
-            },
-            ponovljena_lozinka: '',
-            greskaIme: '',
-            greskaPrezime: '',
-            greskaEmail: '',
-            greskaLozinka: '',
-            greskaPonovljena: '',
-            greska: false
-        }
-    }, 
 
-    template: `
-        <div>
-        	<h1>Izmena profila</h1><br><br>
-        	
-        	Uloga: <input type="text" v-model="korisnik.uloga" disabled> <br><br>
-        	
-            Ime: <input type="text" v-model="korisnik.ime"> {{greskaIme}}<br><br>
-            Prezime: <input type="text" v-model="korisnik.prezime"> {{greskaPrezime}}<br><br>
-            Email: <input type="text" v-model="korisnik.email"> {{greskaEmail}}<br><br>
+	data: function(){
+		return{
+			korisnik: {
+				"user": {
+					"korisnickoIme": '', 
+					"lozinka": '',
+				}, 
+				"email": '', 
+				"ime": '', 
+				"prezime": '',
+				"uloga": '', 
+				"organizacija": ''
+			}, 
+			novaLozinka: '', 
+			ponovljenaLozinka: '',
+			greskaEmail: '', 
+			greskaIme: '',
+			greskaPrezime: '', 
+			greskaLozinka: '', 
+			greskaPonovljenaLozinka: '',
+			greskaServer: '',
+			greska: false
+		}
+	}, 
 
-    		Korisnicko Ime: <input type="text" v-model="korisnik.user.korisnickoIme" disabled> <br><br>
-    		
-    		Nova Lozinka: <input type="password" v-model="korisnik.user.lozinka"> {{greskaLozinka}}<br><br>
-    		Unesite Ponovo: <input type="password" v-model="ponovljena_lozinka"> {{greskaPonovljena}}<br><br>
+	template: `
+	
+		<div>
+			<h1>Podaci o korisniku</h1><br><br>
 
-	        <button v-on:click="izmeni()">Izmeni</button><br><br>
-	        
-	        <router-link to="/masine">Masine</router-link>
-        </div>
-    `, 
+			Korisnicko Ime: <input type="text" v-model="korisnik.user.korisnickoIme" disabled> <br><br>
+			Email: <input type="text" v-model="korisnik.email"> {{greskaEmail}}<br><br>
+			Ime: <input type="text" v-model="korisnik.ime"> {{greskaIme}}<br><br>
+			Prezime: <input type="text" v-model="korisnik.prezime"> {{greskaPrezime}}<br><br>
+			Uloga: <input type="text" v-model="korisnik.uloga" disabled> <br><br>
+			Organizacija: <input type="text" v-model="korisnik.organizacija" disabled><br><br>
+			Nova Lozinka: <input type="password" v-model="novaLozinka"> {{greskaLozinka}}<br><br>
+			Unesite Ponovo: <input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"> {{greskaPonovljenaLozinka}}<br><br>
+			<button v-on:click="izmeni()">Izmeni</button><br><br>
+			<router-link to="/masine">MAIN PAGE</router-link>
+			{{greskaServer}}
 
-    methods: {
-        izmeni: function(){
-        	
-        	if (this.korisnik.ime == '') {
-        		this.greskaIme = "Ovo je obavezno polje!";
-        		this.greska = true;
-        	}
-        	
-        	if (this.korisnik.prezime == '') {
-        		this.greskaPrezime = "Ovo je obavezno polje!";
-        		this.greska = true;
-        	}
-        	
-        	if (this.korisnik.email == '') {
-        		this.greskaEmail = "Ovo je obavezno polje!";
-        		this.greska = true;
-        	}
-        	
-        	if (this.korisnik.user.lozinka == '') {
-        		this.greskaLozinka = "Ovo je obavezno polje!";
-        		this.greska = true;
-        	}
-        	
-        	if (this.ponovljena_lozinka !== this.korisnik.user.lozinka) {
-        		this.greskaPonovljena = "Lozinke se ne poklapaju!";
-        		this.greska = true;
-        	}
-        	
-            if (this.greska == false){
-	            axios.post("rest/user/izmena", {"korisnickoIme": this.korisnik.user.korisnickoIme, "noviKorisnik": this.korisnik})
-	            .then(response => {
-	                if (response.data.result == "true"){
-	                    this.$router.push("masine");
-	                }
-	            });
-            }
-        }
-    }, 
+		</div>
+	`, 
 
-    mounted(){
-        axios.get("rest/user/profil")
-        .then(response => {
-            this.korisnik = response.data;
-        });
-    }
+	watch: {
+		novaLozinka: function(oldLoz, newLoz){
+			if (this.novaLozinka == '')
+			this.ponovljenaLozinka = '';
+		}
+	},
 
-})
+	methods: {
+		izmeni: function(){
+			
+			this.greskaEmail = '';
+			this.greskaIme = '';
+			this.greskaPrezime = '';
+			this.greskaLozinka = '';
+			this.greskaPonovljenaLozinka = '';
+			this.greska = false;
+
+			if (this.korisnik.email == ''){
+				this.greskaEmail = "Email ne sme biti prazan. ";
+				this.greska = true;
+			}
+			if (this.korisnik.ime == ''){
+				this.greskaIme = "Ime ne sme biti prazno. ";
+				this.greska = true;
+			}
+			if (this.korisnik.prezime == ''){
+				this.greskaPrezime = "Prezime ne sme biti prazno. ";
+				this.greska = true;
+			}
+			if (this.novaLozinka != '' && this.novaLozinka != this.ponovljenaLozinka){
+				this.greskaPonovljenaLozinka = "Lozinke se ne poklapaju. ";
+				this.greska = true;
+			}
+			if (this.greska) return;
+
+			axios.post("rest/user/izmena", {"staroIme": this.korisnik.user.korisnickoIme, "noviKorisnik": this.korisnik})
+			.then(response => {
+				this.$router.push("masine");
+			})
+			.catch(error => {
+				this.greskaServer = error.response.data.result;
+			})
+
+		}
+	}, 
+
+	mounted(){
+		axios.get("rest/user/profil")
+		.then(response => {
+			this.korisnik = response.data
+		})
+		.catch(error => {
+			this.$router.push("/");
+		})
+	}
+
+});

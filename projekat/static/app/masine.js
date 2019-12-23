@@ -196,7 +196,7 @@ Vue.component("masine", {
         },
 
         logout: function(){
-            axios.post("rest/user/logout")
+            axios.get("rest/user/logout")
             .then(response => {
                 this.$router.push("/");
             });
