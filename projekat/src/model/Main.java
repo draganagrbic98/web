@@ -12,8 +12,8 @@ import rest.DiskoviRest;
 import rest.KategorijeRest;
 import rest.KorisniciRest;
 import rest.MasineRest;
-import rest.OpResponse;
 import rest.OrganizacijeRest;
+import rest.data.OpResponse;
 import spark.Session;
 
 import static spark.Spark.get;

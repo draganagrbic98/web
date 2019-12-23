@@ -7,7 +7,9 @@ import model.Main;
 import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.TipDiska;
-import rest.OpResult.DiskResult;
+import rest.data.JSONDiskChange;
+import rest.data.OpResponse;
+import rest.data.OpResult.DiskResult;
 
 public class DiskoviRest implements RestEntity{
 

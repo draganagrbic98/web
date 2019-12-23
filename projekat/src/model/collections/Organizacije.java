@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Organizacija;
-import rest.JSONOrganizacijaChange;
-import rest.OpResult.OrganizacijaResponse;
+import rest.data.JSONOrganizacijaChange;
+import rest.data.OpResult.OrganizacijaResponse;
 
 public class Organizacije implements LoadStoreData{
 		

@@ -7,7 +7,9 @@ import model.Main;
 import model.beans.Korisnik;
 import model.beans.Uloga;
 import model.beans.VirtuelnaMasina;
-import rest.OpResult.MasinaResult;
+import rest.data.JSONMasinaChange;
+import rest.data.OpResponse;
+import rest.data.OpResult.MasinaResult;
 
 public class MasineRest implements RestEntity{
 

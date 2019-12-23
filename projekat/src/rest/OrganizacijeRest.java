@@ -7,7 +7,9 @@ import model.Main;
 import model.beans.Korisnik;
 import model.beans.Organizacija;
 import model.beans.Uloga;
-import rest.OpResult.OrganizacijaResponse;
+import rest.data.JSONOrganizacijaChange;
+import rest.data.OpResponse;
+import rest.data.OpResult.OrganizacijaResponse;
 
 public class OrganizacijeRest implements RestEntity{
 

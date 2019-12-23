@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Kategorija;
-import rest.JSONKategorijaChange;
-import rest.OpResult.KategorijaResult;
+import rest.data.JSONKategorijaChange;
+import rest.data.OpResult.KategorijaResult;
 
 public class Kategorije implements LoadStoreData{
 	

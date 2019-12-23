@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Disk;
-import rest.JSONDiskChange;
-import rest.OpResult.DiskResult;
+import rest.data.JSONDiskChange;
+import rest.data.OpResult.DiskResult;
 
 public class Diskovi implements LoadStoreData {
 

@@ -1,4 +1,4 @@
-package rest;
+package rest.data;
 
 public class OpResult {
 	

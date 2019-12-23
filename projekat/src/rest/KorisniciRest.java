@@ -6,7 +6,9 @@ import static spark.Spark.post;
 import model.Main;
 import model.beans.Korisnik;
 import model.beans.Uloga;
-import rest.OpResult.KorisnikResult;
+import rest.data.JSONKorisnikChange;
+import rest.data.OpResponse;
+import rest.data.OpResult.KorisnikResult;
 
 public class KorisniciRest implements RestEntity{
 

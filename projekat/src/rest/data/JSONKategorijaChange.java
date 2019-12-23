@@ -1,4 +1,4 @@
-package rest;
+package rest.data;
 
 import model.beans.Kategorija;
 

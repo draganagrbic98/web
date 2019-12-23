@@ -14,8 +14,8 @@ import model.beans.Aktivnost;
 import model.beans.Disk;
 import model.beans.Organizacija;
 import model.beans.VirtuelnaMasina;
-import rest.JSONMasinaChange;
-import rest.OpResult.MasinaResult;
+import rest.data.JSONMasinaChange;
+import rest.data.OpResult.MasinaResult;
 
 public class Masine implements LoadStoreData{
 	

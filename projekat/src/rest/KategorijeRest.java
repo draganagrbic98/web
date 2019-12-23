@@ -7,7 +7,9 @@ import model.Main;
 import model.beans.Kategorija;
 import model.beans.Korisnik;
 import model.beans.Uloga;
-import rest.OpResult.KategorijaResult;
+import rest.data.JSONKategorijaChange;
+import rest.data.OpResponse;
+import rest.data.OpResult.KategorijaResult;
 
 public class KategorijeRest implements RestEntity{
 
