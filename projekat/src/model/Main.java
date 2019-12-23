@@ -57,6 +57,12 @@ public class Main {
 		//4. paljenje i gasenje masine kao i pampcenje tog stanja
 		//5. mesecni prihod
 		//6. u filtriranju masina dodaj da gleda substrin a ne jednakost
+		//7. upload slike za organizaciju
+		//8. prilikom unosa organizacije mogu da se unose korisnici i masine???
+		//9. lista aktivnosti, masina i korisnika treba da izgleda normalnije 
+		//10. formatiranje datuma (i kako treba da se prosledjuje datum?????)
+		//11. css
+		
 		
 	}
 

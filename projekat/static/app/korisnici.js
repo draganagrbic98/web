@@ -21,7 +21,7 @@ Vue.component("korisnici", {
             <div v-if="selected">
 
                 <h1>Izmena korisnika</h1>
-                Email: <input type="text" v-model="selectedKorisnik.email"> <br><br>
+                Email: <input type="text" v-model="selectedKorisnik.email" disabled> <br><br>
                 Ime: <input type="text" v-model="selectedKorisnik.ime"> {{greskaIme}} <br><br>
                 Prezime: <input type="text" v-model="selectedKorisnik.prezime"> {{greskaPrezime}} <br><br>
                 Uloga: 
