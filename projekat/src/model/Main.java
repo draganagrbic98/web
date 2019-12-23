@@ -61,6 +61,14 @@ public class Main {
 		new KorisniciRest().init();
 		new UserRest().init();
 
+		//TO DO
+		//1. ako je negde ostalo da se doda vracanje statusa servera, uradi to (i izmeni komponente (dodaj catch))
+		//2. proveri da li se izmene cuvaju u fajlu svaki put i da li se reference uvek osvezavaju
+		//3. prilikom unosa masine, mogu se zakaciti diskovi (to nemamo za sada)
+		//4. paljenje i gasenje masine kao i pampcenje tog stanja
+		//5. mesecni prihod
+		//6. u filtriranju masina dodaj da gleda substrin a ne jednakost
+		
 		
 		
 	}

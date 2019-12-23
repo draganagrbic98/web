@@ -1,5 +1,2 @@
 organizacija1;opis1;null
-organizacija2;opis2;null
-organizacija3;opis3;null
-organizacija4;opis4;null
-organizacija5;opis5;null
+asd;asd;null

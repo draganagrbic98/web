@@ -26,7 +26,8 @@ Vue.component("dodajKorisnika", {
             greskaServer: '',
             greska: false, 
             uloge: [],
-            organizacije: []
+            organizacije: [], 
+            organizacija: {}
         }
     }, 
 
@@ -45,7 +46,7 @@ Vue.component("dodajKorisnika", {
                 <option v-for="u in uloge">{{u}}</option>
             </select> {{greskaUloga}} <br><br>
             Organizacija: 
-            <input type="text" value="organizacije[0]" disabled v-model="noviKorisnik.organizacija" v-bind:hidden="organizacije.length>1">
+            <input type="text" v-model="organizacija.ime" disabled v-bind:hidden="organizacije.length>1">
             <select v-model="noviKorisnik.organizacija" v-bind:hidden="organizacije.length<=1">    
                 <option v-for="o in organizacije">{{o.ime}}</option>
             </select> {{greskaOrganizacija}} <br><br>
@@ -68,6 +69,9 @@ Vue.component("dodajKorisnika", {
     methods: {
 
         dodaj: function(){
+
+            this.noviKorisnik.lozinka = this.novaLozinka;
+            if (this.organizacije.length == 1) this.noviKorisnik.organizacija = this.organizacija.ime;
 
             this.greskaKorisnickoIme = '';
             this.greskaEmail = '';
@@ -114,7 +118,6 @@ Vue.component("dodajKorisnika", {
             }
             if (this.greska) return;
 
-            this.noviKorisnik.lozinka = this.novaLozinka;
             axios.post("rest/korisnici/dodavanje", this.noviKorisnik)
             .then(response => {
                 this.$router.push("korisnici");
@@ -132,6 +135,7 @@ Vue.component("dodajKorisnika", {
         axios.get("rest/organizacije/pregled")
         .then(response => {
             this.organizacije = response.data;
+            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {}
         })
         .catch(error => {
             this.$router.push("masine");

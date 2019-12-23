@@ -36,8 +36,8 @@ Vue.component("login", {
                 this.greskaKorisnickoIme = "Niste uneli korisnicko ime. ";
                 this.greska = true;
             }
-            if (this.user.lozinka == null){
-                this.lozinka = "Niste uneli lozinku. ";
+            if (this.user.lozinka == ''){
+                this.greskaLozinka = "Niste uneli lozinku. ";
                 this.greska = true;
             }
             if (this.greska) return;
