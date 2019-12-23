@@ -22,7 +22,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 	}
 	
 	public void setKorisnickoIme(String korisnickoIme) {
-		this.doUpdate(korisnickoIme);
+		this.notifyUpdate(korisnickoIme);
 		this.user.setKorisnickoIme(korisnickoIme);
 	}
 	
@@ -184,7 +184,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 	}
 
 	@Override
-	public void doUpdate(String newId) {
+	public void notifyUpdate(String newId) {
 		// TODO Auto-generated method stub
 		for (Organizacija o: Main.organizacije.getOrganizacije())
 			o.updateReference(this.getClass().getSimpleName(), this.getKorisnickoIme(), newId);
