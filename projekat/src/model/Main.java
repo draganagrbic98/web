@@ -32,7 +32,6 @@ public class Main {
 	public static Kategorije kategorije = new Kategorije();
 	public static Diskovi diskovi = new Diskovi();
 
-	// kad menjam organizaciju nesto mi se ne promeni kod masine...
 	public static Gson g = new Gson();
 
 	public static void loadData() throws Exception {
@@ -43,13 +42,8 @@ public class Main {
 		korisnici.load();
 	}
 
-
-
-
 	
 	public static void userManipulation() {
-		
-		
 		
 		
 		get("rest/user/uloga", (req, res) -> {
@@ -92,8 +86,6 @@ public class Main {
 	}
 	
 
-
-
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -114,27 +106,6 @@ public class Main {
 		new MasineRest().init();
 
 		userManipulation();
-		
-		//GARBAGE :D
-		
-		
-		
-		
-		
-
-
-
-
-		
-
-		
-		
-		
-		
-		
-		
-		
-
 		
 		
 	}
