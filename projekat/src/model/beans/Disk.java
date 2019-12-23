@@ -2,7 +2,7 @@ package model.beans;
 
 import model.Main;
 
-public class Disk implements CSVData, UpdateReference {
+public class Disk implements CSVData, ReferenceManager {
 
 	private String ime;
 	private TipDiska tip;
@@ -93,11 +93,7 @@ public class Disk implements CSVData, UpdateReference {
 		return Main.masine.nadjiMasinu(this.masina);
 	}
 	
-	public void otkaciMasinu(VirtuelnaMasina masina) {
-		// TODO Auto-generated method stub
-		if (this.masina.equals(masina.getIme()))
-			this.masina = null;
-	}
+	
 
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
@@ -113,5 +109,21 @@ public class Disk implements CSVData, UpdateReference {
 			m.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 
 	}
+
+	@Override
+	public void removeReference(String className, String id) {
+		// TODO Auto-generated method stub
+		if (this.masina.equals(id))
+			this.masina = null;
+	}
+
+	@Override
+	public void notifyRemoval() {
+		// TODO Auto-generated method stub
+		for (VirtuelnaMasina m: Main.masine.getMasine())
+			m.removeReference(this.getClass().getSimpleName(), this.ime);
+	}
+
+	
 
 }

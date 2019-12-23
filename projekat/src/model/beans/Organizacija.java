@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import model.Main;
 import model.collections.FileNames;
 
-public class Organizacija implements CSVData, UpdateReference {
+public class Organizacija implements CSVData, ReferenceManager {
 
 	private String ime;
 	private String opis;
@@ -116,16 +116,7 @@ public class Organizacija implements CSVData, UpdateReference {
 		this.masine.add(m.getIme());
 	}
 	
-	public void obrisiKorisnika(Korisnik k) {
-		// TODO Auto-generated method stub
-		int index = this.korisnici.indexOf(k.getKorisnickoIme());
-		if (index != -1) this.korisnici.remove(index);
-	}
 	
-	public void obrisiMasinu(VirtuelnaMasina m) {
-		int index = this.masine.indexOf(m.getIme());
-		if (index != -1) this.masine.remove(index);
-	}
 
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
@@ -151,9 +142,28 @@ public class Organizacija implements CSVData, UpdateReference {
 			m.updateOrganizacija(this.ime, newId);
 
 	}
-	
-	
-	
+
+	@Override
+	public void removeReference(String className, String id) {
+		// TODO Auto-generated method stub
+		if (className.equals("Korisnik")) {
+			int index = this.korisnici.indexOf(id);
+			if (index != -1) this.korisnici.remove(index);
+		}
+		else {
+			int index = this.masine.indexOf(id);
+			if (index != -1) this.masine.remove(index);
+		}
+	}
+
+	@Override
+	public void notifyRemoval() {
+		// TODO Auto-generated method stub
+		for (Korisnik k: Main.korisnici.getKorisnici())
+			k.removeReference(this.getClass().getSimpleName(), this.ime);
+		for (VirtuelnaMasina m: Main.masine.getMasine())
+			m.removeReference(this.getClass().getSimpleName(), this.ime);
+	}
 	
 
 }

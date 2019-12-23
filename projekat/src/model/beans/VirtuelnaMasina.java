@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.Main;
 
-public class VirtuelnaMasina implements CSVData, UpdateReference{
+public class VirtuelnaMasina implements CSVData, ReferenceManager{
 	
 	private String ime;
 	private String organizacija;
@@ -147,16 +147,6 @@ public class VirtuelnaMasina implements CSVData, UpdateReference{
 		this.diskovi.add(d.getIme());
 	}
 	
-	public void obrisiDisk(Disk d) {	
-		this.diskovi.remove(d.getIme());
-	}
-	
-	public void updateDisk(String oldIme, String newIme) {
-		// TODO Auto-generated method stub
-		int index = this.diskovi.indexOf(oldIme);
-		this.diskovi.set(index, newIme);
-	}
-	
 	public ArrayList<Disk> getDiskovi(){
 	
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
@@ -186,6 +176,22 @@ public class VirtuelnaMasina implements CSVData, UpdateReference{
 			o.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 
 		
+	}
+
+	@Override
+	public void removeReference(String className, String id) {
+		// TODO Auto-generated method stub
+		int index = this.diskovi.indexOf(id);
+		if (index != -1) this.diskovi.remove(index);
+	}
+
+	@Override
+	public void notifyRemoval() {
+		// TODO Auto-generated method stub
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.removeReference(this.getClass().getSimpleName(), this.ime);
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
 }

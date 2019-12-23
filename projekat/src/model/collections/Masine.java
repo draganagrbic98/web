@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Aktivnost;
-import model.beans.Disk;
-import model.beans.Organizacija;
 import model.beans.VirtuelnaMasina;
 import rest.data.JSONMasinaChange;
 import rest.data.OpResult.MasinaResult;
@@ -108,10 +106,7 @@ public class Masine implements LoadStoreData{
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
 		if (masina == null) return MasinaResult.DOESNT_EXIST;
-		for (Organizacija o: Main.organizacije.getOrganizacije())
-			o.obrisiMasinu(masina);
-		for (Disk d: Main.diskovi.getDiskovi())
-			d.otkaciMasinu(masina);
+		masina.notifyRemoval();
 		this.masine.remove(masina);
 		this.store();
 		return MasinaResult.OK;

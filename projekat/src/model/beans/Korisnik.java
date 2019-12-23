@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.Main;
 
-public class Korisnik implements CSVData, UpdateReference {
+public class Korisnik implements CSVData, ReferenceManager {
 
 	private User user;
 	private String email;
@@ -189,6 +189,20 @@ public class Korisnik implements CSVData, UpdateReference {
 		for (Organizacija o: Main.organizacije.getOrganizacije())
 			o.updateReference(this.getClass().getSimpleName(), this.getKorisnickoIme(), newId);
 
+	}
+
+	@Override
+	public void removeReference(String className, String id) {
+		// TODO Auto-generated method stub
+		if (this.organizacija.equals(id))
+			this.organizacija = null;
+	}
+
+	@Override
+	public void notifyRemoval() {
+		// TODO Auto-generated method stub
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 	
 }

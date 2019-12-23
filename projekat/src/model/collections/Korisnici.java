@@ -103,7 +103,7 @@ public class Korisnici implements LoadStoreData{
 		Korisnik korisnik = this.nadjiKorisnika(k.getKorisnickoIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
 		if (korisnik.equals(u)) return KorisnikResult.CANT_DEL_SELF;
-		korisnik.getOrganizacija().obrisiKorisnika(korisnik);
+		korisnik.notifyRemoval();
 		this.korisnici.remove(korisnik);
 		this.store();
 		return KorisnikResult.OK;
