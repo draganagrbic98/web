@@ -22,11 +22,13 @@ Vue.component("korisnici", {
                 Email: <input type="text" v-model="selectedKorisnik.email" disabled> <br><br>
                 Ime: <input type="text" v-model="selectedKorisnik.ime"> {{greskaIme}} <br><br>
                 Prezime: <input type="text" v-model="selectedKorisnik.prezime"> {{greskaPrezime}} <br><br>
-                Uloga: <select v-model="selectedKorisnik.uloga">
+                Uloga: <select v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga=='SUPER_ADMIN'">
                     <option v-for="u in uloge">
                         {{u}}
                     </option>
-                </select><br><br>
+                </select>
+                <input type="text" v-model="selectedKorisnik.uloga" disabled v-bind:hidden="selectedKorisnik.uloga!='SUPER_ADMIN'">
+                <br><br>
                 Organizacija: <input type="text" v-model="selectedKorisnik.organizacija" disabled><br><br>
                 <button v-on:click="izmeni()">Izmeni</button><br><br>
                 <button v-on:click="obrisi()">Obrisi</button><br><br>

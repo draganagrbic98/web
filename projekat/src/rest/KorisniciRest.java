@@ -64,7 +64,7 @@ public class KorisniciRest implements RestEntity{
 		
 		get("rest/uloge/unos/pregled", (req, res) -> {
 			res.type("application/json");
-			return jsonConvertor.toJson(Uloga.values());
+			return jsonConvertor.toJson(new Uloga[] {Uloga.ADMIN, Uloga.KORISNIK});
 		});
 		
 	}
