@@ -18,7 +18,7 @@ public class Organizacija implements CSVData, UpdateReference {
 	}
 	
 	public void setIme(String ime) {
-		this.notifyUpdate(ime);
+		this.doUpdate(ime);
 		this.ime = ime;
 	}
 	
@@ -143,7 +143,7 @@ public class Organizacija implements CSVData, UpdateReference {
 	}
 
 	@Override
-	public void notifyUpdate(String newId) {
+	public void doUpdate(String newId) {
 		// TODO Auto-generated method stub
 		for (Korisnik k: Main.korisnici.getKorisnici())
 			k.updateReference(this.getClass().getSimpleName(), this.ime, newId);

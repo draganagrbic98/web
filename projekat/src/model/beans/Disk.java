@@ -14,7 +14,7 @@ public class Disk implements CSVData, UpdateReference {
 	}
 	
 	public void setIme(String ime) {
-		this.notifyUpdate(ime);
+		this.doUpdate(ime);
 		this.ime = ime;
 	}
 	
@@ -107,7 +107,7 @@ public class Disk implements CSVData, UpdateReference {
 	}
 
 	@Override
-	public void notifyUpdate(String newId) {
+	public void doUpdate(String newId) {
 		// TODO Auto-generated method stub
 		for (VirtuelnaMasina m: Main.masine.getMasine())
 			m.updateReference(this.getClass().getSimpleName(), this.ime, newId);
