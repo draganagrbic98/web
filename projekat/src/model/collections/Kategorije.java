@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import model.Main;
 import model.beans.Kategorija;
 import rest.JSONKategorijaChange;
-import rest.OpResult.KategorijaResponse;
+import rest.OpResult.KategorijaResult;
 
 public class Kategorije implements LoadStoreData{
 	
@@ -69,39 +69,39 @@ public class Kategorije implements LoadStoreData{
 		return this.kategorije.get(index);
 	}
 	
-	public KategorijaResponse dodajKategoriju(Kategorija k) throws Exception {
+	public KategorijaResult dodajKategoriju(Kategorija k) throws Exception {
 		
-		if (this.nadjiKategoriju(k.getIme()) != null) return KategorijaResponse.AL_EXISTS;
+		if (this.nadjiKategoriju(k.getIme()) != null) return KategorijaResult.AL_EXISTS;
 		this.kategorije.add(k);
 		this.store();
-		return KategorijaResponse.OK;
+		return KategorijaResult.OK;
 		
 	}
 	
-	public KategorijaResponse obrisiKategoriju(Kategorija k) throws Exception {
+	public KategorijaResult obrisiKategoriju(Kategorija k) throws Exception {
 		
 		Kategorija kategorija = this.nadjiKategoriju(k.getIme());
-		if (kategorija == null) return KategorijaResponse.DOESNT_EXIST;
-		if (kategorija.hasMasina()) return KategorijaResponse.CANT_DELETE;
+		if (kategorija == null) return KategorijaResult.DOESNT_EXIST;
+		if (kategorija.hasMasina()) return KategorijaResult.CANT_DELETE;
 		this.kategorije.remove(kategorija);
 		this.store();
-		return KategorijaResponse.OK;
+		return KategorijaResult.OK;
 		
 	}
 
-	public KategorijaResponse izmeniKategoriju(JSONKategorijaChange k) throws Exception {
+	public KategorijaResult izmeniKategoriju(JSONKategorijaChange k) throws Exception {
 
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
-		if (kategorija == null) return KategorijaResponse.DOESNT_EXIST;
+		if (kategorija == null) return KategorijaResult.DOESNT_EXIST;
 		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
-			return KategorijaResponse.AL_EXISTS;
+			return KategorijaResult.AL_EXISTS;
 		kategorija.setIme(k.getNovaKategorija().getIme());
 		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
 		kategorija.setRAM(k.getNovaKategorija().getRAM());
 		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
 		this.store();
 		Main.masine.store();
-		return KategorijaResponse.OK;
+		return KategorijaResult.OK;
 		
 	}
 

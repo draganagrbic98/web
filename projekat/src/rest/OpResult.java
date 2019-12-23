@@ -2,14 +2,26 @@ package rest;
 
 public class OpResult {
 	
-	public enum MasinaResponse{
+	public enum MasinaResult{
 		
+		OK, AL_EXISTS, DOESNT_EXIST, OR_DOESNT_EXIST, KAT_DOESNT_EXIST;
 		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			switch(this.ordinal()) {
+			case 0:	return "OK";
+			case 1: return "Uneta masina vec postoji. ";
+			case 2: return "Uneta masina ne postoji. ";
+			case 3: return "Uneta organizacija ne postoij. ";
+			default: return "Uneta kategorija ne postoij. ";
+			}
+		}
 		
 	}
 	
-	public enum DiskResponse{
-		OK, AL_EXISTS, DOESNT_EXIST, MAC_DOESN_EXIST;
+	public enum DiskResult{
+		OK, AL_EXISTS, DOESNT_EXIST, MAC_DOESNT_EXIST;
 		
 		@Override
 		public String toString() {
@@ -23,7 +35,7 @@ public class OpResult {
 		}
 	}
 	
-	public enum KategorijaResponse{
+	public enum KategorijaResult{
 		OK, AL_EXISTS, DOESNT_EXIST, CANT_DELETE;
 		
 		@Override

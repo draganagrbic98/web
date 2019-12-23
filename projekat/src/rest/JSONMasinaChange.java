@@ -1,8 +1,8 @@
-package model.dmanipulation;
+package rest;
 
 import model.beans.VirtuelnaMasina;
 
-public class JMasinaChange {
+public class JSONMasinaChange {
 
 	private String staroIme;
 	private VirtuelnaMasina novaMasina;
@@ -18,7 +18,7 @@ public class JMasinaChange {
 	public void setNovaMasina(VirtuelnaMasina novaMasina) {
 		this.novaMasina = novaMasina;
 	}
-	public JMasinaChange() {
+	public JSONMasinaChange() {
 		super();
 	}
 	

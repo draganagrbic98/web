@@ -10,4 +10,4 @@ masina8;organizacija88;kategorija1
 masina123;organizacija88;kategorija3
 masina124;organizacija88;kategorija1
 imence;organizacija88;kategorija3
-asdre;asd3;kategorija3
+asd;organizacija4;kategorija3

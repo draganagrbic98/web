@@ -142,9 +142,8 @@ public class Korisnik implements CSVData {
 		
 	}
 
-
-	
 	public ArrayList<VirtuelnaMasina> getMojeMasine(){
+		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.masine.getMasine();
 		ArrayList<VirtuelnaMasina> masine = new ArrayList<VirtuelnaMasina>();
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
@@ -152,11 +151,7 @@ public class Korisnik implements CSVData {
 				masine.add(m);
 		}
 		return masine;
+		
 	}
-	
-	
-	
-	
-
 	
 }

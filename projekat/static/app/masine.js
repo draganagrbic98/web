@@ -1,24 +1,53 @@
 Vue.component("masine", {
+
     data: function(){
         return {
             masine: [], 
-            selectedMasinaId: '',
             selectedMasina: {}, 
+            selectedMasinaId: '',
             selected: false, 
-            uloga: '', 
-            kategorije: [], 
-            kat: '', 
             greskaIme: '',
-            greskaOrganizacija: '', 
-            greskaKategorija: '', 
-            greskaUnos: '', 
-            greska: false
-            
+            greskaServer: '', 
+            greska: false, 
+            kategorije: [], 
+            uloga: '', 
+            kat: '', 
         }
     }, 
 
     template: `
+
         <div>
+
+            <div v-if="selected">
+
+                Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
+                Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled><br><br>
+                Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
+                    <option v-for="k in kategorije">
+                        {{k.ime}}
+                    </option>
+                </select><br><br>
+                Broj jezgara: <input type="text" v-model="selectedMasina.brojJezgara" disabled><br><br>
+                RAM: <input type="text" v-model="selectedMasina.RAM" disabled><br><br>
+                Broj GPU jezgara: <input type="text" v-model="selectedMasina.GPUjezgra" disabled><br><br>
+                Aktivnosti: 
+                <p v-if="selectedMasina.aktivnosti.length==0">NEMA</p>
+                <ol>
+                    <li v-for="a in selectedMasina.aktivnosti">{{a.datum}} {{a.upaljen}}</li>
+                </ol><br>
+                Diskovi: 
+                <p v-if="selectedMasina.diskovi.length==0">NEMA</p>
+                <ol>
+                    <li v-for="d in selectedMasina.diskovi">{{d}}</li>
+                </ol><br>
+                <div v-if="uloga!='KORISNIK'">
+	                <button v-on:click="izmeni()">Izmeni</button><br><br>
+	                <button v-on:click="obrisi()">Obrisi</button>
+                </div>
+                {{greskaServer}}
+
+            </div>
         
             <div v-if="!selected">
                 <h1>Registrovane masine</h1>
@@ -34,64 +63,49 @@ Vue.component("masine", {
                 </table><br><br>
 
                 <div v-if="uloga!='KORISNIK'">
-                	<button v-on:click="dodaj()">Dodaj</button>
+                	<button v-on:click="dodaj()">Dodaj masinu</button>
                 </div>
 
                 <div v-if="uloga=='SUPER_ADMIN'">
-                	<router-link to="/organizacije">Organizacije</router-link> <br>
-                	<router-link to="/kategorije"> Kategorije</router-link>
+                    <router-link to="/kategorije">Kategorije</router-link><br><br>
+                    <router-link to="/organizacije">Organizacije</router-link><br><br>
     			</div>
     			
-               	<router-link to="/diskovi">Diskovi</router-link> <br>
-
-    			<router-link to="/profil">Profil</router-link>
-
-                <div>
-                	<button v-on:click="logout()">Odjava</button>
-                </div>
-            </div>
-
-            <div v-if="selected">
-                Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
-
-                Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled> {{greskaOrganizacija}} <br><br>
-
-                Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
-                    <option v-for="k in kategorije">
-                        {{k.ime}}
-                    </option>
-                </select> {{greskaKategorija}} <br><br>
-
-                Broj jezgara: <input type="text" v-model="selectedMasina.brojJezgara" disabled><br><br>
-                RAM: <input type="text" v-model="selectedMasina.RAM" disabled><br><br>
-                Broj GPU jezgara: <input type="text" v-model="selectedMasina.GPUjezgra" disabled><br><br>
-                Diskovi: 
-                <p v-if="selectedMasina.diskovi.length==0">NEMA</p>
-                <ol>
-                    <li v-for="d in selectedMasina.diskovi">{{d}}</li>
-
-                </ol><br>
-                Aktivnosti: 
-                <p v-if="selectedMasina.aktivnosti.length==0">NEMA</p>
-                <ol>
-
-                    <li v-for="a in selectedMasina.aktivnosti">{{a.datum}} {{a.upaljen}}</li>
-
-                </ol><br>
-
-                <div v-if="uloga!='KORISNIK'">
-	                <button v-on:click="izmeni()">Izmeni</button><br><br>
-	                <button v-on:click="obrisi()">Obrisi</button>
-                </div>
-
-                {{greskaUnos}}
+               	<router-link to="/diskovi">Diskovi</router-link><br><br>
+    			<router-link to="/profil">Profil</router-link><br><br>
+                <button v-on:click="logout()">Odjava</button><br><br>
 
             </div>
 
         </div>
     `, 
 
+    mounted(){
+
+        axios.get("rest/masine/pregled")
+        .then(response => {
+            this.masine = response.data;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
+
+        axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+        });
+
+        
+
+        axios.get("rest/kategorije/unos/pregled")
+        .then(response => {
+            this.kategorije = response.data;
+        });
+
+    },
+
     watch: {
+
         kat: function(oldKat, newKat){
             for (let k of this.kategorije){
                 if (k.ime == this.kat){
@@ -110,50 +124,32 @@ Vue.component("masine", {
     methods: {
         selectMasina: function(masina){
             this.selectedMasina = masina;
-            this.selected = true;
             this.selectedMasinaId = masina.ime;
+            this.selected = true;
             this.kat = this.selectedMasina.kategorija.ime;
         }, 
 
         izmeni: function(){
 
             this.greskaIme = '';
-            this.greskaOrganizacija = '';
-            this.greskaKategorija = '';
-            this.greskaUnos = '';
+            this.greskaServer = '';
             this.greska = false;
 
             if (this.selectedMasina.ime == ''){
-                this.greskaIme = "Ime ne sme biti prazno";
+                this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
-
-            if (this.selectedMasina.organizacija == ''){
-                this.greskaOrganizacija = "Organizacija ne sme biti prazna";
-                this.greska = true;
-            }
-
-            if (this.selectedMasina.kategorija == '' || this.kat == ''){
-                this.greskaKategorija = "Kategorija ne sme biti prazna. ";
-                this.greska = true;
-            }
-
-            if (this.greska == true) return;
+            if (this.greska) return;
 
             axios.post("rest/masine/izmena", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
-                if (response.data.result == "true"){
-                    this.selected = false;
-                    location.reload();
-
-                }
-                else{
-                    this.greskaUnos = "Uneta masina vec postoji. ";
-                    this.greska = true;
-                    return;
- 
-                }
+                this.selected = false;
+                location.reload();
+            })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
             });
+
         },
 
         dodaj: function(){
@@ -163,46 +159,20 @@ Vue.component("masine", {
         obrisi: function(){
             axios.post("rest/masine/brisanje", this.selectedMasina)
             .then(response => {
-                if (response.data.result == "true"){
-                    this.selected = false;
-                    location.reload();
-                }
+                this.selected = false;
+                location.reload();
+            })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
             });
         },
         
         logout: function(){
             axios.post("rest/user/logout")
             .then(response => {
-                if (response.data.result == "true"){
-                    this.$router.push("/");
-                }
+                this.$router.push("/");
             });
         }
-    }, 
-
-    mounted(){
-
-        axios.get("rest/masine/pregled")
-            .then(response => {
-                this.masine = response.data;
-        });
-
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-            if (this.uloga == null){
-                this.$router.push("/");
-            }
-            
-        });
-
-        
-
-        axios.get("rest/kategorije/unos/pregled")
-        .then(response => {
-            this.kategorije = response.data;
-        });
-
     }
 
-})
+});

@@ -2,8 +2,6 @@ Vue.component("dodajMasinu", {
 
     data: function(){
         return{
-            uloga: '', 
-            kat: '',
             novaMasina:{
                 "ime": '', 
                 "organizacija": '', 
@@ -24,9 +22,9 @@ Vue.component("dodajMasinu", {
             greskaIme: '',
             greskaOrganizacija: '',
             greskaKategorija: '', 
-            greskaUnos: '',
-            greska: false
-
+            greskaServer: '',
+            greska: false, 
+            kat: ''
         }
     }, 
 
@@ -34,21 +32,14 @@ Vue.component("dodajMasinu", {
 
         <div>
 
-            
-
             <h1>Registracija nove masine</h1>
                 Ime: <input type="text" v-model="novaMasina.ime"> {{greskaIme}} <br><br>
                 Organizacija: <select v-model="novaMasina.organizacija">
-
                 <option v-for="o in organizacije">
                     {{o.ime}}
                 </option>
                 </select> {{greskaOrganizacija}} <br><br>
-
                 Kategorija: <select v-model="kat">
-
-
-
                 <option v-for="k in kategorije">
                     {{k.ime}}
                     </option>
@@ -57,7 +48,7 @@ Vue.component("dodajMasinu", {
                 RAM: <input type="text" v-model="novaMasina.RAM" disabled><br><br>
                 GPU jezgra: <input type="text" v-model="novaMasina.GPUjezgra" disabled><br><br>
                 <button v-on:click="dodaj()">Dodaj</button><br><br>
-                {{greskaUnos}}
+                {{greskaServer}}
                 
         </div>
     
@@ -65,7 +56,6 @@ Vue.component("dodajMasinu", {
 
     watch: {
         kat: function() {
-          //novaMasina.kategorija = kat;
           for (let k of this.kategorije){
               if (k.ime == this.kat){
                   this.novaMasina.kategorija.ime = k.ime;
@@ -82,22 +72,22 @@ Vue.component("dodajMasinu", {
     },
 
     methods: {
-        dodaj: function(){
 
+        dodaj: function(){
 
             this.greskaIme = '';
             this.greskaOrganizacija = '';
             this.greskaKategorija = '';
-            this.greskaUnos = '';
+            this.greskaServer = '';
             this.greska = false;
 
             if (this.novaMasina.ime == ''){
-                this.greskaIme = "Ime ne sme biti prazno";
+                this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
 
             if (this.novaMasina.organizacija == ''){
-                this.greskaOrganizacija = "Organizacija ne sme biti prazna";
+                this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
                 this.greska = true;
             }
 
@@ -110,22 +100,14 @@ Vue.component("dodajMasinu", {
 
             axios.post("rest/masine/dodavanje", this.novaMasina)
             .then(response => {
-                if (response.data.result == "true"){
-                    this.$router.push("masine");
-                }
-                else{
-                    this.greskaUnos = "Uneta masina vec postoji. ";
-                    this.greska = true;
-                    return;
-                }
-            });
+                this.$router.push("masine");
+            })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
+            })
         }, 
-
-        
        
     }, 
-
-    
 
     mounted(){
 
@@ -138,13 +120,6 @@ Vue.component("dodajMasinu", {
         .then(response => {
             this.organizacije = response.data;
         });
-
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        });
-
-        
 
     }
 

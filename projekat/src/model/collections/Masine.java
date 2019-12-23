@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import model.Main;
 import model.beans.Aktivnost;
 import model.beans.Disk;
+import model.beans.Organizacija;
 import model.beans.VirtuelnaMasina;
-import model.dmanipulation.JMasinaChange;
+import rest.JSONMasinaChange;
+import rest.OpResult.MasinaResult;
 
 public class Masine implements LoadStoreData{
 	
@@ -93,40 +95,39 @@ public class Masine implements LoadStoreData{
 		return this.masine.get(index);
 	}
 	
-	public boolean dodajMasinu(VirtuelnaMasina m) throws Exception {
+	public MasinaResult dodajMasinu(VirtuelnaMasina m) throws Exception {
 		
-		if (this.nadjiMasinu(m.getIme()) != null) return false;
+		if (this.nadjiMasinu(m.getIme()) != null) return MasinaResult.AL_EXISTS;
 		this.masine.add(m);
 		this.store();
-		return true;
+		return MasinaResult.OK;
 		
 	}
 	
-	public boolean obrisiMasinu(VirtuelnaMasina m) throws Exception {
+	public MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
-		if (masina == null) return false;
-		for (Disk d: Main.diskovi.getDiskovi()) {
-			if (d.getMasinaID().equals(masina.getIme()))
-				d.setMasina("null");
-		}
+		if (masina == null) return MasinaResult.DOESNT_EXIST;
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.obrisiMasinu(masina);
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.obrisiMasinu(masina);
 		this.masine.remove(masina);
 		this.store();
-		return true;
+		return MasinaResult.OK;
 		
 	}
 	
-	public boolean izmeniMasinu(JMasinaChange m) throws Exception {
+	public MasinaResult izmeniMasinu(JSONMasinaChange m) throws Exception {
 		
-		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null && (!(m.getStaroIme().equals(m.getNovaMasina().getIme())))) return false;
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
-		if (masina == null) return false;
-		if (Main.organizacije.nadjiOrganizaciju(m.getNovaMasina().getOrganizacijaID()) == null) {
-			return false;
-		}
-		if (Main.kategorije.nadjiKategoriju(m.getNovaMasina().getKategorija().getIme()) == null) {
-			return false;
-		}
+		if (masina == null) return MasinaResult.DOESNT_EXIST;
+		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null && (!(m.getStaroIme().equals(m.getNovaMasina().getIme())))) 
+			return MasinaResult.AL_EXISTS;
+		if (Main.organizacije.nadjiOrganizaciju(m.getNovaMasina().getOrganizacijaID()) == null)
+			return MasinaResult.OR_DOESNT_EXIST;
+		if (Main.kategorije.nadjiKategoriju(m.getNovaMasina().getKategorija().getIme()) == null)
+			return MasinaResult.KAT_DOESNT_EXIST;
 
 		masina.setIme(m.getNovaMasina().getIme());
 		masina.setOrganizacija(m.getNovaMasina().getOrganizacijaID());
@@ -137,7 +138,7 @@ public class Masine implements LoadStoreData{
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
 		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
 		this.store();
-		return true;
+		return MasinaResult.OK;
 		
 	}
 

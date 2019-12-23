@@ -135,18 +135,17 @@ public class VirtuelnaMasina implements CSVData{
 	public void dodajDisk(Disk d) {
 		this.diskovi.add(d.getIme());
 	}
-	public void removeDisk(Disk d) {
-		
+	
+	public void obrisiDisk(Disk d) {	
 		this.diskovi.remove(d.getIme());
-		
 	}
+	
 	public void updateDisk(String oldIme, String newIme) {
 		// TODO Auto-generated method stub
-		
 		int index = this.diskovi.indexOf(oldIme);
 		this.diskovi.set(index, newIme);
-		
 	}
+	
 	public ArrayList<Disk> getDiskovi(){
 	
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
@@ -155,7 +154,5 @@ public class VirtuelnaMasina implements CSVData{
 		return diskovi;
 		
 	}
-	
-	
 
 }

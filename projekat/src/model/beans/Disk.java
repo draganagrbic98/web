@@ -83,5 +83,10 @@ public class Disk implements CSVData {
 	public VirtuelnaMasina getMasina() {
 		return Main.masine.nadjiMasinu(this.masina);
 	}
+	public void obrisiMasinu(VirtuelnaMasina masina) {
+		// TODO Auto-generated method stub
+		if (this.masina.equals(masina.getIme()))
+			this.masina = null;
+	}
 
 }

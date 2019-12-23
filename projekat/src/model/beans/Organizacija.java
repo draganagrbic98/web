@@ -110,6 +110,12 @@ public class Organizacija implements CSVData {
 	public void dodajMasinu(VirtuelnaMasina m) {
 		this.masine.add(m.getIme());
 	}
+	
+	public void obrisiMasinu(VirtuelnaMasina m) {
+		int index = this.masine.indexOf(m.getIme());
+		if (index != -1) this.masine.remove(index);
+	}
+	
 	public void updateMasina(String oldIme, String newIme) {
 		// TODO Auto-generated method stub
 		int index = this.masine.indexOf(oldIme);

@@ -7,7 +7,7 @@ import model.Main;
 import model.beans.Kategorija;
 import model.beans.Korisnik;
 import model.beans.Uloga;
-import rest.OpResult.KategorijaResponse;
+import rest.OpResult.KategorijaResult;
 
 public class KategorijeRest implements RestEntity{
 
@@ -33,8 +33,8 @@ public class KategorijeRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			};
-			KategorijaResponse result = Main.kategorije.dodajKategoriju(jsonConvertor.fromJson(req.body(), Kategorija.class));
-			if (result != KategorijaResponse.OK) res.status(400);
+			KategorijaResult result = Main.kategorije.dodajKategoriju(jsonConvertor.fromJson(req.body(), Kategorija.class));
+			if (result != KategorijaResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 			
 		});
@@ -46,8 +46,8 @@ public class KategorijeRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			};
-			KategorijaResponse result = Main.kategorije.izmeniKategoriju(jsonConvertor.fromJson(req.body(), JSONKategorijaChange.class));
-			if (result != KategorijaResponse.OK) res.status(400);
+			KategorijaResult result = Main.kategorije.izmeniKategoriju(jsonConvertor.fromJson(req.body(), JSONKategorijaChange.class));
+			if (result != KategorijaResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
 		
@@ -58,8 +58,8 @@ public class KategorijeRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			};
-			KategorijaResponse result = Main.kategorije.obrisiKategoriju(jsonConvertor.fromJson(req.body(), Kategorija.class));
-			if (result != KategorijaResponse.OK) res.status(400);
+			KategorijaResult result = Main.kategorije.obrisiKategoriju(jsonConvertor.fromJson(req.body(), Kategorija.class));
+			if (result != KategorijaResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
 	}

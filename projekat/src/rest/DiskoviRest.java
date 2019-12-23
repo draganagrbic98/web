@@ -7,7 +7,7 @@ import model.Main;
 import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.TipDiska;
-import rest.OpResult.DiskResponse;
+import rest.OpResult.DiskResult;
 
 public class DiskoviRest implements RestEntity{
 
@@ -38,8 +38,8 @@ public class DiskoviRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			DiskResponse result = Main.diskovi.obrisiDisk(jsonConvertor.fromJson(req.body(), Disk.class));
-			if (result != DiskResponse.OK) res.status(400);
+			DiskResult result = Main.diskovi.obrisiDisk(jsonConvertor.fromJson(req.body(), Disk.class));
+			if (result != DiskResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
 		
@@ -50,8 +50,8 @@ public class DiskoviRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			DiskResponse result = Main.diskovi.izmeniDisk(jsonConvertor.fromJson(req.body(), JSONDiskChange.class));
-			if (result != DiskResponse.OK) res.status(400);
+			DiskResult result = Main.diskovi.izmeniDisk(jsonConvertor.fromJson(req.body(), JSONDiskChange.class));
+			if (result != DiskResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
 		
@@ -62,10 +62,17 @@ public class DiskoviRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			DiskResponse result = Main.diskovi.dodajDisk(jsonConvertor.fromJson(req.body(), Disk.class));
-			if (result != DiskResponse.OK) res.status(400);
+			DiskResult result = Main.diskovi.dodajDisk(jsonConvertor.fromJson(req.body(), Disk.class));
+			if (result != DiskResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
+		
+		get("rest/kategorije/unos/pregled", (req, res) -> {
+			res.type("application/json");
+			return jsonConvertor.toJson(Main.kategorije.getKategorije());
+		});
+		
+		
 	}
 
 }

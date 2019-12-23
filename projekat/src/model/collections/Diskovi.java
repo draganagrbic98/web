@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import model.Main;
 import model.beans.Disk;
 import rest.JSONDiskChange;
-import rest.OpResult.DiskResponse;
+import rest.OpResult.DiskResult;
 
 public class Diskovi implements LoadStoreData {
 
@@ -69,35 +69,35 @@ public class Diskovi implements LoadStoreData {
 		return this.diskovi.get(index);
 	}
 	
-	public DiskResponse dodajDisk(Disk d) throws Exception {
-		if (this.nadjiDisk(d.getIme()) != null) return DiskResponse.AL_EXISTS;
+	public DiskResult dodajDisk(Disk d) throws Exception {
+		if (this.nadjiDisk(d.getIme()) != null) return DiskResult.AL_EXISTS;
 		this.diskovi.add(d);
 		this.store();
-		return DiskResponse.OK;
+		return DiskResult.OK;
 	}
 	
-	public DiskResponse obrisiDisk(Disk d) throws Exception {
+	public DiskResult obrisiDisk(Disk d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getIme());
-		if (disk == null) return DiskResponse.DOESNT_EXIST;
-		disk.getMasina().removeDisk(d);
+		if (disk == null) return DiskResult.DOESNT_EXIST;
+		disk.getMasina().obrisiDisk(d);
 		this.diskovi.remove(disk);
 		this.store();
-		return DiskResponse.OK;
+		return DiskResult.OK;
 	}
 
-	public DiskResponse izmeniDisk(JSONDiskChange d) throws Exception {
+	public DiskResult izmeniDisk(JSONDiskChange d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getStaroIme());
-		if (disk == null) return DiskResponse.DOESNT_EXIST;
+		if (disk == null) return DiskResult.DOESNT_EXIST;
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
-			return DiskResponse.AL_EXISTS;
+			return DiskResult.AL_EXISTS;
 		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) 
-			return DiskResponse.MAC_DOESN_EXIST;
+			return DiskResult.MAC_DOESNT_EXIST;
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
 		disk.setMasina(d.getNoviDisk().getMasinaID());
 		this.store();
-		return DiskResponse.OK;
+		return DiskResult.OK;
 	}
 	
 }
