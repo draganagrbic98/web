@@ -1,3 +1,2 @@
-korime1;loz1;email1;Pera;Peric;0;organizacija4
-korime3;loz1;email3;miki;mikic;2;organizacija4
-korime4;loz2;email1;soki;sokic;1;organizacija4
+super;super;super;super;super;0;null
+asd;;asd;asd;asd;2;organizacija1

@@ -1,6 +1,4 @@
-disk2;1;140;masina2
-disk3;0;100;masina1
-disk4;0;200;masina1
-diskic1;1;1251;masina35
-diskic2;1;123;masina2
-qwe;0;1;null
+disk1;0;1;masina2
+disk3;1;123;masina4
+disk4;1;123;masina5
+disk5;1;11;masina2

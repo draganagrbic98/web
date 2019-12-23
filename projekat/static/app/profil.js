@@ -80,6 +80,7 @@ Vue.component("profil", {
 			}
 			if (this.greska) return;
 
+			this.korisnik.user.lozinka = this.novaLozinka;
 			axios.post("rest/user/izmena", {"staroIme": this.korisnik.user.korisnickoIme, "noviKorisnik": this.korisnik})
 			.then(response => {
 				this.$router.push("masine");

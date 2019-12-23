@@ -41,6 +41,9 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		loadData();
+		korisnici.addSuperAdmin();
+		
+		
 		System.out.println(kategorije);
 		System.out.println(masine);
 		System.out.println(diskovi);

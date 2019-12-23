@@ -9,6 +9,7 @@ const diskovi = {template: '<diskovi></diskovi>'}
 const dodajDisk = {template: '<dodajDisk></dodajDisk>'}
 const profil = {template: '<profil></profil>'}
 const korisnici = {template: '<korisnici></korisnici>'}
+const dodajKorisnika = {template: '<dodajKorisnika></dodajKorisnika>'}
 
 const router = new VueRouter({
     mode: 'hash', 
@@ -23,7 +24,9 @@ const router = new VueRouter({
         {path: '/dodajOrganizaciju', component: dodajOrganizaciju},
         {path: '/dodajDisk', component: dodajDisk},
         {path: '/profil', component: profil}, 
-        {path: '/korisnici', component: korisnici}
+        {path: '/korisnici', component: korisnici}, 
+        {path: '/dodajKorisnika', component: dodajKorisnika}
+
     ]
 });
 

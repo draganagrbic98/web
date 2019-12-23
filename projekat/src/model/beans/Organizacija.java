@@ -18,7 +18,7 @@ public class Organizacija implements CSVData {
 	}
 	public void setIme(String ime) {
 		for (Korisnik k: Main.korisnici.getKorisnici()) {
-			if (k.getOrganizacijaID().equals(this.ime))
+			if (k.getOrganizacijaID() != null && k.getOrganizacijaID().equals(this.ime))
 				k.setOrganizacija(ime);
 		}
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
@@ -120,7 +120,7 @@ public class Organizacija implements CSVData {
 	public void updateMasina(String oldIme, String newIme) {
 		// TODO Auto-generated method stub
 		int index = this.masine.indexOf(oldIme);
-		this.masine.set(index, newIme);
+		if (index != -1) this.masine.set(index, newIme);
 	}
 	public void obrisiKorisnika(Korisnik k) {
 		// TODO Auto-generated method stub

@@ -143,7 +143,7 @@ Vue.component("masine", {
             for (let m of this.backup){
                 imePassed = (this.pretragaIme != '') ? (m.ime == this.pretragaIme) : true;
                 brojJezgaraPassed = (this.pretragaBrojJezgara != '') ? (m.brojJezgara == this.pretragaBrojJezgara) : true;
-                RAMPassed = (this.pretragaRAM != '') ? (m.RAMPassed == this.pretragaRAM) : true;
+                RAMPassed = (this.pretragaRAM != '') ? (m.RAM == this.pretragaRAM) : true;
                 GPUjezgraPassed = (this.pretragaGPUjezgra != '') ? (m.GPUjezgra == this.pretragaGPUjezgra) : true;
                 if (imePassed && brojJezgaraPassed && RAMPassed && GPUjezgraPassed) this.masine.push(m);
             }

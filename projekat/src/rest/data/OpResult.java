@@ -13,6 +13,7 @@ public class OpResult {
 			case 0: return "OK";
 			case 1: return "Unet korisnik vec postoji. ";
 			case 2: return "Unet korisnik ne postoji. ";
+			case 3: return "Unet email vec postoji. ";
 			default: return "Nije moguce brisanje samog sebe. ";
 			}
 		}
@@ -38,7 +39,7 @@ public class OpResult {
 	}
 	
 	public enum DiskResult{
-		OK, AL_EXISTS, DOESNT_EXIST, MAC_DOESNT_EXIST;
+		OK, AL_EXISTS, DOESNT_EXIST;//, //MAC_DOESNT_EXIST;
 		
 		@Override
 		public String toString() {
@@ -46,8 +47,8 @@ public class OpResult {
 			switch(this.ordinal()) {
 			case 0: return "OK";
 			case 1: return "Unet disk vec postoji. ";
-			case 2: return "Unet disk ne postoji. ";
-			default: return "Uneta masina ne postoji. ";
+			default: return "Unet disk ne postoji. ";
+			//default: return "Uneta masina ne postoji. ";
 			}
 		}
 	}

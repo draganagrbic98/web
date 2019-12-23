@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Korisnik;
+import model.beans.Uloga;
 import model.beans.User;
 import rest.data.JSONKorisnikChange;
 import rest.data.OpResult.KorisnikResult;
@@ -132,6 +133,23 @@ public class Korisnici implements LoadStoreData{
 		korisnik.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
 		return KorisnikResult.OK;
 		
+	}
+	
+	private boolean hasSuperAdmin() {
+		
+		for (Korisnik k: this.korisnici) {
+			if (k.getUloga().equals(Uloga.SUPER_ADMIN)) return true;
+		}
+		return false;
+		
+	}
+	
+	public void addSuperAdmin() throws Exception {
+		
+		if (!this.hasSuperAdmin()) {
+			this.korisnici.add(new Korisnik("super", "super", "super", "super", "super", Uloga.SUPER_ADMIN, null));
+			this.store();
+		}
 	}
 	
 	

@@ -1,8 +1,0 @@
-masina1;01.01.2018.;true
-masina2;01.01.2018.;true
-masina3;01.01.2018.;true
-masina4;01.01.2018.;true
-masina5;01.01.2018.;true
-masina6;01.01.2018.;true
-masina7;01.01.2018.;true
-masina8;01.01.2018.;true

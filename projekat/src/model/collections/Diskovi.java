@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import model.Main;
 import model.beans.Disk;
 import rest.data.JSONDiskChange;
 import rest.data.OpResult.DiskResult;
@@ -79,7 +78,8 @@ public class Diskovi implements LoadStoreData {
 	public DiskResult obrisiDisk(Disk d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) return DiskResult.DOESNT_EXIST;
-		disk.getMasina().obrisiDisk(disk);
+		if (disk.getMasina() != null)
+			disk.getMasina().obrisiDisk(disk);
 		this.diskovi.remove(disk);
 		this.store();
 		return DiskResult.OK;
@@ -90,8 +90,8 @@ public class Diskovi implements LoadStoreData {
 		if (disk == null) return DiskResult.DOESNT_EXIST;
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
-		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) 
-			return DiskResult.MAC_DOESNT_EXIST;
+//		if (Main.masine.nadjiMasinu(d.getNoviDisk().getMasinaID()) == null) 
+//			return DiskResult.MAC_DOESNT_EXIST;
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
