@@ -45,7 +45,7 @@ public class KorisniciRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			KorisnikResult result = Main.korisnici.izmeniKorisnika(jsonConvertor.fromJson(req.body(), JSONKorisnikChange.class));
+			KorisnikResult result = Main.korisnici.izmeniKorisnika(jsonConvertor.fromJson(req.body(), JSONKorisnikChange.class), k);
 			if (result != KorisnikResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
@@ -57,7 +57,7 @@ public class KorisniciRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			KorisnikResult result = Main.korisnici.obrisiKorisnika(jsonConvertor.fromJson(req.body(), Korisnik.class), k.getUser());
+			KorisnikResult result = Main.korisnici.obrisiKorisnika(jsonConvertor.fromJson(req.body(), Korisnik.class), k);
 			if (result != KorisnikResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});

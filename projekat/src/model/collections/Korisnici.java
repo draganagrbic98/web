@@ -97,11 +97,11 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public KorisnikResult obrisiKorisnika(Korisnik k, User u) throws Exception {
+	public KorisnikResult obrisiKorisnika(Korisnik k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getUser().getKorisnickoIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
-		if (korisnik.getUser().equals(u)) return KorisnikResult.CANT_DEL_SELF;
+		if (korisnik.equals(u)) return KorisnikResult.CANT_DEL_SELF;
 		korisnik.getOrganizacija().obrisiKorisnika(korisnik);
 		this.korisnici.remove(korisnik);
 		this.store();
@@ -109,10 +109,18 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public KorisnikResult izmeniKorisnika(JSONKorisnikChange k) {
+	public KorisnikResult izmeniKorisnika(JSONKorisnikChange k, Korisnik u) {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
+		if (k.getStaroIme().equals(u.getIme())) {
+			u.setUser(k.getNoviKorisnik().getUser());
+			u.setEmail(k.getNoviKorisnik().getEmail());
+			u.setIme(k.getNoviKorisnik().getIme());
+			u.setPrezime(k.getNoviKorisnik().getPrezime());
+			u.setUloga(k.getNoviKorisnik().getUloga());
+			u.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
+		}
 		korisnik.setUser(k.getNoviKorisnik().getUser());
 		korisnik.setEmail(k.getNoviKorisnik().getEmail());
 		korisnik.setIme(k.getNoviKorisnik().getIme());
