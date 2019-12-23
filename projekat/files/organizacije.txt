@@ -1,2 +1,1 @@
 organizacija1;opis1;null
-organizacija11;null;null

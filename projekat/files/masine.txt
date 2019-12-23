@@ -1,2 +1,1 @@
 masina1;organizacija1;kategorija2
-masina2;organizacija11;kategorija1
