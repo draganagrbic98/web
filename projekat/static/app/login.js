@@ -2,8 +2,10 @@ Vue.component("login", {
 
     data: function(){
         return {
-            korisnickoIme: '', 
-            lozinka: '', 
+            user: {
+                "korisnickoIme": '', 
+                "lozinka": ''
+            },
             greskaKorisnickoIme: '',  
             greskaLozinka: '', 
             greskaLogin: '', 
@@ -14,14 +16,15 @@ Vue.component("login", {
     template: `
         <div>
             <h1>Prijava</h1>
-            Korisnicko ime: <input type="text" v-model="korisnickoIme"> {{greskaKorisnickoIme}} <br><br>
-            Lozinka: <input type="password" v-model="lozinka"> {{greskaLozinka}} <br><br>
+            Korisnicko ime: <input type="text" v-model="user.korisnickoIme"> {{greskaKorisnickoIme}} <br><br>
+            Lozinka: <input type="password" v-model="user.lozinka"> {{greskaLozinka}} <br><br>
             <button v-on:click="login()">Prijava</button><br><br>
             {{greskaLogin}}
         </div>
     `, 
 
     methods: {
+
         login(){
             
             this.greskaKorisnickoIme = '';
@@ -29,29 +32,24 @@ Vue.component("login", {
             this.greskaLogin = '';
             this.greska = false;
 
-            if (this.korisnickoIme == ''){
-                this.greskaKorisnickoIme = "Niste uneli korisnicko ime.";
+            if (this.user.korisnickoIme == ''){
+                this.greskaKorisnickoIme = "Niste uneli korisnicko ime. ";
                 this.greska = true;
             }
-            
-            if (this.lozinka == null){
+            if (this.user.lozinka == null){
                 this.lozinka = "Niste uneli lozinku. ";
                 this.greska = true;
             }
+            if (this.greska) return;
 
-            if (this.greska == false){
-                axios.post("rest/user/login", {"korisnickoIme": this.korisnickoIme, "lozinka": this.lozinka})
-                .then(response1 => {
-	                if (response1.data == null){
-	                    this.greskaLogin = "Unet korisnik ne postoji. ";
-	                    this.greska = true;
-	                }
-                
-	                if (this.greska == false){
-	                    this.$router.push("masine");
-	                }
-                });
-            }
+            axios.post("rest/user/login", this.user)
+            .then(response => {
+                this.$router.push("masine");
+            })
+            .catch(error => {
+                this.greskaLogin = error.response.data.result;
+            });
+
         }
     }
 });

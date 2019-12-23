@@ -194,13 +194,14 @@ Vue.component("masine", {
                 this.greskaServer = error.response.data.result;
             });
         },
-        
+
         logout: function(){
             axios.post("rest/user/logout")
             .then(response => {
                 this.$router.push("/");
             });
         }
+        
     }
 
 });

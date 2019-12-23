@@ -13,6 +13,7 @@ import rest.KategorijeRest;
 import rest.KorisniciRest;
 import rest.MasineRest;
 import rest.OrganizacijeRest;
+import rest.UserRest;
 import rest.data.OpResponse;
 import spark.Session;
 
@@ -53,25 +54,6 @@ public class Main {
 			return g.toJson(new OpResponse((k != null) ? (k.getUloga() + "") : null));
 		});
 		
-		post("rest/user/login", (req, res) -> {
-			res.type("application/json");
-			User u = g.fromJson(req.body(), User.class);
-			Korisnik k = korisnici.login(u);
-			Session ss = req.session(true);
-
-			if (k != null && ss.attribute("korisnik") == null)
-				ss.attribute("korisnik", k);
-			return g.toJson(k);
-		});
-
-		post("rest/user/logout", (req, res) -> {
-			res.type("application/json");
-			Session ss = req.session(true);
-			ss.invalidate();
-			return g.toJson(new OpResponse("true"));
-
-		});
-
 		get("rest/user/profil", (req, res) -> {
 			res.type("application/json");
 			Session ss = req.session(true);
@@ -106,6 +88,7 @@ public class Main {
 		new OrganizacijeRest().init();
 		new MasineRest().init();
 		new KorisniciRest().init();
+		new UserRest().init();
 
 		userManipulation();
 		
