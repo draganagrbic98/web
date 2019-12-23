@@ -12,6 +12,11 @@ Vue.component("masine", {
             kategorije: [], 
             uloga: '', 
             kat: '', 
+            backup: [],
+            pretragaIme: '',
+            pretragaBrojJezgara: '', 
+            pretragaRAM: '', 
+            pretragaGPUjezgra: ''
         }
     }, 
 
@@ -76,6 +81,13 @@ Vue.component("masine", {
     			<router-link to="/profil">Profil</router-link><br><br>
                 <button v-on:click="logout()">Odjava</button><br><br>
 
+                <h1>Pretraga</h1>
+                Ime: <input type="text" v-model="pretragaIme"><br><br>
+                Broj jezgara: <input type="number" min="1" v-model="pretragaBrojJezgara"><br><br>
+                RAM: <input type="number" min="1" v-model="pretragaRAM"><br><br>
+                GPU jezgra: <input type="number" min="0" v-model="pretragaGPUjezgra"><br><br>
+                <button v-on:click="pretrazi()">Filtriraj</button><br><br>
+
             </div>
 
         </div>
@@ -86,6 +98,7 @@ Vue.component("masine", {
         axios.get("rest/masine/pregled")
         .then(response => {
             this.masine = response.data;
+            this.backup = response.data;
         })
         .catch(error => {
             this.$router.push("/");
@@ -123,6 +136,20 @@ Vue.component("masine", {
     },
 
     methods: {
+
+        pretrazi: function(){
+
+            this.masine = [];
+            for (let m of this.backup){
+                imePassed = (this.pretragaIme != '') ? (m.ime == this.pretragaIme) : true;
+                brojJezgaraPassed = (this.pretragaBrojJezgara != '') ? (m.brojJezgara == this.pretragaBrojJezgara) : true;
+                RAMPassed = (this.pretragaRAM != '') ? (m.RAMPassed == this.pretragaRAM) : true;
+                GPUjezgraPassed = (this.pretragaGPUjezgra != '') ? (m.GPUjezgra == this.pretragaGPUjezgra) : true;
+                if (imePassed && brojJezgaraPassed && RAMPassed && GPUjezgraPassed) this.masine.push(m);
+            }
+
+        },
+
         selectMasina: function(masina){
             this.selectedMasina = masina;
             this.selectedMasinaId = masina.ime;
