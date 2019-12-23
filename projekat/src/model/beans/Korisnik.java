@@ -22,8 +22,7 @@ public class Korisnik implements CSVData, UpdateReference {
 	}
 	
 	public void setKorisnickoIme(String korisnickoIme) {
-		for (Organizacija o: Main.organizacije.getOrganizacije())
-			o.updateReference(this.getClass().getSimpleName(), this.getKorisnickoIme(), korisnickoIme);
+		this.notifyUpdate(korisnickoIme);
 		this.user.setKorisnickoIme(korisnickoIme);
 	}
 	
@@ -182,6 +181,14 @@ public class Korisnik implements CSVData, UpdateReference {
 		// TODO Auto-generated method stub
 		if (this.organizacija.equals(oldId))
 			this.organizacija = newId;
+	}
+
+	@Override
+	public void notifyUpdate(String newId) {
+		// TODO Auto-generated method stub
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.updateReference(this.getClass().getSimpleName(), this.getKorisnickoIme(), newId);
+
 	}
 	
 }

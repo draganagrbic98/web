@@ -18,52 +18,64 @@ public class VirtuelnaMasina implements CSVData, UpdateReference{
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
-		for (Disk d: Main.diskovi.getDiskovi())
-			d.updateReference(this.getClass().getSimpleName(), this.ime, ime);
-		for (Organizacija o: Main.organizacije.getOrganizacije())
-			o.updateReference(this.getClass().getSimpleName(), this.ime, ime);
+		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
+	
 	public String getOrganizacijaID() {
 		return organizacija;
 	}
+	
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}
+	
 	public Kategorija getKategorija() {
 		return kategorija;
 	}
+	
 	public void setKategorija(Kategorija kategorija) {
 		this.kategorija = kategorija;
 	}
+	
 	public int getBrojJezgara() {
 		return brojJezgara;
 	}
+	
 	public void setBrojJezgara(int brojJezgara) {
 		this.brojJezgara = brojJezgara;
 	}
+	
 	public int getRAM() {
 		return RAM;
 	}
+	
 	public void setRAM(int rAM) {
 		RAM = rAM;
 	}
+	
 	public int getGPUjezgra() {
 		return GPUjezgra;
 	}
+	
 	public void setGPUjezgra(int gPUjezgra) {
 		GPUjezgra = gPUjezgra;
 	}
+	
 	public ArrayList<Aktivnost> getAktivnosti() {
 		return aktivnosti;
 	}
+	
 	public void setAktivnosti(ArrayList<Aktivnost> aktivnosti) {
 		this.aktivnosti = aktivnosti;
 	}
+	
 	public ArrayList<String> getDiskoviID() {
 		return diskovi;
 	}
+	
 	public void setDiskovi(ArrayList<String> diskovi) {
 		this.diskovi = diskovi;
 	}
@@ -163,6 +175,17 @@ public class VirtuelnaMasina implements CSVData, UpdateReference{
 		// TODO Auto-generated method stub
 		int index = this.diskovi.indexOf(oldId);
 		if (index != -1) this.diskovi.set(index, newId);
+	}
+
+	@Override
+	public void notifyUpdate(String newId) {
+		// TODO Auto-generated method stub
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.updateReference(this.getClass().getSimpleName(), this.ime, newId);
+		for (Organizacija o: Main.organizacije.getOrganizacije())
+			o.updateReference(this.getClass().getSimpleName(), this.ime, newId);
+
+		
 	}
 
 }

@@ -18,10 +18,7 @@ public class Organizacija implements CSVData, UpdateReference {
 	}
 	
 	public void setIme(String ime) {
-		for (Korisnik k: Main.korisnici.getKorisnici())
-			k.updateReference(this.getClass().getSimpleName(), this.ime, ime);
-		for (VirtuelnaMasina m: Main.masine.getMasine())
-			m.updateOrganizacija(this.ime, ime);
+		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
 	
@@ -143,6 +140,16 @@ public class Organizacija implements CSVData, UpdateReference {
 			if (index != -1) this.masine.set(index, newId);
 		}
 		
+	}
+
+	@Override
+	public void notifyUpdate(String newId) {
+		// TODO Auto-generated method stub
+		for (Korisnik k: Main.korisnici.getKorisnici())
+			k.updateReference(this.getClass().getSimpleName(), this.ime, newId);
+		for (VirtuelnaMasina m: Main.masine.getMasine())
+			m.updateOrganizacija(this.ime, newId);
+
 	}
 	
 	
