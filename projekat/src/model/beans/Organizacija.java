@@ -3,6 +3,7 @@ package model.beans;
 import java.util.ArrayList;
 
 import model.Main;
+import model.collections.FileNames;
 
 public class Organizacija implements CSVData {
 
@@ -93,7 +94,7 @@ public class Organizacija implements CSVData {
 		String ime = array[0].trim();
 		String opis = array[1].trim();
 		String logo = array[2].trim();
-		if (logo == "null") logo = "slike/default.jpg";
+		if (logo == "null") logo = FileNames.DEFAULT_LOGO;
 		return new Organizacija(ime, opis, logo);
 	}
 
