@@ -97,6 +97,7 @@ public class Masine implements LoadStoreData{
 		
 		if (this.nadjiMasinu(m.getIme()) != null) 
 			return MasinaResult.AL_EXISTS;
+		m.initAktivnost();
 		this.masine.add(m);
 		this.store();
 		return MasinaResult.OK;

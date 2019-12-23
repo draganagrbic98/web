@@ -146,7 +146,7 @@ Vue.component("masine", {
 
             this.masine = [];
             for (let m of this.backup){
-                let imePassed = (this.pretragaIme != '') ? (m.ime == this.pretragaIme) : true;
+                let imePassed = (this.pretragaIme != '') ? (m.ime.includes(this.pretragaIme)) : true;
                 let brojJezgaraPassed = (this.pretragaBrojJezgara != '') ? (m.brojJezgara == this.pretragaBrojJezgara) : true;
                 let RAMPassed = (this.pretragaRAM != '') ? (m.RAM == this.pretragaRAM) : true;
                 let GPUjezgraPassed = (this.pretragaGPUjezgra != '') ? (m.GPUjezgra == this.pretragaGPUjezgra) : true;

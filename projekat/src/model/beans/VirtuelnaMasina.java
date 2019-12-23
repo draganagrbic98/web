@@ -1,6 +1,7 @@
 package model.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import model.Main;
 
@@ -201,6 +202,17 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 			diskovi.add(Main.diskovi.nadjiDisk(d));
 		return diskovi;
 		
+	}
+	
+	public boolean upaljena() {
+		
+		return this.aktivnosti.get(this.aktivnosti.size() - 1).isUpaljen();
+		
+	}
+
+	public void initAktivnost() {
+		// TODO Auto-generated method stub
+		this.aktivnosti.add(new Aktivnost(new Date(), false));
 	}
 
 }

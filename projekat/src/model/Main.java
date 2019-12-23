@@ -56,12 +56,12 @@ public class Main {
 		//3. prilikom unosa masine, mogu se zakaciti diskovi (to nemamo za sada)
 		//4. paljenje i gasenje masine kao i pampcenje tog stanja
 		//5. mesecni prihod
-		//6. u filtriranju masina dodaj da gleda substrin a ne jednakost
 		//7. upload slike za organizaciju
 		//8. prilikom unosa organizacije mogu da se unose korisnici i masine???
 		//9. lista aktivnosti, masina i korisnika treba da izgleda normalnije 
 		//10. formatiranje datuma (i kako treba da se prosledjuje datum?????)
 		//11. css
+		//12. e da null reference cuvaj kako "null" string
 		
 		
 	}
