@@ -154,4 +154,16 @@ public class Korisnik implements CSVData {
 		
 	}
 	
+	public ArrayList<Korisnik> getMojiKorisnici(){
+		
+		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.korisnici.getKorisnici();
+		if (this.uloga.equals(Uloga.KORISNIK)) return null;
+		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
+		for (Korisnik k: Main.korisnici.getKorisnici()) {
+			if (k.getOrganizacijaID().equals(this.organizacija) && !(k.equals(this)))
+				korisnici.add(k);
+		}
+		return korisnici;
+	}
+	
 }

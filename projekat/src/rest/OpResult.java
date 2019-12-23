@@ -2,6 +2,23 @@ package rest;
 
 public class OpResult {
 	
+	public enum KorisnikResult{
+		
+		OK, AL_EXISTS, DOESNT_EXIST, EMAIL_EXISTS, CANT_DEL_SELF;
+		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			switch(this.ordinal()) {
+			case 0: return "OK";
+			case 1: return "Unet korisnik vec postoji. ";
+			case 2: return "Unet korisnik ne postoji. ";
+			default: return "Nije moguce brisanje samog sebe. ";
+			}
+		}
+		
+	}
+	
 	public enum MasinaResult{
 		
 		OK, AL_EXISTS, DOESNT_EXIST, OR_DOESNT_EXIST, KAT_DOESNT_EXIST;

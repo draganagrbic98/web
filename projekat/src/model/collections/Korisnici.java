@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import model.beans.Korisnik;
 import model.beans.User;
 import model.dmanipulation.JKorisnikChange;
+import rest.JSONKorisnikChange;
+import rest.OpResult.KorisnikResult;
 
 public class Korisnici implements LoadStoreData{
 		
@@ -73,7 +75,54 @@ public class Korisnici implements LoadStoreData{
 		}
 		return null;
 	}
+	
+	public boolean hasEmail(String email) {
+		
+		for (Korisnik k: this.korisnici) {
+			if (k.getEmail().equals(email)) return true;
+		}
+		return false;
+		
+	}
 
+	public KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
+		
+		if (this.nadjiKorisnika(k.getUser().getKorisnickoIme()) != null) 
+			return KorisnikResult.AL_EXISTS;
+		if (this.hasEmail(k.getEmail()))
+			return KorisnikResult.EMAIL_EXISTS;
+		this.korisnici.add(k);
+		this.store();
+		return KorisnikResult.OK;
+		
+	}
+	
+	public KorisnikResult obrisiKorisnika(Korisnik k, User u) throws Exception {
+		
+		Korisnik korisnik = this.nadjiKorisnika(k.getUser().getKorisnickoIme());
+		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
+		if (korisnik.getUser().equals(u)) return KorisnikResult.CANT_DEL_SELF;
+		korisnik.getOrganizacija().obrisiKorisnika(korisnik);
+		this.korisnici.remove(korisnik);
+		this.store();
+		return KorisnikResult.OK;
+		
+	}
+	
+	public KorisnikResult izmeniKorisnika(JSONKorisnikChange k) {
+		
+		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
+		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
+		korisnik.setUser(k.getNoviKorisnik().getUser());
+		korisnik.setEmail(k.getNoviKorisnik().getEmail());
+		korisnik.setIme(k.getNoviKorisnik().getIme());
+		korisnik.setPrezime(k.getNoviKorisnik().getPrezime());
+		korisnik.setUloga(k.getNoviKorisnik().getUloga());
+		korisnik.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
+		return KorisnikResult.OK;
+		
+	}
+	
 	public boolean izmeniKorisnika(JKorisnikChange jkc) throws Exception {
 		Korisnik korisnik = this.nadjiKorisnika(jkc.getKorisnickoIme());
 

@@ -10,6 +10,7 @@ import model.collections.Organizacije;
 import model.dmanipulation.JKorisnikChange;
 import rest.DiskoviRest;
 import rest.KategorijeRest;
+import rest.KorisniciRest;
 import rest.MasineRest;
 import rest.OpResponse;
 import rest.OrganizacijeRest;
@@ -104,6 +105,7 @@ public class Main {
 		new DiskoviRest().init();
 		new OrganizacijeRest().init();
 		new MasineRest().init();
+		new KorisniciRest().init();
 
 		userManipulation();
 		

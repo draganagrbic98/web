@@ -121,5 +121,10 @@ public class Organizacija implements CSVData {
 		int index = this.masine.indexOf(oldIme);
 		this.masine.set(index, newIme);
 	}
+	public void obrisiKorisnika(Korisnik k) {
+		// TODO Auto-generated method stub
+		int index = this.korisnici.indexOf(k.getUser().getKorisnickoIme());
+		if (index != -1) this.korisnici.remove(index);
+	}
 
 }

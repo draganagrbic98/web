@@ -64,6 +64,7 @@ Vue.component("masine", {
 
                 <div v-if="uloga!='KORISNIK'">
                 	<button v-on:click="dodaj()">Dodaj masinu</button>
+                	<router-link to="/korisnici">Korisnici</router-link><br><br>
                 </div>
 
                 <div v-if="uloga=='SUPER_ADMIN'">

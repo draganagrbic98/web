@@ -79,7 +79,7 @@ public class Diskovi implements LoadStoreData {
 	public DiskResult obrisiDisk(Disk d) throws Exception {
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) return DiskResult.DOESNT_EXIST;
-		disk.getMasina().obrisiDisk(d);
+		disk.getMasina().obrisiDisk(disk);
 		this.diskovi.remove(disk);
 		this.store();
 		return DiskResult.OK;
