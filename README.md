@@ -9,3 +9,6 @@ treba da proverimo da li prilikom unosa organizacije mogu da unosim odmah korisn
 na nekim mestima mu pise da brisanje moze biti neuspesno (a po meni se to ne moze desiti). da proverimo da li mozda ima neko ogranicenje kog se nismo setili
 
 e da glugluj kako kad kliknem na back dugme kada menjam npr masinu ne odem na prijavu korisnika (jer je pregled masina i izmena jedna komponenta) nego da se prikaze tabela (tipa kad pritisnem na back dugme da se reloauduje stranica)
+
+
+za disk mislim da moze da se menja masina (a samim tim i organizacija) bar kada disk nema masinu (da ne bi doveka ostao nezakacen za masin), to treba proveriti
