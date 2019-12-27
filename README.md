@@ -14,3 +14,5 @@ e da glugluj kako kad kliknem na back dugme kada menjam npr masinu ne odem na pr
 za disk mislim da moze da se menja masina (a samim tim i organizacija) bar kada disk nema masinu (da ne bi doveka ostao nezakacen za masin), to treba proveriti
 
 dodaj za datum onaj filter
+
+za unos, izmenu i brisanje dodaj potvrdu
