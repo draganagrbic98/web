@@ -212,7 +212,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 
 	public void initAktivnost() {
 		// TODO Auto-generated method stub
-		this.aktivnosti.add(new Aktivnost(new Date(), false));
+		this.aktivnosti.add(new Aktivnost(new Date(), null, false));
 	}
 
 }

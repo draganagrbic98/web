@@ -6,34 +6,44 @@ import java.util.Date;
 
 import model.Main;
 
-public class Aktivnost implements CSVData{
-	
-	private Date datum;
+public class Aktivnost implements CSVData {
+
+	private Date datumPaljenja;
+	private Date datumGasenja;
 	private boolean upaljen;
-	
-	public Date getDatum() {
-		return datum;
+
+	public Date getDatumPaljenja() {
+		return datumPaljenja;
 	}
-	
-	public void setDatum(Date datum) {
-		this.datum = datum;
+
+	public void setDatumPaljenja(Date datumPaljenja) {
+		this.datumPaljenja = datumPaljenja;
 	}
-	
+
+	public Date getDatumGasenja() {
+		return datumGasenja;
+	}
+
+	public void setDatumGasenja(Date datumGasenja) {
+		this.datumGasenja = datumGasenja;
+	}
+
 	public boolean isUpaljen() {
 		return upaljen;
 	}
-	
+
 	public void setUpaljen(boolean upaljen) {
 		this.upaljen = upaljen;
 	}
-	
+
 	public Aktivnost() {
 		super();
 	}
-	
-	public Aktivnost(Date datum, boolean upaljen) {
+
+	public Aktivnost(Date datumPaljenja, Date datumGasenja, boolean upaljen) {
 		this();
-		this.datum = datum;
+		this.datumPaljenja = datumPaljenja;
+		this.datumGasenja = datumGasenja;
 		this.upaljen = upaljen;
 	}
 
@@ -41,25 +51,43 @@ public class Aktivnost implements CSVData{
 	public String toString() {
 		// TODO Auto-generated method stub
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
-		return String.format("Datum: %s, upaljen: %s", f.format(this.datum), this.upaljen);
+
+		if (this.datumGasenja.equals(null))
+			return String.format("Datum Paljenja: %s, Datum Gasenja: /, Upaljena: %s", f.format(this.datumPaljenja),
+					this.upaljen);
+		else
+			return String.format("Datum Paljenja: %s, Datum Gasenja: %s, Upaljena: %s", f.format(this.datumPaljenja),
+					f.format(this.datumGasenja), this.upaljen);
 	}
-	
+
 	public static void loadAktivnost(String line) throws ParseException {
-		
+
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
 		String[] array = line.split(";");
 		VirtuelnaMasina masina = Main.masine.nadjiMasinu(array[0].trim());
-		Date datum = f.parse(array[1].trim());
-		boolean upaljen = Boolean.parseBoolean(array[2].trim());
-		masina.dodajAktivnost(new Aktivnost(datum, upaljen));
-		
+		Date datumPaljenja = f.parse(array[1].trim());
+
+		Date datumGasenja = null;
+
+		if (array[2].trim().equals("/") == false)
+			datumGasenja = f.parse(array[2].trim());
+
+		boolean upaljen = Boolean.parseBoolean(array[3].trim());
+		masina.dodajAktivnost(new Aktivnost(datumPaljenja, datumGasenja, upaljen));
+
 	}
-	
+
 	@Override
 	public String csvLine() {
 		// TODO Auto-generated method stub
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
-		return f.format(this.datum) + ";" + this.upaljen;
+
+		String datumGasenja = "/";
+
+		if (this.datumGasenja == null)
+			return f.format(this.datumPaljenja) + ";" + datumGasenja + ";" + this.upaljen;
+		else
+			return f.format(this.datumPaljenja) + ";" + f.format(this.datumGasenja) + ";" + this.upaljen;
 	}
-	
+
 }

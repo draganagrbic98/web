@@ -40,13 +40,16 @@ Vue.component("masine", {
                 Aktivnosti: 
                 <p v-if="selectedMasina.aktivnosti.length==0">NEMA</p>
                 <ol>
-                    <li v-for="a in selectedMasina.aktivnosti">{{a.datum}} {{a.upaljen}}</li>
+                    <li v-for="a in selectedMasina.aktivnosti">{{a.datumPaljenja}} {{a.datumGasenja}} {{a.upaljen}}</li>
                 </ol><br>
                 Diskovi: 
                 <p v-if="selectedMasina.diskovi.length==0">NEMA</p>
                 <ol>
                     <li v-for="d in selectedMasina.diskovi">{{d}}</li>
                 </ol><br>
+                <div v-if="uloga=='SUPER_ADMIN'">
+                	<button v-on:click="promeni_status()">PROMENI STATUS MASINE</button><br><br>
+                </div>
                 <div v-if="uloga!='KORISNIK'">
 	                <button v-on:click="izmeni()">IZMENI</button><br><br>
 	                <button v-on:click="obrisi()">OBRISI</button><br><br>
@@ -201,6 +204,17 @@ Vue.component("masine", {
 
         },
 
+        promeni_status: function(){
+            axios.post("rest/masine/promeni_status", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
+            .then(response => {
+                this.selected = false;
+                location.reload();
+            })
+            .catch(error => {
+                this.greskaServer = error.response.data.result;
+            });        		
+    	},
+        
         logout: function(){
             axios.get("rest/user/logout")
             .then(response => {
