@@ -204,15 +204,15 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager{
 		
 	}
 	
-	public boolean upaljena() {
+	public StatusMasine upaljena() {
+		if (this.aktivnosti.isEmpty())
+			return StatusMasine.UGASENA;
 		
-		return this.aktivnosti.get(this.aktivnosti.size() - 1).isUpaljen();
-		
+		return this.aktivnosti.get(this.aktivnosti.size() - 1).getStatus();
 	}
 
 	public void initAktivnost() {
-		// TODO Auto-generated method stub
-		this.aktivnosti.add(new Aktivnost(new Date(), null, false));
+		this.aktivnosti.add(new Aktivnost(new Date(), null, StatusMasine.UGASENA));
 	}
 
 }

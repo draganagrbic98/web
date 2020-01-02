@@ -13,6 +13,7 @@ import java.util.Date;
 
 import model.Main;
 import model.beans.Aktivnost;
+import model.beans.StatusMasine;
 import model.beans.VirtuelnaMasina;
 import rest.data.JSONMasinaChange;
 import rest.data.OpResult.MasinaResult;
@@ -156,23 +157,23 @@ public class Masine implements LoadStoreData {
 				&& (!(m.getStaroIme().equals(m.getNovaMasina().getIme()))))
 			return MasinaResult.AL_EXISTS;
 		
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		Date date = new Date(System.currentTimeMillis());
 		
 		if (masina.getAktivnosti().isEmpty() == false) {
 			Aktivnost trenutnaAktivnost = masina.getAktivnosti().get(masina.getAktivnosti().size() - 1);
 			
-			if (trenutnaAktivnost.isUpaljen()) {
+			if (trenutnaAktivnost.getStatus() == StatusMasine.UPALJENA) {
 				trenutnaAktivnost.setDatumGasenja(f.parse(f.format(date)));
-				trenutnaAktivnost.setUpaljen(false);
+				trenutnaAktivnost.setStatus(StatusMasine.UGASENA);
 			}
 			else {
-				Aktivnost novaAktivnost = new Aktivnost(f.parse(f.format(date)), null, true);
+				Aktivnost novaAktivnost = new Aktivnost(f.parse(f.format(date)), null, StatusMasine.UPALJENA);
 				masina.getAktivnosti().add(novaAktivnost);
 			}
 		}
 		else {
-			Aktivnost novaAktivnost = new Aktivnost(f.parse(f.format(date)), null, true);
+			Aktivnost novaAktivnost = new Aktivnost(f.parse(f.format(date)), null, StatusMasine.UPALJENA);
 			masina.getAktivnosti().add(novaAktivnost);
 		}
 		

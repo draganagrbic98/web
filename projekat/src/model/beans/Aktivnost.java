@@ -10,7 +10,7 @@ public class Aktivnost implements CSVData {
 
 	private Date datumPaljenja;
 	private Date datumGasenja;
-	private boolean upaljen;
+	private StatusMasine status;
 
 	public Date getDatumPaljenja() {
 		return datumPaljenja;
@@ -28,23 +28,23 @@ public class Aktivnost implements CSVData {
 		this.datumGasenja = datumGasenja;
 	}
 
-	public boolean isUpaljen() {
-		return upaljen;
+	public StatusMasine getStatus() {
+		return status;
 	}
 
-	public void setUpaljen(boolean upaljen) {
-		this.upaljen = upaljen;
+	public void setStatus(StatusMasine status) {
+		this.status = status;
 	}
 
 	public Aktivnost() {
 		super();
 	}
 
-	public Aktivnost(Date datumPaljenja, Date datumGasenja, boolean upaljen) {
+	public Aktivnost(Date datumPaljenja, Date datumGasenja, StatusMasine status) {
 		this();
 		this.datumPaljenja = datumPaljenja;
 		this.datumGasenja = datumGasenja;
-		this.upaljen = upaljen;
+		this.status = status;
 	}
 
 	@Override
@@ -54,10 +54,10 @@ public class Aktivnost implements CSVData {
 
 		if (this.datumGasenja.equals(null))
 			return String.format("Datum Paljenja: %s, Datum Gasenja: /, Upaljena: %s", f.format(this.datumPaljenja),
-					this.upaljen);
+					this.status);
 		else
 			return String.format("Datum Paljenja: %s, Datum Gasenja: %s, Upaljena: %s", f.format(this.datumPaljenja),
-					f.format(this.datumGasenja), this.upaljen);
+					f.format(this.datumGasenja), this.status);
 	}
 
 	public static void loadAktivnost(String line) throws ParseException {
@@ -72,8 +72,8 @@ public class Aktivnost implements CSVData {
 		if (array[2].trim().equals("/") == false)
 			datumGasenja = f.parse(array[2].trim());
 
-		boolean upaljen = Boolean.parseBoolean(array[3].trim());
-		masina.dodajAktivnost(new Aktivnost(datumPaljenja, datumGasenja, upaljen));
+		StatusMasine status = StatusMasine.valueOf(array[3].trim());
+		masina.dodajAktivnost(new Aktivnost(datumPaljenja, datumGasenja, status));
 
 	}
 
@@ -85,9 +85,9 @@ public class Aktivnost implements CSVData {
 		String datumGasenja = "/";
 
 		if (this.datumGasenja == null)
-			return f.format(this.datumPaljenja) + ";" + datumGasenja + ";" + this.upaljen;
+			return f.format(this.datumPaljenja) + ";" + datumGasenja + ";" + this.status;
 		else
-			return f.format(this.datumPaljenja) + ";" + f.format(this.datumGasenja) + ";" + this.upaljen;
+			return f.format(this.datumPaljenja) + ";" + f.format(this.datumGasenja) + ";" + this.status;
 	}
 
 }

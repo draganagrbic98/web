@@ -5,6 +5,7 @@ Vue.component("masine", {
             masine: [], 
             selectedMasina: {}, 
             selectedMasinaId: '',
+            selectedMasinaStatus: '',
             selected: false, 
             pretragaIme: '',
             pretragaBrojJezgara: '', 
@@ -27,33 +28,50 @@ Vue.component("masine", {
             <div v-if="selected">
 
                 <h1>Izmena masine</h1>
+                
                 Ime: <input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
                 Organizacija: <input type="text" v-model="selectedMasina.organizacija" disabled><br><br>
+                
                 Kategorija: <select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
                     <option v-for="k in kategorije">
                         {{k.ime}}
                     </option>
                 </select><br><br>
+                
                 Broj jezgara: <input type="text" v-model="selectedMasina.brojJezgara" disabled><br><br>
                 RAM: <input type="text" v-model="selectedMasina.RAM" disabled><br><br>
                 Broj GPU jezgara: <input type="text" v-model="selectedMasina.GPUjezgra" disabled><br><br>
+                
                 Aktivnosti: 
                 <p v-if="selectedMasina.aktivnosti.length==0">NEMA</p>
-                <ol>
-                    <li v-for="a in selectedMasina.aktivnosti">{{a.datumPaljenja}} {{a.datumGasenja}} {{a.upaljen}}</li>
-                </ol><br>
+                
+                <table v-if="selectedMasina.aktivnosti.length!=0">
+                	<th>Datum paljenja</th><th>Datum Gasenja</th>
+                	
+                	<tr v-for="a in selectedMasina.aktivnosti">
+                		<td>{{a.datumPaljenja}}</td> <td>{{a.datumGasenja}}</td>
+                	</tr>
+                </table><br><br>
+                
+                Status: {{selectedMasinaStatus}}<br><br>
+                
                 Diskovi: 
                 <p v-if="selectedMasina.diskovi.length==0">NEMA</p>
+                
                 <ol>
                     <li v-for="d in selectedMasina.diskovi">{{d}}</li>
                 </ol><br>
+                
                 <div v-if="uloga=='SUPER_ADMIN'">
-                	<button v-on:click="promeni_status()">PROMENI STATUS MASINE</button><br><br>
-                </div>
+               		<button v-if="selectedMasinaStatus == 'UGASENA'" v-on:click="promeni_status()">UPALI MASINU</button>
+                	<button v-if="selectedMasinaStatus == 'UPALJENA'" v-on:click="promeni_status()">UGASI MASINU</button>
+                </div><br><br>
+                
                 <div v-if="uloga!='KORISNIK'">
 	                <button v-on:click="izmeni()">IZMENI</button><br><br>
 	                <button v-on:click="obrisi()">OBRISI</button><br><br>
                 </div>
+                
                 {{greskaServer}}
 
             </div>
@@ -73,10 +91,12 @@ Vue.component("masine", {
                 </table><br><br>
 
                 <h1>Pretraga</h1>
+                
                 Ime: <input type="text" v-model="pretragaIme"><br><br>
                 Broj jezgara: <input type="number" min="1" v-model="pretragaBrojJezgara"><br><br>
                 RAM: <input type="number" min="1" v-model="pretragaRAM"><br><br>
                 GPU jezgra: <input type="number" min="0" v-model="pretragaGPUjezgra"><br><br>
+                
                 <button v-on:click="pretrazi()">FILTRIRAJ</button><br><br>
 
                 <span v-if="uloga!='KORISNIK'">
@@ -163,6 +183,14 @@ Vue.component("masine", {
             this.selectedMasinaId = masina.ime;
             this.selected = true;
             this.kat = this.selectedMasina.kategorija.ime;
+            
+            axios.post("rest/masine/status", this.selectedMasinaId)
+            .then(response => {
+                this.selectedMasinaStatus = response.data;
+            })
+            .catch(error => {
+                this.$router.push("/");
+            });
         }, 
 
         dodaj: function(){

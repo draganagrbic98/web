@@ -1,1 +1,2 @@
-masina1;30.12.2019.;30.12.2019.;false
+masina1;02.01.2020.;02.01.2020.;UGASENA
+masina1;02.01.2020.;/;UPALJENA

@@ -62,6 +62,18 @@ public class MasineRest implements RestEntity{
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});
 		
+		post("rest/masine/status", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			
+			VirtuelnaMasina masina = Main.masine.nadjiMasinu(jsonConvertor.fromJson(req.body(), String.class));
+			return jsonConvertor.toJson(masina.upaljena());
+		});
+		
 		post("rest/masine/promeni_status", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
