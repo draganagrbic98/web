@@ -1,6 +1,7 @@
 package model.beans;
 
 import model.Main;
+import rest.data.JSONRacunZahtev;
 
 public class Disk implements CSVData, ReferenceManager {
 
@@ -12,32 +13,32 @@ public class Disk implements CSVData, ReferenceManager {
 	public String getIme() {
 		return ime;
 	}
-	
+
 	public void setIme(String ime) {
 		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
-	
+
 	public TipDiska getTip() {
 		return tip;
 	}
-	
+
 	public void setTip(TipDiska tip) {
 		this.tip = tip;
 	}
-	
+
 	public int getKapacitet() {
 		return kapacitet;
 	}
-	
+
 	public void setKapacitet(int kapacitet) {
 		this.kapacitet = kapacitet;
 	}
-	
+
 	public String getMasinaID() {
 		return masina;
 	}
-	
+
 	public void setMasina(String masina) {
 		this.masina = masina;
 	}
@@ -45,12 +46,12 @@ public class Disk implements CSVData, ReferenceManager {
 	public Disk() {
 		super();
 	}
-	
+
 	public Disk(String ime) {
 		this();
 		this.ime = ime;
 	}
-	
+
 	public Disk(String ime, TipDiska tip, int kapacitet, String masina) {
 		this();
 		this.ime = ime;
@@ -64,13 +65,15 @@ public class Disk implements CSVData, ReferenceManager {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Ime: %s, tip: %s, kapacitet: %s, masina: %s", this.ime, this.tip, this.kapacitet, this.masina);
+		return String.format("Ime: %s, tip: %s, kapacitet: %s, masina: %s", this.ime, this.tip, this.kapacitet,
+				this.masina);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof Disk)) return false;
+		if (!(obj instanceof Disk))
+			return false;
 		return ((Disk) obj).ime.equals(this.ime);
 	}
 
@@ -88,7 +91,7 @@ public class Disk implements CSVData, ReferenceManager {
 		// TODO Auto-generated method stub
 		return this.ime + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + this.masina;
 	}
-	
+
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
 		// TODO Auto-generated method stub
@@ -99,7 +102,7 @@ public class Disk implements CSVData, ReferenceManager {
 	@Override
 	public void notifyUpdate(String newId) {
 		// TODO Auto-generated method stub
-		for (VirtuelnaMasina m: Main.masine.getMasine())
+		for (VirtuelnaMasina m : Main.masine.getMasine())
 			m.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 
 	}
@@ -114,12 +117,25 @@ public class Disk implements CSVData, ReferenceManager {
 	@Override
 	public void notifyRemoval() {
 		// TODO Auto-generated method stub
-		for (VirtuelnaMasina m: Main.masine.getMasine())
+		for (VirtuelnaMasina m : Main.masine.getMasine())
 			m.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
 	private VirtuelnaMasina getMasina() {
 		return Main.masine.nadjiMasinu(this.masina);
+	}
+
+	public double izracunajRacun(JSONRacunZahtev racunZahtev) {
+		double racunDiska = 0;
+		double pocetni = racunZahtev.getPocetniDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;
+		double krajnji = racunZahtev.getKrajnjiDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;
+
+		if (tip == TipDiska.HDD)
+			racunDiska = (krajnji - pocetni) * 0.1 * kapacitet;
+		else if (tip == TipDiska.SSD)
+			racunDiska = (krajnji - pocetni) * 0.3 * kapacitet;
+		
+		return racunDiska;
 	}
 
 }

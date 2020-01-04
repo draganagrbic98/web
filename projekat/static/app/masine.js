@@ -2,6 +2,7 @@ Vue.component("masine", {
 
     data: function(){
         return {
+        	diskovi: [],
             masine: [], 
             selectedMasina: {}, 
             selectedMasinaId: '',
@@ -14,6 +15,16 @@ Vue.component("masine", {
             greskaIme: '',
             greskaServer: '', 
             greska: false, 
+            greskaPocetni: '',
+            greskaKrajnji: '',
+            pocetniDatum: '',
+            krajnjiDatum: '',
+            prikaziRacun: false,
+            racun: {
+            	'racuniMasine' : {},
+            	'racuniDiskovi' : {},
+            	'ukupniRacun' : ''
+            },
             kategorije: [], 
             backup: [],
             uloga: '', 
@@ -25,7 +36,7 @@ Vue.component("masine", {
 
         <div>
 
-            <div v-if="selected">
+            <div v-if="selected && !prikaziRacun">
 
                 <h1>Izmena masine</h1>
                 
@@ -72,11 +83,13 @@ Vue.component("masine", {
 	                <button v-on:click="obrisi()">OBRISI</button><br><br>
                 </div>
                 
+                <button v-on:click="vratiNaMasine">POVRATAK</button><br><br>
+
                 {{greskaServer}}
 
             </div>
         
-            <div v-if="!selected">
+            <div v-if="!selected && !prikaziRacun">
 
                 <h1>Registrovane masine</h1>
                 <table border="1">
@@ -101,8 +114,14 @@ Vue.component("masine", {
 
                 <span v-if="uloga!='KORISNIK'">
                 	<button v-on:click="dodaj()">DODAJ MASINU</button><br><br>
-                	<router-link to="/korisnici">KORISNICI</router-link> &nbsp&nbsp
+                	<router-link to="/korisnici">KORISNICI</router-link> &nbsp&nbsp <br><br>
                 </span>
+
+    			<div v-if="uloga=='ADMIN'">
+    			    Pocetni datum: <input type="date" v-model="pocetniDatum"> {{greskaPocetni}} <br><br>
+                	Krajnji datum: <input type="date" v-model="krajnjiDatum"> {{greskaKrajnji}} <br><br>
+                	<button v-on:click="izracunajRacun">PRIKAZI RACUN</button><br><br>
+    			</div>
 
                 <span v-if="uloga=='SUPER_ADMIN'">
                     <router-link to="/kategorije">KATEGORIJE</router-link> &nbsp&nbsp
@@ -113,6 +132,27 @@ Vue.component("masine", {
                 <router-link to="/profil">PROFIL</router-link><br><br>
                 <button v-on:click="logout()">ODJAVA</button><br><br>
 
+            </div>
+            
+            <div v-if="!selected && prikaziRacun">
+
+                <h1>Pregled racuna za odabrani period</h1>
+                
+                <table border="1">
+	                <tr><th>Tip uredjaja</th><th>Ime</th><th>Racun</th></tr>
+	                
+	                <tr v-for="m in masine">
+	                    <td>Virtuelna masina</td><td>{{m.ime}}</td><td>{{racun.racuniMasine[m.ime]}}</td>
+	                </tr>
+	                
+	                <tr v-for="d in diskovi">
+	                    <td>Disk</td><td>{{d.ime}}</td><td>{{racun.racuniDiskovi[d.ime]}}</td>
+	                </tr>
+                </table><br><br>
+                
+                Ukupan racun: <input type="text" v-model="racun.ukupniRacun" disabled><br><br>
+                
+                <button v-on:click="vratiNaMasine">POVRATAK</button><br><br>
             </div>
 
         </div>
@@ -140,6 +180,14 @@ Vue.component("masine", {
         .then(response => {
             this.masine = response.data;
             this.backup = response.data;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
+        
+        axios.get("rest/diskovi/pregled")
+        .then(response => {
+            this.diskovi = response.data;
         })
         .catch(error => {
             this.$router.push("/");
@@ -216,7 +264,7 @@ Vue.component("masine", {
             this.greska = false;
 
             if (this.selectedMasina.ime == ''){
-                this.greskaIme = "Ime ne sme biti prazno. ";
+                this.greskaIme = "Ime ne sme biti prazno.";
                 this.greska = true;
             }
             if (this.greska) return;
@@ -232,7 +280,64 @@ Vue.component("masine", {
 
         },
 
-        promeni_status: function(){
+        izracunajRacun: function(){
+
+            this.greskaPocetni = '';
+            this.greskaKrajnji = '';
+            this.greska = false;
+
+            if (this.pocetniDatum == ''){
+                this.greskaPocetni = "Ovo polje ne sme biti prazno.";
+                this.greska = true;
+            }
+            
+            if (this.krajnjiDatum == ''){
+                this.greskaKrajnji = "Ovo polje ne sme biti prazno.";
+                this.greska = true;
+            }
+
+            if (this.greska) return;
+
+            var y1 = this.pocetniDatum.substr(0,4),
+                m1 = this.pocetniDatum.substr(5,2) - 1,
+                d1 = this.pocetniDatum.substr(8,2);
+            
+            var pocetni = new Date(y1,m1,d1);
+            
+            var y2 = this.krajnjiDatum.substr(0,4),
+            	m2 = this.krajnjiDatum.substr(5,2) - 1,
+            	d2 = this.krajnjiDatum.substr(8,2);
+        
+            var krajnji = new Date(y2,m2,d2);
+            
+            if (pocetni > krajnji) {
+                this.greskaPocetni = "Pocetni datum mora biti pre krajnjeg.";
+                this.greska = true;
+            }
+            else if (this.pocetniDatum == this.krajnjiDatum) {
+                this.greskaPocetni = "Pocetni i krajnji datum moraju biti razliciti.";
+                this.greska = true;
+            }
+            
+            if (this.greska) return;
+
+            axios.post("rest/masine/izracunajRacun", {"pocetniDatum": pocetni.getTime(), "krajnjiDatum": krajnji.getTime()})
+            .then(response => {
+                this.prikaziRacun = true;
+            	this.racun = response.data;
+            })
+            .catch(error => {
+                this.greskaServer = "CRITICAL SERVER ERROR";
+            });
+            
+        },
+        
+        vratiNaMasine: function() {
+        	this.prikaziRacun = false;
+        	this.selected = false;
+        },
+        
+        promeni_status: function() {
             axios.post("rest/masine/promeni_status", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
                 this.selected = false;

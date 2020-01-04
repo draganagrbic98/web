@@ -52,13 +52,13 @@ public class Main {
 		new DataRest().init();
 
 		//TO DO
-		//1. ako je negde ostalo da se doda vracanje statusa servera, uradi to (i izmeni komponente (dodaj catch))
+		//1. ako je negde ostalo da se doda vracanje statusa servera, uradi to (i izmeni komponente (dodaj catch))&
 		//3. prilikom unosa masine, mogu se zakaciti diskovi (to nemamo za sada)
-		//4. paljenje i gasenje masine kao i pampcenje tog stanja
-		//5. mesecni prihod
+		//4. paljenje i gasenje masine kao i pampcenje tog stanja&
+		//5. mesecni prihod&
 		//7. upload slike za organizaciju
 		//8. prilikom unosa organizacije mogu da se unose korisnici i masine???
-		//9. lista aktivnosti, masina i korisnika treba da izgleda normalnije 
+		//9. lista aktivnosti, masina i korisnika treba da izgleda normalnije&
 		//10. formatiranje datuma (i kako treba da se prosledjuje datum?????)
 		//11. css
 		//12. e da null reference cuvaj kako "null" string

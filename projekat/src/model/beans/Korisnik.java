@@ -1,8 +1,10 @@
 package model.beans;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.Main;
+import rest.data.JSONRacunZahtev;
 
 public class Korisnik implements CSVData, ReferenceManager {
 
@@ -201,6 +203,26 @@ public class Korisnik implements CSVData, ReferenceManager {
 	
 	private Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
+	}
+
+	public Racun izracunajRacun(JSONRacunZahtev racunZahtev) {		
+		HashMap<String, Double> racuniMasine = new HashMap<String, Double>();
+		HashMap<String, Double> racuniDiskovi = new HashMap<String, Double>();
+		double ukupniRacun = 0;
+		
+		for (VirtuelnaMasina vm: getMojeMasine()) {
+			double racunMasine = vm.izracunajRacun(racunZahtev);
+			racuniMasine.put(vm.getIme(), Math.round(racunMasine * 100.0) / 100.0);
+			ukupniRacun += racunMasine;
+		}
+		
+		for (Disk d: getMojiDiskovi()) {
+			double racunDiska = d.izracunajRacun(racunZahtev);
+			racuniDiskovi.put(d.getIme(), Math.round(racunDiska * 100.0) / 100.0);
+			ukupniRacun += racunDiska;
+		}
+		
+		return new Racun(racuniMasine, racuniDiskovi, Math.round(ukupniRacun * 100.0) / 100.0);
 	}
 	
 }
