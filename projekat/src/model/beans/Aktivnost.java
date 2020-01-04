@@ -73,7 +73,8 @@ public class Aktivnost implements CSVData {
 			datumGasenja = f.parse(array[2].trim());
 
 		StatusMasine status = StatusMasine.valueOf(array[3].trim());
-		masina.dodajAktivnost(new Aktivnost(datumPaljenja, datumGasenja, status));
+		if (masina != null)
+			masina.dodajAktivnost(new Aktivnost(datumPaljenja, datumGasenja, status));
 
 	}
 

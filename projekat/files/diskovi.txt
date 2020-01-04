@@ -1,2 +1,0 @@
-disk2;0;12;masina1
-disk3;0;123;masina2
