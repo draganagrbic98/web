@@ -2,7 +2,8 @@ Vue.component("diskovi", {
 
     data: function(){
         return {
-            diskovi: [], 
+            diskovi: [],
+            backup: [],
             selectedDisk: {}, 
             selectedDiskId: '',
             selected: false, 
@@ -12,7 +13,12 @@ Vue.component("diskovi", {
             greskaServer: '', 
             greska: false,
             uloga: '', 
-            tipovi: []
+            tipovi: [],
+            pretragaIme: '',
+            pretragaVMIme: '',
+            pretragaTipDiska: '',
+            pretragaMinKapacitet: '',
+            pretragaMaxKapacitet: ''
         }
     }, 
 
@@ -55,8 +61,21 @@ Vue.component("diskovi", {
                 <div v-if="uloga!='KORISNIK'">
                 	<button v-on:click="dodaj()">DODAJ DISK</button><br><br>
                 </div>
+                
+                Ime: <input type="text" v-model="pretragaIme"><br><br>
+                Tip Diska: <select v-model="pretragaTipDiska"> 
+	                			<option v-for="t in tipovi">
+	                    			{{t}}
+	                			</option>
+                		   </select> <br><br>
+                Min. Kapacitet: <input type="number" min="1" v-model="pretragaMinKapacitet"><br><br>
+                Max. Kapacitet: <input type="number" min="1" v-model="pretragaMaxKapacitet"><br><br>
+                Ime Virtuelne masine: <input type="text" v-model="pretragaVMIme"><br><br>
+
+                <button v-on:click="pretrazi()">FILTRIRAJ</button><br><br>
+
             	<router-link to="/masine">MAIN PAGE</router-link><br><br>
-            	
+          
             </div>
         </div>
     `,
@@ -65,7 +84,8 @@ Vue.component("diskovi", {
 
         axios.get("rest/diskovi/pregled")
         .then(response => {
-            this.diskovi = response.data
+            this.diskovi = response.data;
+            this.backup = response.data;
         })
         .catch(error => {
             this.$router.push("masine");
@@ -97,6 +117,20 @@ Vue.component("diskovi", {
             this.selected = true;
         }, 
 
+        pretrazi: function(){
+            this.diskovi = [];
+            
+            for (let d of this.backup){
+                let imePassed = (this.pretragaIme != '') ? (d.ime.includes(this.pretragaIme)) : true;
+                let imeVMPassed = (this.pretragaVMIme != '') ? (d.masina.includes(this.pretragaVMIme)) : true;
+                let tipDiskaPassed = (this.pretragaTipDiska != '') ? (d.tip.includes(this.pretragaTipDiska)) : true;
+                let minKapacitetPassed = (this.pretragaMinKapacitet != '') ? (d.kapacitet >= this.pretragaMinKapacitet) : true;
+                let maxKapacitetPassed = (this.pretragaMaxKapacitet != '') ? (d.kapacitet <= this.pretragaMaxKapacitet) : true;
+                
+                if (imePassed && imeVMPassed && tipDiskaPassed && minKapacitetPassed & maxKapacitetPassed) this.diskovi.push(d);
+            }
+        },
+        
         dodaj: function(){
             this.$router.push("dodajDisk");
         }, 
