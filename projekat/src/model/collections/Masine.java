@@ -13,11 +13,9 @@ import java.util.Date;
 
 import model.Main;
 import model.beans.Aktivnost;
-import model.beans.Racun;
 import model.beans.StatusMasine;
 import model.beans.VirtuelnaMasina;
 import rest.data.JSONMasinaChange;
-import rest.data.JSONRacunZahtev;
 import rest.data.OpResult.MasinaResult;
 
 public class Masine implements LoadStoreData {

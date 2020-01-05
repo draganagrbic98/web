@@ -58,10 +58,13 @@ Vue.component("diskovi", {
                     <td>{{d.masina}}</td>
                 </tr>
                 </table><br><br>
+                
                 <div v-if="uloga!='KORISNIK'">
                 	<button v-on:click="dodaj()">DODAJ DISK</button><br><br>
                 </div>
                 
+                <h1>Pretraga</h1>
+
                 Ime: <input type="text" v-model="pretragaIme"><br><br>
                 Tip Diska: <select v-model="pretragaTipDiska"> 
 	                			<option v-for="t in tipovi">
@@ -127,7 +130,7 @@ Vue.component("diskovi", {
                 let minKapacitetPassed = (this.pretragaMinKapacitet != '') ? (d.kapacitet >= this.pretragaMinKapacitet) : true;
                 let maxKapacitetPassed = (this.pretragaMaxKapacitet != '') ? (d.kapacitet <= this.pretragaMaxKapacitet) : true;
                 
-                if (imePassed && imeVMPassed && tipDiskaPassed && minKapacitetPassed & maxKapacitetPassed) this.diskovi.push(d);
+                if (imePassed && imeVMPassed && tipDiskaPassed && minKapacitetPassed && maxKapacitetPassed) this.diskovi.push(d);
             }
         },
         

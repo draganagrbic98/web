@@ -9,9 +9,12 @@ Vue.component("masine", {
             selectedMasinaStatus: '',
             selected: false, 
             pretragaIme: '',
-            pretragaBrojJezgara: '', 
-            pretragaRAM: '', 
-            pretragaGPUjezgra: '',
+            pretragaMinBrojJezgara: '', 
+            pretragaMaxBrojJezgara: '', 
+            pretragaMinRAM: '', 
+            pretragaMaxRAM: '', 
+            pretragaMinGPUjezgra: '',
+            pretragaMaxGPUjezgra: '',
             greskaIme: '',
             greskaServer: '', 
             greska: false, 
@@ -106,9 +109,12 @@ Vue.component("masine", {
                 <h1>Pretraga</h1>
                 
                 Ime: <input type="text" v-model="pretragaIme"><br><br>
-                Broj jezgara: <input type="number" min="1" v-model="pretragaBrojJezgara"><br><br>
-                RAM: <input type="number" min="1" v-model="pretragaRAM"><br><br>
-                GPU jezgra: <input type="number" min="0" v-model="pretragaGPUjezgra"><br><br>
+                Min. Broj jezgara: <input type="number" min="1" v-model="pretragaMinBrojJezgara"><br><br>
+                Max. Broj jezgara: <input type="number" min="1" v-model="pretragaMaxBrojJezgara"><br><br>
+                Min. RAM: <input type="number" min="1" v-model="pretragaMinRAM"><br><br>
+                Max. RAM: <input type="number" min="1" v-model="pretragaMaxRAM"><br><br>
+                Min. GPU jezgra: <input type="number" min="0" v-model="pretragaMinGPUjezgra"><br><br>
+                Max. GPU jezgra: <input type="number" min="0" v-model="pretragaMaxGPUjezgra"><br><br>
                 
                 <button v-on:click="pretrazi()">FILTRIRAJ</button><br><br>
 
@@ -218,10 +224,17 @@ Vue.component("masine", {
             this.masine = [];
             for (let m of this.backup){
                 let imePassed = (this.pretragaIme != '') ? (m.ime.includes(this.pretragaIme)) : true;
-                let brojJezgaraPassed = (this.pretragaBrojJezgara != '') ? (m.brojJezgara == this.pretragaBrojJezgara) : true;
-                let RAMPassed = (this.pretragaRAM != '') ? (m.RAM == this.pretragaRAM) : true;
-                let GPUjezgraPassed = (this.pretragaGPUjezgra != '') ? (m.GPUjezgra == this.pretragaGPUjezgra) : true;
-                if (imePassed && brojJezgaraPassed && RAMPassed && GPUjezgraPassed) this.masine.push(m);
+                
+                let minBrojJezgaraPassed = (this.pretragaMinBrojJezgara != '') ? (m.brojJezgara >= this.pretragaMinBrojJezgara) : true;
+                let maxBrojJezgaraPassed = (this.pretragaMaxBrojJezgara != '') ? (m.brojJezgara <= this.pretragaMaxBrojJezgara) : true;
+               
+                let minRAMPassed = (this.pretragaMinRAM != '') ? (m.RAM >= this.pretragaMinRAM) : true;
+                let maxRAMPassed = (this.pretragaMaxRAM != '') ? (m.RAM <= this.pretragaMaxRAM) : true;
+
+                let minGPUjezgraPassed = (this.pretragaMinGPUjezgra != '') ? (m.GPUjezgra >= this.pretragaMinGPUjezgra) : true;
+                let maxGPUjezgraPassed = (this.pretragaMaxGPUjezgra != '') ? (m.GPUjezgra <= this.pretragaMaxGPUjezgra) : true;
+                
+                if (imePassed && minBrojJezgaraPassed && maxBrojJezgaraPassed && minRAMPassed && maxRAMPassed && minGPUjezgraPassed && maxGPUjezgraPassed) this.masine.push(m);
             }
 
         },
