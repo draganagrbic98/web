@@ -26,21 +26,26 @@ Vue.component("profil", {
 
 	template: `
 	
-		<div>
+		<div class="profil">
 
 			<h1>Podaci o korisniku</h1><br><br>
 
-			Korisnicko Ime: <input type="text" v-model="korisnik.user.korisnickoIme" disabled><br><br>
-			Email: <input type="text" v-model="korisnik.email">{{greskaEmail}}<br><br>
-			Ime: <input type="text" v-model="korisnik.ime">{{greskaIme}}<br><br>
-			Prezime: <input type="text" v-model="korisnik.prezime">{{greskaPrezime}}<br><br>
-			Uloga: <input type="text" v-model="korisnik.uloga" disabled><br><br>
-			Organizacija: <input type="text" v-model="korisnik.organizacija" disabled><br><br>
-			Nova Lozinka: <input type="password" v-model="novaLozinka"><br><br>
-			Ponovljena lozinka: <input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''">{{greskaLozinka}}<br><br>
-			<button v-on:click="izmeni()">IZMENI</button><br><br>
-			<router-link to="/masine">MAIN PAGE</router-link><br><br>
-			{{greskaServer}}
+			<table>
+				<tr><td class="right">Korisnicko Ime: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.user.korisnickoIme" disabled></td></tr>
+				<tr><td class="right">Email: </td> <td class="left"><input type="text" v-model="korisnik.email"></td> <td>{{greskaEmail}}</td></tr>
+				<tr><td class="right">Ime: </td> <td class="left"><input type="text" v-model="korisnik.ime"></td> <td>{{greskaIme}}</td></tr>
+				<tr><td class="right">Prezime: </td> <td class="left"><input type="text" v-model="korisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
+				<tr><td class="right">Uloga: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.uloga" disabled></td></tr>
+				<tr><td class="right">Organizacija: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.organizacija" disabled></td></tr>
+				<tr><td class="right">Nova Lozinka: </td> <td class="left" colspan="2"><input type="password" v-model="novaLozinka"></td></tr>
+				<tr><td class="right">Ponovljena lozinka: </td> <td class="left"><input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"></td> <td>{{greskaLozinka}}</td></tr>
+				<tr><td colspan="3"><button v-on:click="izmeni()">IZMENI</button></td></tr>
+				<tr><td colspan="3">{{greskaServer}}</td></tr>
+			</table>
+			
+			<br><br>
+			
+			<router-link to="/masine">Pocetna Stranica</router-link><br><br>
 
 		</div>
 	`, 

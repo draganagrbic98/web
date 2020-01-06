@@ -39,14 +39,16 @@ Vue.component("organizacije", {
             <div v-if="!selected">
 
                 <h1>Registrovane organizacije</h1>
-                <table border="1">
-                <tr><th>Ime</th><th>Opis</th><th>Logo</th></tr>
-                <tr v-for="o in organizacije" v-on:click="selectOrganizacija(o)">
-                    <td>{{o.ime}}</td>
-                    <td>{{o.opis}}</td>
-                    <td>{{o.logo}}</td>
-            	</tr>
+                
+                <table class="data" border="1">
+	                <tr><th>Ime</th><th>Opis</th><th>Logo</th></tr>
+	                <tr v-for="o in organizacije" v-on:click="selectOrganizacija(o)">
+	                    <td>{{o.ime}}</td>
+	                    <td>{{o.opis}}</td>
+	                    <td>{{o.logo}}</td>
+	            	</tr>
                 </table><br><br>
+                
                 <button v-on:click="dodaj()">DODAJ ORGANIZACIJU</button><br><br>
                 <router-link to="/masine">MAIN PAGE</router-link><br><br>
                 

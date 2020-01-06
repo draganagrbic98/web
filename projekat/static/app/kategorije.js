@@ -22,10 +22,12 @@ Vue.component("kategorije", {
             <div v-if="selected">
 
                 <h1>Izmena kategorije</h1>
+                
                 Ime: <input type="text" v-model="selectedKategorija.ime"> {{greskaIme}} <br><br>
                 Broj jezgara: <input type="text" v-model="selectedKategorija.brojJezgara"> {{greskaBrojJezgara}} <br><br>
                 RAM: <input type="text" v-model="selectedKategorija.RAM"> {{greskaRAM}} <br><br>
                 GPU jezgra: <input type="text" v-model="selectedKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
+                
                 <button v-on:click="izmeni()">IZMENI</button><br><br>
                 <button v-on:click="obrisi()">OBRISI</button><br><br>
                 {{greskaServer}}
@@ -35,15 +37,17 @@ Vue.component("kategorije", {
             <div v-if="!selected">
 
                 <h1>Registrovane kategorije</h1>
-                <table border="1">
-                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th></tr>
-                <tr v-for="k in kategorije" v-on:click="selectKategorija(k)">
-                    <td>{{k.ime}}</td>
-                    <td>{{k.brojJezgara}}</td>
-                    <td>{{k.RAM}}</td>
-                    <td>{{k.GPUjezgra}}</td>
-                </tr> 
+                
+                <table class="data" border="1">
+	                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th></tr>
+	                <tr v-for="k in kategorije" v-on:click="selectKategorija(k)">
+	                    <td>{{k.ime}}</td>
+	                    <td>{{k.brojJezgara}}</td>
+	                    <td>{{k.RAM}}</td>
+	                    <td>{{k.GPUjezgra}}</td>
+	                </tr> 
                 </table><br><br>
+                
                 <button v-on:click="dodaj()">DODAJ KATEGORIJU</button><br><br>
                 <router-link to="/masine">MAIN PAGE</router-link><br><br>
                 

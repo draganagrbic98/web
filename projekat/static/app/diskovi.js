@@ -29,6 +29,7 @@ Vue.component("diskovi", {
             <div v-if="selected">
 
                 <h1>Izmena diska</h1>
+                
                 Ime: <input type="text" v-model="selectedDisk.ime" v-bind:disabled="uloga=='KORISNIK'"> {{greskaIme}} <br><br>
                 Tip: <select v-model="selectedDisk.tip" v-bind:disabled="uloga=='KORISNIK'"> 
 	                <option v-for="t in tipovi">
@@ -36,12 +37,15 @@ Vue.component("diskovi", {
 	                </option>
                 </select> 
                 {{greskaTip}} <br><br>
+                
                 Kapacitet: <input type="text" v-model="selectedDisk.kapacitet" v-bind:disabled="uloga=='KORISNIK'"> {{greskaKapacitet}} <br><br>
                 Virtuelna masina: <input type="text" v-model="selectedDisk.masina" disabled><br><br>
+                
                 <div v-if="uloga!='KORISNIK'">
 	                <button v-on:click="izmeni()">IZMENI</button><br><br>
 	                <button v-on:click="obrisi()">OBRISI</button><br><br>
                 </div>
+                
                 {{greskaServer}}
 
             </div>
@@ -49,14 +53,15 @@ Vue.component("diskovi", {
             <div v-if="!selected">
 
                 <h1>Registrovani diskovi</h1>
-                <table border="1">
-                <tr><th>Ime</th><th>Tip</th><th>Kapacitet</th><th>Virutelna masina</th></tr>
-                <tr v-for="d in diskovi" v-on:click="selectDisk(d)">
-                    <td>{{d.ime}}</td>
-                    <td>{{d.tip}}</td>
-                    <td>{{d.kapacitet}}</td>
-                    <td>{{d.masina}}</td>
-                </tr>
+                
+                <table class="data" border="1">
+	                <tr><th>Ime</th><th>Tip</th><th>Kapacitet</th><th>Virutelna masina</th></tr>
+	                <tr v-for="d in diskovi" v-on:click="selectDisk(d)">
+	                    <td>{{d.ime}}</td>
+	                    <td>{{d.tip}}</td>
+	                    <td>{{d.kapacitet}}</td>
+	                    <td>{{d.masina}}</td>
+	                </tr>
                 </table><br><br>
                 
                 <div v-if="uloga!='KORISNIK'">

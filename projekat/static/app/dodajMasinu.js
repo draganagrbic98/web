@@ -31,31 +31,49 @@ Vue.component("dodajMasinu", {
 
     template:`
 
-        <div>
+        <div class="dodavanje_masine">
 
             <h1>Registracija nove masine</h1>
-                Ime: <input type="text" v-model="novaMasina.ime"> {{greskaIme}} <br><br>
-                Organizacija: 
-                <input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
-                <select v-model="novaMasina.organizacija" v-bind:hidden="organizacije.length<=1">
-                <option v-for="o in organizacije">
-                    {{o.ime}}
-                </option>
-                </select> 
-                {{greskaOrganizacija}} <br><br>
-                Kategorija: <select v-model="kat">
-                <option v-for="k in kategorije">
-                    {{k.ime}}
-                    </option>
-                </select> 
-                {{greskaKategorija}} <br><br>
-                Broj jezgara: <input type="text" v-model="novaMasina.brojJezgara" disabled><br><br>
-                RAM: <input type="text" v-model="novaMasina.RAM" disabled><br><br>
-                GPU jezgra: <input type="text" v-model="novaMasina.GPUjezgra" disabled><br><br>
-                <button v-on:click="dodaj()">DODAJ</button><br><br>
-                <router-link to="/masine">MASINE</router-link><br><br>
-                {{greskaServer}}
-                
+            
+            <br>
+            
+            <div>
+            
+            	<table>
+            	
+	                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaMasina.ime"></td> <td>{{greskaIme}}</td></tr>
+	                
+	                <tr><td class="left">Organizacija: </td>
+	                <td class="right"><input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
+	                <select v-model="novaMasina.organizacija" v-bind:hidden="organizacije.length<=1">
+		                <option v-for="o in organizacije">
+		                    {{o.ime}}
+		                </option>
+	                </select></td> 
+	                
+	                <td class="right">{{greskaOrganizacija}}</td></tr>
+	                
+	                <tr><td class="left">Kategorija: </td>
+	                <td class="right"><select v-model="kat">
+	                	<option v-for="k in kategorije">
+	                    	{{k.ime}}
+	                    </option>
+	                </select> </td>
+	                
+	                <td class="right">{{greskaKategorija}}</td></tr>
+	                
+	                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.brojJezgara" disabled></td></tr>
+	                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.RAM" disabled></td></tr>
+	                <tr><td class="left">GPU jezgra: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.GPUjezgra" disabled></td></tr>
+	                
+	                <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
+	                <tr><td colspan="3"><br>{{greskaServer}}<br></td></tr>
+	
+	                <tr><td colspan="3"><br><router-link to="/masine">MASINE</router-link><br></td></tr>
+	                
+                </table>
+        	</div>
+        	
         </div>
     
     `, 

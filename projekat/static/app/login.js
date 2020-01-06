@@ -15,12 +15,15 @@ Vue.component("login", {
 
     template: `
 
-        <div>
-            <h1>Prijava</h1>
-            Korisnicko ime: <input type="text" v-model="user.korisnickoIme"> {{greskaKorisnickoIme}} <br><br>
-            Lozinka: <input type="password" v-model="user.lozinka"> {{greskaLozinka}} <br><br>
-            <button v-on:click="login()">PRIJAVA</button><br><br>
-            {{greskaLogin}}
+        <div class="login">
+            <h1>Prijava</h1><br><br>
+            
+            <table>
+	            <tr><td class="left">Korisnicko ime: </td><td><input type="text" v-model="user.korisnickoIme"></td> <td>{{greskaKorisnickoIme}}</td></tr>
+	            <tr><td class="left">Lozinka: </td><td><input type="password" v-model="user.lozinka"></td> <td>{{greskaLozinka}}</td></tr>
+	            <tr><td colspan="3"><br><button v-on:click="login()">PRIJAVA</button><br></td></tr>
+	            <tr><td colspan="3">{{greskaLogin}}</td></tr>
+            </table>
         </div>
     `, 
 

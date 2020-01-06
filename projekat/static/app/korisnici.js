@@ -21,6 +21,7 @@ Vue.component("korisnici", {
             <div v-if="selected">
 
                 <h1>Izmena korisnika</h1>
+                
                 Email: <input type="text" v-model="selectedKorisnik.email" disabled> <br><br>
                 Ime: <input type="text" v-model="selectedKorisnik.ime"> {{greskaIme}} <br><br>
                 Prezime: <input type="text" v-model="selectedKorisnik.prezime"> {{greskaPrezime}} <br><br>
@@ -33,6 +34,7 @@ Vue.component("korisnici", {
                 </select>
                 <br><br>
                 Organizacija: <input type="text" v-model="selectedKorisnik.organizacija" disabled><br><br>
+                
                 <button v-on:click="izmeni()">IZMENI</button><br><br>
                 <button v-on:click="obrisi()">OBRISI</button><br><br>
                 {{greskaServer}}
@@ -42,15 +44,17 @@ Vue.component("korisnici", {
             <div v-if="!selected">
 
                 <h1>Registrovani korisnici</h1>
-                <table border="1">
-                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th>Organizacija</th></tr>
-                <tr v-for="k in korisnici" v-on:click="selectKorisnik(k)">
-                    <td>{{k.email}}</td>
-                    <td>{{k.ime}}</td>
-                    <td>{{k.prezime}}</td>
-                    <td>{{k.organizacija}}</td>
-                </tr>
+                
+                <table class="data" border="1">
+	                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th>Organizacija</th></tr>
+	                <tr v-for="k in korisnici" v-on:click="selectKorisnik(k)">
+	                    <td>{{k.email}}</td>
+	                    <td>{{k.ime}}</td>
+	                    <td>{{k.prezime}}</td>
+	                    <td>{{k.organizacija}}</td>
+	                </tr>
                 </table><br><br>
+                
                 <button v-on:click="dodaj()">DODAJ KORISNIKA</button><br><br>
                 <router-link to="/masine">MAIN PAGE</router-link><br><br>
 
