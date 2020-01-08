@@ -7,16 +7,16 @@ import model.Main;
 import model.beans.Korisnik;
 import model.beans.Uloga;
 import model.beans.VirtuelnaMasina;
-import rest.data.JSONMasinaChange;
+import rest.data.MasinaChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.MasinaResult;
 
-public class MasineRest implements RestEntity{
+public class MasinaRest implements RestEntity{
 
 	@Override
 	public void init() {
 
-		get("rest/masine/pregled", (req, res) -> {
+		get("/rest/masine/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null) {
@@ -26,42 +26,79 @@ public class MasineRest implements RestEntity{
 			return jsonConvertor.toJson(k.getMojeMasine());
 		});
 		
-		post("rest/masine/dodavanje", (req, res) -> {
+		post("/rest/masine/dodavanje", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			MasinaResult result = Main.masine.dodajMasinu(jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class));
-			if (result != MasinaResult.OK) res.status(400);
-			return jsonConvertor.toJson(new OpResponse(result + ""));
+			try {
+				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
+				if (!VirtuelnaMasina.validData(m)) {
+					res.status(400);
+					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				MasinaResult result = Main.masine.dodajMasinu(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+			}
+			catch(Exception e) {
+				res.status(400);
+				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+			}
 		});
 		
-		post("rest/masine/izmena", (req, res) -> {
+		post("/rest/masine/izmena", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			MasinaResult result = Main.masine.izmeniMasinu(jsonConvertor.fromJson(req.body(), JSONMasinaChange.class));
-			if (result != MasinaResult.OK) res.status(400);
-			return jsonConvertor.toJson(new OpResponse(result + ""));
+			try {
+				MasinaChange m = jsonConvertor.fromJson(req.body(), MasinaChange.class);
+				if (!MasinaChange.validData(m)) {
+					res.status(400);
+					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				MasinaResult result = Main.masine.izmeniMasinu(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+			}
+			catch(Exception e) {
+				res.status(400);
+				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+			}
 		});
 		
-		post("rest/masine/brisanje", (req, res) -> {
+		post("/rest/masine/brisanje", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			MasinaResult result = Main.masine.obrisiMasinu(jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class));
-			if (result != MasinaResult.OK) res.status(400);
-			return jsonConvertor.toJson(new OpResponse(result + ""));
+			try {
+				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
+				if (!VirtuelnaMasina.validData(m)) {
+					res.status(400);
+					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				MasinaResult result = Main.masine.obrisiMasinu(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+			}
+			catch(Exception e) {
+				res.status(400);
+				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+			}
 		});
 		
+		
+		
+		
+		//i ovo sredi kasnije...
 		post("rest/masine/status", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -81,7 +118,7 @@ public class MasineRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			MasinaResult result = Main.masine.promeniStatusMasine(jsonConvertor.fromJson(req.body(), JSONMasinaChange.class));
+			MasinaResult result = Main.masine.promeniStatusMasine(jsonConvertor.fromJson(req.body(), MasinaChange.class));
 			if (result != MasinaResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});

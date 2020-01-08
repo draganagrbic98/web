@@ -1,2 +1,3 @@
-organizacija1;opis1;null
-organizacija2;opis2;null
+organizacija1asd;null;null
+organizacija2asd;null;null
+asd;asd;null

@@ -162,5 +162,15 @@ public class Organizacija implements CSVData, ReferenceManager {
 	public void dodajMasinu(VirtuelnaMasina m) {
 		this.masine.add(m.getIme());
 	}
+	
+	public static boolean validData(Organizacija o) {
+		
+		if (o == null) return false;
+		if (o.ime.equals("")) return false;
+		if (o.korisnici == null) return false;
+		if (o.masine == null) return false;
+		return true;
+		
+	}
 
 }

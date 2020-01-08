@@ -195,7 +195,7 @@ Vue.component("korisnici", {
         },
 
         vratiNaKorisnike: function() {
-        	this.selected = false;
+            location.reload();
         },
         
         logout: function(){

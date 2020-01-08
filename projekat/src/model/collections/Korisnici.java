@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import model.beans.Korisnik;
 import model.beans.Uloga;
 import model.beans.User;
-import rest.data.JSONKorisnikChange;
+import rest.data.KorisnikChange;
 import rest.data.OpResult.KorisnikResult;
 
 public class Korisnici implements LoadStoreData{
@@ -94,7 +94,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public KorisnikResult izmeniKorisnika(JSONKorisnikChange k, Korisnik u) throws Exception {
+	public KorisnikResult izmeniKorisnika(KorisnikChange k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;

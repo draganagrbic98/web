@@ -6,7 +6,7 @@ import static spark.Spark.post;
 import model.Main;
 import model.beans.Korisnik;
 import model.beans.User;
-import rest.data.JSONKorisnikChange;
+import rest.data.KorisnikChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.KorisnikResult;
 import spark.Session;
@@ -58,7 +58,7 @@ public class UserRest implements RestEntity{
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
 			Korisnik k = (Korisnik) ss.attribute("korisnik");
-			KorisnikResult result = Main.korisnici.izmeniKorisnika(jsonConvertor.fromJson(req.body(), JSONKorisnikChange.class), k);
+			KorisnikResult result = Main.korisnici.izmeniKorisnika(jsonConvertor.fromJson(req.body(), KorisnikChange.class), k);
 			if (result != KorisnikResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));
 		});

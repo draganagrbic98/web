@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Disk;
-import rest.data.JSONDiskChange;
+import rest.data.DiskChange;
 import rest.data.OpResult.DiskResult;
 
 public class Diskovi implements LoadStoreData {
@@ -92,7 +92,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 
-	public DiskResult izmeniDisk(JSONDiskChange d) throws Exception {
+	public DiskResult izmeniDisk(DiskChange d) throws Exception {
 		
 		Disk disk = this.nadjiDisk(d.getStaroIme());
 		if (disk == null) 

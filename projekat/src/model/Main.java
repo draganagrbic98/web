@@ -6,11 +6,11 @@ import model.collections.Korisnici;
 import model.collections.Masine;
 import model.collections.Organizacije;
 import rest.DataRest;
-import rest.DiskoviRest;
-import rest.KategorijeRest;
-import rest.KorisniciRest;
-import rest.MasineRest;
-import rest.OrganizacijeRest;
+import rest.DiskRest;
+import rest.KategorijaRest;
+import rest.KorisnikRest;
+import rest.MasinaRest;
+import rest.OrganizacijaRest;
 import rest.UserRest;
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
@@ -43,11 +43,11 @@ public class Main {
 		port(8080);
 		staticFiles.externalLocation(new File("static").getCanonicalPath());
 
-		new KategorijeRest().init();
-		new OrganizacijeRest().init();
-		new MasineRest().init();
-		new DiskoviRest().init();
-		new KorisniciRest().init();
+		new KategorijaRest().init();
+		new OrganizacijaRest().init();
+		new MasinaRest().init();
+		new DiskRest().init();
+		new KorisnikRest().init();
 		new UserRest().init();
 		new DataRest().init();
 

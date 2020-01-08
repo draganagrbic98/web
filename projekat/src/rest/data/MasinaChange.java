@@ -2,7 +2,7 @@ package rest.data;
 
 import model.beans.VirtuelnaMasina;
 
-public class JSONMasinaChange {
+public class MasinaChange {
 
 	private String staroIme;
 	private VirtuelnaMasina novaMasina;
@@ -23,7 +23,7 @@ public class JSONMasinaChange {
 		this.novaMasina = novaMasina;
 	}
 	
-	public JSONMasinaChange() {
+	public MasinaChange() {
 		super();
 	}
 	
@@ -31,6 +31,12 @@ public class JSONMasinaChange {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.novaMasina);
+	}
+	
+	public static boolean validData(MasinaChange m) {
+		if (m == null) return false;
+		if (m.staroIme.equals("")) return false;
+		return VirtuelnaMasina.validData(m.novaMasina);
 	}
 	
 }

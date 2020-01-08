@@ -267,5 +267,19 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager {
 	private double izracunajJedinicnuCenu() {
 		return 25 * brojJezgara + 15 * RAM + 1 * GPUjezgra;
 	}
+	
+	public static boolean validData(VirtuelnaMasina m) {
+		
+		if (m == null) return false;
+		if (m.ime.equals("")) return false;
+		if (m.organizacija.equals("")) return false;
+		if (m.brojJezgara <= 0) return false;
+		if (m.RAM <= 0) return false;
+		if (m.GPUjezgra <= 0) return false;
+		if (m.aktivnosti == null) return false;
+		if (m.diskovi == null) return false;
+		return Kategorija.validData(m.kategorija);
+		
+	}
 
 }

@@ -96,5 +96,16 @@ public class Kategorija implements CSVData{
 		return false;
 		
 	}
+	
+	public static boolean validData(Kategorija k) {
+		
+		if (k == null) return false;
+		if (k.ime.equals("")) return false;
+		if (k.brojJezgara <= 0) return false;
+		if (k.RAM <= 0) return false;
+		if (k.GPUjezgra < 0) return false;
+		return true;
+		
+	}
 
 }

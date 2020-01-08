@@ -414,8 +414,7 @@ Vue.component("masine", {
         },
         
         vratiNaMasine: function() {
-        	this.prikaziRacun = false;
-        	this.selected = false;
+            location.reload();
         },
         
         promeni_status: function() {

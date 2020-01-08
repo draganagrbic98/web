@@ -2,7 +2,7 @@ package rest.data;
 
 import model.beans.Disk;
 
-public class JSONDiskChange {
+public class DiskChange {
 
 	private String staroIme;
 	private Disk noviDisk;
@@ -23,7 +23,7 @@ public class JSONDiskChange {
 		this.noviDisk = noviDisk;
 	}
 
-	public JSONDiskChange() {
+	public DiskChange() {
 		super();
 	}
 	
@@ -31,6 +31,12 @@ public class JSONDiskChange {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.noviDisk);
+	}
+	
+	public static boolean validData(DiskChange d) {
+		if (d == null) return false;
+		if (d.staroIme.equals("")) return false;
+		return Disk.validData(d.noviDisk);
 	}
 	
 }

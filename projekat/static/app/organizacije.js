@@ -200,7 +200,7 @@ Vue.component("organizacije", {
         },
 
         vratiNaOrganizacije: function() {
-        	this.selected = false;
+            location.reload();
         },
         
         logout: function(){

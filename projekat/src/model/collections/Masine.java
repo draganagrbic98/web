@@ -15,7 +15,7 @@ import model.Main;
 import model.beans.Aktivnost;
 import model.beans.StatusMasine;
 import model.beans.VirtuelnaMasina;
-import rest.data.JSONMasinaChange;
+import rest.data.MasinaChange;
 import rest.data.OpResult.MasinaResult;
 
 public class Masine implements LoadStoreData {
@@ -123,7 +123,7 @@ public class Masine implements LoadStoreData {
 
 	}
 
-	public MasinaResult izmeniMasinu(JSONMasinaChange m) throws Exception {
+	public MasinaResult izmeniMasinu(MasinaChange m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 		
@@ -147,7 +147,7 @@ public class Masine implements LoadStoreData {
 
 	}
 
-	public MasinaResult promeniStatusMasine(JSONMasinaChange m) throws Exception {
+	public MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 

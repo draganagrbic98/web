@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Kategorija;
-import rest.data.JSONKategorijaChange;
+import rest.data.KategorijaChange;
 import rest.data.OpResult.KategorijaResult;
 
 public class Kategorije implements LoadStoreData{
@@ -94,7 +94,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 
-	public KategorijaResult izmeniKategoriju(JSONKategorijaChange k) throws Exception {
+	public KategorijaResult izmeniKategoriju(KategorijaChange k) throws Exception {
 
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
 		if (kategorija == null) 

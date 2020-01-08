@@ -189,7 +189,7 @@ Vue.component("kategorije", {
         },
 
         vratiNaKategorije: function() {
-        	this.selected = false;
+            location.reload();
         },
         
         logout: function(){

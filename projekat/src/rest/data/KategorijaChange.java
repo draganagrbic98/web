@@ -2,7 +2,7 @@ package rest.data;
 
 import model.beans.Kategorija;
 
-public class JSONKategorijaChange {
+public class KategorijaChange {
 
 	private String staroIme;
 	private Kategorija novaKategorija;
@@ -23,7 +23,7 @@ public class JSONKategorijaChange {
 		this.novaKategorija = novaKategorija;
 	}
 	
-	public JSONKategorijaChange() {
+	public KategorijaChange() {
 		super();
 	}
 	
@@ -31,6 +31,14 @@ public class JSONKategorijaChange {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.novaKategorija);
+	}
+	
+	public static boolean validData(KategorijaChange k) {
+		
+		if (k == null) return false;
+		if (k.staroIme.equals("")) return false;
+		return Kategorija.validData(k.novaKategorija);
+		
 	}
 	
 }

@@ -2,7 +2,7 @@ package rest.data;
 
 import model.beans.Korisnik;
 
-public class JSONKorisnikChange {
+public class KorisnikChange {
 	
 	private String staroIme;
 	private Korisnik noviKorisnik;
@@ -23,7 +23,7 @@ public class JSONKorisnikChange {
 		this.noviKorisnik = noviKorisnik;
 	}
 	
-	public JSONKorisnikChange() {
+	public KorisnikChange() {
 		super();
 	}
 	
@@ -31,6 +31,12 @@ public class JSONKorisnikChange {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.noviKorisnik);
+	}
+	
+	public static boolean validData(KorisnikChange k) {
+		if (k == null) return false;
+		if (k.staroIme.equals("")) return false;
+		return Korisnik.validData(k.noviKorisnik);
 	}
 
 }

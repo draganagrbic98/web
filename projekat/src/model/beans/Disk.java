@@ -137,5 +137,15 @@ public class Disk implements CSVData, ReferenceManager {
 		
 		return racunDiska;
 	}
+	
+	public static boolean validData(Disk d) {
+		
+		if (d == null) return false;
+		if (d.ime.equals("")) return false;
+		if (d.tip == null) return false;
+		if (d.kapacitet < 0) return false;
+		return true;
+		
+	}
 
 }

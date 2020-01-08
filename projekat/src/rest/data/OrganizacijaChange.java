@@ -2,7 +2,7 @@ package rest.data;
 
 import model.beans.Organizacija;
 
-public class JSONOrganizacijaChange {
+public class OrganizacijaChange {
 
 	private String staroIme;
 	private Organizacija novaOrganizacija;
@@ -23,7 +23,7 @@ public class JSONOrganizacijaChange {
 		this.novaOrganizacija = novaOrganizacija;
 	}
 	
-	public JSONOrganizacijaChange() {
+	public OrganizacijaChange() {
 		super();
 	}
 	
@@ -31,6 +31,14 @@ public class JSONOrganizacijaChange {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.novaOrganizacija);
+	}
+	
+	public static boolean validData(OrganizacijaChange o) {
+		
+		if (o == null) return false;
+		if (o.staroIme.equals("")) return false;
+		return Organizacija.validData(o.getNovaOrganizacija());
+		
 	}
 	
 }

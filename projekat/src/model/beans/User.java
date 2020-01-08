@@ -55,5 +55,12 @@ public class User implements CSVData {
 		// TODO Auto-generated method stub
 		return this.korisnickoIme + ";" + this.lozinka;
 	}
+	
+	public static boolean validData(User u) {
+		if (u == null) return false;
+		if (u.getKorisnickoIme().equals("")) return false;
+		if (u.getLozinka().equals("")) return false;
+		return true;
+	}
 
 }

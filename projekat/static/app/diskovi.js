@@ -241,7 +241,7 @@ Vue.component("diskovi", {
         },
 
         vratiNaDiskove: function() {
-        	this.selected = false;
+            location.reload();
         },
         
         logout: function(){

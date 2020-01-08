@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import model.Main;
 import model.beans.Organizacija;
-import rest.data.JSONOrganizacijaChange;
+import rest.data.OrganizacijaChange;
 import rest.data.OpResult.OrganizacijaResponse;
 
 public class Organizacije implements LoadStoreData{
@@ -79,7 +79,7 @@ public class Organizacije implements LoadStoreData{
 		
 	}
 
-	public OrganizacijaResponse izmeniOrganizaciju(JSONOrganizacijaChange o) throws Exception {
+	public OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {
 		
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
 		if (organizacija == null) 

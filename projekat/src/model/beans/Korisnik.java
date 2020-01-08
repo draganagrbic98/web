@@ -225,4 +225,16 @@ public class Korisnik implements CSVData, ReferenceManager {
 		return new Racun(racuniMasine, racuniDiskovi, Math.round(ukupniRacun * 100.0) / 100.0);
 	}
 	
+	public static boolean validData(Korisnik k) {
+		
+		if (k == null) return false;
+		if (k.email.equals("")) return false;
+		if (k.ime.equals("")) return false;
+		if (k.prezime.equals("")) return false;
+		if (k.uloga == null) return false;
+		if (k.organizacija.equals("")) return false;
+		return User.validData(k.user);
+		
+	}
+	
 }
