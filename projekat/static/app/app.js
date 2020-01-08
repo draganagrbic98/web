@@ -3,6 +3,7 @@ const profil = {template: '<profil></profil>'}
 const kategorije = {template: '<kategorije></kategorije>'}
 const dodajKategoriju = {template: '<dodajKategoriju></dodajKategoriju>'}
 const organizacije = {template: '<organizacije></organizacije>'}
+const mojaOrganizacija = {template: '<mojaOrganizacija></mojaOrganizacija>'}
 const dodajOrganizaciju = {template: '<dodajOrganizaciju></dodajOrganizaciju>'}
 const masine = {template: '<masine></masine>'}
 const dodajMasinu = {template: '<dodajMasinu></dodajMasinu>'}
@@ -20,6 +21,7 @@ const router = new VueRouter({
         {path: '/kategorije', component: kategorije}, 
         {path: '/dodajKategoriju', component: dodajKategoriju}, 
         {path: '/organizacije', component: organizacije},
+        {path: '/mojaOrganizacija', component: mojaOrganizacija},
         {path: '/dodajOrganizaciju', component: dodajOrganizaciju},
         {path: '/masine', component: masine}, 
         {path: '/dodajMasinu', component: dodajMasinu}, 

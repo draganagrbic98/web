@@ -413,10 +413,6 @@ input, select, textarea{
 	max-width: 200px;
 }
 
-.izmena_organizacije .izmena_ui > button {
-	margin-top: 25%;
-}
-
 .izmena_organizacije .tabele {
 	float: right;
 	

@@ -28,15 +28,17 @@ Vue.component("organizacije", {
 	                <div class="izmena_ui">
 
 	    				<table>
-	    					<tr><td class="left">Ime: </td> <td><input type="text" v-model="selectedOrganizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
-	                		<tr><td class="left">Opis: </td> <td><textarea v-model="selectedOrganizacija.opis"></textarea></td></tr>
+	    					<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedOrganizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
+	                		<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="selectedOrganizacija.opis"></textarea></td></tr>
 			                
 			                <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
 			                
-			                <tr><td colspan="3">{{greskaServer}}</td></tr>
+			                <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
+			                
+	    					<tr><td colspan="3"><button v-on:click="vratiNaOrganizacije()">POVRATAK</button></td></tr>
+
 	    				</table>
 	    				
-	    				<button v-on:click="vratiNaOrganizacije()">POVRATAK</button>
 
     				</div>
     				
@@ -75,7 +77,7 @@ Vue.component("organizacije", {
 				                	<tr><th>Ime</th></tr>
 				                	
 				                	<tr v-for="k in selectedOrganizacija.korisnici">
-				                		<td>{{k.user.korisnickoIme}}</td>
+				                		<td>{{k}}</td>
 				                	</tr>
 				                </table>
 			                </div>

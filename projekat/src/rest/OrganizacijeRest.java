@@ -23,6 +23,10 @@ public class OrganizacijeRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
+			else if (k.getUloga().equals(Uloga.ADMIN)) {
+				return jsonConvertor.toJson(k.getMojeOrganizacije().get(0));
+			}
+			
 			return jsonConvertor.toJson(k.getMojeOrganizacije());
 		});
 		
