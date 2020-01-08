@@ -1,5 +1,6 @@
 package model.beans;
 
+import model.CSVData;
 import rest.Main;
 
 public class Kategorija implements CSVData{

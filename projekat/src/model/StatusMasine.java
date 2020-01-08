@@ -1,4 +1,4 @@
-package model.beans;
+package model;
 
 public enum StatusMasine {
 	

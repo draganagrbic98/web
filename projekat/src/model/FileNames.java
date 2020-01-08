@@ -1,4 +1,4 @@
-package model.collections;
+package model;
 
 public class FileNames {
 	

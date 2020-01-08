@@ -1,6 +1,6 @@
 package rest.data;
 
-import model.beans.CSVData;
+import model.CSVData;
 import model.beans.Kategorija;
 
 public class KategorijaChange implements CSVData{

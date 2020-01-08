@@ -1,5 +1,8 @@
 package model.beans;
 
+import model.CSVData;
+import model.ReferenceManager;
+import model.TipDiska;
 import rest.Main;
 import rest.data.JSONRacunZahtev;
 

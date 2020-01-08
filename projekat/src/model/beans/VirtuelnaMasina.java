@@ -3,6 +3,9 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.CSVData;
+import model.ReferenceManager;
+import model.StatusMasine;
 import rest.Main;
 import rest.data.JSONRacunZahtev;
 

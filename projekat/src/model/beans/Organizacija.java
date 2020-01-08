@@ -2,7 +2,9 @@ package model.beans;
 
 import java.util.ArrayList;
 
-import model.collections.FileNames;
+import model.CSVData;
+import model.FileNames;
+import model.ReferenceManager;
 import rest.Main;
 
 public class Organizacija implements CSVData, ReferenceManager {

@@ -1,5 +1,7 @@
 package model.beans;
 
+import model.CSVData;
+
 public class User implements CSVData {
 
 	private String korisnickoIme;

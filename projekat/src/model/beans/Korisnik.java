@@ -3,6 +3,9 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.CSVData;
+import model.ReferenceManager;
+import model.Uloga;
 import rest.Main;
 import rest.data.JSONRacunZahtev;
 

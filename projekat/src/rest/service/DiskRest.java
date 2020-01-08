@@ -3,9 +3,9 @@ package rest.service;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import model.Uloga;
 import model.beans.Disk;
 import model.beans.Korisnik;
-import model.beans.Uloga;
 import rest.Main;
 import rest.data.DiskChange;
 import rest.data.OpResponse;

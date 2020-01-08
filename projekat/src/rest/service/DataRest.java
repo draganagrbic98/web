@@ -3,10 +3,10 @@ package rest.service;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import model.TipDiska;
+import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.Racun;
-import model.beans.TipDiska;
-import model.beans.Uloga;
 import rest.Main;
 import rest.data.JSONRacunZahtev;
 import rest.data.OpResponse;
