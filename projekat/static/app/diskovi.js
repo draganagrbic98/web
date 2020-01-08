@@ -174,6 +174,12 @@ Vue.component("diskovi", {
             this.selectedDisk = disk;
             this.selectedDiskId = disk.ime;
             this.selected = true;
+            this.greskaIme = '';
+            this.greskaTip = '';
+            this.greskaKapacitet = '';
+            this.greskaServer = '';
+            this.greska = false;
+
         }, 
 
         pretrazi: function(){
@@ -209,12 +215,6 @@ Vue.component("diskovi", {
         },
 
         izmeni: function(){
-
-            this.greskaIme = '';
-            this.greskaTip = '';
-            this.greskaKapacitet = '';
-            this.greskaServer = '';
-            this.greska = false;
 
             if (this.selectedDisk.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

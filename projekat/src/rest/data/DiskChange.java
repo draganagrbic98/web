@@ -1,8 +1,9 @@
 package rest.data;
 
+import model.beans.CSVData;
 import model.beans.Disk;
 
-public class DiskChange {
+public class DiskChange implements CSVData{
 
 	private String staroIme;
 	private Disk noviDisk;
@@ -32,11 +33,21 @@ public class DiskChange {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.noviDisk);
 	}
-	
-	public static boolean validData(DiskChange d) {
-		if (d == null) return false;
-		if (d.staroIme.equals("")) return false;
-		return Disk.validData(d.noviDisk);
+
+	@Override
+	public String csvLine() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.staroIme == null || this.staroIme.equals("")) return false;
+		if (this.noviDisk == null) return false;
+		return this.noviDisk.validData();
+		
 	}
 	
 }

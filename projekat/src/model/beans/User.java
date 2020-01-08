@@ -56,11 +56,14 @@ public class User implements CSVData {
 		return this.korisnickoIme + ";" + this.lozinka;
 	}
 	
-	public static boolean validData(User u) {
-		if (u == null) return false;
-		if (u.getKorisnickoIme().equals("")) return false;
-		if (u.getLozinka().equals("")) return false;
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.korisnickoIme == null || this.korisnickoIme.equals("")) return false;
+		if (this.lozinka == null || this.lozinka.equals("")) return false;
 		return true;
+		
 	}
 
 }

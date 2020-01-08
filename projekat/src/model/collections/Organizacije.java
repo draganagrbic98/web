@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import model.Main;
 import model.beans.Organizacija;
+import rest.Main;
 import rest.data.OrganizacijaChange;
 import rest.data.OpResult.OrganizacijaResponse;
 

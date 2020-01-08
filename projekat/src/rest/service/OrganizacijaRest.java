@@ -1,13 +1,13 @@
-package rest;
+package rest.service;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import model.Main;
 import model.beans.Korisnik;
 import model.beans.Organizacija;
 import model.beans.Uloga;
 import rest.data.OrganizacijaChange;
+import rest.Main;
 import rest.data.OpResponse;
 import rest.data.OpResult.OrganizacijaResponse;
 
@@ -38,7 +38,7 @@ public class OrganizacijaRest implements RestEntity{
 			}
 			try {
 				Organizacija o = jsonConvertor.fromJson(req.body(), Organizacija.class);
-				if (!Organizacija.validData(o)) {
+				if (o == null || !o.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
@@ -61,7 +61,7 @@ public class OrganizacijaRest implements RestEntity{
 			}
 			try {
 				OrganizacijaChange o = jsonConvertor.fromJson(req.body(), OrganizacijaChange.class);
-				if (!OrganizacijaChange.validData(o)) {
+				if (o == null || !o.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}

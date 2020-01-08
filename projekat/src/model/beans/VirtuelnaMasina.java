@@ -3,10 +3,11 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.Main;
+import rest.Main;
 import rest.data.JSONRacunZahtev;
 
 public class VirtuelnaMasina implements CSVData, ReferenceManager {
+	
 	private String ime;
 	private String organizacija;
 	private Kategorija kategorija;
@@ -267,18 +268,22 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager {
 	private double izracunajJedinicnuCenu() {
 		return 25 * brojJezgara + 15 * RAM + 1 * GPUjezgra;
 	}
-	
-	public static boolean validData(VirtuelnaMasina m) {
-		
-		if (m == null) return false;
-		if (m.ime.equals("")) return false;
-		if (m.organizacija.equals("")) return false;
-		if (m.brojJezgara <= 0) return false;
-		if (m.RAM <= 0) return false;
-		if (m.GPUjezgra <= 0) return false;
-		if (m.aktivnosti == null) return false;
-		if (m.diskovi == null) return false;
-		return Kategorija.validData(m.kategorija);
+
+
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.organizacija == null || this.organizacija.equals("")) return false;
+		if (this.kategorija == null) return false;
+		if (this.brojJezgara <= 0) return false;
+		if (this.RAM <= 0) return false;
+		if (this.GPUjezgra <= 0) return false;
+		if (this.aktivnosti == null) return false;
+		if (this.diskovi == null) return false;
+		return this.kategorija.validData();
 		
 	}
 

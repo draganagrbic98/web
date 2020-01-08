@@ -1,12 +1,12 @@
-package rest;
+package rest.service;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import model.Main;
 import model.beans.Korisnik;
 import model.beans.Uloga;
 import model.beans.VirtuelnaMasina;
+import rest.Main;
 import rest.data.MasinaChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.MasinaResult;
@@ -35,7 +35,7 @@ public class MasinaRest implements RestEntity{
 			}
 			try {
 				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
-				if (!VirtuelnaMasina.validData(m)) {
+				if (m == null || !m.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
@@ -58,7 +58,7 @@ public class MasinaRest implements RestEntity{
 			}
 			try {
 				MasinaChange m = jsonConvertor.fromJson(req.body(), MasinaChange.class);
-				if (!MasinaChange.validData(m)) {
+				if (m == null || !m.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
@@ -81,7 +81,7 @@ public class MasinaRest implements RestEntity{
 			}
 			try {
 				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
-				if (!VirtuelnaMasina.validData(m)) {
+				if (m == null || !m.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}

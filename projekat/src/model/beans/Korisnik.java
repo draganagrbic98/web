@@ -3,7 +3,7 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Main;
+import rest.Main;
 import rest.data.JSONRacunZahtev;
 
 public class Korisnik implements CSVData, ReferenceManager {
@@ -225,15 +225,18 @@ public class Korisnik implements CSVData, ReferenceManager {
 		return new Racun(racuniMasine, racuniDiskovi, Math.round(ukupniRacun * 100.0) / 100.0);
 	}
 	
-	public static boolean validData(Korisnik k) {
-		
-		if (k == null) return false;
-		if (k.email.equals("")) return false;
-		if (k.ime.equals("")) return false;
-		if (k.prezime.equals("")) return false;
-		if (k.uloga == null) return false;
-		if (k.organizacija.equals("")) return false;
-		return User.validData(k.user);
+	
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.email == null || this.email.equals("")) return false;
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.prezime == null || this.prezime.equals("")) return false;
+		if (this.uloga == null) return false;
+		if (this.organizacija == null || this.organizacija.equals("")) return false;
+		return this.user.validData();
 		
 	}
 	

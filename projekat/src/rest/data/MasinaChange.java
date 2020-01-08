@@ -1,8 +1,9 @@
 package rest.data;
 
+import model.beans.CSVData;
 import model.beans.VirtuelnaMasina;
 
-public class MasinaChange {
+public class MasinaChange implements CSVData{
 
 	private String staroIme;
 	private VirtuelnaMasina novaMasina;
@@ -32,11 +33,23 @@ public class MasinaChange {
 		// TODO Auto-generated method stub
 		return String.format("%s, %s", this.staroIme, this.novaMasina);
 	}
-	
-	public static boolean validData(MasinaChange m) {
-		if (m == null) return false;
-		if (m.staroIme.equals("")) return false;
-		return VirtuelnaMasina.validData(m.novaMasina);
+
+
+
+	@Override
+	public String csvLine() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.staroIme == null || this.staroIme.equals("")) return false;
+		if (this.novaMasina == null) return false;
+		return this.novaMasina.validData();
+		
 	}
 	
 }

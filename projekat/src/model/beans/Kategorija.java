@@ -1,6 +1,6 @@
 package model.beans;
 
-import model.Main;
+import rest.Main;
 
 public class Kategorija implements CSVData{
 	
@@ -97,13 +97,15 @@ public class Kategorija implements CSVData{
 		
 	}
 	
-	public static boolean validData(Kategorija k) {
-		
-		if (k == null) return false;
-		if (k.ime.equals("")) return false;
-		if (k.brojJezgara <= 0) return false;
-		if (k.RAM <= 0) return false;
-		if (k.GPUjezgra < 0) return false;
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.brojJezgara <= 0) return false;
+		if (this.RAM <= 0) return false;
+		if (this.GPUjezgra <= 0) return false;
 		return true;
 		
 	}

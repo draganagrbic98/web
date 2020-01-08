@@ -1,6 +1,6 @@
 package model.beans;
 
-import model.Main;
+import rest.Main;
 import rest.data.JSONRacunZahtev;
 
 public class Disk implements CSVData, ReferenceManager {
@@ -137,15 +137,18 @@ public class Disk implements CSVData, ReferenceManager {
 		
 		return racunDiska;
 	}
-	
-	public static boolean validData(Disk d) {
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
 		
-		if (d == null) return false;
-		if (d.ime.equals("")) return false;
-		if (d.tip == null) return false;
-		if (d.kapacitet < 0) return false;
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.tip == null) return false;
+		if (this.kapacitet <= 0) return false;
 		return true;
 		
 	}
+	
+	
 
 }

@@ -1,32 +1,31 @@
-package rest;
+package rest.service;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import model.Main;
-import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.Uloga;
-import rest.data.DiskChange;
+import rest.Main;
+import rest.data.KorisnikChange;
 import rest.data.OpResponse;
-import rest.data.OpResult.DiskResult;
+import rest.data.OpResult.KorisnikResult;
 
-public class DiskRest implements RestEntity{
+public class KorisnikRest implements RestEntity{
 
 	@Override
 	public void init() {
-
-		get("/rest/diskovi/pregled", (req, res) -> {
+		
+		get("/rest/korisnici/pregled", (req, res) -> {
 			res.type("application/json");
-			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null) {
+			Korisnik k = req.session(true).attribute("korisnik");
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			return jsonConvertor.toJson(k.getMojiDiskovi());
+			return jsonConvertor.toJson(k.getMojiKorisnici());
 		});
 		
-		post("/rest/diskovi/dodavanje", (req, res) -> {
+		post("/rest/korisnici/dodavanje", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
@@ -34,13 +33,13 @@ public class DiskRest implements RestEntity{
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
 			try {
-				Disk d = jsonConvertor.fromJson(req.body(), Disk.class);
-				if (!Disk.validData(d)) {
+				Korisnik korisnik = jsonConvertor.fromJson(req.body(), Korisnik.class);
+				if (korisnik == null || !korisnik.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
-				DiskResult result = Main.diskovi.dodajDisk(d);
-				if (result != DiskResult.OK) res.status(400);
+				KorisnikResult result = Main.korisnici.dodajKorisnika(korisnik);
+				if (result != KorisnikResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {
@@ -49,7 +48,7 @@ public class DiskRest implements RestEntity{
 			}
 		});
 		
-		post("/rest/diskovi/izmena", (req, res) -> {
+		post("/rest/korisnici/izmena", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
@@ -57,15 +56,14 @@ public class DiskRest implements RestEntity{
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
 			try {
-				DiskChange d = jsonConvertor.fromJson(req.body(), DiskChange.class);
-				if (!DiskChange.validData(d)) {
+				KorisnikChange korisnik = jsonConvertor.fromJson(req.body(), KorisnikChange.class);
+				if (korisnik == null || !korisnik.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
-				DiskResult result = Main.diskovi.izmeniDisk(d);
-				if (result != DiskResult.OK) res.status(400);
+				KorisnikResult result = Main.korisnici.izmeniKorisnika(korisnik, k);
+				if (result != KorisnikResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
-				
 			}
 			catch(Exception e) {
 				res.status(400);
@@ -73,7 +71,7 @@ public class DiskRest implements RestEntity{
 			}
 		});
 		
-		post("/rest/diskovi/brisanje", (req, res) -> {
+		post("rest/korisnici/brisanje", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
@@ -81,13 +79,13 @@ public class DiskRest implements RestEntity{
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
 			try {
-				Disk d = jsonConvertor.fromJson(req.body(), Disk.class);
-				if (!Disk.validData(d)) {
+				Korisnik korisnik = jsonConvertor.fromJson(req.body(), Korisnik.class);
+				if (korisnik == null || !korisnik.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
-				DiskResult result = Main.diskovi.obrisiDisk(d);
-				if (result != DiskResult.OK) res.status(400);
+				KorisnikResult result = Main.korisnici.obrisiKorisnika(korisnik, k);
+				if (result != KorisnikResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {

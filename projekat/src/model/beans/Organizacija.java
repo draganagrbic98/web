@@ -2,8 +2,8 @@ package model.beans;
 
 import java.util.ArrayList;
 
-import model.Main;
 import model.collections.FileNames;
+import rest.Main;
 
 public class Organizacija implements CSVData, ReferenceManager {
 
@@ -163,12 +163,15 @@ public class Organizacija implements CSVData, ReferenceManager {
 		this.masine.add(m.getIme());
 	}
 	
-	public static boolean validData(Organizacija o) {
+	
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
 		
-		if (o == null) return false;
-		if (o.ime.equals("")) return false;
-		if (o.korisnici == null) return false;
-		if (o.masine == null) return false;
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.korisnici == null) return false;
+		if (this.masine == null) return false;
 		return true;
 		
 	}

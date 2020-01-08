@@ -1,8 +1,9 @@
 package rest.data;
 
+import model.beans.CSVData;
 import model.beans.Korisnik;
 
-public class KorisnikChange {
+public class KorisnikChange implements CSVData{
 	
 	private String staroIme;
 	private Korisnik noviKorisnik;
@@ -33,10 +34,22 @@ public class KorisnikChange {
 		return String.format("%s, %s", this.staroIme, this.noviKorisnik);
 	}
 	
-	public static boolean validData(KorisnikChange k) {
-		if (k == null) return false;
-		if (k.staroIme.equals("")) return false;
-		return Korisnik.validData(k.noviKorisnik);
+	
+
+	@Override
+	public String csvLine() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.staroIme == null || this.staroIme.equals("")) return false;
+		if (this.noviKorisnik == null) return false;
+		return this.noviKorisnik.validData();
+		
 	}
 
 }

@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import model.Main;
+import rest.Main;
 
 public class Aktivnost implements CSVData {
 
@@ -89,6 +89,14 @@ public class Aktivnost implements CSVData {
 			return f.format(this.datumPaljenja) + ";" + datumGasenja + ";" + this.status;
 		else
 			return f.format(this.datumPaljenja) + ";" + f.format(this.datumGasenja) + ";" + this.status;
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+		
+		//petre, ovo ti sredi
+		return true;
 	}
 
 }

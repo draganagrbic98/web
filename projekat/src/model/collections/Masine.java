@@ -11,10 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.Main;
 import model.beans.Aktivnost;
 import model.beans.StatusMasine;
 import model.beans.VirtuelnaMasina;
+import rest.Main;
 import rest.data.MasinaChange;
 import rest.data.OpResult.MasinaResult;
 
@@ -66,6 +66,7 @@ public class Masine implements LoadStoreData {
 		PrintWriter aktivnostiOut = new PrintWriter(
 				new FileWriter("files" + File.separatorChar + FileNames.AKTIVNOSTI_FILE));
 		for (VirtuelnaMasina m : this.masine) {
+			System.out.println(m);
 			out.println(m.csvLine());
 			out.flush();
 			for (Aktivnost a : m.getAktivnosti()) {

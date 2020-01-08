@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import model.Main;
 import model.beans.Kategorija;
+import rest.Main;
 import rest.data.KategorijaChange;
 import rest.data.OpResult.KategorijaResult;
 

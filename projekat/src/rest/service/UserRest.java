@@ -1,11 +1,11 @@
-package rest;
+package rest.service;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import model.Main;
 import model.beans.Korisnik;
 import model.beans.User;
+import rest.Main;
 import rest.data.KorisnikChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.KorisnikResult;

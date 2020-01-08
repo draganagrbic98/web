@@ -1,12 +1,12 @@
-package rest;
+package rest.service;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import model.Main;
 import model.beans.Kategorija;
 import model.beans.Korisnik;
 import model.beans.Uloga;
+import rest.Main;
 import rest.data.KategorijaChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.KategorijaResult;
@@ -35,7 +35,7 @@ public class KategorijaRest implements RestEntity{
 			};
 			try {
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
-				if (!Kategorija.validData(kategorija)) {
+				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
@@ -58,7 +58,7 @@ public class KategorijaRest implements RestEntity{
 			};
 			try {
 				KategorijaChange kategorija = jsonConvertor.fromJson(req.body(), KategorijaChange.class);
-				if (!KategorijaChange.validData(kategorija)) {
+				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
@@ -81,7 +81,7 @@ public class KategorijaRest implements RestEntity{
 			};
 			try {
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
-				if (!Kategorija.validData(kategorija)) {
+				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
