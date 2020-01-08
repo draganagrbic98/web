@@ -17,15 +17,28 @@ Vue.component("dodajOrganizaciju", {
 
     template: `
 
-        <div>
+        <div class="dodavanje">
 
             <h1>Registracija nove organizacije</h1>
-            Ime: <input type="text" v-model="novaOrganizacija.ime"> {{greskaIme}} <br><br>
-            Opis: <br><textarea v-model="novaOrganizacija.opis"></textarea><br><br>
-            <button v-on:click="dodaj()">DODAJ</button><br><br>
-            <router-link to="/organizacije">ORGANIZACIJE</router-link><br><br>
-            {{greskaServer}}
+            
+            <br>
+            
+            <div>
+            
+            	<table>
 
+		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaOrganizacija.ime"></td> <td>{{greskaIme}}</td></tr>
+		            <tr><td class="left">Opis: </td> <td class="right"><textarea v-model="novaOrganizacija.opis"></textarea></td></tr>
+		            
+		            <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
+		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+
+		            <tr><td colspan="3"><router-link to="/organizacije">ORGANIZACIJE</router-link><br></td></tr>
+
+    			</table>
+    		
+    		</div>
+    		
         </div>
 
     `, 
