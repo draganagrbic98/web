@@ -1,1 +1,2 @@
-o2;blablatruc;null
+organizacija1;opis1;null
+organizacija2;opis2;null

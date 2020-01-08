@@ -32,6 +32,7 @@ public class KorisniciRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
+			System.out.println(req.body());
 			KorisnikResult result = Main.korisnici.dodajKorisnika(jsonConvertor.fromJson(req.body(), Korisnik.class));
 			if (result != KorisnikResult.OK) res.status(400);
 			return jsonConvertor.toJson(new OpResponse(result + ""));

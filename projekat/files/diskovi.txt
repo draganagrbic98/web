@@ -1,2 +1,1 @@
-d1;0;11;null
-d2;1;123;null
+disk1;0;123;masina1

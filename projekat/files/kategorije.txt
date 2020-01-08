@@ -1,1 +1,2 @@
-k1;4;8;256
+kategorija1;5;5;4
+kategorija2;123;123;123

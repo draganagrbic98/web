@@ -39,7 +39,7 @@ public class User implements CSVData {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("%s, %s", this.korisnickoIme, this.lozinka);
+		return String.format("Korisnicko ime: %s, lozinka: %s", this.korisnickoIme, this.lozinka);
 	}
 
 	@Override

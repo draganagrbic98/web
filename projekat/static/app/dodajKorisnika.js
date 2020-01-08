@@ -110,7 +110,7 @@ Vue.component("dodajKorisnika", {
 
         dodaj: function(){
 
-            this.noviKorisnik.lozinka = this.novaLozinka;
+            this.noviKorisnik.user.lozinka = this.novaLozinka;
             if (this.organizacije.length == 1) this.noviKorisnik.organizacija = this.organizacija.ime;
 
             this.greskaKorisnickoIme = '';

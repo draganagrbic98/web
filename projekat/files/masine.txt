@@ -1,1 +1,1 @@
-m1;o2;k1
+masina1;organizacija1;kategorija1
