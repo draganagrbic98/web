@@ -8,6 +8,7 @@ import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.Racun;
 import rest.Main;
+import rest.RestEntity;
 import rest.data.JSONRacunZahtev;
 import rest.data.OpResponse;
 

@@ -163,15 +163,15 @@ Vue.component("kategorije", {
                 this.greskaIme = "Ime ne sme biti prazno";
                 this.greska = true;
             }
-            if (this.selectedKategorija.brojJezgara === '' || isNaN(this.selectedKategorija.brojJezgara) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
+            if (isNaN(parseInt(this.selectedKategorija.brojJezgara)) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
                 this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
-            if (this.selectedKategorija.RAM === '' || isNaN(this.selectedKategorija.RAM) || parseInt(this.selectedKategorija.RAM) <= 0){
+            if (isNaN(parseInt(this.selectedKategorija.RAM)) || parseInt(this.selectedKategorija.RAM) <= 0){
                 this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
-            if (this.selectedKategorija.GPUjezgra === '' || isNaN(this.selectedKategorija.GPUjezgra) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
+            if (isNaN(parseInt(this.selectedKategorija.GPUjezgra)) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
                 this.greskaGPUjezgra = "GPU jezgra moraju biti nenegativan ceo broj. ";
                 this.greska = true;
             }

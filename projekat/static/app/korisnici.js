@@ -146,6 +146,11 @@ Vue.component("korisnici", {
             this.selectedKorisnik = korisnik;
             this.selectedKorisnikId = korisnik.user.korisnickoIme;
             this.selected = true;
+            this.greskaIme = '';
+            this.greskaPrezime = '';
+            this.greskaServer = '';
+            this.greska = false;
+
         }, 
 
         dodaj: function(){
@@ -167,11 +172,6 @@ Vue.component("korisnici", {
         }, 
 
         izmeni: function(){
-
-            this.greskaIme = '';
-            this.greskaPrezime = '';
-            this.greskaServer = '';
-            this.greska = false;
 
             if (this.selectedKorisnik.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

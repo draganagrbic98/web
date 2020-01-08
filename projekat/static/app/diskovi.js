@@ -170,6 +170,8 @@ Vue.component("diskovi", {
 
     methods: {
 
+        
+
         selectDisk: function(disk){
             this.selectedDisk = disk;
             this.selectedDiskId = disk.ime;
@@ -224,7 +226,7 @@ Vue.component("diskovi", {
                 this.greskaTip = "Tip ne sme biti prazan. ";
                 this.greska = true;
             }
-            if (this.selectedDisk.kapacitet === '' || isNaN(this.selectedDisk.kapacitet) || parseInt(this.selectedDisk.greskaKapacitet) <= 0){
+            if (isNaN(parseInt(this.selectedDisk.kapacitet)) || parseInt(this.selectedDisk.greskaKapacitet) <= 0){
                 this.greskaKapacitet = "Kapacitet mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }

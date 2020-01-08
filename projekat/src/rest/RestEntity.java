@@ -1,4 +1,4 @@
-package rest.service;
+package rest;
 
 import com.google.gson.Gson;
 

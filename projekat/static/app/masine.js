@@ -312,6 +312,10 @@ Vue.component("masine", {
             this.selectedMasinaId = masina.ime;
             this.selected = true;
             this.kat = this.selectedMasina.kategorija.ime;
+            this.greskaIme = '';
+            this.greskaServer = '';
+            this.greska = false;
+
             
             axios.post("rest/masine/status", this.selectedMasinaId)
             .then(response => {
@@ -339,10 +343,6 @@ Vue.component("masine", {
         },
 
         izmeni: function(){
-
-            this.greskaIme = '';
-            this.greskaServer = '';
-            this.greska = false;
 
             if (this.selectedMasina.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno.";

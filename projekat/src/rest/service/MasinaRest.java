@@ -7,6 +7,7 @@ import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.VirtuelnaMasina;
 import rest.Main;
+import rest.RestEntity;
 import rest.data.MasinaChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.MasinaResult;

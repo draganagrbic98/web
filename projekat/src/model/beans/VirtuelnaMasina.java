@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import model.CSVData;
+import model.GetRacun;
 import model.ReferenceManager;
 import model.StatusMasine;
 import rest.Main;
 import rest.data.JSONRacunZahtev;
 
-public class VirtuelnaMasina implements CSVData, ReferenceManager {
+public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
 	
 	private String ime;
 	private String organizacija;
@@ -222,6 +223,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager {
 		this.aktivnosti.add(new Aktivnost(new Date(), null, StatusMasine.UGASENA));
 	}
 
+	@Override
 	public double izracunajRacun(JSONRacunZahtev racunZahtev) {
 		double racunMasine = 0;
 

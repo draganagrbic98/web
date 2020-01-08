@@ -101,7 +101,7 @@ Vue.component("dodajDisk", {
                 this.greskaTip = "Tip ne sme biti prazan. ";
                 this.greska = true;
             }
-            if (this.noviDisk.kapacitet === '' || isNaN(this.noviDisk.kapacitet) || parseInt(this.noviDisk.kapacitet) <= 0){
+            if (isNaN(parseInt(this.noviDisk.kapacitet)) || parseInt(this.noviDisk.kapacitet) <= 0){
                 this.greskaKapacitet = "Kapacitet mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }

@@ -8,6 +8,7 @@ import model.beans.Korisnik;
 import model.beans.Organizacija;
 import rest.data.OrganizacijaChange;
 import rest.Main;
+import rest.RestEntity;
 import rest.data.OpResponse;
 import rest.data.OpResult.OrganizacijaResponse;
 

@@ -73,7 +73,6 @@ public class Korisnici implements LoadStoreData{
 
 	public KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
 		
-		System.out.println(k);
 		if (this.nadjiKorisnika(k.getKorisnickoIme()) != null) 
 			return KorisnikResult.AL_EXISTS;
 		if (this.hasEmail(k.getEmail()))

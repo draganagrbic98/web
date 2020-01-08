@@ -1,12 +1,13 @@
 package model.beans;
 
 import model.CSVData;
+import model.GetRacun;
 import model.ReferenceManager;
 import model.TipDiska;
 import rest.Main;
 import rest.data.JSONRacunZahtev;
 
-public class Disk implements CSVData, ReferenceManager {
+public class Disk implements CSVData, ReferenceManager, GetRacun {
 
 	private String ime;
 	private TipDiska tip;
@@ -128,6 +129,7 @@ public class Disk implements CSVData, ReferenceManager {
 		return Main.masine.nadjiMasinu(this.masina);
 	}
 
+	@Override
 	public double izracunajRacun(JSONRacunZahtev racunZahtev) {
 		double racunDiska = 0;
 		double pocetni = racunZahtev.getPocetniDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;

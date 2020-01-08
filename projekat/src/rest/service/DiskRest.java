@@ -7,6 +7,7 @@ import model.Uloga;
 import model.beans.Disk;
 import model.beans.Korisnik;
 import rest.Main;
+import rest.RestEntity;
 import rest.data.DiskChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.DiskResult;

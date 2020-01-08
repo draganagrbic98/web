@@ -167,6 +167,10 @@ Vue.component("organizacije", {
             this.selectedOrganizacija = organizacija;
             this.selectedOrganizacijaId = organizacija.ime;
             this.selected = true;
+            this.greskaIme = '';
+            this.greskaServer = '';
+            this.greska = false;
+
         }, 
 
         dodaj: function(){
@@ -177,10 +181,6 @@ Vue.component("organizacije", {
 
             if (this.selectedOrganizacija.opis == '') this.selectedOrganizacija.opis = null;
             if (this.selectedOrganizacija.logo == '') this.selectedOrganizacija.logo = null;
-
-            this.greskaIme = '';
-            this.greskaServer = '';
-            this.greska = false;
 
             if (this.selectedOrganizacija.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

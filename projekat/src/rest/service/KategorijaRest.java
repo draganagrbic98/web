@@ -7,6 +7,7 @@ import model.Uloga;
 import model.beans.Kategorija;
 import model.beans.Korisnik;
 import rest.Main;
+import rest.RestEntity;
 import rest.data.KategorijaChange;
 import rest.data.OpResponse;
 import rest.data.OpResult.KategorijaResult;
