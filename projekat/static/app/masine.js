@@ -73,10 +73,10 @@ Vue.component("masine", {
 			                    <li v-for="d in selectedMasina.diskovi">{{d}}</li>
 			                </ol></td></tr>
 			                
-				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
-				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><button v-on:click="obrisi()">OBRISI</button></td></tr>
+				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
+				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 			           		
-			           		<tr><td colspan="3">{{greskaServer}}</td></tr>
+			           		<tr><td colspan="3">{{greskaServer}}<br></td></tr>
 	
     					</table>
     					

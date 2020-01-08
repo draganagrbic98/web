@@ -35,7 +35,7 @@ Vue.component("diskovi", {
     			<div class="izmena">
     				
     				<table>		                
-		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedDisk.ime" v-bind:disabled="uloga=='KORISNIK'"> </td> <td>{{greskaIme}}</td></tr>
+		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedDisk.ime" v-bind:disabled="uloga=='KORISNIK'"></td> <td>{{greskaIme}}</td></tr>
 		                <tr><td class="left">Tip: </td> <td class="right"><select v-model="selectedDisk.tip" v-bind:disabled="uloga=='KORISNIK'"> 
 			                <option v-for="t in tipovi">
 			                    {{t}}
@@ -46,10 +46,10 @@ Vue.component("diskovi", {
 		                <tr><td class="left">Kapacitet: </td> <td class="right"><input type="text" v-model="selectedDisk.kapacitet" v-bind:disabled="uloga=='KORISNIK'"> </td> <td>{{greskaKapacitet}}</td></tr>
 		                <tr><td class="left">Virtuelna masina: </td> <td class="right" colspan="2"><input type="text" v-model="selectedDisk.masina" disabled> </td></tr>
 		                
-				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
-				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><button v-on:click="obrisi()">OBRISI</button></td></tr>
+				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
+				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 			           		
-			         	<tr><td colspan="3">{{greskaServer}}</td></tr>
+			         	<tr><td colspan="3">{{greskaServer}}<br></td></tr>
     				</table>
     				
     				<button v-on:click="vratiNaDiskove()">POVRATAK</button>

@@ -19,16 +19,29 @@ Vue.component("dodajKategoriju", {
 
     template: `
 
-        <div>
+        <div class="dodavanje">
+        
+		    <h1>Registracija nove kategorije</h1>
+		    
+		    <br>
+		    
+            <div>
+            
+	    		<table>
+	
+			        <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaKategorija.ime"></td> <td>{{greskaIme}}</td></tr>
+			        <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="novaKategorija.brojJezgara"></td> <td>{{greskaBrojJezgara}}</td></tr>
+			        <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="novaKategorija.RAM"></td> <td>{{greskaRAM}}</td></tr>
+			        <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="novaKategorija.GPUjezgra"></td> <td>{{greskaGPUjezgra}}</td></tr>
+			        
+			        <tr><td colspan="3"><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
+			        <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+			        
+			        <tr><td colspan="3"><router-link to="/kategorije">KATEGORIJE</router-link><br></td></tr>
+	
+	    		</table>
 
-            <h1>Registracija nove kategorije</h1>
-            Ime: <input type="text" v-model="novaKategorija.ime"> {{greskaIme}} <br><br>
-            Broj jezgara: <input type="text" v-model="novaKategorija.brojJezgara"> {{greskaBrojJezgara}} <br><br>
-            RAM: <input type="text" v-model="novaKategorija.RAM"> {{greskaRAM}} <br><br>
-            GPU jezgra: <input type="text" v-model="novaKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
-            <button v-on:click="dodaj()">DODAJ</button><br><br>
-            <router-link to="/kategorije">KATEGORIJE</router-link><br><br>
-            {{greskaServer}}
+    		</div>
 
         </div>
     

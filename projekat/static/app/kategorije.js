@@ -6,6 +6,7 @@ Vue.component("kategorije", {
             selectedKategorija: {}, 
             selectedKategorijaId: '', 
             selected: false, 
+            uloga: '',
             greskaIme: '', 
             greskaBrojJezgara: '', 
             greskaRAM: '', 
@@ -23,33 +24,80 @@ Vue.component("kategorije", {
 
                 <h1>Izmena kategorije</h1>
                 
-                Ime: <input type="text" v-model="selectedKategorija.ime"> {{greskaIme}} <br><br>
-                Broj jezgara: <input type="text" v-model="selectedKategorija.brojJezgara"> {{greskaBrojJezgara}} <br><br>
-                RAM: <input type="text" v-model="selectedKategorija.RAM"> {{greskaRAM}} <br><br>
-                GPU jezgra: <input type="text" v-model="selectedKategorija.GPUjezgra"> {{greskaGPUjezgra}} <br><br>
-                
-                <button v-on:click="izmeni()">IZMENI</button><br><br>
-                <button v-on:click="obrisi()">OBRISI</button><br><br>
-                {{greskaServer}}
-                
-            </div>
+    			<br>
+    			
+    			<div class="izmena">
+    				
+    				<table>		
+		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedKategorija.ime"></td> <td>{{greskaIme}}</td></tr>
+		                <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="selectedKategorija.brojJezgara"></td> <td>{{greskaBrojJezgara}}</td></tr>
+		                <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="selectedKategorija.RAM"></td> <td>{{greskaRAM}}</td></tr>
+		                <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="selectedKategorija.GPUjezgra"></td> <td>{{greskaGPUjezgra}}</td></tr>
+		                
+		                <tr><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
+		                <tr><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
+		                <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+    				</table>
+    				
+    				<button v-on:click="vratiNaKategorije()">POVRATAK</button>
+
+    			</div>
+    			
+    		</div>
 
             <div v-if="!selected">
 
                 <h1>Registrovane kategorije</h1>
                 
-                <table class="data" border="1">
-	                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th></tr>
-	                <tr v-for="k in kategorije" v-on:click="selectKategorija(k)">
-	                    <td>{{k.ime}}</td>
-	                    <td>{{k.brojJezgara}}</td>
-	                    <td>{{k.RAM}}</td>
-	                    <td>{{k.GPUjezgra}}</td>
-	                </tr> 
-                </table><br><br>
+                <br>
                 
-                <button v-on:click="dodaj()">DODAJ KATEGORIJU</button><br><br>
-                <router-link to="/masine">MAIN PAGE</router-link><br><br>
+	            <div class="main">
+		                
+	    			<div class="left">
+	    			
+		    			<table class="data" border="1">
+			                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th></tr>
+			                <tr v-for="k in kategorije" v-on:click="selectKategorija(k)">
+			                    <td>{{k.ime}}</td>
+			                    <td>{{k.brojJezgara}}</td>
+			                    <td>{{k.RAM}}</td>
+			                    <td>{{k.GPUjezgra}}</td>
+			                </tr> 
+	                	</table><br><br>
+	                	
+	                </div>
+                
+	    			<div class="right">
+		    			
+		    			<table class="right_menu">
+		    			
+			    			<tr><td>
+			    			
+			    				<table>
+			    					<tr v-if="uloga!='KORISNIK'"><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
+			    					
+			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/kategorije">DISKOVI</router-link></td></tr>
+			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/organizacije">ORGANIZACIJE</router-link></td></tr>
+		
+		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
+		    						
+		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>
+		    						
+		    						<tr><td><br><button v-on:click="logout()">ODJAVA</button><br><br></td></tr>
+			    				</table>
+			    		
+			   				</td></tr>
+    					
+					        <tr v-if="uloga!='KORISNIK'"><td>
+					        	<br>
+				                <button v-on:click="dodaj()">DODAJ KATEGORIJU</button><br><br>
+    						</td></tr>
+    						                    	
+                    	</table>
+    					
+			   		</div>
+			   		
+	            </div>
                 
             </div>
         </div>
@@ -63,6 +111,14 @@ Vue.component("kategorije", {
         })
         .catch(error => {
             this.$router.push("masine");
+        });
+
+        axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+        })
+        .catch(error => {
+            this.$router.push("/");
         });
 
     }, 
@@ -129,8 +185,21 @@ Vue.component("kategorije", {
                 this.greskaServer = error.response.data.result;
             });
 
-        }
+        },
 
+        vratiNaKategorije: function() {
+        	this.selected = false;
+        },
+        
+        logout: function(){
+            axios.get("rest/user/logout")
+            .then(response => {
+                this.$router.push("/");
+            })
+            .catch(error => {
+                this.$router.push("/");
+            });
+        }
     }
 
 });
