@@ -5,7 +5,8 @@ Vue.component("korisnici", {
             korisnici: [], 
             selectedKorisnik: {}, 
             selectedKorisnikId: '', 
-            selected: false, 
+            selected: false,
+            uloga: '',
             greskaIme: '', 
             greskaPrezime: '', 
             greskaServer: '',
@@ -22,43 +23,92 @@ Vue.component("korisnici", {
 
                 <h1>Izmena korisnika</h1>
                 
-                Email: <input type="text" v-model="selectedKorisnik.email" disabled> <br><br>
-                Ime: <input type="text" v-model="selectedKorisnik.ime"> {{greskaIme}} <br><br>
-                Prezime: <input type="text" v-model="selectedKorisnik.prezime"> {{greskaPrezime}} <br><br>
-                Uloga: 
-                <input type="text" v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga!='SUPER_ADMIN'" disabled>
-                <select v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga=='SUPER_ADMIN'">
-                    <option v-for="u in uloge">
-                        {{u}}
-                    </option>
-                </select>
-                <br><br>
-                Organizacija: <input type="text" v-model="selectedKorisnik.organizacija" disabled><br><br>
-                
-                <button v-on:click="izmeni()">IZMENI</button><br><br>
-                <button v-on:click="obrisi()">OBRISI</button><br><br>
-                {{greskaServer}}
-
+    			<br>
+    			
+    			<div class="izmena">   
+    			         
+    				<table>		
+		                <tr><td class="left">Email: </td> <td class="right" colspan="2"><input type="text" v-model="selectedKorisnik.email" disabled></td></tr>
+		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedKorisnik.ime"></td> <td>{{greskaIme}}</td></tr>
+		                <tr><td class="left">Prezime: </td> <td class="right"><input type="text" v-model="selectedKorisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
+		                
+		                <tr><td class="left">Uloga: </td> 
+		                <td class="right"><input type="text" v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga!='SUPER_ADMIN'" disabled>
+		                <select v-model="selectedKorisnik.uloga" v-bind:hidden="selectedKorisnik.uloga=='SUPER_ADMIN'">
+		                    <option v-for="u in uloge">
+		                        {{u}}
+		                    </option>
+		                </select>
+		                </td></tr>
+		                
+		                <tr><td class="left">Organizacija: </td> <td class="right" colspan="2"><input type="text" v-model="selectedKorisnik.organizacija" disabled></td></tr>
+		                
+		                <tr><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
+		                <tr><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
+		                <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+		            </table>
+		            
+    				<button v-on:click="vratiNaKorisnike()">POVRATAK</button>
+		            
+    			</div>
+    			
             </div>
 
             <div v-if="!selected">
 
                 <h1>Registrovani korisnici</h1>
                 
-                <table class="data" border="1">
-	                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th>Organizacija</th></tr>
-	                <tr v-for="k in korisnici" v-on:click="selectKorisnik(k)">
-	                    <td>{{k.email}}</td>
-	                    <td>{{k.ime}}</td>
-	                    <td>{{k.prezime}}</td>
-	                    <td>{{k.organizacija}}</td>
-	                </tr>
-                </table><br><br>
+                <br>
                 
-                <button v-on:click="dodaj()">DODAJ KORISNIKA</button><br><br>
-                <router-link to="/masine">MAIN PAGE</router-link><br><br>
+	            <div class="main">
+		                
+	    			<div class="left">
+	    			
+	    				<table class="data" border="1">
+			                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th>Organizacija</th></tr>
+			                <tr v-for="k in korisnici" v-on:click="selectKorisnik(k)">
+			                    <td>{{k.email}}</td>
+			                    <td>{{k.ime}}</td>
+			                    <td>{{k.prezime}}</td>
+			                    <td>{{k.organizacija}}</td>
+			                </tr>
+		                </table><br><br>
+		                
+	                </div>
+                
+	    			<div class="right">
+		    			
+		    			<table class="right_menu">
+		    			
+			    			<tr><td>
+			    			
+			    				<table>			    					
+			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/kategorije">KATEGORIJE</router-link></td></tr>
+			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/organizacije">ORGANIZACIJE</router-link></td></tr>
+		
+		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
+		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
 
+		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>
+		    						
+		    						<tr><td><br><button v-on:click="logout()">ODJAVA</button><br><br></td></tr>
+			    				</table>
+			    		
+			   				</td></tr>
+			   				
+					        <tr v-if="uloga!='KORISNIK'"><td>
+					        	<br>
+				                <button v-on:click="dodaj()">DODAJ KORISNIKA</button><br><br>
+    						</td></tr>
+    						                    	
+                    	</table>
+    					
+			   		</div>
+			   		
+	            </div>
+	            
             </div>
+            
         </div>
     `, 
 
@@ -79,7 +129,14 @@ Vue.component("korisnici", {
         .catch(error => {
             this.$router.push("masine");
         });
-
+        
+        axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
     }, 
 
     methods: {
@@ -134,8 +191,21 @@ Vue.component("korisnici", {
                 this.greskaServer = error.response.data.result;
             });
 
-        }
+        },
 
+        vratiNaKorisnike: function() {
+        	this.selected = false;
+        },
+        
+        logout: function(){
+            axios.get("rest/user/logout")
+            .then(response => {
+                this.$router.push("/");
+            })
+            .catch(error => {
+                this.$router.push("/");
+            });
+        }
     }
 
 });

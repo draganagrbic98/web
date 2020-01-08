@@ -35,29 +35,45 @@ Vue.component("dodajKorisnika", {
 
     template: `
 
-        <div>
+        <div class="dodavanje">
 
             <h1>Registracija novog korisnika</h1>
-            Korisnicko ime: <input type="text" v-model="noviKorisnik.user.korisnickoIme"> {{greskaKorisnickoIme}} <br><br>
-            Email: <input type="text" v-model="noviKorisnik.email"> {{greskaEmail}} <br><br>
-            Ime: <input type="text" v-model="noviKorisnik.ime"> {{greskaIme}} <br><br>
-            Prezime: <input type="text" v-model="noviKorisnik.prezime"> {{greskaPrezime}} <br><br>
-            Uloga: <select v-model="noviKorisnik.uloga"> 
-                <option v-for="u in uloge">{{u}}</option>
-            </select> 
-            {{greskaUloga}} <br><br>
-            Organizacija: 
-            <input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
-            <select v-model="noviKorisnik.organizacija" v-bind:hidden="organizacije.length<=1">    
-                <option v-for="o in organizacije">{{o.ime}}</option>
-            </select> 
-            {{greskaOrganizacija}} <br><br>
-            Lozinka: <input type="password" v-model="novaLozinka"> {{greskaLozinka}} <br><br>
-            Ponovljena lozinka: <input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"> {{greskaPonovljenaLozinka}} <br><br>
-            <button v-on:click="dodaj()">DODAJ</button><br><br>
-            <router-link to="/korisnici">KORISNICI</router-link><br><br>
-            {{greskaServer}}
- 
+            
+            <br>
+            
+            <div>
+            
+	    		<table>
+
+		            <tr><td class="left">Korisnicko ime: </td> <td class="right"><input type="text" v-model="noviKorisnik.user.korisnickoIme"></td> <td>{{greskaKorisnickoIme}}</td></tr>
+		            <tr><td class="left">Email: </td> <td class="right"><input type="text" v-model="noviKorisnik.email"></td> <td>{{greskaEmail}}</td></tr>
+		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="noviKorisnik.ime"></td> <td>{{greskaIme}}</td></tr>
+		            <tr><td class="left">Prezime: </td> <td class="right"><input type="text" v-model="noviKorisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
+		            
+		            <tr><td class="left">Uloga: </td> <td class="right"><select v-model="noviKorisnik.uloga"> 
+		                <option v-for="u in uloge">{{u}}</option>
+		            </select> </td><td>
+		            {{greskaUloga}}</td></tr>
+		            
+		            <tr><td class="left">Organizacija: </td>
+		            <td class="right"><input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
+		            <select v-model="noviKorisnik.organizacija" v-bind:hidden="organizacije.length<=1">    
+		                <option v-for="o in organizacije">{{o.ime}}</option>
+		            </select> </td><td>
+		            {{greskaOrganizacija}}</td></tr>
+		            
+		            <tr><td class="left">Lozinka: </td> <td class="right"><input type="password" v-model="novaLozinka"></td> <td>{{greskaLozinka}}</td></tr>
+		            <tr><td class="left">Ponovljena lozinka: </td> <td class="right"><input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"></td> <td>{{greskaPonovljenaLozinka}}</td></tr>
+		            
+		            <tr><td colspan="3"><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
+		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+		            
+		            <tr><td colspan="3"><router-link to="/korisnici">KORISNICI</router-link><br></td></tr>
+
+    			</table>
+    		
+    		</div>
+    		
         </div>
     
     `, 

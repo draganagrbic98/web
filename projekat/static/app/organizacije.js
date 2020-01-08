@@ -119,9 +119,9 @@ Vue.component("organizacije", {
 			    					<tr v-if="uloga!='KORISNIK'"><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
 			    					
 			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/kategorije">KATEGORIJE</router-link></td></tr>
-			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
 		
 		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
+		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
 		    						
 		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>
 		    						
