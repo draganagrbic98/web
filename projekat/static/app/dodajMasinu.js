@@ -31,7 +31,7 @@ Vue.component("dodajMasinu", {
 
     template:`
 
-        <div class="dodavanje_masine">
+        <div class="dodavanje">
 
             <h1>Registracija nove masine</h1>
             

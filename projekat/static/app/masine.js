@@ -80,7 +80,7 @@ Vue.component("masine", {
 	
     					</table>
     					
-    					<button v-on:click="vratiNaMasine">POVRATAK</button></td></tr>
+    					<button v-on:click="vratiNaMasine">POVRATAK</button>
 
 	    			</div>
 	    			
@@ -92,13 +92,15 @@ Vue.component("masine", {
 	    				
 		                <p v-if="selectedMasina.aktivnosti.length==0">NEMA</p>
 		                
-		                <table v-if="selectedMasina.aktivnosti.length!=0">
-		                	<th>Datum paljenja</th><th>Datum Gasenja</th>
-		                	
-		                	<tr v-for="a in selectedMasina.aktivnosti">
-		                		<td>{{a.datumPaljenja}}</td> <td>{{a.datumGasenja}}</td>
-		                	</tr>
-		                </table><br><br>
+		                <div>
+			                <table v-if="selectedMasina.aktivnosti.length!=0">
+			                	<th>Datum paljenja</th><th>Datum Gasenja</th>
+			                	
+			                	<tr v-for="a in selectedMasina.aktivnosti">
+			                		<td>{{a.datumPaljenja}}</td> <td>{{a.datumGasenja}}</td>
+			                	</tr>
+			                </table>
+		                </div>
 		                
 		                <div>
 			                Status: {{selectedMasinaStatus}}<br><br>

@@ -20,26 +20,45 @@ Vue.component("dodajDisk", {
 
     template:`
 
-        <div>
+        <div class="dodavanje">
 
             <h1>Registracija novog diska</h1>
-            Ime: <input type="text" v-model="noviDisk.ime"> {{greskaIme}} <br><br>
-            Tip: <select v-model="noviDisk.tip">
-	            <option v-for="t in tipovi">
-	                {{t}}
-	            </option>
-            </select> 
-            {{greskaTip}} <br><br>
-    		Kapacitet: <input type="text" v-model="noviDisk.kapacitet"> {{greskaKapacitet}} <br><br>
-    		Virtuelna Masina: <select v-model="noviDisk.masina">
-	            <option v-for="m in masine">
-	                {{m.ime}}
-	            </option>
-            </select>
-            <br><br>
-            <button v-on:click="dodaj()">DODAJ</button><br><br>
-            <router-link to="/diskovi">DISKOVI</router-link><br><br>
-            {{greskaServer}}
+            
+            <br>
+            
+            <div>
+            
+            	<table>
+
+		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="noviDisk.ime"></td> <td>{{greskaIme}}</td></tr>
+		            
+		            <tr><td class="left">Tip: </td>
+		            <td class="right"><select v-model="noviDisk.tip">
+			            <option v-for="t in tipovi">
+			                {{t}}
+			            </option>
+		            </select> </td> 
+		            
+		            {{greskaTip}}</td></tr>
+		    		
+		    		<tr><td class="left">Kapacitet: </td> <td class="right"><input type="text" v-model="noviDisk.kapacitet"> </td> <td>{{greskaKapacitet}}</td></tr>
+		    		
+		    		<tr><td class="left">Virtuelna Masina: </td>
+		    		<td class="right" colspan="2"><select v-model="noviDisk.masina">
+			            <option v-for="m in masine">
+			                {{m.ime}}
+			            </option>
+		            </select>
+		            </td></tr>
+		            
+		            <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
+		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+
+		            <tr><td colspan="3"><router-link to="/diskovi">DISKOVI</router-link><br></td></tr>
+
+    			</table>
+    			
+    		</div>
 
         </div>
     `, 

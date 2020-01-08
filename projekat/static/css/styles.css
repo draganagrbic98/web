@@ -1,4 +1,4 @@
-/*-------------------------General-------------------------*/
+/*-------------------------Prikaz-------------------------*/
 
 body {
 	background: rgb(33,36,0);
@@ -43,6 +43,14 @@ div.right {
 	margin-left: 0%;
 }
 
+div.right table {
+	margin: auto;
+}
+
+div.right table .left {
+	text-align: right;
+}
+
 .right_menu {
 	width: 100%;
 	border: 3px inset #d2ff80;
@@ -56,6 +64,89 @@ div.right {
 .right_menu td, th {
 	border: none;
 }
+
+/*---------------------------Izmena---------------------------*/
+
+.izmena {
+	width: 50%;
+	height: 75%;
+	
+	margin: auto;
+	
+	border-top: 2px inset lightgreen;
+	border-left: 2px inset lightgreen;
+	border-bottom: 2px outset green;
+	border-right: 2px outset green;
+	
+	background-color: rgba(208,255,204,0.4);
+
+	text-align: center;
+}
+
+.izmena > button {
+	margin-top: 25%;
+}
+
+.izmena table {
+	margin: auto;
+	margin-top: 5%;
+}
+
+.izmena td {
+	border: none;		
+	min-width: 200px;
+}
+
+.izmena td.left {
+	text-align: right;
+}
+
+.izmena td.right {
+	text-align: left;
+}
+
+/*---------------------------Dodavanje---------------------------*/
+
+.dodavanje div {
+	width: 50%;
+	height: 75%;
+	
+	margin: 2%;
+	margin-left: 25%;
+	margin-right: 25%;
+	
+	border-top: 2px inset lightgreen;
+	border-left: 2px inset lightgreen;
+	border-bottom: 2px outset green;
+	border-right: 2px outset green;
+	
+	background-color: rgba(208,255,204,0.4);
+
+	text-align: center;
+}
+
+.dodavanje table {
+	margin: auto;
+	margin-top: 12.5%;
+	margin-bottom: 12.5%;
+	border-style: none;
+}
+
+.dodavanje td {
+	border: none;		
+	min-width: 200px;
+}
+
+.dodavanje td.left {
+	text-align: right;
+}
+
+.dodavanje td.right {
+	text-align: left;
+}
+
+/*---------------------------Generalno---------------------------*/
+
 
 h1{
 	color: #ffdb2f;
@@ -173,10 +264,6 @@ input, select, textarea{
 	margin: auto;
 }
 
-.masine div.right table {
-	margin: auto;
-}
-
 .mesecni_racun {
 	width: 75%;
 	height: 75%;
@@ -217,44 +304,6 @@ input, select, textarea{
 
 .mesecni_racun table {
 	width: 100%;
-}
-
-.dodavanje_masine div {
-	width: 50%;
-	height: 75%;
-	
-	margin: 2%;
-	margin-left: 25%;
-	margin-right: 25%;
-	
-	border-top: 2px inset lightgreen;
-	border-left: 2px inset lightgreen;
-	border-bottom: 2px outset green;
-	border-right: 2px outset green;
-	
-	background-color: rgba(208,255,204,0.4);
-
-	text-align: center;
-}
-
-.dodavanje_masine table {
-	margin: auto;
-	margin-top: 12.5%;
-	margin-bottom: 12.5%;
-	border-style: none;
-}
-
-.dodavanje_masine td {
-	border: none;		
-	min-width: 200px;
-}
-
-.dodavanje_masine td.left {
-	text-align: right;
-}
-
-.dodavanje_masine td.right {
-	text-align: left;
 }
 
 .izmena_masine {
@@ -298,10 +347,7 @@ input, select, textarea{
 }
 
 .izmena_masine .aktivnosti table {
-	max-height: 50%;
 	margin: auto;
-	
-	overflow:auto;
 }
 
 .izmena_masine .aktivnosti tr {
@@ -313,7 +359,6 @@ input, select, textarea{
     border: 1px solid #98bf21;
     padding: 3px 7px 2px 7px;
 }
-
 
 .izmena_masine td {
 	border: none;		
@@ -329,7 +374,7 @@ input, select, textarea{
 }
 
 .izmena_masine .aktivnosti > div {
-	height: 25%;
+	height: 40%;
 	margin: 2%;
-	margin-top: 35%;
+	overflow: auto;
 }
