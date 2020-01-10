@@ -104,6 +104,19 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
 			this.getOrganizacija().dodajMasinu(this);
 	}
 
+	public VirtuelnaMasina(String ime, String organizacija, Kategorija kategorija, ArrayList<String> diskovi) {
+		this();
+		this.ime = ime;
+		this.organizacija = organizacija;
+		this.kategorija = kategorija;
+		this.brojJezgara = this.kategorija.getBrojJezgara();
+		this.RAM = this.kategorija.getRAM();
+		this.GPUjezgra = this.kategorija.getGPUjezgra();
+		this.diskovi = diskovi;
+		if (this.getOrganizacija() != null)
+			this.getOrganizacija().dodajMasinu(this);
+	}
+	
 	public VirtuelnaMasina(String ime) {
 		this();
 		this.ime = ime;

@@ -21,7 +21,8 @@ Vue.component("dodajMasinu", {
             greskaOrganizacija: '',
             greskaKategorija: '', 
             greskaServer: '',
-            greska: false, 
+            greska: false,
+            diskovi: [],
             kategorije: [], 
             organizacije: [], 
             organizacija: {},
@@ -52,6 +53,13 @@ Vue.component("dodajMasinu", {
 	                </select></td> 
 	                
 	                <td class="right">{{greskaOrganizacija}}</td></tr>
+	                
+	                <tr><td class="left">Diskovi: </td>
+	                <td class="right"><select v-model="novaMasina.diskovi" multiple>
+		                <option v-for="d in diskovi">
+		                    {{d.ime}}
+		                </option>
+	                </select></td></tr>	                
 	                
 	                <tr><td class="left">Kategorija: </td>
 	                <td class="right"><select v-model="kat">
@@ -109,6 +117,14 @@ Vue.component("dodajMasinu", {
         .then(response => {
             this.organizacije = response.data;
             this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {};
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
+        
+        axios.get("rest/diskovi/pregled")
+        .then(response => {
+            this.diskovi = response.data;
         })
         .catch(error => {
             this.$router.push("masine");

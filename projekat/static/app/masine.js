@@ -55,6 +55,13 @@ Vue.component("masine", {
 			                
 			                <tr><td class="left">Organizacija: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.organizacija" disabled></td></tr>
 			                
+			                <tr><td class="left">Diskovi: </td>
+			                <td class="right" colspan="2"><select multiple disabled>
+				                <option v-for="d in selectedMasina.diskovi">
+				                    {{d}}
+				                </option>
+			                </select></td></tr>
+	                			                
 			                <tr><td class="left">Kategorija: </td>
 			                <td class="right" colspan="2"><select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
 			                    <option v-for="k in kategorije">
@@ -65,13 +72,6 @@ Vue.component("masine", {
 			                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.brojJezgara" disabled></td></tr>
 			                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.RAM" disabled></td></tr>
 			                <tr><td class="left">Broj GPU jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.GPUjezgra" disabled></td></tr>
-			                
-			                <tr><td class="left">Diskovi: </td>
-			                <td class="right" colspan="2"><p v-if="selectedMasina.diskovi.length==0">NEMA</p>
-			                
-			                <ol>
-			                    <li v-for="d in selectedMasina.diskovi">{{d}}</li>
-			                </ol></td></tr>
 			                
 				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
