@@ -147,6 +147,10 @@ div.right table .left {
 
 /*---------------------------Generalno---------------------------*/
 
+img {
+	max-width: 150px;
+	max-height: 150px;
+}
 
 h1{
 	color: #ffdb2f;

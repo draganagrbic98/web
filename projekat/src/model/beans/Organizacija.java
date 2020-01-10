@@ -96,7 +96,7 @@ public class Organizacija implements CSVData, ReferenceManager {
 	}
 
 	public static Organizacija parse(String line) {
-		String[] array = line.split(";");
+		String[] array = line.split(";", 3);
 		String ime = array[0].trim();
 		String opis = array[1].trim();
 		String logo = array[2].trim();

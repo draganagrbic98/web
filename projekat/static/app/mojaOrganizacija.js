@@ -33,8 +33,12 @@ Vue.component("mojaOrganizacija", {
 	    			<table>
 	    				<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="organizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
 	                	<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="organizacija.opis"></textarea></td></tr>
-			                
-			            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
+			            
+			            <tr><td class="left">Logo: </td> <td class="right" colspan="2"><br><img v-bind:src="organizacija.logo" text="Logo"></img><br><br></td></tr>
+			            
+		            	<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
+			            
+			            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
 			                
 			            <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
 			            
@@ -42,7 +46,7 @@ Vue.component("mojaOrganizacija", {
 	    			</table> <br><br>
 	    				
     			</div>
-    				
+    			
     			<div class="tabele">
     				
 	    			<div class="org_masine">
@@ -113,6 +117,17 @@ Vue.component("mojaOrganizacija", {
 
     methods: {
 
+        updateLogo: function(event) {
+	  		var reader = new FileReader();
+	  		var instance = this;
+	  		
+	  		reader.onloadend = function() {
+				instance.organizacija.logo = reader.result;
+			}
+			 
+			reader.readAsDataURL(event.target.files[0]);
+        },
+        
         izmeni: function(){
 
             if (this.organizacija.opis == '') this.organizacija.opis = null;

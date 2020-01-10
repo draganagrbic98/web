@@ -30,15 +30,18 @@ Vue.component("organizacije", {
 	    				<table>
 	    					<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedOrganizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
 	                		<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="selectedOrganizacija.opis"></textarea></td></tr>
+		            		
+		            		<tr><td class="left">Logo: </td><td class="right" colspan="2"><br><img v-bind:src="selectedOrganizacija.logo" text="Logo"></img><br><br></td></tr>
+
+		            		<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
 			                
-			                <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
+			                <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
 			                
 			                <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
 			                
 	    					<tr><td colspan="3"><button v-on:click="vratiNaOrganizacije()">POVRATAK</button></td></tr>
 
 	    				</table>
-	    				
 
     				</div>
     				
@@ -105,7 +108,7 @@ Vue.component("organizacije", {
 			                <tr v-for="o in organizacije" v-on:click="selectOrganizacija(o)">
 			                    <td>{{o.ime}}</td>
 			                    <td>{{o.opis}}</td>
-			                    <td>{{o.logo}}</td>
+			                    <td><img v-bind:src="o.logo" text="Logo"></img></td>
 			            	</tr>
 		                </table>
 		            
@@ -177,6 +180,17 @@ Vue.component("organizacije", {
             this.$router.push("dodajOrganizaciju");
         },
 
+        updateLogo: function(event) {
+	  		var reader = new FileReader();
+	  		var instance = this;
+	  		
+	  		reader.onloadend = function() {
+				instance.selectedOrganizacija.logo = reader.result;
+			}
+			 
+			reader.readAsDataURL(event.target.files[0]);
+        },
+        
         izmeni: function(){
 
             if (this.selectedOrganizacija.opis == '') this.selectedOrganizacija.opis = null;
@@ -186,7 +200,9 @@ Vue.component("organizacije", {
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.greska) return;
+            
             
             axios.post("rest/organizacije/izmena", {"staroIme": this.selectedOrganizacijaId, "novaOrganizacija": this.selectedOrganizacija})
             .then(response => {

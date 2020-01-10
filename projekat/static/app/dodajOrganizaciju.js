@@ -8,7 +8,7 @@ Vue.component("dodajOrganizaciju", {
                 "logo": null,
                 "korisnici": [], 
                 "masine": []
-            }, 
+            },
             greskaIme: '', 
             greskaServer: '', 
             greska: false
@@ -30,6 +30,8 @@ Vue.component("dodajOrganizaciju", {
 		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaOrganizacija.ime"></td> <td>{{greskaIme}}</td></tr>
 		            <tr><td class="left">Opis: </td> <td class="right"><textarea v-model="novaOrganizacija.opis"></textarea></td></tr>
 		            
+		            <tr><td class="left">Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
+		            
 		            <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
 
@@ -45,6 +47,17 @@ Vue.component("dodajOrganizaciju", {
 
     methods: {
 
+        updateLogo: function(event) {
+	  		var reader = new FileReader();
+	  		var instance = this;
+	  		
+	  		reader.onloadend = function() {
+				instance.novaOrganizacija.logo = reader.result;
+			}
+			 
+			reader.readAsDataURL(event.target.files[0]);
+        },
+    	
         dodaj: function(){
 
             this.greskaIme = '';
@@ -55,6 +68,7 @@ Vue.component("dodajOrganizaciju", {
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.greska == true) return;
 
             axios.post("rest/organizacije/dodavanje", this.novaOrganizacija)
