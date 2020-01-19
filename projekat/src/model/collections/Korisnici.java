@@ -157,8 +157,11 @@ public class Korisnici implements LoadStoreData{
 	
 	public Korisnik login(User u) {
 		for (Korisnik k: this.korisnici) {
-			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) && k.getLozinka().equals(u.getLozinka()))
-				return k;
+			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) || k.getEmail().equals(u.getKorisnickoIme())) {
+				if (k.getLozinka().equals(u.getLozinka())) {
+					return k;
+				}
+			}
 		}
 		return null;
 	}
