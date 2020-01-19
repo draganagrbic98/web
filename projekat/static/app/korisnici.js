@@ -65,12 +65,12 @@ Vue.component("korisnici", {
 	    			<div class="left">
 	    			
 	    				<table class="data" border="1">
-			                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th>Organizacija</th></tr>
+			                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th v-if="uloga=='SUPER_ADMIN'">Organizacija</th></tr>
 			                <tr v-for="k in korisnici" v-on:click="selectKorisnik(k)">
 			                    <td>{{k.email}}</td>
 			                    <td>{{k.ime}}</td>
 			                    <td>{{k.prezime}}</td>
-			                    <td>{{k.organizacija}}</td>
+			                    <td v-if="uloga=='SUPER_ADMIN'">{{k.organizacija}}</td>
 			                </tr>
 		                </table><br><br>
 		                

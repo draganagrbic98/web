@@ -77,7 +77,7 @@ public class Organizacija implements CSVData, ReferenceManager {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String suma = String.format("Ime: %s, opis: %s, uloga: %s\n", this.ime, this.opis, this.logo);
+		String suma = String.format("Ime: %s, opis: %s, logo: %s\n", this.ime, this.opis, this.logo);
 		suma += "KORISNICI: \n";
 		for (String k : this.korisnici)
 			suma += k + "\n";

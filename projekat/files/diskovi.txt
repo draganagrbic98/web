@@ -1,0 +1,4 @@
+disk1;0;123;masina2
+disk2;1;123;masina2
+disk3;0;123;masina2
+disk4;0;123;masina2

@@ -99,11 +99,14 @@ Vue.component("dodajKorisnika", {
         .then(response => {
             this.organizacije = response.data;
             this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {}
+
+
         })
         .catch(error => {
             this.$router.push("masine");
         });
-
+        
+        
     },
 
     methods: {

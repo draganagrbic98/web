@@ -168,8 +168,9 @@ Vue.component("masine", {
 					        </td></tr>
 			                
 			                <tr v-if="uloga=='ADMIN'"><td><div>
-					    		Pocetni datum: <input type="date" v-model="pocetniDatum"> {{greskaPocetni}} <br><br>
-					            Krajnji datum: <input type="date" v-model="krajnjiDatum"> {{greskaKrajnji}} <br><br>
+					    		Pocetni datum: <input type="date" v-model="pocetniDatum"><br><br> 
+					            Krajnji datum: <input type="date" v-model="krajnjiDatum"><br>
+					            {{greskaPocetni}} {{greskaKrajnji}} <br> 
 					            <button v-on:click="izracunajRacun">PRIKAZI RACUN</button><br><br>
 				    		</div></td></tr>
 				    		
