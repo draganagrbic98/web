@@ -39,6 +39,10 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
+		File file = new File("files");
+		if (!file.exists())
+			file.mkdir();
+		
 		loadData();
 		korisnici.addSuperAdmin();
 		port(8080);

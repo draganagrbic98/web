@@ -78,7 +78,6 @@ Vue.component("dodajOrganizaciju", {
             }
             
             if (this.greska == true) return;
-			toastr.info('Proizvod uspesno dodat u korpu.');
 
             axios.post("rest/organizacije/dodavanje", this.novaOrganizacija)
             .then(response => {
