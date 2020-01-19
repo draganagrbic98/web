@@ -30,7 +30,7 @@ public class DataRest implements RestEntity{
 		get("rest/diskovi/unos/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+			if (k == null) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
@@ -40,7 +40,7 @@ public class DataRest implements RestEntity{
 		get("rest/kategorije/unos/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+			if (k == null) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}

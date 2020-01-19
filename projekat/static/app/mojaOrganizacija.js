@@ -100,7 +100,7 @@ Vue.component("mojaOrganizacija", {
 
         axios.get("rest/organizacije/pregled")
         .then(response => {
-            this.organizacija = response.data;
+            this.organizacija = response.data[0];
             this.organizacijaID = this.organizacija.ime;
         }).catch(error => {
             this.$router.push("masine");

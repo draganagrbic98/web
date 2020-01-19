@@ -105,7 +105,7 @@ Vue.component("masine", {
 		                <div>
 			                Status: {{selectedMasinaStatus}}<br><br>
 		    			
-		    			 	<div v-if="uloga=='SUPER_ADMIN'">
+		    			 	<div v-if="uloga=='ADMIN'">
 			               		<button v-if="selectedMasinaStatus == 'UGASENA'" v-on:click="promeni_status()">UPALI MASINU</button>
 			                	<button v-if="selectedMasinaStatus == 'UPALJENA'" v-on:click="promeni_status()">UGASI MASINU</button>
 			                </div><br><br>
@@ -127,13 +127,13 @@ Vue.component("masine", {
 	    			<div class="left">
 		                
 		                <table class="data" border="1">
-			                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th><th>Organizacija</th></tr>
+			                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th><th v-if="uloga=='SUPER_ADMIN'">Organizacija</th></tr>
 			                <tr v-for="m in masine" v-on:click="selectMasina(m)">
 			                    <td>{{m.ime}}</td>
 			                    <td>{{m.brojJezgara}}</td>
 			                    <td>{{m.RAM}}</td>
 			                    <td>{{m.GPUjezgra}}</td>
-			                    <td>{{m.organizacija}}</td>
+			                    <td v-if="uloga=='SUPER_ADMIN'">{{m.organizacija}}</td>
 			                </tr>
 		                </table>
 		                
@@ -263,6 +263,7 @@ Vue.component("masine", {
         axios.get("rest/diskovi/pregled")
         .then(response => {
             this.diskovi = response.data;
+
         })
         .catch(error => {
             this.$router.push("/");
@@ -271,6 +272,7 @@ Vue.component("masine", {
         axios.get("rest/kategorije/unos/pregled")
         .then(response => {
             this.kategorije = response.data;
+
         })
         .catch(error => {
             this.$router.push("/");
@@ -279,6 +281,7 @@ Vue.component("masine", {
         axios.get("rest/user/uloga")
         .then(response => {
             this.uloga = response.data.result;
+
         })
         .catch(error => {
             this.$router.push("/");
