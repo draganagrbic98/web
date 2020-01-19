@@ -49,7 +49,10 @@ public class Korisnici implements LoadStoreData{
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader("files" + File.separatorChar + FileNames.KORISNICI_FILE));
+		File file = new File(FileNames.KORISNICI_FILE);
+		if (!file.exists())
+			file.createNewFile();
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.KORISNICI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
@@ -63,7 +66,7 @@ public class Korisnici implements LoadStoreData{
 	@Override
 	public void store() throws Exception {
 		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter("files" + File.separatorChar + FileNames.KORISNICI_FILE);
+		PrintWriter out = new PrintWriter(FileNames.KORISNICI_FILE);
 		for (Korisnik k: this.korisnici) {
 			out.println(k.csvLine());
 			out.flush();

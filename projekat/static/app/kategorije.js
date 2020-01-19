@@ -137,6 +137,8 @@ Vue.component("kategorije", {
         },
 
         obrisi: function(){
+        	let temp = confirm("Da li ste sigurni?");
+        	if (!temp) return;
 
             this.selectedKategorija.ime = this.selectedKategorijaId;
             axios.post("rest/kategorije/brisanje", this.selectedKategorija)

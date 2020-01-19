@@ -203,6 +203,8 @@ Vue.component("diskovi", {
         }, 
 
         obrisi: function(){
+        	let temp = confirm("Da li ste sigurni?");
+        	if (!temp) return;
 
             this.selectedDisk.ime = this.selectedDiskId;
             axios.post("rest/diskovi/brisanje", this.selectedDisk)

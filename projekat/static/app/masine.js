@@ -335,6 +335,8 @@ Vue.component("masine", {
         },
 
         obrisi: function(){
+        	let temp = confirm("Da li ste sigurni?");
+        	if (!temp) return;
             this.selectMasina.ime = this.selectedMasinaId;
             axios.post("rest/masine/brisanje", this.selectedMasina)
             .then(response => {

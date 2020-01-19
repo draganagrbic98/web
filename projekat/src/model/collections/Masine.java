@@ -49,7 +49,11 @@ public class Masine implements LoadStoreData {
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader("files" + File.separatorChar + FileNames.MASINE_FILE));
+		File file = new File(FileNames.MASINE_FILE);
+		if (!file.exists())
+			file.createNewFile();
+
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.MASINE_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
@@ -64,11 +68,10 @@ public class Masine implements LoadStoreData {
 	@Override
 	public void store() throws Exception {
 		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter("files" + File.separatorChar + FileNames.MASINE_FILE));
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.MASINE_FILE));
 		PrintWriter aktivnostiOut = new PrintWriter(
-				new FileWriter("files" + File.separatorChar + FileNames.AKTIVNOSTI_FILE));
+				new FileWriter(FileNames.AKTIVNOSTI_FILE));
 		for (VirtuelnaMasina m : this.masine) {
-			System.out.println(m);
 			out.println(m.csvLine());
 			out.flush();
 			for (Aktivnost a : m.getAktivnosti()) {
@@ -82,8 +85,11 @@ public class Masine implements LoadStoreData {
 
 	private void loadAktivnosti() throws IOException, ParseException {
 
+		File file = new File(FileNames.AKTIVNOSTI_FILE);
+		if (!file.exists())
+			file.createNewFile();
 		BufferedReader in = new BufferedReader(
-				new FileReader("files" + File.separatorChar + FileNames.AKTIVNOSTI_FILE));
+				new FileReader(FileNames.AKTIVNOSTI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();

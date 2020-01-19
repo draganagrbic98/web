@@ -49,7 +49,7 @@ Vue.component("dodajKategoriju", {
     
     mounted(){
 
-        axios.get("rest/kategorije/pregled")
+        axios.get("rest/masine/pregled")
         .catch(error => {
             this.$router.push("masine");
         });

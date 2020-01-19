@@ -1,3 +1,1 @@
 super;super;super;super;super;0;null
-asd;asd;asd;asd;asd;1;organizacija1
-qwe;qwe;qwe;qwe;qwe;2;organizacija1

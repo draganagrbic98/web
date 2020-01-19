@@ -158,6 +158,8 @@ Vue.component("korisnici", {
         }, 
 
         obrisi: function(){
+        	let temp = confirm("Da li ste sigurni?");
+        	if (!temp) return;
 
             this.selectedKorisnik.user.korisnickoIme = this.selectedKorisnikId;
             axios.post("rest/korisnici/brisanje", this.selectedKorisnik)

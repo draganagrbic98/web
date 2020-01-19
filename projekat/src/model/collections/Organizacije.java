@@ -43,7 +43,10 @@ public class Organizacije implements LoadStoreData{
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader("files" + File.separatorChar + FileNames.ORGANIZACIJE_FILE));
+		File file = new File(FileNames.ORGANIZACIJE_FILE);
+		if (!file.exists())
+			file.createNewFile();
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.ORGANIZACIJE_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
@@ -57,7 +60,7 @@ public class Organizacije implements LoadStoreData{
 	@Override
 	public void store() throws Exception {
 		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter("files" + File.separatorChar + FileNames.ORGANIZACIJE_FILE));
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.ORGANIZACIJE_FILE));
 		for (Organizacija o: this.organizacije) {
 			out.println(o.csvLine());
 			out.flush();

@@ -44,6 +44,14 @@ Vue.component("dodajOrganizaciju", {
         </div>
 
     `, 
+    
+    mounted(){
+    	
+    	axios.get("rest/masine/pregled")
+        .catch(error => {
+            this.$router.push("masine");
+        });
+    },
 
     methods: {
 
@@ -70,10 +78,11 @@ Vue.component("dodajOrganizaciju", {
             }
             
             if (this.greska == true) return;
+			toastr.info('Proizvod uspesno dodat u korpu.');
 
             axios.post("rest/organizacije/dodavanje", this.novaOrganizacija)
             .then(response => {
-                this.$router.push("organizacije")
+            	this.$router.push("organizacije");
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

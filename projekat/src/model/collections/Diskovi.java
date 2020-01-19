@@ -42,7 +42,10 @@ public class Diskovi implements LoadStoreData {
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader("files" + File.separatorChar + FileNames.DISKOVI_FILE));
+		File file = new File(FileNames.DISKOVI_FILE);
+		if (!file.exists())
+			file.createNewFile();
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.DISKOVI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
@@ -56,7 +59,7 @@ public class Diskovi implements LoadStoreData {
 	@Override
 	public void store() throws Exception {
 		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter("files" + File.separatorChar + FileNames.DISKOVI_FILE));
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.DISKOVI_FILE));
 		for (Disk d : this.diskovi) {
 			out.println(d.csvLine());
 			out.flush();
