@@ -65,6 +65,7 @@ public class Kategorije implements LoadStoreData{
 			out.println(k.csvLine());
 			out.flush();
 		}
+		
 		out.close();
 	}
 	
