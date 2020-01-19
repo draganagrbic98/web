@@ -46,6 +46,15 @@ Vue.component("dodajKategoriju", {
         </div>
     
     `, 
+    
+    mounted(){
+
+        axios.get("rest/kategorije/pregled")
+        .catch(error => {
+            this.$router.push("masine");
+        });
+
+    }, 
 
     methods: {
 

@@ -238,7 +238,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 		if (this.ime == null || this.ime.equals("")) return false;
 		if (this.prezime == null || this.prezime.equals("")) return false;
 		if (this.uloga == null) return false;
-		if (this.organizacija == null || this.organizacija.equals("")) return false;
+		if (this.uloga != Uloga.SUPER_ADMIN && (this.organizacija == null || this.organizacija.equals(""))) return false;
 		return this.user.validData();
 		
 	}

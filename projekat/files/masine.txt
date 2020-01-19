@@ -1,1 +1,2 @@
-asd;asd;asd
+masina1;organizacija1;kategorija2
+masina2;organizacija1;kategorija1

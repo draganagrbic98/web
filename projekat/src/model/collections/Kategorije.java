@@ -107,6 +107,7 @@ public class Kategorije implements LoadStoreData{
 		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
 		kategorija.setRAM(k.getNovaKategorija().getRAM());
 		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
+		kategorija.refresh();
 		this.store();
 		Main.masine.store();
 		return KategorijaResult.OK;

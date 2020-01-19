@@ -298,7 +298,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
 		if (this.kategorija == null) return false;
 		if (this.brojJezgara <= 0) return false;
 		if (this.RAM <= 0) return false;
-		if (this.GPUjezgra <= 0) return false;
+		if (this.GPUjezgra < 0) return false;
 		if (this.aktivnosti == null) return false;
 		if (this.diskovi == null) return false;
 		return this.kategorija.validData();

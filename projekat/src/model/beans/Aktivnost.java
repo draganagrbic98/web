@@ -54,7 +54,7 @@ public class Aktivnost implements CSVData {
 		// TODO Auto-generated method stub
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
 
-		if (this.datumGasenja.equals(null))
+		if (this.datumGasenja == null)
 			return String.format("Datum Paljenja: %s, Datum Gasenja: /, Upaljena: %s", f.format(this.datumPaljenja),
 					this.status);
 		else

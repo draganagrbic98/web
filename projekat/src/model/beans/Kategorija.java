@@ -106,8 +106,21 @@ public class Kategorija implements CSVData{
 		if (this.ime == null || this.ime.equals("")) return false;
 		if (this.brojJezgara <= 0) return false;
 		if (this.RAM <= 0) return false;
-		if (this.GPUjezgra <= 0) return false;
+		if (this.GPUjezgra < 0) return false;
 		return true;
+		
+	}
+
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+		for (VirtuelnaMasina m: Main.masine.getMasine()) {
+			if (m.getKategorija().equals(this)) {
+				m.setBrojJezgara(this.brojJezgara);
+				m.setRAM(this.RAM);
+				m.setGPUjezgra(this.GPUjezgra);
+			}
+		}
 		
 	}
 
