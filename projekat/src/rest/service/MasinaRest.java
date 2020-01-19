@@ -46,6 +46,7 @@ public class MasinaRest implements RestEntity{
 				for (Disk d: m.getDiskovi()) {
 					d.setMasina(m.getIme());
 				}
+				m.getOrganizacija().dodajMasinu(m);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {

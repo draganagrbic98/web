@@ -1,7 +1,0 @@
-disk1;0;123;null
-d2;0;100;null
-d3;0;123;null
-d4;0;123;null
-d5;0;123;null
-d6;0;123;null
-d7;0;123;null

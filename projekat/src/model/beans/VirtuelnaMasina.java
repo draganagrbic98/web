@@ -204,7 +204,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
 			o.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
-	private Organizacija getOrganizacija() {
+	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
 

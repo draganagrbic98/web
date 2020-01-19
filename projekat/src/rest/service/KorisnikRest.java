@@ -41,6 +41,7 @@ public class KorisnikRest implements RestEntity{
 				}
 				KorisnikResult result = Main.korisnici.dodajKorisnika(korisnik);
 				if (result != KorisnikResult.OK) res.status(400);
+				korisnik.getOrganizacija().dodajKorisnika(korisnik);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {
@@ -81,10 +82,10 @@ public class KorisnikRest implements RestEntity{
 			}
 			try {
 				Korisnik korisnik = jsonConvertor.fromJson(req.body(), Korisnik.class);
-				if (korisnik == null || !korisnik.validData()) {
-					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
-				}
+//				if (korisnik == null || !korisnik.validData()) {
+//					res.status(400);
+//					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+//				}
 				KorisnikResult result = Main.korisnici.obrisiKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
