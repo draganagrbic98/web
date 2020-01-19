@@ -5,6 +5,8 @@ import java.io.File;
 public class FileNames {
 	
 	private static final String TEMP = "files" + File.separatorChar;
+	
+	
 	public static final String KORISNICI_FILE = TEMP + "korisnici.txt";
 	public static final String ORGANIZACIJE_FILE = TEMP + "organizacije.txt";
 	public static final String MASINE_FILE = TEMP + "masine.txt";
