@@ -15,6 +15,7 @@ import model.FileNames;
 import model.LoadStoreData;
 import model.StatusMasine;
 import model.beans.Aktivnost;
+import model.beans.Disk;
 import model.beans.VirtuelnaMasina;
 import rest.Main;
 import rest.data.MasinaChange;
@@ -113,8 +114,19 @@ public class Masine implements LoadStoreData {
 		if (this.nadjiMasinu(m.getIme()) != null)
 			return MasinaResult.AL_EXISTS;
 		
+		for (String str: m.getDiskoviID()) {
+			if (Main.diskovi.nadjiDisk(str) == null)
+				return MasinaResult.DISK_NOT_EXISTS;
+		}
+		if (Main.organizacije.nadjiOrganizaciju(m.getOrganizacijaID()) == null)
+			return MasinaResult.ORG_NOT_EXISTS;
+		
+		for (Disk d: m.getDiskovi())
+			d.setMasina(m.getIme());
+		m.getOrganizacija().dodajMasinu(m);
 		this.masine.add(m);
 		this.store();
+		Main.diskovi.store();
 		return MasinaResult.OK;
 
 	}

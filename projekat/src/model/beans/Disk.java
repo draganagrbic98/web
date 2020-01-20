@@ -125,7 +125,7 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 			m.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
-	private VirtuelnaMasina getMasina() {
+	public VirtuelnaMasina getMasina() {
 		return Main.masine.nadjiMasinu(this.masina);
 	}
 

@@ -4,7 +4,6 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 import model.Uloga;
-import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.VirtuelnaMasina;
 import rest.Main;
@@ -43,10 +42,6 @@ public class MasinaRest implements RestEntity{
 				}
 				MasinaResult result = Main.masine.dodajMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				for (Disk d: m.getDiskovi()) {
-					d.setMasina(m.getIme());
-				}
-				m.getOrganizacija().dodajMasinu(m);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {

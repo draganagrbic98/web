@@ -80,6 +80,8 @@ public class Diskovi implements LoadStoreData {
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
 		this.diskovi.add(d);
+		if (d.getMasina() != null)
+			d.getMasina().dodajDisk(d);
 		this.store();
 		return DiskResult.OK;
 		

@@ -41,7 +41,6 @@ public class KorisnikRest implements RestEntity{
 				}
 				KorisnikResult result = Main.korisnici.dodajKorisnika(korisnik);
 				if (result != KorisnikResult.OK) res.status(400);
-				korisnik.getOrganizacija().dodajKorisnika(korisnik);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {

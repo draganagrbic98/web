@@ -168,9 +168,10 @@ Vue.component("masine", {
 					        </td></tr>
 			                
 			                <tr v-if="uloga=='ADMIN'"><td><div>
-					    		Pocetni datum: <input type="date" v-model="pocetniDatum"><br><br> 
+					    		Pocetni datum: <input type="date" v-model="pocetniDatum"><br>
+					    		{{greskaPocetni}} <br> 
 					            Krajnji datum: <input type="date" v-model="krajnjiDatum"><br>
-					            {{greskaPocetni}} {{greskaKrajnji}} <br> 
+					            {{greskaKrajnji}} <br> 
 					            <button v-on:click="izracunajRacun">PRIKAZI RACUN</button><br><br>
 				    		</div></td></tr>
 				    		
@@ -420,18 +421,20 @@ Vue.component("masine", {
         },
         
         vratiNaMasine: function() {
-            location.reload();
+        	location.reload();
         },
         
         promeni_status: function() {
+
+
             axios.post("rest/masine/promeni_status", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
             });        		
+            
     	},
         
         logout: function(){

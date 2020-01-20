@@ -140,7 +140,7 @@ Vue.component("diskovi", {
     `,
 
     mounted(){
-
+    	
         axios.get("rest/diskovi/pregled")
         .then(response => {
             this.diskovi = response.data;
@@ -169,8 +169,6 @@ Vue.component("diskovi", {
     },
 
     methods: {
-
-        
 
         selectDisk: function(disk){
             this.selectedDisk = disk;

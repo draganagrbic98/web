@@ -20,7 +20,7 @@ public class OpResult {
 	
 	public enum MasinaResult {
 		
-		OK, AL_EXISTS, DOESNT_EXIST;
+		OK, AL_EXISTS, DOESNT_EXIST, DISK_NOT_EXISTS, ORG_NOT_EXISTS;
 		
 		@Override
 		public String toString() {
@@ -28,7 +28,9 @@ public class OpResult {
 			switch(this.ordinal()) {
 			case 0:	return "OK";
 			case 1: return "Uneta masina vec postoji. ";
-			default: return "Uneta masina ne postoji. ";
+			case 2: return "Uneta masina ne postoji. ";
+			case 3: return "Ne postoje svi uneti diskovi. ";
+			default: return "Uneta organizacija ne postoji. ";
 			}
 		}
 		
@@ -66,7 +68,7 @@ public class OpResult {
 	
 	public enum KorisnikResult{
 		
-		OK, AL_EXISTS, DOESNT_EXIST, EMAIL_EXISTS, CANT_DEL_SELF;
+		OK, AL_EXISTS, DOESNT_EXIST, EMAIL_EXISTS, CANT_DEL_SELF, ORG_NOT_EXISTS;
 		
 		@Override
 		public String toString() {
@@ -76,7 +78,8 @@ public class OpResult {
 			case 1: return "Unet korisnik vec postoji. ";
 			case 2: return "Unet korisnik ne postoji. ";
 			case 3: return "Unet email vec postoji. ";
-			default: return "Nije moguce brisanje samog sebe. ";
+			case 4: return "Nije moguce brisanje samog sebe. ";
+			default: return "Uneta organizacija ne postoji. ";
 			}
 		}
 		

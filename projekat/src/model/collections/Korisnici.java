@@ -11,6 +11,7 @@ import model.LoadStoreData;
 import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.User;
+import rest.Main;
 import rest.data.KorisnikChange;
 import rest.data.OpResult.KorisnikResult;
 
@@ -80,7 +81,10 @@ public class Korisnici implements LoadStoreData{
 			return KorisnikResult.AL_EXISTS;
 		if (this.hasEmail(k.getEmail()))
 			return KorisnikResult.EMAIL_EXISTS;
+		if (Main.organizacije.nadjiOrganizaciju(k.getOrganizacijaID()) == null)
+			return KorisnikResult.ORG_NOT_EXISTS;
 		this.korisnici.add(k);
+		k.getOrganizacija().dodajKorisnika(k);
 		this.store();
 		return KorisnikResult.OK;
 		
