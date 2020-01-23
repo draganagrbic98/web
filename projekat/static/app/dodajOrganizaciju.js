@@ -47,7 +47,7 @@ Vue.component("dodajOrganizaciju", {
     
     mounted(){
     	
-    	axios.get("rest/masine/pregled")
+    	axios.get("rest/check/super")
         .catch(error => {
             this.$router.push("masine");
         });
@@ -65,12 +65,18 @@ Vue.component("dodajOrganizaciju", {
 			 
 			reader.readAsDataURL(event.target.files[0]);
         },
+        
+        osvezi: function(){
+        	
+        	this.greskaIme = '';
+            this.greskaServer = '';
+            this.greska = false;
+        	
+        },
     	
         dodaj: function(){
 
-            this.greskaIme = '';
-            this.greskaServer = '';
-            this.greska = false;
+        	this.osvezi();
 
             if (this.novaOrganizacija.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

@@ -133,16 +133,24 @@ Vue.component("dodajMasinu", {
     },
 
     methods: {
-
-        dodaj: function(){
-
-            if (this.organizacije.length == 1) this.novaMasina.organizacija = this.organizacija.ime;
-
-            this.greskaIme = '';
+    	
+    	osvezi: function(){
+    		
+    		this.greskaIme = '';
             this.greskaOrganizacija = '';
             this.greskaKategorija = '';
             this.greskaServer = '';
             this.greska = false;
+    		
+    	},
+
+        dodaj: function(){
+
+        	this.osvezi();
+        	
+            if (this.organizacije.length == 1) this.novaMasina.organizacija = this.organizacija.ime;
+
+            
 
             if (this.novaMasina.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

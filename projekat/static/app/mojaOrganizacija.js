@@ -4,14 +4,13 @@ Vue.component("mojaOrganizacija", {
         return {
             organizacija: {
             	"ime": '',
-            	"opis": '',
-            	"logo": '',
+            	"opis": null,
+            	"logo": null,
             	"korisnici": [],
             	"masine": []
             	
             },
             organizacijaID: '',
-            uloga: '',
             greskaIme: '', 
             greskaServer: '', 
             greska: false
@@ -106,12 +105,9 @@ Vue.component("mojaOrganizacija", {
             this.$router.push("masine");
         });
         
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        })
+        axios.get("rest/check/admin")
         .catch(error => {
-            this.$router.push("/");
+            this.$router.push("masine");
         });
     },
 
@@ -128,14 +124,18 @@ Vue.component("mojaOrganizacija", {
 			reader.readAsDataURL(event.target.files[0]);
         },
         
-        izmeni: function(){
-
-            if (this.organizacija.opis == '') this.organizacija.opis = null;
-            if (this.organizacija.logo == '') this.organizacija.logo = null;
-
-            this.greskaIme = '';
+        osvezi: function(){
+        	
+        	this.greskaIme = '';
             this.greskaServer = '';
             this.greska = false;
+        	
+        },
+        
+        izmeni: function(){
+
+
+            this.osvezi();
 
             if (this.organizacija.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

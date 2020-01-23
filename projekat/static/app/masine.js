@@ -317,9 +317,7 @@ Vue.component("masine", {
             this.selectedMasinaId = masina.ime;
             this.selected = true;
             this.kat = this.selectedMasina.kategorija.ime;
-            this.greskaIme = '';
-            this.greskaServer = '';
-            this.greska = false;
+            
 
             
             axios.post("rest/masine/status", this.selectedMasinaId)
@@ -347,9 +345,20 @@ Vue.component("masine", {
                 this.greskaServer = error.response.data.result;
             });
         },
+        
+        osvezi: function(){
+        	
+        	this.greskaIme = '';
+            this.greskaServer = '';
+            this.greskaPocetni = '';
+            this.greskaKrajnji = '';
+            this.greska = false;
+        },
 
         izmeni: function(){
 
+        	this.osvezi();
+        	
             if (this.selectedMasina.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno.";
                 this.greska = true;
@@ -368,9 +377,7 @@ Vue.component("masine", {
 
         izracunajRacun: function(){
 
-            this.greskaPocetni = '';
-            this.greskaKrajnji = '';
-            this.greska = false;
+            this.osvezi();
 
             if (this.pocetniDatum == ''){
                 this.greskaPocetni = "Ovo polje ne sme biti prazno.";

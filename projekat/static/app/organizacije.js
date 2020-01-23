@@ -6,7 +6,6 @@ Vue.component("organizacije", {
             selectedOrganizacija: {}, 
             selectedOrganizacijaId: '',
             selected: false,
-            uloga: '',
             greskaIme: '', 
             greskaServer: '', 
             greska: false
@@ -121,9 +120,9 @@ Vue.component("organizacije", {
 			    			<tr><td>
 			    			
 			    				<table>
-			    					<tr v-if="uloga!='KORISNIK'"><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
+			    					<tr><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
 			    					
-			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/kategorije">KATEGORIJE</router-link></td></tr>
+			    					<tr><td><router-link to="/kategorije">KATEGORIJE</router-link></td></tr>
 		
 		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
 		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
@@ -156,12 +155,9 @@ Vue.component("organizacije", {
             this.$router.push("masine");
         });
         
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        })
+        axios.get("rest/check/super")
         .catch(error => {
-            this.$router.push("/");
+            this.$router.push("masine");
         });
     },
 
@@ -171,11 +167,17 @@ Vue.component("organizacije", {
             this.selectedOrganizacija = organizacija;
             this.selectedOrganizacijaId = organizacija.ime;
             this.selected = true;
+
+        }, 
+        
+        osvezi: function(){
+        	
+        	
             this.greskaIme = '';
             this.greskaServer = '';
             this.greska = false;
-
-        }, 
+        	
+        },
 
         dodaj: function(){
             this.$router.push("dodajOrganizaciju");
@@ -194,8 +196,7 @@ Vue.component("organizacije", {
         
         izmeni: function(){
 
-            if (this.selectedOrganizacija.opis == '') this.selectedOrganizacija.opis = null;
-            if (this.selectedOrganizacija.logo == '') this.selectedOrganizacija.logo = null;
+
 
             if (this.selectedOrganizacija.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

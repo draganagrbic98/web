@@ -169,7 +169,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 		if (this.uloga.equals(Uloga.KORISNIK)) return null;
 		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
 		for (Korisnik k: Main.korisnici.getKorisnici()) {
-			if (k.getOrganizacijaID().equals(this.organizacija) && !(k.equals(this)))
+			if (k.getOrganizacijaID() != null && k.getOrganizacijaID().equals(this.organizacija) && !(k.equals(this)))
 				korisnici.add(k);
 		}
 		return korisnici;

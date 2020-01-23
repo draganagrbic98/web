@@ -11,7 +11,7 @@ Vue.component("profil", {
 				"ime": '', 
 				"prezime": '',
 				"uloga": '', 
-				"organizacija": ''
+				"organizacija": null
 			}, 
 			novaLozinka: '', 
 			ponovljenaLozinka: '',
@@ -74,14 +74,19 @@ Vue.component("profil", {
     		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     	},
     	
-		
-		izmeni: function(){
-			
-			this.greskaEmail = '';
+    	osvezi: function(){
+    		
+    		this.greskaEmail = '';
 			this.greskaIme = '';
 			this.greskaPrezime = '';
 			this.greskaLozinka = '';
 			this.greska = false;
+    		
+    	},
+		
+		izmeni: function(){
+			
+			
 
 			if (this.korisnik.email == '' || !this.emailProvera(this.korisnik.email)){
 				this.greskaEmail = "Email nije ispravan. ";

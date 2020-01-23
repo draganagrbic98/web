@@ -49,7 +49,7 @@ Vue.component("dodajKategoriju", {
     
     mounted(){
 
-        axios.get("rest/masine/pregled")
+        axios.get("rest/check/super")
         .catch(error => {
             this.$router.push("masine");
         });
@@ -57,15 +57,21 @@ Vue.component("dodajKategoriju", {
     }, 
 
     methods: {
-
-        dodaj: function(){
-
-            this.greskaIme = '';
+    	
+    	osvezi: function(){
+    		
+    		this.greskaIme = '';
             this.greskaBrojJezgara = '';
             this.greskaRAM = '';
             this.greskaGPUjezgra = '';
             this.greskaServer = '';
             this.greska = false;
+    		
+    	},
+
+        dodaj: function(){
+
+            this.osvezi();
 
             if (this.novaKategorija.ime == ''){
                 this.greskaIme = "Kategorija ne sme biti prazna. ";

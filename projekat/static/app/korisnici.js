@@ -145,16 +145,23 @@ Vue.component("korisnici", {
     	vratiNaKorisnike: function() {
             location.reload();
         },
+        
         selectKorisnik: function(korisnik){
             this.selectedKorisnik = korisnik;
             this.selectedKorisnikId = korisnik.user.korisnickoIme;
             this.selected = true;
-            this.greskaIme = '';
+            
+
+        }, 
+        
+        osvezi: function(){
+        	
+        	this.greskaIme = '';
             this.greskaPrezime = '';
             this.greskaServer = '';
             this.greska = false;
-
-        }, 
+        	
+        },
 
         dodaj: function(){
             this.$router.push("dodajKorisnika");
@@ -176,6 +183,8 @@ Vue.component("korisnici", {
         }, 
 
         izmeni: function(){
+        	
+        	this.osvezi();
 
             if (this.selectedKorisnik.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

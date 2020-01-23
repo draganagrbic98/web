@@ -84,14 +84,22 @@ Vue.component("dodajDisk", {
     }, 
 
     methods: {
+    	
+    	osvezi : function(){
+    		
+    		
+    		this.greskaIme = '';
+    		this.greskaTip = '';
+    		this.greskaKapacitet = '';
+    		this.greskaServer = '';
+    		this.greska = false;
+    		
+    	},
 
         dodaj: function(){
             
-            this.greskaIme = '';
-            this.greskaTip = '';
-            this.greskaKapacitet = '';
-            this.greskaServer = '';
-            this.greska = false;
+
+        	this.osvezi();
 
             if (this.noviDisk.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";

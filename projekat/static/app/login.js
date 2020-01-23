@@ -29,12 +29,18 @@ Vue.component("login", {
 
     methods: {
 
-        login(){
-            
-            this.greskaKorisnickoIme = '';
+    	osvezi: function(){
+    		
+    		
+    		this.greskaKorisnickoIme = '';
             this.greskaLozinka = '';
             this.greskaLogin = '';
             this.greska = false;
+    	},
+    	
+        login: function(){
+            
+            this.osvezi();
 
             if (this.user.korisnickoIme == ''){
                 this.greskaKorisnickoIme = "Niste uneli korisnicko ime. ";

@@ -115,12 +115,9 @@ Vue.component("dodajKorisnika", {
     		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     	},
     	
-        dodaj: function(){
-
-            this.noviKorisnik.user.lozinka = this.novaLozinka;
-            if (this.organizacije.length == 1) this.noviKorisnik.organizacija = this.organizacija.ime;
-
-            this.greskaKorisnickoIme = '';
+    	osvezi: function(){
+    		
+    		this.greskaKorisnickoIme = '';
             this.greskaEmail = '';
             this.greskaIme = '';
             this.greskaPrezime = '';
@@ -130,6 +127,17 @@ Vue.component("dodajKorisnika", {
             this.greskaPonovljenaLozinka = '';
             this.greskaServer = '';
             this.greska = false;
+    		
+    	},
+    	
+        dodaj: function(){
+        	
+        	this.osvezi();
+
+            this.noviKorisnik.user.lozinka = this.novaLozinka;
+            if (this.organizacije.length == 1) this.noviKorisnik.organizacija = this.organizacija.ime;
+
+            
 
             if (this.noviKorisnik.user.korisnickoIme == ''){
                 this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";

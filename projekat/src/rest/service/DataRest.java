@@ -17,6 +17,31 @@ public class DataRest implements RestEntity{
 	@Override
 	public void init() {
 		
+		get("/rest/check/admin", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			return jsonConvertor.toJson(new OpResponse("OK"));
+
+			
+		});
+		
+		get("/rest/check/super", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			return jsonConvertor.toJson(new OpResponse("OK"));
+			
+		});
+		
 		get("rest/uloge/unos/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");

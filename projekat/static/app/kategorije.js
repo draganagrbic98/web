@@ -6,7 +6,6 @@ Vue.component("kategorije", {
             selectedKategorija: {}, 
             selectedKategorijaId: '', 
             selected: false, 
-            uloga: '',
             greskaIme: '', 
             greskaBrojJezgara: '', 
             greskaRAM: '', 
@@ -74,9 +73,9 @@ Vue.component("kategorije", {
 			    			<tr><td>
 			    			
 			    				<table>
-			    					<tr v-if="uloga!='KORISNIK'"><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
+			    					<tr><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
 			    					
-			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/organizacije">ORGANIZACIJE</router-link></td></tr>
+			    					<tr><td><router-link to="/organizacije">ORGANIZACIJE</router-link></td></tr>
 		
 		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
 		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
@@ -88,7 +87,7 @@ Vue.component("kategorije", {
 			    		
 			   				</td></tr>
     					
-					        <tr v-if="uloga!='KORISNIK'"><td>
+					        <tr><td>
 					        	<br>
 				                <button v-on:click="dodaj()">DODAJ KATEGORIJU</button><br><br>
     						</td></tr>
@@ -114,10 +113,7 @@ Vue.component("kategorije", {
             this.$router.push("masine");
         });
 
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        })
+        axios.get("rest/check/super")
         .catch(error => {
             this.$router.push("/");
         });
@@ -150,15 +146,21 @@ Vue.component("kategorije", {
             });
 
         },
-
-        izmeni: function(){
-
-            this.greskaIme = '';
+        
+        osvezi: function(){
+        	
+        	this.greskaIme = '';
             this.greskaBrojJezgara = '';
             this.greskaRAM = '';
             this.greskaGPUjezgra = '';
             this.greskaServer = '';
             this.greska = false;
+        	
+        },
+
+        izmeni: function(){
+
+            this.osvezi();
 
             if (this.selectedKategorija.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno";

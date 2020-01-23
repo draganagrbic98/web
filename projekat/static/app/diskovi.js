@@ -163,7 +163,7 @@ Vue.component("diskovi", {
             this.uloga = response.data.result;
         })
         .catch(error => {
-            this.$router.push("/");
+            this.$router.push("masine");
         });
 
     },
@@ -174,13 +174,19 @@ Vue.component("diskovi", {
             this.selectedDisk = disk;
             this.selectedDiskId = disk.ime;
             this.selected = true;
-            this.greskaIme = '';
-            this.greskaTip = '';
-            this.greskaKapacitet = '';
-            this.greskaServer = '';
-            this.greska = false;
+            
 
         }, 
+        
+        osvezi: function(){
+        	
+        	this.greskaIme = ''; 
+            this.greskaTip = ''; 
+            this.greskaKapacitet = '';
+            this.greskaServer = ''; 
+            this.greska = false;
+        	
+        },
 
         pretrazi: function(){
             this.diskovi = [];
@@ -216,6 +222,8 @@ Vue.component("diskovi", {
         },
 
         izmeni: function(){
+        	
+        	this.osvezi();
 
             if (this.selectedDisk.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
