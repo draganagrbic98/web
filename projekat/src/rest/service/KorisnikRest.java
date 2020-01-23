@@ -5,6 +5,7 @@ import static spark.Spark.post;
 
 import model.Uloga;
 import model.beans.Korisnik;
+import model.beans.Organizacija;
 import rest.Main;
 import rest.RestEntity;
 import rest.data.KorisnikChange;
@@ -37,7 +38,12 @@ public class KorisnikRest implements RestEntity{
 				Korisnik korisnik = jsonConvertor.fromJson(req.body(), Korisnik.class);
 				if (korisnik == null || !korisnik.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				}
+				Organizacija temp = Main.organizacije.nadjiOrganizaciju(korisnik.getOrganizacijaID());
+				if (!k.getMojeOrganizacije().contains(temp)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Forbidden"));
 				}
 				KorisnikResult result = Main.korisnici.dodajKorisnika(korisnik);
 				if (result != KorisnikResult.OK) res.status(400);
@@ -45,14 +51,14 @@ public class KorisnikRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}
 		});
 		
 		post("/rest/korisnici/izmena", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+			if (k == null) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
@@ -60,7 +66,17 @@ public class KorisnikRest implements RestEntity{
 				KorisnikChange korisnik = jsonConvertor.fromJson(req.body(), KorisnikChange.class);
 				if (korisnik == null || !korisnik.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				}
+				Korisnik temp1 = Main.korisnici.nadjiKorisnika(korisnik.getStaroIme());
+				if (!k.getMojiKorisnici().contains(temp1)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				}
+				Organizacija temp2 = Main.organizacije.nadjiOrganizaciju(korisnik.getNoviKorisnik().getOrganizacijaID());
+				if (!k.getMojeOrganizacije().contains(temp2) && temp2 != null) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Forbidden"));
 				}
 				KorisnikResult result = Main.korisnici.izmeniKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
@@ -68,9 +84,14 @@ public class KorisnikRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}
 		});
+		
+		
+		
+		
+		
 		
 		post("rest/korisnici/brisanje", (req, res) -> {
 			res.type("application/json");
@@ -81,17 +102,27 @@ public class KorisnikRest implements RestEntity{
 			}
 			try {
 				Korisnik korisnik = jsonConvertor.fromJson(req.body(), Korisnik.class);
-//				if (korisnik == null || !korisnik.validData()) {
-//					res.status(400);
-//					return jsonConvertor.toJson(new OpResponse("Invalid data"));
-//				}
+				if (korisnik == null || korisnik.getKorisnickoIme().equals("")) {
+					res.status(400);
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				}
+				Korisnik temp1 = Main.korisnici.nadjiKorisnika(korisnik.getKorisnickoIme());
+				if (!k.getMojiKorisnici().contains(temp1)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				}
+				Organizacija temp2 = Main.organizacije.nadjiOrganizaciju(korisnik.getOrganizacijaID());
+				if (!k.getMojeOrganizacije().contains(temp2)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				}
 				KorisnikResult result = Main.korisnici.obrisiKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}
 		});
 		

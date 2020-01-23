@@ -146,6 +146,11 @@ Vue.component("organizacije", {
     `,
     
     mounted(){
+    	
+    	axios.get("rest/check/super")
+        .catch(error => {
+            this.$router.push("masine");
+        });
 
         axios.get("rest/organizacije/pregled")
         .then(response => {
@@ -155,10 +160,7 @@ Vue.component("organizacije", {
             this.$router.push("masine");
         });
         
-        axios.get("rest/check/super")
-        .catch(error => {
-            this.$router.push("masine");
-        });
+        
     },
 
     methods: {

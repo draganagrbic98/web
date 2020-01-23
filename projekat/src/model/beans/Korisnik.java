@@ -134,7 +134,6 @@ public class Korisnik implements CSVData, ReferenceManager {
 	public ArrayList<Organizacija> getMojeOrganizacije(){
 		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.organizacije.getOrganizacije();
-		if (this.uloga.equals(Uloga.KORISNIK)) return null;
 		ArrayList<Organizacija> organizacije = new ArrayList<Organizacija>();
 		organizacije.add(this.getOrganizacija());
 		return organizacije;
@@ -166,7 +165,11 @@ public class Korisnik implements CSVData, ReferenceManager {
 	public ArrayList<Korisnik> getMojiKorisnici(){
 		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.korisnici.getKorisnici();
-		if (this.uloga.equals(Uloga.KORISNIK)) return null;
+		if (this.uloga.equals(Uloga.KORISNIK)) {
+			ArrayList<Korisnik> lista = new ArrayList<Korisnik>();
+			lista.add(this);
+			return lista;
+		}
 		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
 		for (Korisnik k: Main.korisnici.getKorisnici()) {
 			if (k.getOrganizacijaID() != null && k.getOrganizacijaID().equals(this.organizacija) && !(k.equals(this)))

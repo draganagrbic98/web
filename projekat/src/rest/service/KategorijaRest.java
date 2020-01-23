@@ -38,7 +38,7 @@ public class KategorijaRest implements RestEntity{
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
 				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
 				}
 				KategorijaResult result = Main.kategorije.dodajKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
@@ -46,7 +46,7 @@ public class KategorijaRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}
 		});
 		
@@ -61,7 +61,7 @@ public class KategorijaRest implements RestEntity{
 				KategorijaChange kategorija = jsonConvertor.fromJson(req.body(), KategorijaChange.class);
 				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
 				}
 				KategorijaResult result = Main.kategorije.izmeniKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
@@ -69,7 +69,7 @@ public class KategorijaRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}
 		});
 		
@@ -82,9 +82,9 @@ public class KategorijaRest implements RestEntity{
 			};
 			try {
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
-				if (kategorija == null || !kategorija.validData()) {
+				if (kategorija == null || !kategorija.getIme().equals("")) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
 				}
 				KategorijaResult result = Main.kategorije.obrisiKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
@@ -92,7 +92,7 @@ public class KategorijaRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}
 		});
 	}

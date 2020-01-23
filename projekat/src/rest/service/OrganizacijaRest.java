@@ -24,9 +24,6 @@ public class OrganizacijaRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			else if (k.getUloga().equals(Uloga.ADMIN)) {
-				return jsonConvertor.toJson(k.getMojeOrganizacije());
-			}
 			return jsonConvertor.toJson(k.getMojeOrganizacije());
 		});
 		
@@ -41,7 +38,7 @@ public class OrganizacijaRest implements RestEntity{
 				Organizacija o = jsonConvertor.fromJson(req.body(), Organizacija.class);
 				if (o == null || !o.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
 				}
 				OrganizacijaResponse result = Main.organizacije.dodajOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
@@ -49,7 +46,7 @@ public class OrganizacijaRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}			
 		});
 
@@ -64,7 +61,12 @@ public class OrganizacijaRest implements RestEntity{
 				OrganizacijaChange o = jsonConvertor.fromJson(req.body(), OrganizacijaChange.class);
 				if (o == null || !o.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				}
+				Organizacija temp = Main.organizacije.nadjiOrganizaciju(o.getStaroIme());
+				if (!k.getMojeOrganizacije().contains(temp)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Forbidden"));
 				}
 				OrganizacijaResponse result = Main.organizacije.izmeniOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
@@ -72,7 +74,7 @@ public class OrganizacijaRest implements RestEntity{
 			}
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
 			}			
 		});
 		

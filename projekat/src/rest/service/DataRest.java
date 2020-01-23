@@ -17,6 +17,8 @@ public class DataRest implements RestEntity{
 	@Override
 	public void init() {
 		
+	
+		
 		get("/rest/check/admin", (req, res) -> {
 			
 			res.type("application/json");

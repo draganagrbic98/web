@@ -107,7 +107,7 @@ Vue.component("profil", {
 			if (this.greska) return;
 
 			this.korisnik.user.lozinka = this.novaLozinka != '' ? this.novaLozinka : this.korisnik.user.lozinka;
-			axios.post("rest/user/izmena", {"staroIme": this.korisnik.user.korisnickoIme, "noviKorisnik": this.korisnik})
+			axios.post("rest/korisnici/izmena", {"staroIme": this.korisnik.user.korisnickoIme, "noviKorisnik": this.korisnik})
 			.then(response => {
 				this.$router.push("masine");
 			})

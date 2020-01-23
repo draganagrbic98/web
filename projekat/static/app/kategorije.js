@@ -104,6 +104,11 @@ Vue.component("kategorije", {
     `, 
 
     mounted(){
+    	
+    	axios.get("rest/check/super")
+        .catch(error => {
+            this.$router.push("masine");
+        });
 
         axios.get("rest/kategorije/pregled")
         .then(response => {
@@ -113,10 +118,7 @@ Vue.component("kategorije", {
             this.$router.push("masine");
         });
 
-        axios.get("rest/check/super")
-        .catch(error => {
-            this.$router.push("/");
-        });
+        
 
     }, 
 

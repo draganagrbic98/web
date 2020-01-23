@@ -96,6 +96,11 @@ Vue.component("mojaOrganizacija", {
     `,
     
     mounted(){
+    	
+    	axios.get("rest/check/admin")
+        .catch(error => {
+            this.$router.push("masine");
+        });
 
         axios.get("rest/organizacije/pregled")
         .then(response => {
@@ -105,10 +110,7 @@ Vue.component("mojaOrganizacija", {
             this.$router.push("masine");
         });
         
-        axios.get("rest/check/admin")
-        .catch(error => {
-            this.$router.push("masine");
-        });
+        
     },
 
     methods: {
