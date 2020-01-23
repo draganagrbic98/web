@@ -70,6 +70,11 @@ Vue.component("profil", {
 
 	methods: {
 		
+		emailProvera: function emailIsValid (email) {
+    		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    	},
+    	
+		
 		izmeni: function(){
 			
 			this.greskaEmail = '';
@@ -78,8 +83,8 @@ Vue.component("profil", {
 			this.greskaLozinka = '';
 			this.greska = false;
 
-			if (this.korisnik.email == ''){
-				this.greskaEmail = "Email ne sme biti prazan. ";
+			if (this.korisnik.email == '' || !this.emailProvera(this.korisnik.email)){
+				this.greskaEmail = "Email nije ispravan. ";
 				this.greska = true;
 			}
 			if (this.korisnik.ime == ''){

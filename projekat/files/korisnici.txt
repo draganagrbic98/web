@@ -6,3 +6,4 @@ qqq;qqq;qqq;qqq;qqq;1;organizacija1
 fgh;fgh;fgh;fgh;fgh;1;organizacija1
 www;qwe;www;qwe;qwe;1;organizacija1
 qwe;qwe;draganaasd@gmail.com;qwe;qwe;1;organizacija1
+asd;asd;draganaasd2@gmail.com;asd;asd;1;organizacija1
