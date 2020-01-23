@@ -3,7 +3,6 @@ package model.beans;
 import java.util.ArrayList;
 
 import model.CSVData;
-import model.FileNames;
 import model.ReferenceManager;
 import rest.Main;
 
@@ -100,7 +99,8 @@ public class Organizacija implements CSVData, ReferenceManager {
 		String ime = array[0].trim();
 		String opis = array[1].trim();
 		String logo = array[2].trim();
-		if (logo == "null") logo = FileNames.DEFAULT_LOGO;
+		if (opis.equals("null")) opis = null;
+		if (logo.equals("null")) logo = null;
 		return new Organizacija(ime, opis, logo);
 	}
 

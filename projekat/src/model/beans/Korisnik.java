@@ -120,6 +120,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 		String prezime = array[4].trim();
 		Uloga uloga = Uloga.values()[(Integer.parseInt(array[5].trim()))];
 		String organizacija = array[6].trim();
+		if (organizacija.equals("null")) organizacija = null;
 		return new Korisnik(korisnickoIme, lozinka, email, ime, prezime, uloga, organizacija);
 	}
 

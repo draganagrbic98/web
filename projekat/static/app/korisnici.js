@@ -142,6 +142,9 @@ Vue.component("korisnici", {
 
     methods: {
 
+    	vratiNaKorisnike: function() {
+            location.reload();
+        },
         selectKorisnik: function(korisnik){
             this.selectedKorisnik = korisnik;
             this.selectedKorisnikId = korisnik.user.korisnickoIme;
@@ -164,8 +167,7 @@ Vue.component("korisnici", {
             this.selectedKorisnik.user.korisnickoIme = this.selectedKorisnikId;
             axios.post("rest/korisnici/brisanje", this.selectedKorisnik)
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
@@ -187,8 +189,7 @@ Vue.component("korisnici", {
 
             axios.post("rest/korisnici/izmena", {"staroIme": this.selectedKorisnikId, "noviKorisnik": this.selectedKorisnik})
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
@@ -196,9 +197,7 @@ Vue.component("korisnici", {
 
         },
 
-        vratiNaKorisnike: function() {
-            location.reload();
-        },
+        
         
         logout: function(){
             axios.get("rest/user/logout")

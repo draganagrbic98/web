@@ -1,5 +1,6 @@
 package rest;
 
+import model.FileNames;
 import model.collections.Diskovi;
 import model.collections.Kategorije;
 import model.collections.Korisnici;
@@ -17,6 +18,7 @@ import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Main {
 
@@ -35,14 +37,45 @@ public class Main {
 		korisnici.load();
 		
 	}
+	
+	public static void createFiles() throws IOException {
+		
+		File file = new File("files");
+		if (!file.exists())
+			file.mkdir();
+			
+		file = new File(FileNames.DISKOVI_FILE);
+		if (!file.exists())
+			file.createNewFile();
+
+		file = new File(FileNames.KATEGORIJE_FILE);
+		if (!file.exists())
+			file.createNewFile();
+		
+		file = new File(FileNames.KORISNICI_FILE);
+		if (!file.exists())
+			file.createNewFile();
+
+		file = new File(FileNames.MASINE_FILE);
+		if (!file.exists())
+			file.createNewFile();
+
+		file = new File(FileNames.AKTIVNOSTI_FILE);
+		if (!file.exists())
+			file.createNewFile();
+		
+		file = new File(FileNames.ORGANIZACIJE_FILE);
+		if (!file.exists())
+			file.createNewFile();
+
+
+		
+	}
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
-		File file = new File("files");
-		if (!file.exists())
-			file.mkdir();
-		
+		createFiles();
 		loadData();
 		korisnici.addSuperAdmin();
 		port(8080);

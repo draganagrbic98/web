@@ -143,8 +143,7 @@ Vue.component("kategorije", {
             this.selectedKategorija.ime = this.selectedKategorijaId;
             axios.post("rest/kategorije/brisanje", this.selectedKategorija)
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
@@ -181,8 +180,7 @@ Vue.component("kategorije", {
 
             axios.post("rest/kategorije/izmena", {"staroIme": this.selectedKategorijaId, "novaKategorija": this.selectedKategorija})
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

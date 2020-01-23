@@ -1,7 +1,6 @@
 package model.collections;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -50,9 +49,6 @@ public class Korisnici implements LoadStoreData{
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		File file = new File(FileNames.KORISNICI_FILE);
-		if (!file.exists())
-			file.createNewFile();
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.KORISNICI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {

@@ -1,2 +1,8 @@
-super;asd;asd;super;super;0;null
-asd;asd;asdasd;asd;asd;1;asdasd
+super;asd;asd;asd;asd;0;null
+ert;ert;ert;ert;ert;1;organizacija1
+qqq;qqq;qqq;qqq;qqq;1;organizacija1
+123;123;123;123;123;1;organizacija1
+345;345;345;345;345;1;organizacija1
+fgh;fgh;fgh;fgh;fgh;1;organizacija1
+www;qwe;www;qwe;qwe;1;organizacija1
+qwe;qwe;draganaasd@gmail.com;qwe;qwe;1;organizacija1

@@ -1,7 +1,6 @@
 package model.collections;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -42,9 +41,6 @@ public class Diskovi implements LoadStoreData {
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		File file = new File(FileNames.DISKOVI_FILE);
-		if (!file.exists())
-			file.createNewFile();
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.DISKOVI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {

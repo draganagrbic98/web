@@ -1,7 +1,1 @@
-asd;0;123;hura
-asdasd;0;123;hura
-qwe;0;123;hura
-qwe123;0;123;hura
-asd123123123;0;123;hura
-111;0;123;hura
-asd123123;0;123;hura
+disk1;0;123;null

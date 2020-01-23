@@ -145,8 +145,7 @@ Vue.component("mojaOrganizacija", {
             
             axios.post("rest/organizacije/izmena", {"staroIme": this.organizacijaID, "novaOrganizacija": this.organizacija})
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

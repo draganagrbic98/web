@@ -58,13 +58,14 @@ Vue.component("profil", {
 	},
 
 	mounted(){
+
 		axios.get("rest/user/profil")
 		.then(response => {
 			this.korisnik = response.data
 		})
 		.catch(error => {
 			this.$router.push("/");
-		})
+		});
 	},
 
 	methods: {
@@ -102,7 +103,7 @@ Vue.component("profil", {
 			})
 			.catch(error => {
 				this.greskaServer = error.response.data.result;
-			})
+			});
 
 		}
 	}

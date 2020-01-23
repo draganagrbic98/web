@@ -1,1 +1,1 @@
-asd;1;1;0
+kategorija1;12;14;1

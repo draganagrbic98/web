@@ -111,6 +111,10 @@ Vue.component("dodajKorisnika", {
 
     methods: {
 
+    	emailProvera: function emailIsValid (email) {
+    		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    	},
+    	
         dodaj: function(){
 
             this.noviKorisnik.user.lozinka = this.novaLozinka;
@@ -131,8 +135,8 @@ Vue.component("dodajKorisnika", {
                 this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";
                 this.greska = true;
             }
-            if (this.noviKorisnik.email == ''){
-                this.greskaEmail = "Email ne sme biti prazan. ";
+            if (this.noviKorisnik.email == '' || !this.emailProvera(this.noviKorisnik.email)){
+                this.greskaEmail = "Email nije ispravan. ";
                 this.greska = true;
             }
             if (this.noviKorisnik.ime == ''){

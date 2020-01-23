@@ -85,7 +85,7 @@ Vue.component("dodajOrganizaciju", {
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
-            })
+            });
            
         }
     }, 

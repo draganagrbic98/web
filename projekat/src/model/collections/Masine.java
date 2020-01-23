@@ -1,7 +1,6 @@
 package model.collections;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -50,10 +49,6 @@ public class Masine implements LoadStoreData {
 	@Override
 	public void load() throws Exception {
 		// TODO Auto-generated method stub
-		File file = new File(FileNames.MASINE_FILE);
-		if (!file.exists())
-			file.createNewFile();
-
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.MASINE_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
@@ -86,9 +81,6 @@ public class Masine implements LoadStoreData {
 
 	private void loadAktivnosti() throws IOException, ParseException {
 
-		File file = new File(FileNames.AKTIVNOSTI_FILE);
-		if (!file.exists())
-			file.createNewFile();
 		BufferedReader in = new BufferedReader(
 				new FileReader(FileNames.AKTIVNOSTI_FILE));
 		String line;
@@ -121,8 +113,10 @@ public class Masine implements LoadStoreData {
 		if (Main.organizacije.nadjiOrganizaciju(m.getOrganizacijaID()) == null)
 			return MasinaResult.ORG_NOT_EXISTS;
 		
-		for (Disk d: m.getDiskovi())
+		for (Disk d: m.getDiskovi()) {
+			d.notifyRemoval();
 			d.setMasina(m.getIme());
+		}
 		m.getOrganizacija().dodajMasinu(m);
 		this.masine.add(m);
 		this.store();

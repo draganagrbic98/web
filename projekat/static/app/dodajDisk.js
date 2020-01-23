@@ -113,7 +113,7 @@ Vue.component("dodajDisk", {
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
-            })
+            });
 
         }
 

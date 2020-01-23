@@ -341,8 +341,7 @@ Vue.component("masine", {
             this.selectMasina.ime = this.selectedMasinaId;
             axios.post("rest/masine/brisanje", this.selectedMasina)
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
@@ -359,8 +358,7 @@ Vue.component("masine", {
 
             axios.post("rest/masine/izmena", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

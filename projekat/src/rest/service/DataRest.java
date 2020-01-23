@@ -27,6 +27,8 @@ public class DataRest implements RestEntity{
 			return jsonConvertor.toJson(new Uloga[] {Uloga.ADMIN, Uloga.KORISNIK});
 		});
 		
+		
+		
 		get("rest/diskovi/unos/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");

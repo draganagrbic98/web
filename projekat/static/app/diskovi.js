@@ -207,8 +207,7 @@ Vue.component("diskovi", {
             this.selectedDisk.ime = this.selectedDiskId;
             axios.post("rest/diskovi/brisanje", this.selectedDisk)
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
@@ -234,8 +233,7 @@ Vue.component("diskovi", {
 
             axios.post("rest/diskovi/izmena", {"staroIme": this.selectedDiskId, "noviDisk": this.selectedDisk})
             .then(response => {
-                this.selected = false;
-                location.reload();
+            	location.reload();
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

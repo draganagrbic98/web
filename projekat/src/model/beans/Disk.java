@@ -87,6 +87,7 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		TipDiska tip = TipDiska.values()[Integer.parseInt(array[1].trim())];
 		int kapacitet = Integer.parseInt(array[2].trim());
 		String masina = array[3].trim();
+		if (masina.equals("null")) masina = null;
 		return new Disk(ime, tip, kapacitet, masina);
 	}
 
