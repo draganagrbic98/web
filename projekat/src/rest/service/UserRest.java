@@ -58,7 +58,7 @@ public class UserRest implements RestEntity {
 		});
 		
 		
-		
+		//sredi!!!!!!!
 		get("rest/user/uloga", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");

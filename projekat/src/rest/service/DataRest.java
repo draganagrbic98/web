@@ -18,7 +18,7 @@ public class DataRest implements RestEntity{
 	public void init() {
 		
 	
-		
+		//SREDI!!!!!!!!
 		get("/rest/check/admin", (req, res) -> {
 			
 			res.type("application/json");

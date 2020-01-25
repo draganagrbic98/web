@@ -17,6 +17,7 @@ public class MasinaRest implements RestEntity{
 	@Override
 	public void init() {
 
+		//SREDI!!!!!!!!!!!!
 		get("/rest/masine/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");

@@ -82,7 +82,7 @@ public class KategorijaRest implements RestEntity{
 			};
 			try {
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
-				if (kategorija == null || !kategorija.getIme().equals("")) {
+				if (kategorija == null || kategorija.getIme().equals("")) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Bad Request"));
 				}

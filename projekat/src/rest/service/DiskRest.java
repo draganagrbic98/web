@@ -17,6 +17,7 @@ public class DiskRest implements RestEntity{
 	@Override
 	public void init() {
 
+		//SREDI!!!!!!
 		get("/rest/diskovi/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");

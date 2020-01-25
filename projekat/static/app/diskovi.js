@@ -114,7 +114,7 @@ Vue.component("diskovi", {
 								<table>
 								
 					                <tr><td class="left">Ime: </td> <td><input type="text" v-model="pretragaIme"></td></tr>
-					                <tr><td class="left">Tip Diska: </td> <td><select v-model="pretragaTipDiska"> 
+					                <tr><td class="left">Tip Diska: </td> <td><select v-model="pretragaTipDiska" class="pretraga"> 
 						                			<option v-for="t in tipovi">
 						                    			{{t}}
 						                			</option>

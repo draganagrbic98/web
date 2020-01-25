@@ -4,6 +4,10 @@ select{
 	min-width: 100px;
 }
 
+select.pretraga{
+	width: 150px;
+}
+
 textarea{
 	max-width: 200px;
 	max-height: 100px;

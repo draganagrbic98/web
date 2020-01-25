@@ -112,7 +112,7 @@ public class KorisnikRest implements RestEntity{
 					return jsonConvertor.toJson(new OpResponse("Forbidden"));
 				}
 				Organizacija temp2 = Main.organizacije.nadjiOrganizaciju(korisnik.getOrganizacijaID());
-				if (!k.getMojeOrganizacije().contains(temp2)) {
+				if (!k.getMojeOrganizacije().contains(temp2) && korisnik.getOrganizacijaID() != null) {
 					res.status(403);
 					return jsonConvertor.toJson(new OpResponse("Forbidden"));
 				}
