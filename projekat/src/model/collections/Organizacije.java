@@ -74,10 +74,13 @@ public class Organizacije implements LoadStoreData{
 		
 		if (this.nadjiOrganizaciju(o.getIme()) != null) 
 			return OrganizacijaResponse.AL_EXISTS;
+		
+		if (o.getLogo() == null)
+			o.setDefaultLogo();
+				
 		this.organizacije.add(o);
 		this.store();
 		return OrganizacijaResponse.OK;
-		
 	}
 
 	public OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {

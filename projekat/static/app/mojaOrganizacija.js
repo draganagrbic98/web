@@ -37,7 +37,7 @@ Vue.component("mojaOrganizacija", {
 			            
 		            	<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
 			            
-			            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
+			            <tr><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
 			                
 			            <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
 			            

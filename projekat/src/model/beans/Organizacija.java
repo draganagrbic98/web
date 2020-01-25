@@ -1,6 +1,10 @@
 package model.beans;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import model.CSVData;
 import model.ReferenceManager;
@@ -178,4 +182,18 @@ public class Organizacija implements CSVData, ReferenceManager {
 		
 	}
 
+	public void setDefaultLogo() {
+		byte[] img = null;
+		try {
+			img = Files.readAllBytes(Paths.get("./pictures/default.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String encodedImg = null;
+		encodedImg = Base64.getEncoder().encodeToString(img);
+		
+		this.logo = "data:image/png;base64," + encodedImg;
+	}
+	
 }
