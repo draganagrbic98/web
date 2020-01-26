@@ -1,1 +1,0 @@
-disk1;0;123;null;organizacija1

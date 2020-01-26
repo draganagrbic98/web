@@ -18,63 +18,79 @@ public class OrganizacijaRest implements RestEntity{
 	public void init() {
 
 		get("/rest/organizacije/pregled", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
+			
 			return jsonConvertor.toJson(k.getMojeOrganizacije());
+			
 		});
 		
 		post("/rest/organizacije/dodavanje", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
+			
 			try {
+				
 				Organizacija o = jsonConvertor.fromJson(req.body(), Organizacija.class);
 				if (o == null || !o.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+					return RestEntity.badRequest();	
 				}
+				
 				OrganizacijaResponse result = Main.organizacije.dodajOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
 			}
+			
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				return RestEntity.badRequest();	
 			}			
 		});
 
 		post("/rest/organizacije/izmena", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
+			
 			try {
 				OrganizacijaChange o = jsonConvertor.fromJson(req.body(), OrganizacijaChange.class);
 				if (o == null || !o.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+					return RestEntity.badRequest();	
 				}
-				Organizacija temp = Main.organizacije.nadjiOrganizaciju(o.getStaroIme());
-				if (!k.getMojeOrganizacije().contains(temp)) {
+				
+				if (!k.getMojeOrganizacije().contains(new Organizacija(o.getStaroIme()))) {
 					res.status(403);
-					return jsonConvertor.toJson(new OpResponse("Forbidden"));
+					return RestEntity.forbidden();
 				}
+				
 				OrganizacijaResponse result = Main.organizacije.izmeniOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));	
 			}
+			
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				return RestEntity.badRequest();	
 			}			
 		});
 		

@@ -18,78 +18,103 @@ public class KategorijaRest implements RestEntity{
 	public void init() {
 
 		get("rest/kategorije/pregled", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
+			
 			return jsonConvertor.toJson(Main.kategorije.getKategorije());
+			
 		});
 		
 		post("rest/kategorije/dodavanje", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			};
+			
 			try {
+				
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
 				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+					return RestEntity.badRequest();
 				}
+				
 				KategorijaResult result = Main.kategorije.dodajKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));				
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
 			}
+			
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				return RestEntity.badRequest();
 			}
 		});
 		
 		post("rest/kategorije/izmena", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			};
+			
 			try {
+				
 				KategorijaChange kategorija = jsonConvertor.fromJson(req.body(), KategorijaChange.class);
 				if (kategorija == null || !kategorija.validData()) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+					return RestEntity.badRequest();
 				}
+				
 				KategorijaResult result = Main.kategorije.izmeniKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
 			}
+			
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				return RestEntity.badRequest();
 			}
 		});
 		
 		post("rest/kategorije/brisanje", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			};
+			
 			try {
+				
 				Kategorija kategorija = jsonConvertor.fromJson(req.body(), Kategorija.class);
 				if (kategorija == null || kategorija.getIme().equals("")) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Bad Request"));
+					return RestEntity.badRequest();
 				}
+				
 				KategorijaResult result = Main.kategorije.obrisiKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));				
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
 			}
+			
 			catch(Exception e) {
 				res.status(400);
 				return jsonConvertor.toJson(new OpResponse("Bad Request"));
