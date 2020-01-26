@@ -43,14 +43,21 @@ public class MasinaRest implements RestEntity{
 			try {
 				
 				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
+				m.setKategorija(Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()));
+				
 				if (m == null || !m.validData()) {
 					res.status(400);
 					return RestEntity.badRequest();	
-				}
+				}				
 				
 				if (!k.getMojeOrganizacije().contains(m.getOrganizacija())) {
 					res.status(403);
 					return RestEntity.forbidden();
+				}
+				
+				if (Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()) == null) {
+					res.status(400);
+					return RestEntity.badRequest();	
 				}
 				
 				MasinaResult result = Main.masine.dodajMasinu(m);

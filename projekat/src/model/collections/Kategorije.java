@@ -92,12 +92,14 @@ public class Kategorije implements LoadStoreData{
 				(!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
 			return KategorijaResult.AL_EXISTS;
 		
-		kategorija.setIme(k.getNovaKategorija().getIme());
 		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
 		kategorija.setRAM(k.getNovaKategorija().getRAM());
 		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
+		kategorija.refresh();
+		kategorija.setIme(k.getNovaKategorija().getIme());
 		this.store();
 		Main.masine.store();
+		kategorija.refresh();
 		return KategorijaResult.OK;
 		
 	}

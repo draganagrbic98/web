@@ -73,10 +73,11 @@ public class Kategorija implements CSVData, ValidData{
 		
 	}
 
-	private void refresh() {
+	public void refresh() {
 		// TODO Auto-generated method stub
 		
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
+			System.out.println(m.getKategorija().getIme());
 			if (m.getKategorija().equals(this)) {
 				m.setBrojJezgara(this.brojJezgara);
 				m.setRAM(this.RAM);
@@ -91,7 +92,6 @@ public class Kategorija implements CSVData, ValidData{
 	}
 	public void setIme(String ime) {
 		this.ime = ime;
-		this.refresh();
 	}
 	public int getBrojJezgara() {
 		return brojJezgara;
