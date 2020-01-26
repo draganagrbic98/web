@@ -155,6 +155,10 @@ public class Masine implements LoadStoreData {
 				disk.setMasina(masina.getIme());
 		}
 		
+		for (Disk d: m.getNovaMasina().getDiskovi()) {
+			d.notifyRemoval();
+		}
+		
 		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
 
 		this.store();

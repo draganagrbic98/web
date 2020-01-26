@@ -1,1 +1,1 @@
-kategorija1123;123;123;123
+kategorija1;123;123;0
