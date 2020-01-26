@@ -144,11 +144,22 @@ public class Masine implements LoadStoreData {
 		masina.setRAM(m.getNovaMasina().getRAM());
 		masina.setGPUjezgra(m.getNovaMasina().getGPUjezgra());
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
+		
+		for (Disk disk : Main.diskovi.getDiskovi()) {
+			if (masina.getDiskoviID().contains(disk.getIme()) && !m.getNovaMasina().getDiskoviID().contains(disk.getIme()))
+				disk.setMasina(null);
+		}
+		
+		for (Disk disk : Main.diskovi.getDiskovi()) {
+			if (m.getNovaMasina().getDiskoviID().contains(disk.getIme()))
+				disk.setMasina(masina.getIme());
+		}
+		
 		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
+
 		this.store();
 		Main.diskovi.store();
 		return MasinaResult.OK;
-
 	}
 
 	public MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {

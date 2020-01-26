@@ -61,7 +61,14 @@ Vue.component("masine", {
 				                    {{d}}
 				                </option>
 			                </select></td></tr>
-	                			                
+    						
+   			                <tr v-if="uloga!='KORISNIK'"><td class="left">Izmena diskova: </td>
+			                <td class="right" colspan="2"><select v-model="selectedMasina.diskovi" multiple>
+				                <option v-for="d in diskovi" v-if="d.organizacija === selectedMasina.organizacija" v-bind:selected="selectedMasina.diskovi.filter(disk => disk === d.ime).length > 0">
+				                    {{d.ime}}
+				                </option>
+			                </select></td></tr>
+			                
 			                <tr><td class="left">Kategorija: </td>
 			                <td class="right" colspan="2"><select v-model="kat" v-bind:disabled="uloga=='KORISNIK'">
 			                    <option v-for="k in kategorije">
@@ -319,8 +326,6 @@ Vue.component("masine", {
             this.selectedMasinaId = masina.ime;
             this.selected = true;
             this.kat = this.selectedMasina.kategorija.ime;
-            
-
             
             axios.post("rest/masine/status", this.selectedMasinaId)
             .then(response => {

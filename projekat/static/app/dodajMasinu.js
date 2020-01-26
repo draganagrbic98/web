@@ -23,9 +23,10 @@ Vue.component("dodajMasinu", {
             greskaServer: '',
             greska: false,
             diskovi: [],
+            diskoviBackup: [],
             kategorije: [], 
             organizacije: [], 
-            organizacija: {},
+            organizacija: '',
             kat: ''
         }
     }, 
@@ -45,8 +46,8 @@ Vue.component("dodajMasinu", {
 	                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaMasina.ime"></td> <td>{{greskaIme}}</td></tr>
 	                
 	                <tr><td class="left">Organizacija: </td>
-	                <td class="right"><input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
-	                <select v-model="novaMasina.organizacija" v-bind:hidden="organizacije.length<=1">
+	                <td class="right"><input type="text" v-model="organizacija" v-bind:hidden="organizacije.length>1" disabled>
+	                <select v-model="organizacija" v-bind:hidden="organizacije.length<=1">
 		                <option v-for="o in organizacije">
 		                    {{o.ime}}
 		                </option>
@@ -99,8 +100,16 @@ Vue.component("dodajMasinu", {
                   this.novaMasina.GPUjezgra = k.GPUjezgra;
               }
           }
-
-        }
+        },
+        
+	    organizacija: function() {
+	    	let org = this.organizacija;
+	    	this.diskovi = this.diskoviBackup;
+            
+	        this.diskovi = this.diskovi.filter(function(disk) {
+	        	return disk.organizacija === org;
+	        });
+	      }
     },
 
     mounted(){
@@ -121,7 +130,7 @@ Vue.component("dodajMasinu", {
         axios.get("rest/organizacije/pregled")
         .then(response => {
             this.organizacije = response.data;
-            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {};
+            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0].ime : '';
         })
         .catch(error => {
             this.$router.push("masine");
@@ -129,7 +138,7 @@ Vue.component("dodajMasinu", {
         
         axios.get("rest/diskovi/pregled")
         .then(response => {
-            this.diskovi = response.data;
+            this.diskoviBackup = response.data;
         })
         .catch(error => {
             this.$router.push("masine");
@@ -140,23 +149,19 @@ Vue.component("dodajMasinu", {
     methods: {
     	
     	osvezi: function(){
-    		
     		this.greskaIme = '';
             this.greskaOrganizacija = '';
             this.greskaKategorija = '';
             this.greskaServer = '';
             this.greska = false;
-    		
     	},
 
         dodaj: function(){
 
         	this.osvezi();
         	
-            if (this.organizacije.length == 1) this.novaMasina.organizacija = this.organizacija.ime;
-
-            
-
+        	this.novaMasina.organizacija = this.organizacija;
+        	
             if (this.novaMasina.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;

@@ -3,7 +3,9 @@ Vue.component("diskovi", {
     data: function(){
         return {
             diskovi: [],
+            masine: [],
             backup: [],
+            novaMasina: '',
             selectedDisk: {}, 
             selectedDiskId: '',
             selected: false, 
@@ -48,7 +50,14 @@ Vue.component("diskovi", {
 		                {{greskaTip}}</td></tr>
 		                
 		                <tr><td class="left">Kapacitet: </td> <td class="right"><input type="text" v-model="selectedDisk.kapacitet" v-bind:disabled="uloga=='KORISNIK'"> </td> <td>{{greskaKapacitet}}</td></tr>
+		                
 		                <tr><td class="left">Virtuelna masina: </td> <td class="right" colspan="2"><input type="text" v-model="selectedDisk.masina" disabled> </td></tr>
+		                
+		                <tr v-if="uloga!='KORISNIK'"><td class="left">Nova virtuelna masina: </td> <td class="right" colspan="2"><select v-model="novaMasina">
+    						<option v-for="m in masine" v-if="m.organizacija === selectedDisk.organizacija">
+    							{{m.ime}}
+    						</option>
+		                </select></td></tr>
 		                
 				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
@@ -163,6 +172,14 @@ Vue.component("diskovi", {
             this.$router.push("masine");
         });
         
+        axios.get("rest/masine/pregled")
+        .then(response => {
+            this.masine = response.data;
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
+        
         axios.get("rest/diskovi/unos/pregled")
         .then(response => {
             this.tipovi = response.data;
@@ -179,18 +196,14 @@ Vue.component("diskovi", {
             this.selectedDisk = disk;
             this.selectedDiskId = disk.ime;
             this.selected = true;
-            
-
         }, 
         
         osvezi: function(){
-        	
         	this.greskaIme = ''; 
             this.greskaTip = ''; 
             this.greskaKapacitet = '';
             this.greskaServer = ''; 
             this.greska = false;
-        	
         },
 
         pretrazi: function(){
@@ -223,18 +236,16 @@ Vue.component("diskovi", {
             .catch(error => {
                 this.greskaServer = error.response.data.result;
             });
-
         },
 
         izmeni: function(){
-        	
         	this.osvezi();
 
             if (this.selectedDisk.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
-            if (this.selectDisk.tip == ''){
+            if (this.selectedDisk.tip == ''){
                 this.greskaTip = "Tip ne sme biti prazan. ";
                 this.greska = true;
             }
@@ -243,8 +254,12 @@ Vue.component("diskovi", {
                 this.greska = true;
             }
             if (this.greska) return;
-
-            axios.post("rest/diskovi/izmena", {"staroIme": this.selectedDiskId, "noviDisk": this.selectedDisk})
+            
+            let staraMasina = this.selectedDisk.masina;
+            
+            this.selectedDisk.masina = this.novaMasina;
+            
+            axios.post("rest/diskovi/izmena", {"staroIme": this.selectedDiskId, "noviDisk": this.selectedDisk, "staraMasina": staraMasina})
             .then(response => {
             	location.reload();
             })

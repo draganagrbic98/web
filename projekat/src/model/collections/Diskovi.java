@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Disk;
+import model.beans.VirtuelnaMasina;
 import model.support.FileNames;
 import model.support.LoadStoreData;
 import rest.Main;
@@ -102,9 +103,25 @@ public class Diskovi implements LoadStoreData {
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
 		disk.setMasina(d.getNoviDisk().getMasinaID());
+		
+		for (VirtuelnaMasina vm : Main.masine.getMasine()) {
+			if (vm.getIme().equals(d.getStaraMasina())) {
+				vm.getDiskoviID().remove(disk.getIme());
+				Main.masine.store();
+				break;
+			}
+		}
+		
+		for (VirtuelnaMasina vm : Main.masine.getMasine()) {
+			if (vm.getIme().equals(d.getNoviDisk().getMasinaID())) {
+				vm.getDiskoviID().add(disk.getIme());
+				Main.masine.store();
+				break;
+			}
+		}
+		
 		this.store();
 		return DiskResult.OK;
-		
 	}
 	
 	public ArrayList<Disk> getDiskovi() {

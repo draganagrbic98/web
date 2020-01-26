@@ -7,6 +7,7 @@ public class DiskChange implements ValidData {
 
 	private String staroIme;
 	private Disk noviDisk;
+	private String staraMasina;
 
 	public DiskChange() {
 		super();
@@ -14,12 +15,9 @@ public class DiskChange implements ValidData {
 
 	@Override
 	public boolean validData() {
-		// TODO Auto-generated method stub
-
 		if (this.staroIme == null || this.staroIme.equals("")) return false;
 		if (this.noviDisk == null) return false;
 		return this.noviDisk.validData();
-		
 	}
 	
 	public String getStaroIme() {
@@ -36,6 +34,14 @@ public class DiskChange implements ValidData {
 
 	public void setNoviDisk(Disk noviDisk) {
 		this.noviDisk = noviDisk;
+	}
+
+	public String getStaraMasina() {
+		return staraMasina;
+	}
+
+	public void setStaraMasina(String staraMasina) {
+		this.staraMasina = staraMasina;
 	}
 	
 }

@@ -1,1 +1,3 @@
 masina1;organizacija1123;kategorija1123
+masina2;organizacija1;kategorija1123
+masina3;organizacija2;kategorija1123

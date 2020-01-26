@@ -16,8 +16,9 @@ Vue.component("dodajDisk", {
             greska: false, 
             tipovi: [],
             masine: [], 
+            masineBackup: [],
             organizacije: [], 
-            organizacija: {}, 
+            organizacija: '', 
             greskaOrganizacija: ''
         }
     }, 
@@ -36,10 +37,9 @@ Vue.component("dodajDisk", {
 
 		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="noviDisk.ime"></td> <td>{{greskaIme}}</td></tr>
 		            
-		            
 		            <tr><td class="left">Organizacija: </td>
-	                <td class="right"><input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
-	                <select v-model="noviDisk.organizacija" v-bind:hidden="organizacije.length<=1">
+	                <td class="right"><input type="text" v-model="organizacija" v-bind:hidden="organizacije.length>1" disabled>
+	                <select v-model="organizacija" v-bind:hidden="organizacije.length<=1">
 		                <option v-for="o in organizacije">
 		                    {{o.ime}}
 		                </option>
@@ -78,6 +78,17 @@ Vue.component("dodajDisk", {
         </div>
     `, 
 
+    watch: {
+		organizacija: function() {
+		    let org = this.organizacija;
+		    this.masine = this.masineBackup;
+	            
+		    this.masine = this.masine.filter(function(masina) {
+		        return masina.organizacija === org;
+		    });
+		}
+    },
+    
     mounted(){
     	
     	axios.get("rest/check/korisnik")
@@ -96,7 +107,7 @@ Vue.component("dodajDisk", {
         axios.get("rest/organizacije/pregled")
         .then(response => {
             this.organizacije = response.data;
-            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {};
+            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0].ime : '';
         })
         .catch(error => {
             this.$router.push("masine");
@@ -104,7 +115,7 @@ Vue.component("dodajDisk", {
 
         axios.get("rest/masine/pregled")
         .then(response => {
-            this.masine = response.data;
+            this.masineBackup = response.data;
         })
         .catch(error => {
             this.$router.push("masine");
@@ -115,24 +126,19 @@ Vue.component("dodajDisk", {
     methods: {
     	
     	osvezi : function(){
-    		
-    		
     		this.greskaIme = '';
     		this.greskaTip = '';
     		this.greskaKapacitet = '';
     		this.greskaServer = '';
     		this.greska = false;
     		this.greskaOrganizacija = '';
-    		
     	},
 
         dodaj: function(){
-            
 
         	this.osvezi();
         	
-            if (this.organizacije.length == 1) this.noviDisk.organizacija = this.organizacija.ime;
-
+            this.noviDisk.organizacija = this.organizacija;
 
             if (this.noviDisk.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
