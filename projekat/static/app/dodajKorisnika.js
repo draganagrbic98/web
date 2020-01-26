@@ -86,6 +86,11 @@ Vue.component("dodajKorisnika", {
      }, 
 
      mounted(){
+    	 
+    	 axios.get("rest/check/korisnik")
+         .catch(error => {
+             this.$router.push("masine");
+         });
 
         axios.get("rest/uloge/unos/pregled")
         .then(response => {

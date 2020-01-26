@@ -32,6 +32,21 @@ public class DataRest implements RestEntity{
 			
 		});
 		
+		get("/rest/check/korisnik", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			
+			return jsonConvertor.toJson(new OpResponse("OK"));
+
+			
+		});
+		
 		get("/rest/check/super", (req, res) -> {
 			
 			res.type("application/json");

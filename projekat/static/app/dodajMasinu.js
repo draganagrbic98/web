@@ -104,6 +104,11 @@ Vue.component("dodajMasinu", {
     },
 
     mounted(){
+    	
+    	axios.get("rest/check/korisnik")
+        .catch(error => {
+            this.$router.push("masine");
+        });
 
         axios.get("rest/kategorije/unos/pregled")
         .then(response => {

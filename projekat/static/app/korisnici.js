@@ -114,6 +114,20 @@ Vue.component("korisnici", {
     `, 
 
     mounted(){
+    	
+    	axios.get("rest/check/korisnik")
+        .catch(error => {
+            this.$router.push("/");
+        });
+    	
+    	axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
+    	
 
         axios.get("rest/korisnici/pregled")
         .then(response => {
@@ -131,13 +145,7 @@ Vue.component("korisnici", {
             this.$router.push("masine");
         });
         
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-        })
-        .catch(error => {
-            this.$router.push("/");
-        });
+        
     }, 
 
     methods: {

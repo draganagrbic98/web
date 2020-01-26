@@ -79,6 +79,11 @@ Vue.component("dodajDisk", {
     `, 
 
     mounted(){
+    	
+    	axios.get("rest/check/korisnik")
+        .catch(error => {
+            this.$router.push("masine");
+        });
 
         axios.get("rest/diskovi/unos/pregled")
         .then(response => {

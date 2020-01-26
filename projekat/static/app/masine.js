@@ -251,6 +251,15 @@ Vue.component("masine", {
     },
 
     mounted(){
+    	
+    	axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+
+        })
+        .catch(error => {
+            this.$router.push("/");
+        });
 
         axios.get("rest/masine/pregled")
         .then(response => {
@@ -279,14 +288,7 @@ Vue.component("masine", {
             this.$router.push("/");
         });
 
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
-
-        })
-        .catch(error => {
-            this.$router.push("/");
-        });
+        
 
     },
 
