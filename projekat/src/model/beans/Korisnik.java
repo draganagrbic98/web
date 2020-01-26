@@ -6,10 +6,11 @@ import java.util.HashMap;
 import model.support.CSVData;
 import model.support.ReferenceManager;
 import model.support.Uloga;
+import model.support.ValidData;
 import rest.Main;
 import rest.data.RacunZahtev;
 
-public class Korisnik implements CSVData, ReferenceManager {
+public class Korisnik implements CSVData, ValidData, ReferenceManager {
 
 	private User user;
 	private String email;

@@ -1,13 +1,27 @@
 package rest.data;
 
 import model.beans.Disk;
-import model.support.CSVData;
+import model.support.ValidData;
 
-public class DiskChange implements CSVData{
+public class DiskChange implements ValidData {
 
 	private String staroIme;
 	private Disk noviDisk;
 
+	public DiskChange() {
+		super();
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.staroIme == null || this.staroIme.equals("")) return false;
+		if (this.noviDisk == null) return false;
+		return this.noviDisk.validData();
+		
+	}
+	
 	public String getStaroIme() {
 		return staroIme;
 	}
@@ -22,32 +36,6 @@ public class DiskChange implements CSVData{
 
 	public void setNoviDisk(Disk noviDisk) {
 		this.noviDisk = noviDisk;
-	}
-
-	public DiskChange() {
-		super();
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("%s, %s", this.staroIme, this.noviDisk);
-	}
-
-	@Override
-	public String csvLine() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean validData() {
-		// TODO Auto-generated method stub
-
-		if (this.staroIme == null || this.staroIme.equals("")) return false;
-		if (this.noviDisk == null) return false;
-		return this.noviDisk.validData();
-		
 	}
 	
 }

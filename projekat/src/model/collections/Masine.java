@@ -24,26 +24,9 @@ public class Masine implements LoadStoreData {
 
 	private ArrayList<VirtuelnaMasina> masine;
 
-	public ArrayList<VirtuelnaMasina> getMasine() {
-		return masine;
-	}
-
-	public void setMasine(ArrayList<VirtuelnaMasina> masine) {
-		this.masine = masine;
-	}
-
 	public Masine() {
 		super();
 		this.masine = new ArrayList<VirtuelnaMasina>();
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = "MASINE: \n";
-		for (VirtuelnaMasina m : this.masine)
-			suma += m + "\n";
-		return suma;
 	}
 
 	@Override
@@ -120,6 +103,7 @@ public class Masine implements LoadStoreData {
 			d.notifyRemoval();
 			d.setMasina(m.getIme());
 		}
+		
 		m.getOrganizacija().dodajMasinu(m);
 		this.masine.add(m);
 		this.store();
@@ -133,6 +117,7 @@ public class Masine implements LoadStoreData {
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
 		if (masina == null)
 			return MasinaResult.DOESNT_EXIST;
+		
 		masina.notifyRemoval();
 		this.masine.remove(masina);
 		this.store();
@@ -147,6 +132,7 @@ public class Masine implements LoadStoreData {
 		
 		if (masina == null)
 			return MasinaResult.DOESNT_EXIST;
+		
 		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null
 				&& (!(m.getStaroIme().equals(m.getNovaMasina().getIme()))))
 			return MasinaResult.AL_EXISTS;
@@ -199,6 +185,14 @@ public class Masine implements LoadStoreData {
 		Main.diskovi.store();
 		return MasinaResult.OK;
 		
+	}
+	
+	public ArrayList<VirtuelnaMasina> getMasine() {
+		return masine;
+	}
+
+	public void setMasine(ArrayList<VirtuelnaMasina> masine) {
+		this.masine = masine;
 	}
 
 }

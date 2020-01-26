@@ -18,14 +18,6 @@ public class Korisnici implements LoadStoreData{
 		
 	private ArrayList<Korisnik> korisnici;
 
-	public ArrayList<Korisnik> getKorisnici() {
-		return korisnici;
-	}
-
-	public void setKorisnici(ArrayList<Korisnik> korisnici) {
-		this.korisnici = korisnici;
-	}
-
 	public Korisnici() {
 		super();
 		this.korisnici = new ArrayList<Korisnik>();
@@ -35,15 +27,6 @@ public class Korisnici implements LoadStoreData{
 		int index = this.korisnici.indexOf(new Korisnik(korisnickoIme));
 		if (index == -1) return null;
 		return this.korisnici.get(index);
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = "KORISNICI: \n";
-		for (Korisnik k: this.korisnici)
-			suma += k + "\n";
-		return suma;
 	}
 	
 	@Override
@@ -75,10 +58,13 @@ public class Korisnici implements LoadStoreData{
 		
 		if (this.nadjiKorisnika(k.getKorisnickoIme()) != null) 
 			return KorisnikResult.AL_EXISTS;
+		
 		if (this.hasEmail(k.getEmail()))
 			return KorisnikResult.EMAIL_EXISTS;
+		
 		if (Main.organizacije.nadjiOrganizaciju(k.getOrganizacijaID()) == null)
 			return KorisnikResult.ORG_NOT_EXISTS;
+		
 		this.korisnici.add(k);
 		k.getOrganizacija().dodajKorisnika(k);
 		this.store();
@@ -91,6 +77,7 @@ public class Korisnici implements LoadStoreData{
 		Korisnik korisnik = this.nadjiKorisnika(k.getKorisnickoIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
 		if (korisnik.equals(u)) return KorisnikResult.CANT_DEL_SELF;
+		
 		korisnik.notifyRemoval();
 		this.korisnici.remove(korisnik);
 		this.store();
@@ -102,9 +89,13 @@ public class Korisnici implements LoadStoreData{
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
-		if (this.nadjiKorisnika(k.getNoviKorisnik().getKorisnickoIme()) != null && (!(k.getStaroIme().equals(k.getNoviKorisnik().getKorisnickoIme()))))
+		
+		if (this.nadjiKorisnika(k.getNoviKorisnik().getKorisnickoIme()) != null && 
+				(!(k.getStaroIme().equals(k.getNoviKorisnik().getKorisnickoIme()))))
 			return KorisnikResult.AL_EXISTS;
-		if (this.hasEmail(k.getNoviKorisnik().getEmail()) && (!(korisnik.getEmail().equals(k.getNoviKorisnik().getEmail()))))
+		
+		if (this.hasEmail(k.getNoviKorisnik().getEmail()) && 
+				(!(korisnik.getEmail().equals(k.getNoviKorisnik().getEmail()))))
 			return KorisnikResult.EMAIL_EXISTS;
 		
 		if (k.getStaroIme().equals(u.getIme())) {
@@ -166,5 +157,12 @@ public class Korisnici implements LoadStoreData{
 		return null;
 	}
 	
+	public ArrayList<Korisnik> getKorisnici() {
+		return korisnici;
+	}
+
+	public void setKorisnici(ArrayList<Korisnik> korisnici) {
+		this.korisnici = korisnici;
+	}
 	
 }

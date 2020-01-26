@@ -9,9 +9,10 @@ import java.util.Base64;
 import model.support.CSVData;
 import model.support.FileNames;
 import model.support.ReferenceManager;
+import model.support.ValidData;
 import rest.Main;
 
-public class Organizacija implements CSVData, ReferenceManager {
+public class Organizacija implements CSVData, ValidData, ReferenceManager {
 
 	private String ime;
 	private String opis;

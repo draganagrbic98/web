@@ -17,26 +17,9 @@ public class Diskovi implements LoadStoreData {
 
 	private ArrayList<Disk> diskovi;
 
-	public ArrayList<Disk> getDiskovi() {
-		return diskovi;
-	}
-
-	public void setDiskovi(ArrayList<Disk> diskovi) {
-		this.diskovi = diskovi;
-	}
-
 	public Diskovi() {
 		super();
 		this.diskovi = new ArrayList<Disk>();
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = "DISKOVI: \n";
-		for (Disk d : this.diskovi) 
-			suma += d + "\n";
-		return suma;
 	}
 
 	@Override
@@ -76,6 +59,7 @@ public class Diskovi implements LoadStoreData {
 		
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
+		
 		if (d.getOrganizacija().getMasine().contains(d.getIme()))
 			return DiskResult.INVALID_NAME;
 		
@@ -83,9 +67,10 @@ public class Diskovi implements LoadStoreData {
 			return DiskResult.ORG_NOT_EXISTS;
 		
 		d.getOrganizacija().dodajDisk(d);
-		this.diskovi.add(d);
 		if (d.getMasina() != null)
 			d.getMasina().dodajDisk(d);
+		
+		this.diskovi.add(d);
 		this.store();
 		return DiskResult.OK;
 		
@@ -96,6 +81,7 @@ public class Diskovi implements LoadStoreData {
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) 
 			return DiskResult.DOESNT_EXIST;
+		
 		disk.notifyRemoval();
 		this.diskovi.remove(disk);
 		this.store();
@@ -108,8 +94,10 @@ public class Diskovi implements LoadStoreData {
 		Disk disk = this.nadjiDisk(d.getStaroIme());
 		if (disk == null) 
 			return DiskResult.DOESNT_EXIST;
+		
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
+		
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
@@ -117,6 +105,14 @@ public class Diskovi implements LoadStoreData {
 		this.store();
 		return DiskResult.OK;
 		
+	}
+	
+	public ArrayList<Disk> getDiskovi() {
+		return diskovi;
+	}
+
+	public void setDiskovi(ArrayList<Disk> diskovi) {
+		this.diskovi = diskovi;
 	}
 	
 }

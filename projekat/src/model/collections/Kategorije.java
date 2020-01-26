@@ -17,26 +17,9 @@ public class Kategorije implements LoadStoreData{
 	
 	private ArrayList<Kategorija> kategorije;
 
-	public ArrayList<Kategorija> getKategorije() {
-		return kategorije;
-	}
-
-	public void setKategorije(ArrayList<Kategorija> kategorije) {
-		this.kategorije = kategorije;
-	}
-
 	public Kategorije() {
 		super();
 		this.kategorije = new ArrayList<Kategorija>();
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = "KATEGORIJE: \n";
-		for (Kategorija k: this.kategorije)
-			suma += k + "\n";
-		return suma;
 	}
 	
 	@Override
@@ -77,6 +60,7 @@ public class Kategorije implements LoadStoreData{
 		
 		if (this.nadjiKategoriju(k.getIme()) != null) 
 			return KategorijaResult.AL_EXISTS;
+		
 		this.kategorije.add(k);
 		this.store();
 		return KategorijaResult.OK;
@@ -88,8 +72,10 @@ public class Kategorije implements LoadStoreData{
 		Kategorija kategorija = this.nadjiKategoriju(k.getIme());
 		if (kategorija == null) 
 			return KategorijaResult.DOESNT_EXIST;
+		
 		if (kategorija.hasMasina()) 
 			return KategorijaResult.CANT_DELETE;
+		
 		this.kategorije.remove(kategorija);
 		this.store();
 		return KategorijaResult.OK;
@@ -101,17 +87,27 @@ public class Kategorije implements LoadStoreData{
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
 		if (kategorija == null) 
 			return KategorijaResult.DOESNT_EXIST;
-		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
+		
+		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && 
+				(!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
 			return KategorijaResult.AL_EXISTS;
+		
 		kategorija.setIme(k.getNovaKategorija().getIme());
 		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
 		kategorija.setRAM(k.getNovaKategorija().getRAM());
 		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
-		kategorija.refresh();
 		this.store();
 		Main.masine.store();
 		return KategorijaResult.OK;
 		
+	}
+	
+	public ArrayList<Kategorija> getKategorije() {
+		return kategorije;
+	}
+
+	public void setKategorije(ArrayList<Kategorija> kategorije) {
+		this.kategorije = kategorije;
 	}
 
 }

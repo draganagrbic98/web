@@ -1,8 +1,9 @@
 package model.beans;
 
 import model.support.CSVData;
+import model.support.ValidData;
 
-public class User implements CSVData {
+public class User implements CSVData, ValidData {
 
 	private String korisnickoIme;
 	private String lozinka;

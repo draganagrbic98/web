@@ -7,10 +7,11 @@ import model.support.CSVData;
 import model.support.GetRacun;
 import model.support.ReferenceManager;
 import model.support.StatusMasine;
+import model.support.ValidData;
 import rest.Main;
 import rest.data.RacunZahtev;
 
-public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
+public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, GetRacun {
 	
 	private String ime;
 	private String organizacija;

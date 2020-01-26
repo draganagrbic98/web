@@ -4,10 +4,11 @@ import model.support.CSVData;
 import model.support.GetRacun;
 import model.support.ReferenceManager;
 import model.support.TipDiska;
+import model.support.ValidData;
 import rest.Main;
 import rest.data.RacunZahtev;
 
-public class Disk implements CSVData, ReferenceManager, GetRacun {
+public class Disk implements CSVData, ValidData, ReferenceManager, GetRacun {
 
 	private String ime;
 	private TipDiska tip;

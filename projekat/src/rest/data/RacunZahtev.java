@@ -9,12 +9,6 @@ public class RacunZahtev {
 		super();
 	}
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("%s, %s", this.pocetniDatum, this.krajnjiDatum);
-	}
-
 	public long getPocetniDatum() {
 		return pocetniDatum;
 	}

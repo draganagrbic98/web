@@ -1,12 +1,26 @@
 package rest.data;
 
 import model.beans.Korisnik;
-import model.support.CSVData;
+import model.support.ValidData;
 
-public class KorisnikChange implements CSVData{
+public class KorisnikChange implements ValidData {
 	
 	private String staroIme;
 	private Korisnik noviKorisnik;
+	
+	public KorisnikChange() {
+		super();
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+
+		if (this.staroIme == null || this.staroIme.equals("")) return false;
+		if (this.noviKorisnik == null) return false;
+		return this.noviKorisnik.validData();
+		
+	}
 	
 	public String getStaroIme() {
 		return staroIme;
@@ -22,34 +36,6 @@ public class KorisnikChange implements CSVData{
 	
 	public void setNoviKorisnik(Korisnik noviKorisnik) {
 		this.noviKorisnik = noviKorisnik;
-	}
-	
-	public KorisnikChange() {
-		super();
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("%s, %s", this.staroIme, this.noviKorisnik);
-	}
-	
-	
-
-	@Override
-	public String csvLine() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean validData() {
-		// TODO Auto-generated method stub
-
-		if (this.staroIme == null || this.staroIme.equals("")) return false;
-		if (this.noviKorisnik == null) return false;
-		return this.noviKorisnik.validData();
-		
 	}
 
 }

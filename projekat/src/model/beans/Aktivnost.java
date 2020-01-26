@@ -6,9 +6,10 @@ import java.util.Date;
 
 import model.support.CSVData;
 import model.support.StatusMasine;
+import model.support.ValidData;
 import rest.Main;
 
-public class Aktivnost implements CSVData {
+public class Aktivnost implements CSVData, ValidData {
 
 	private Date datumPaljenja;
 	private Date datumGasenja;

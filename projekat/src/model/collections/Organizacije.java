@@ -17,26 +17,9 @@ public class Organizacije implements LoadStoreData{
 		
 	private ArrayList<Organizacija> organizacije;
 
-	public ArrayList<Organizacija> getOrganizacije() {
-		return organizacije;
-	}
-
-	public void setOrganizacije(ArrayList<Organizacija> organizacije) {
-		this.organizacije = organizacije;
-	}
-
 	public Organizacije() {
 		super();
 		this.organizacije = new ArrayList<Organizacija>();
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = "ORGANIZACIJE: \n";
-		for (Organizacija o: this.organizacije)
-			suma += o + "\n";
-		return suma;
 	}
 	
 	@Override
@@ -88,6 +71,7 @@ public class Organizacije implements LoadStoreData{
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
 		if (organizacija == null) 
 			return OrganizacijaResponse.DOESNT_EXIST;
+		
 		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme()))))
 			return OrganizacijaResponse.AL_EXISTS;
 		
@@ -101,6 +85,14 @@ public class Organizacije implements LoadStoreData{
 		Main.masine.store();
 		return OrganizacijaResponse.OK;
 		
+	}
+	
+	public ArrayList<Organizacija> getOrganizacije() {
+		return organizacije;
+	}
+
+	public void setOrganizacije(ArrayList<Organizacija> organizacije) {
+		this.organizacije = organizacije;
 	}
 
 }

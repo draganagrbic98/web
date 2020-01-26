@@ -1,9 +1,10 @@
 package model.beans;
 
 import model.support.CSVData;
+import model.support.ValidData;
 import rest.Main;
 
-public class Kategorija implements CSVData{
+public class Kategorija implements CSVData, ValidData{
 	
 	private String ime;
 	private int brojJezgara;
@@ -72,7 +73,7 @@ public class Kategorija implements CSVData{
 		
 	}
 
-	public void refresh() {
+	private void refresh() {
 		// TODO Auto-generated method stub
 		
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
@@ -90,6 +91,7 @@ public class Kategorija implements CSVData{
 	}
 	public void setIme(String ime) {
 		this.ime = ime;
+		this.refresh();
 	}
 	public int getBrojJezgara() {
 		return brojJezgara;
