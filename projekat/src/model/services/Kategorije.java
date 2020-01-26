@@ -22,7 +22,7 @@ public class Kategorije implements LoadStoreData{
 		this.kategorije = new ArrayList<Kategorija>();
 	}
 	
-	public Kategorija nadjiKategoriju(String ime) {
+	public synchronized Kategorija nadjiKategoriju(String ime) {
 		
 		int index = this.kategorije.indexOf(new Kategorija(ime));
 		if (index == -1) return null;

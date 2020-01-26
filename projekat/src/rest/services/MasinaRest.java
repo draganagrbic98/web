@@ -143,32 +143,68 @@ public class MasinaRest implements RestEntity{
 			}
 		});
 		
-		
-		
-		
-		//i ovo sredi kasnije...
+
 		post("rest/masine/status", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
 			
-			VirtuelnaMasina masina = Main.masine.nadjiMasinu(jsonConvertor.fromJson(req.body(), String.class));
-			return jsonConvertor.toJson(masina.upaljena());
+			
+			try {
+				VirtuelnaMasina masina = Main.masine.nadjiMasinu(jsonConvertor.fromJson(req.body(), String.class));
+
+				if (!k.getMojeMasine().contains(masina)) {
+					res.status(403);
+					return RestEntity.forbidden();
+				}
+				
+				return jsonConvertor.toJson(masina.upaljena());
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return RestEntity.badRequest();	
+			}
+			
 		});
 		
 		post("rest/masine/promeni_status", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+			
+			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
-			MasinaResult result = Main.masine.promeniStatusMasine(jsonConvertor.fromJson(req.body(), MasinaChange.class));
-			if (result != MasinaResult.OK) res.status(400);
-			return jsonConvertor.toJson(new OpResponse(result + ""));
+			
+			try {
+			
+				MasinaChange m = jsonConvertor.fromJson(req.body(), MasinaChange.class);
+				if (m == null || !m.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
+				MasinaResult result = Main.masine.promeniStatusMasine(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return RestEntity.badRequest();	
+			}
+
+			
 		});
 		
 	}

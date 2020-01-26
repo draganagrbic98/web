@@ -6,10 +6,9 @@ import java.util.Date;
 
 import model.CSVData;
 import model.StatusMasine;
-import model.ValidData;
 import rest.Main;
 
-public class Aktivnost implements CSVData, ValidData {
+public class Aktivnost implements CSVData {
 
 	private Date datumPaljenja;
 	private Date datumGasenja;
@@ -55,14 +54,6 @@ public class Aktivnost implements CSVData, ValidData {
 			return f.format(this.datumPaljenja) + ";" + datumGasenja + ";" + this.status;
 		else
 			return f.format(this.datumPaljenja) + ";" + f.format(this.datumGasenja) + ";" + this.status;
-	}
-
-	@Override
-	public boolean validData() {
-		// TODO Auto-generated method stub
-		
-		//petre, ovo ti sredi
-		return true;
 	}
 	
 	public Date getDatumPaljenja() {

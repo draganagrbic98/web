@@ -22,7 +22,7 @@ public class Diskovi implements LoadStoreData {
 		this.diskovi = new ArrayList<Disk>();
 	}
 
-	public Disk nadjiDisk(String ime) {
+	public synchronized Disk nadjiDisk(String ime) {
 		
 		int index = this.diskovi.indexOf(new Disk(ime));
 		if (index == -1) return null;

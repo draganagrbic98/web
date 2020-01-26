@@ -196,83 +196,65 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 	public String getIme() {
 		return ime;
 	}
-
 	public void setIme(String ime) {
 		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
-
 	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
-
 	public String getOrganizacijaID() {
 		return organizacija;
 	}
-
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}
-
 	public Kategorija getKategorija() {
 		return kategorija;
 	}
-
 	public void setKategorija(Kategorija kategorija) {
 		this.kategorija = kategorija;
 	}
-
 	public int getBrojJezgara() {
 		return brojJezgara;
 	}
-
 	public void setBrojJezgara(int brojJezgara) {
 		this.brojJezgara = brojJezgara;
 	}
-
 	public int getRAM() {
 		return RAM;
 	}
-
 	public void setRAM(int RAM) {
 		this.RAM = RAM;
 	}
-
 	public int getGPUjezgra() {
 		return GPUjezgra;
 	}
-
 	public void setGPUjezgra(int GPUjezgra) {
 		this.GPUjezgra = GPUjezgra;
 	}
-
 	public ArrayList<Aktivnost> getAktivnosti() {
 		return aktivnosti;
 	}
-
 	public void setAktivnosti(ArrayList<Aktivnost> aktivnosti) {
 		this.aktivnosti = aktivnosti;
 	}
-
 	public ArrayList<Disk> getDiskovi() {
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
 		for (String d : this.diskovi)
 			diskovi.add(Main.diskovi.nadjiDisk(d));
 		return diskovi;
 	}
-
 	public ArrayList<String> getDiskoviID() {
 		return diskovi;
 	}
-
 	public void setDiskovi(ArrayList<String> diskovi) {
 		this.diskovi = diskovi;
 	}
-
+	
 	public void dodajAktivnost(Aktivnost a) {
 		this.aktivnosti.add(a);
 	}
-
 	public void dodajDisk(Disk d) {
 		this.diskovi.add(d.getIme());
 	}

@@ -7,7 +7,6 @@ public class DiskChange implements ValidData {
 
 	private String staroIme;
 	private Disk noviDisk;
-	private String staraMasina;
 
 	public DiskChange() {
 		super();
@@ -34,14 +33,6 @@ public class DiskChange implements ValidData {
 
 	public void setNoviDisk(Disk noviDisk) {
 		this.noviDisk = noviDisk;
-	}
-
-	public String getStaraMasina() {
-		return staraMasina;
-	}
-
-	public void setStaraMasina(String staraMasina) {
-		this.staraMasina = staraMasina;
 	}
 	
 }

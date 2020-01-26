@@ -22,7 +22,7 @@ public class Organizacije implements LoadStoreData{
 		this.organizacije = new ArrayList<Organizacija>();
 	}
 	
-	public Organizacija nadjiOrganizaciju(String ime) {
+	public synchronized Organizacija nadjiOrganizaciju(String ime) {
 		int index = this.organizacije.indexOf(new Organizacija(ime));
 		if (index == -1) return null;
 		return this.organizacije.get(index);

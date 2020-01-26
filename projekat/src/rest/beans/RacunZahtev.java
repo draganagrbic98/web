@@ -1,6 +1,8 @@
 package rest.beans;
 
-public class RacunZahtev {
+import model.ValidData;
+
+public class RacunZahtev implements ValidData{
 
 	private long pocetniDatum;
 	private long krajnjiDatum;
@@ -23,6 +25,15 @@ public class RacunZahtev {
 
 	public void setKrajnjiDatum(long krajnjiDatum) {
 		this.krajnjiDatum = krajnjiDatum;
+	}
+
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+		if (this.pocetniDatum < 0) return false;
+		if (this.krajnjiDatum < 0) return false;
+		if (this.pocetniDatum < this.krajnjiDatum) return false;
+		return true;
 	}
 
 }

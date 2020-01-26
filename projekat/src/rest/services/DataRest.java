@@ -6,10 +6,8 @@ import static spark.Spark.post;
 import model.TipDiska;
 import model.Uloga;
 import model.beans.Korisnik;
-import model.beans.Racun;
 import rest.Main;
 import rest.RestEntity;
-import rest.beans.OpResponse;
 import rest.beans.RacunZahtev;
 
 public class DataRest implements RestEntity{
@@ -25,6 +23,12 @@ public class DataRest implements RestEntity{
 			
 		});
 		
+		get("rest/diskovi/unos/pregled", (req, res) -> {
+			res.type("application/json");
+			
+			return jsonConvertor.toJson(TipDiska.values());
+		});
+		
 		get("rest/kategorije/unos/pregled", (req, res) -> {
 			res.type("application/json");
 			
@@ -33,28 +37,33 @@ public class DataRest implements RestEntity{
 		
 		
 		
-		//SREDI!!!!!!!!!!
-		
-		get("rest/diskovi/unos/pregled", (req, res) -> {
-			res.type("application/json");
-			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null) {
-				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
-			}
-			return jsonConvertor.toJson(TipDiska.values());
-		});
-		
-		
 		post("rest/masine/izracunajRacun", (req, res) -> {
+			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
-			Racun racun = k.izracunajRacun(jsonConvertor.fromJson(req.body(), RacunZahtev.class));
-			return jsonConvertor.toJson(racun);
+			
+			try {
+				
+				RacunZahtev zahtev = jsonConvertor.fromJson(req.body(), RacunZahtev.class);
+				if (zahtev == null || !zahtev.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();
+				}
+				
+				return jsonConvertor.toJson(k.izracunajRacun(zahtev));
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return RestEntity.badRequest();
+			}
+			
 		});
 		
 	}

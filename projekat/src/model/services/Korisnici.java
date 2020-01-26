@@ -23,7 +23,7 @@ public class Korisnici implements LoadStoreData{
 		this.korisnici = new ArrayList<Korisnik>();
 	}
 	
-	public Korisnik nadjiKorisnika(String korisnickoIme) {
+	public synchronized Korisnik nadjiKorisnika(String korisnickoIme) {
 		int index = this.korisnici.indexOf(new Korisnik(korisnickoIme));
 		if (index == -1) return null;
 		return this.korisnici.get(index);
@@ -95,13 +95,15 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	private boolean hasSuperAdmin() {
-		
+	public synchronized Korisnik login(User u) {
 		for (Korisnik k: this.korisnici) {
-			if (k.getUloga().equals(Uloga.SUPER_ADMIN)) return true;
+			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) || k.getEmail().equals(u.getKorisnickoIme())) {
+				if (k.getLozinka().equals(u.getLozinka())) {
+					return k;
+				}
+			}
 		}
-		return false;
-		
+		return null;
 	}
 	
 	private boolean hasEmail(String email) {
@@ -113,23 +115,21 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
+	private boolean hasSuperAdmin() {
+		
+		for (Korisnik k: this.korisnici) {
+			if (k.getUloga().equals(Uloga.SUPER_ADMIN)) return true;
+		}
+		return false;
+		
+	}
+	
 	public void addSuperAdmin() throws Exception {
 		
 		if (!this.hasSuperAdmin()) {
 			this.korisnici.add(new Korisnik("super", "super", "super@gmail.com", "super", "super", Uloga.SUPER_ADMIN, null));
 			this.store();
 		}
-	}
-	
-	public synchronized Korisnik login(User u) {
-		for (Korisnik k: this.korisnici) {
-			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) || k.getEmail().equals(u.getKorisnickoIme())) {
-				if (k.getLozinka().equals(u.getLozinka())) {
-					return k;
-				}
-			}
-		}
-		return null;
 	}
 	
 	public ArrayList<Korisnik> getKorisnici() {

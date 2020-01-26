@@ -255,11 +255,9 @@ Vue.component("diskovi", {
             }
             if (this.greska) return;
             
-            let staraMasina = this.selectedDisk.masina;
-            
             this.selectedDisk.masina = this.novaMasina;
-            
-            axios.post("rest/diskovi/izmena", {"staroIme": this.selectedDiskId, "noviDisk": this.selectedDisk, "staraMasina": staraMasina})
+                        
+            axios.post("rest/diskovi/izmena", {"staroIme": this.selectedDiskId, "noviDisk": this.selectedDisk})
             .then(response => {
             	location.reload();
             })

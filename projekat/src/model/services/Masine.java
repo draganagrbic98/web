@@ -29,36 +29,7 @@ public class Masine implements LoadStoreData {
 		this.masine = new ArrayList<VirtuelnaMasina>();
 	}
 
-	@Override
-	public void load() throws Exception {
-		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader(FileNames.MASINE_FILE));
-		String line;
-		while ((line = in.readLine()) != null) {
-			line = line.trim();
-			if (line.equals(""))
-				continue;
-			this.masine.add(VirtuelnaMasina.parse(line));
-		}
-		in.close();
-		this.loadAktivnosti();
-	}
-
-	private void loadAktivnosti() throws IOException, ParseException {
-
-		BufferedReader in = new BufferedReader(new FileReader(FileNames.AKTIVNOSTI_FILE));
-		String line;
-		while ((line = in.readLine()) != null) {
-			line = line.trim();
-			if (line.equals(""))
-				continue;
-			Aktivnost.loadAktivnost(line);
-		}
-		in.close();
-
-	}
-
-	public VirtuelnaMasina nadjiMasinu(String ime) {
+	public synchronized VirtuelnaMasina nadjiMasinu(String ime) {
 		int index = this.masine.indexOf(new VirtuelnaMasina(ime));
 		if (index == -1)
 			return null;
@@ -179,6 +150,35 @@ public class Masine implements LoadStoreData {
 
 	public void setMasine(ArrayList<VirtuelnaMasina> masine) {
 		this.masine = masine;
+	}
+	
+	@Override
+	public void load() throws Exception {
+		// TODO Auto-generated method stub
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.MASINE_FILE));
+		String line;
+		while ((line = in.readLine()) != null) {
+			line = line.trim();
+			if (line.equals(""))
+				continue;
+			this.masine.add(VirtuelnaMasina.parse(line));
+		}
+		in.close();
+		this.loadAktivnosti();
+	}
+
+	private void loadAktivnosti() throws IOException, ParseException {
+
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.AKTIVNOSTI_FILE));
+		String line;
+		while ((line = in.readLine()) != null) {
+			line = line.trim();
+			if (line.equals(""))
+				continue;
+			Aktivnost.loadAktivnost(line);
+		}
+		in.close();
+
 	}
 
 	@Override
