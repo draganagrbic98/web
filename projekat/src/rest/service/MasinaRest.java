@@ -17,7 +17,6 @@ public class MasinaRest implements RestEntity{
 	@Override
 	public void init() {
 
-		//SREDI!!!!!!!!!!!!
 		get("/rest/masine/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -40,6 +39,10 @@ public class MasinaRest implements RestEntity{
 				if (m == null || !m.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				if (!k.getMojeOrganizacije().contains(m.getOrganizacija())) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Fordidden"));
 				}
 				MasinaResult result = Main.masine.dodajMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
@@ -64,6 +67,10 @@ public class MasinaRest implements RestEntity{
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
+				if (!k.getMojeMasine().contains(new VirtuelnaMasina(m.getStaroIme()))) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Fordidden"));
+				}
 				MasinaResult result = Main.masine.izmeniMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
@@ -86,6 +93,10 @@ public class MasinaRest implements RestEntity{
 				if (m == null || !m.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				if (!k.getMojeMasine().contains(m)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Fordidden"));
 				}
 				MasinaResult result = Main.masine.obrisiMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);

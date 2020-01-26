@@ -79,7 +79,7 @@ public class DataRest implements RestEntity{
 		post("rest/masine/izracunajRacun", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}

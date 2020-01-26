@@ -156,8 +156,10 @@ public class Korisnik implements CSVData, ReferenceManager {
 		
 		if (this.uloga.equals(Uloga.SUPER_ADMIN)) return Main.diskovi.getDiskovi();
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
-		for (VirtuelnaMasina m: this.getMojeMasine())
-			diskovi.addAll(m.getDiskovi());
+		for (Disk d: Main.diskovi.getDiskovi()) {
+			if (d.getOrganizacijaID().equals(this.organizacija))
+				diskovi.add(d);
+		}
 		return diskovi;
 		
 	}

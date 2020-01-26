@@ -186,6 +186,7 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		if (this.ime == null || this.ime.equals("")) return false;
 		if (this.tip == null) return false;
 		if (this.kapacitet <= 0) return false;
+		if (this.organizacija == null || this.organizacija.equals("")) return false;
 		return true;
 		
 	}

@@ -17,7 +17,6 @@ public class DiskRest implements RestEntity{
 	@Override
 	public void init() {
 
-		//SREDI!!!!!!
 		get("/rest/diskovi/pregled", (req, res) -> {
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -40,6 +39,10 @@ public class DiskRest implements RestEntity{
 				if (d == null || !d.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				if (!k.getMojeOrganizacije().contains(d.getOrganizacija())) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Fordidden"));
 				}
 				DiskResult result = Main.diskovi.dodajDisk(d);
 				if (result != DiskResult.OK) res.status(400);
@@ -64,6 +67,10 @@ public class DiskRest implements RestEntity{
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
 				}
+				if (!k.getMojiDiskovi().contains(new Disk(d.getStaroIme()))) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Fordidden"));
+				}
 				DiskResult result = Main.diskovi.izmeniDisk(d);
 				if (result != DiskResult.OK) res.status(400);
 				return jsonConvertor.toJson(new OpResponse(result + ""));
@@ -87,6 +94,10 @@ public class DiskRest implements RestEntity{
 				if (d == null || !d.validData()) {
 					res.status(400);
 					return jsonConvertor.toJson(new OpResponse("Invalid data"));
+				}
+				if (!k.getMojiDiskovi().contains(d)) {
+					res.status(403);
+					return jsonConvertor.toJson(new OpResponse("Fordidden"));
 				}
 				DiskResult result = Main.diskovi.obrisiDisk(d);
 				if (result != DiskResult.OK) res.status(400);
