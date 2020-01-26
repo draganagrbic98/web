@@ -4,9 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import model.support.CSVData;
-import model.support.StatusMasine;
-import model.support.ValidData;
+import model.CSVData;
+import model.StatusMasine;
+import model.ValidData;
 import rest.Main;
 
 public class Aktivnost implements CSVData, ValidData {

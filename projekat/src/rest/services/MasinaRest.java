@@ -1,0 +1,176 @@
+package rest.services;
+
+import static spark.Spark.get;
+import static spark.Spark.post;
+
+import model.Uloga;
+import model.beans.Korisnik;
+import model.beans.VirtuelnaMasina;
+import rest.Main;
+import rest.RestEntity;
+import rest.beans.MasinaChange;
+import rest.beans.OpResponse;
+import rest.beans.OpResult.MasinaResult;
+
+public class MasinaRest implements RestEntity{
+
+	@Override
+	public void init() {
+
+		get("/rest/masine/pregled", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			
+			return jsonConvertor.toJson(k.getMojeMasine());
+		});
+		
+		post("/rest/masine/dodavanje", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return RestEntity.forbidden();
+			}
+			
+			try {
+				
+				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
+				m.setKategorija(Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()));
+				
+				if (m == null || !m.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}				
+				
+				if (!k.getMojeOrganizacije().contains(m.getOrganizacija())) {
+					res.status(403);
+					return RestEntity.forbidden();
+				}
+				
+				if (Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()) == null) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
+				MasinaResult result = Main.masine.dodajMasinu(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return RestEntity.badRequest();	
+			}
+		});
+		
+		post("/rest/masine/izmena", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return RestEntity.forbidden();
+			}
+			
+			try {
+				
+				MasinaChange m = jsonConvertor.fromJson(req.body(), MasinaChange.class);
+				if (m == null || !m.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
+				if (!k.getMojeMasine().contains(new VirtuelnaMasina(m.getStaroIme()))) {
+					res.status(403);
+					return RestEntity.forbidden();
+				}
+				
+				MasinaResult result = Main.masine.izmeniMasinu(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return RestEntity.badRequest();	
+			}
+			
+		});
+		
+		post("/rest/masine/brisanje", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return RestEntity.forbidden();
+			}
+			
+			try {
+				
+				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
+				if (m == null || !m.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
+				if (!k.getMojeMasine().contains(m)) {
+					res.status(403);
+					return RestEntity.forbidden();
+				}
+				
+				MasinaResult result = Main.masine.obrisiMasinu(m);
+				if (result != MasinaResult.OK) res.status(400);
+				return jsonConvertor.toJson(new OpResponse(result + ""));
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return RestEntity.badRequest();	
+			}
+		});
+		
+		
+		
+		
+		//i ovo sredi kasnije...
+		post("rest/masine/status", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			
+			VirtuelnaMasina masina = Main.masine.nadjiMasinu(jsonConvertor.fromJson(req.body(), String.class));
+			return jsonConvertor.toJson(masina.upaljena());
+		});
+		
+		post("rest/masine/promeni_status", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			MasinaResult result = Main.masine.promeniStatusMasine(jsonConvertor.fromJson(req.body(), MasinaChange.class));
+			if (result != MasinaResult.OK) res.status(400);
+			return jsonConvertor.toJson(new OpResponse(result + ""));
+		});
+		
+	}
+
+}

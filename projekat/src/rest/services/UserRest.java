@@ -1,0 +1,132 @@
+package rest.services;
+
+import static spark.Spark.get;
+import static spark.Spark.post;
+
+import model.Uloga;
+import model.beans.Korisnik;
+import model.beans.User;
+import rest.Main;
+import rest.RestEntity;
+import rest.beans.OpResponse;
+
+public class UserRest implements RestEntity {
+
+	@Override
+	public void init() {
+		
+		get("/rest/check/admin", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			return jsonConvertor.toJson(new OpResponse("OK"));
+
+			
+		});
+		
+		get("/rest/check/korisnik", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			
+			return jsonConvertor.toJson(new OpResponse("OK"));
+
+			
+		});
+		
+		get("/rest/check/super", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+			}
+			return jsonConvertor.toJson(new OpResponse("OK"));
+			
+		});
+		
+		post("/rest/user/login", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k != null) {
+				res.status(403);
+				return jsonConvertor.toJson(new OpResponse("Vec ste prijavljeni. Prvo se odlogujte. "));
+			}
+			
+			try {
+				
+				User u = jsonConvertor.fromJson(req.body(), User.class);
+				if (u == null || !u.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
+				k = Main.korisnici.login(u);
+				if (k == null) {
+					res.status(400);
+					return jsonConvertor.toJson(new OpResponse("Unet korisnik ne postoji. "));
+				}
+				
+				req.session(true).attribute("korisnik", k);
+				return jsonConvertor.toJson(k);
+				
+			}
+			
+			catch(Exception e) {
+				res.status(400);
+				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+			}
+		});
+		
+		get("rest/user/logout", (req, res) -> {
+			
+			res.type("application/json");
+			req.session(true).invalidate();
+			return jsonConvertor.toJson(new OpResponse("OK"));
+			
+		});
+		
+		get("rest/user/profil", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null) {
+				res.status(403);
+				return RestEntity.forbidden();
+			}
+			
+			return jsonConvertor.toJson(k);
+			
+		});
+		
+		
+		get("rest/user/uloga", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null) {
+				res.status(403);
+				return RestEntity.forbidden();
+			}
+			
+			return jsonConvertor.toJson(new OpResponse(k.getUloga() + ""));
+			
+		});
+		
+	}
+
+}

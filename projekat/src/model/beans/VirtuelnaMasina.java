@@ -2,13 +2,13 @@ package model.beans;
 
 import java.util.ArrayList;
 
-import model.support.CSVData;
-import model.support.GetRacun;
-import model.support.ReferenceManager;
-import model.support.StatusMasine;
-import model.support.ValidData;
+import model.CSVData;
+import model.GetRacun;
+import model.ReferenceManager;
+import model.StatusMasine;
+import model.ValidData;
 import rest.Main;
-import rest.data.RacunZahtev;
+import rest.beans.RacunZahtev;
 
 public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, GetRacun {
 

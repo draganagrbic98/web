@@ -1,12 +1,12 @@
 package model.beans;
 
-import model.support.CSVData;
-import model.support.GetRacun;
-import model.support.ReferenceManager;
-import model.support.TipDiska;
-import model.support.ValidData;
+import model.CSVData;
+import model.GetRacun;
+import model.ReferenceManager;
+import model.TipDiska;
+import model.ValidData;
 import rest.Main;
-import rest.data.RacunZahtev;
+import rest.beans.RacunZahtev;
 
 public class Disk implements CSVData, ValidData, ReferenceManager, GetRacun {
 

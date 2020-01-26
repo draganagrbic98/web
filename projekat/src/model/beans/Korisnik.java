@@ -3,12 +3,12 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.support.CSVData;
-import model.support.ReferenceManager;
-import model.support.Uloga;
-import model.support.ValidData;
+import model.CSVData;
+import model.ReferenceManager;
+import model.Uloga;
+import model.ValidData;
 import rest.Main;
-import rest.data.RacunZahtev;
+import rest.beans.RacunZahtev;
 
 public class Korisnik implements CSVData, ValidData, ReferenceManager {
 

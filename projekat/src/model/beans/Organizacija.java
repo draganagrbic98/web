@@ -6,10 +6,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import model.support.CSVData;
-import model.support.FileNames;
-import model.support.ReferenceManager;
-import model.support.ValidData;
+import model.CSVData;
+import model.FileNames;
+import model.ReferenceManager;
+import model.ValidData;
 import rest.Main;
 
 public class Organizacija implements CSVData, ValidData, ReferenceManager {

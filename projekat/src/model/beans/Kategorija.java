@@ -1,7 +1,7 @@
 package model.beans;
 
-import model.support.CSVData;
-import model.support.ValidData;
+import model.CSVData;
+import model.ValidData;
 import rest.Main;
 
 public class Kategorija implements CSVData, ValidData{

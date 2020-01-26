@@ -1,18 +1,18 @@
 package rest;
 
-import model.collections.Diskovi;
-import model.collections.Kategorije;
-import model.collections.Korisnici;
-import model.collections.Masine;
-import model.collections.Organizacije;
-import model.support.FileNames;
-import rest.service.DataRest;
-import rest.service.DiskRest;
-import rest.service.KategorijaRest;
-import rest.service.KorisnikRest;
-import rest.service.MasinaRest;
-import rest.service.OrganizacijaRest;
-import rest.service.UserRest;
+import model.FileNames;
+import model.services.Diskovi;
+import model.services.Kategorije;
+import model.services.Korisnici;
+import model.services.Masine;
+import model.services.Organizacije;
+import rest.services.DataRest;
+import rest.services.DiskRest;
+import rest.services.KategorijaRest;
+import rest.services.KorisnikRest;
+import rest.services.MasinaRest;
+import rest.services.OrganizacijaRest;
+import rest.services.UserRest;
 
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;

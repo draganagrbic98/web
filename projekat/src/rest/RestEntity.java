@@ -2,7 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 
-import rest.data.OpResponse;
+import rest.beans.OpResponse;
 
 public interface RestEntity {
 	

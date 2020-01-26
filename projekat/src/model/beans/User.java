@@ -1,7 +1,7 @@
 package model.beans;
 
-import model.support.CSVData;
-import model.support.ValidData;
+import model.CSVData;
+import model.ValidData;
 
 public class User implements CSVData, ValidData {
 
