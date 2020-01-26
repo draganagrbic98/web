@@ -22,38 +22,13 @@ public class Organizacije implements LoadStoreData{
 		this.organizacije = new ArrayList<Organizacija>();
 	}
 	
-	@Override
-	public void load() throws Exception {
-		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader(FileNames.ORGANIZACIJE_FILE));
-		String line;
-		while ((line = in.readLine()) != null) {
-			line = line.trim();
-			if (line.equals(""))
-				continue;
-			this.organizacije.add(Organizacija.parse(line));
-		}
-		in.close();
-	}
-	
-	@Override
-	public void store() throws Exception {
-		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter(FileNames.ORGANIZACIJE_FILE));
-		for (Organizacija o: this.organizacije) {
-			out.println(o.csvLine());
-			out.flush();
-		}
-		out.close();
-	}
-	
 	public Organizacija nadjiOrganizaciju(String ime) {
 		int index = this.organizacije.indexOf(new Organizacija(ime));
 		if (index == -1) return null;
 		return this.organizacije.get(index);
 	}
 	
-	public OrganizacijaResponse dodajOrganizaciju(Organizacija o) throws Exception {
+	public synchronized OrganizacijaResponse dodajOrganizaciju(Organizacija o) throws Exception {
 		
 		if (this.nadjiOrganizaciju(o.getIme()) != null) 
 			return OrganizacijaResponse.AL_EXISTS;
@@ -66,7 +41,7 @@ public class Organizacije implements LoadStoreData{
 		return OrganizacijaResponse.OK;
 	}
 
-	public OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {
+	public synchronized OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {
 		
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
 		if (organizacija == null) 
@@ -93,6 +68,31 @@ public class Organizacije implements LoadStoreData{
 
 	public void setOrganizacije(ArrayList<Organizacija> organizacije) {
 		this.organizacije = organizacije;
+	}
+	
+	@Override
+	public void load() throws Exception {
+		// TODO Auto-generated method stub
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.ORGANIZACIJE_FILE));
+		String line;
+		while ((line = in.readLine()) != null) {
+			line = line.trim();
+			if (line.equals(""))
+				continue;
+			this.organizacije.add(Organizacija.parse(line));
+		}
+		in.close();
+	}
+	
+	@Override
+	public void store() throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.ORGANIZACIJE_FILE));
+		for (Organizacija o: this.organizacije) {
+			out.println(o.csvLine());
+			out.flush();
+		}
+		out.close();
 	}
 
 }

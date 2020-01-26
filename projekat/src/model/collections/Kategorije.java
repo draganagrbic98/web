@@ -22,32 +22,6 @@ public class Kategorije implements LoadStoreData{
 		this.kategorije = new ArrayList<Kategorija>();
 	}
 	
-	@Override
-	public void load() throws Exception {
-		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader(FileNames.KATEGORIJE_FILE));
-		String line;
-		while ((line = in.readLine()) != null) {
-			line = line.trim();
-			if (line.equals(""))
-				continue;
-			this.kategorije.add(Kategorija.parse(line));
-		}
-		in.close();
-	}
-	
-	@Override
-	public void store() throws Exception {
-		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter(FileNames.KATEGORIJE_FILE));
-		for (Kategorija k: this.kategorije) {
-			out.println(k.csvLine());
-			out.flush();
-		}
-		
-		out.close();
-	}
-	
 	public Kategorija nadjiKategoriju(String ime) {
 		
 		int index = this.kategorije.indexOf(new Kategorija(ime));
@@ -56,7 +30,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 	
-	public KategorijaResult dodajKategoriju(Kategorija k) throws Exception {
+	public synchronized KategorijaResult dodajKategoriju(Kategorija k) throws Exception {
 		
 		if (this.nadjiKategoriju(k.getIme()) != null) 
 			return KategorijaResult.AL_EXISTS;
@@ -67,7 +41,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 	
-	public KategorijaResult obrisiKategoriju(Kategorija k) throws Exception {
+	public synchronized KategorijaResult obrisiKategoriju(Kategorija k) throws Exception {
 		
 		Kategorija kategorija = this.nadjiKategoriju(k.getIme());
 		if (kategorija == null) 
@@ -82,7 +56,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 
-	public KategorijaResult izmeniKategoriju(KategorijaChange k) throws Exception {
+	public synchronized KategorijaResult izmeniKategoriju(KategorijaChange k) throws Exception {
 
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
 		if (kategorija == null) 
@@ -109,6 +83,32 @@ public class Kategorije implements LoadStoreData{
 
 	public void setKategorije(ArrayList<Kategorija> kategorije) {
 		this.kategorije = kategorije;
+	}
+	
+	@Override
+	public void load() throws Exception {
+		// TODO Auto-generated method stub
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.KATEGORIJE_FILE));
+		String line;
+		while ((line = in.readLine()) != null) {
+			line = line.trim();
+			if (line.equals(""))
+				continue;
+			this.kategorije.add(Kategorija.parse(line));
+		}
+		in.close();
+	}
+	
+	@Override
+	public void store() throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.KATEGORIJE_FILE));
+		for (Kategorija k: this.kategorije) {
+			out.println(k.csvLine());
+			out.flush();
+		}
+		
+		out.close();
 	}
 
 }

@@ -22,31 +22,6 @@ public class Diskovi implements LoadStoreData {
 		this.diskovi = new ArrayList<Disk>();
 	}
 
-	@Override
-	public void load() throws Exception {
-		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader(FileNames.DISKOVI_FILE));
-		String line;
-		while ((line = in.readLine()) != null) {
-			line = line.trim();
-			if (line.equals(""))
-				continue;
-			this.diskovi.add(Disk.parse(line));
-		}
-		in.close();
-	}
-
-	@Override
-	public void store() throws Exception {
-		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter(FileNames.DISKOVI_FILE));
-		for (Disk d : this.diskovi) {
-			out.println(d.csvLine());
-			out.flush();
-		}
-		out.close();
-	}
-
 	public Disk nadjiDisk(String ime) {
 		
 		int index = this.diskovi.indexOf(new Disk(ime));
@@ -55,7 +30,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 	
-	public DiskResult dodajDisk(Disk d) throws Exception {
+	public synchronized DiskResult dodajDisk(Disk d) throws Exception {
 		
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
@@ -76,7 +51,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 	
-	public DiskResult obrisiDisk(Disk d) throws Exception {
+	public synchronized DiskResult obrisiDisk(Disk d) throws Exception {
 		
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) 
@@ -89,7 +64,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 
-	public DiskResult izmeniDisk(DiskChange d) throws Exception {
+	public synchronized DiskResult izmeniDisk(DiskChange d) throws Exception {
 		
 		Disk disk = this.nadjiDisk(d.getStaroIme());
 		if (disk == null) 
@@ -117,6 +92,31 @@ public class Diskovi implements LoadStoreData {
 
 	public void setDiskovi(ArrayList<Disk> diskovi) {
 		this.diskovi = diskovi;
+	}
+	
+	@Override
+	public void load() throws Exception {
+		// TODO Auto-generated method stub
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.DISKOVI_FILE));
+		String line;
+		while ((line = in.readLine()) != null) {
+			line = line.trim();
+			if (line.equals(""))
+				continue;
+			this.diskovi.add(Disk.parse(line));
+		}
+		in.close();
+	}
+
+	@Override
+	public void store() throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.DISKOVI_FILE));
+		for (Disk d : this.diskovi) {
+			out.println(d.csvLine());
+			out.flush();
+		}
+		out.close();
 	}
 	
 }

@@ -28,33 +28,8 @@ public class Korisnici implements LoadStoreData{
 		if (index == -1) return null;
 		return this.korisnici.get(index);
 	}
-	
-	@Override
-	public void load() throws Exception {
-		// TODO Auto-generated method stub
-		BufferedReader in = new BufferedReader(new FileReader(FileNames.KORISNICI_FILE));
-		String line;
-		while ((line = in.readLine()) != null) {
-			line = line.trim();
-			if (line.equals(""))
-				continue;
-			this.korisnici.add(Korisnik.parse(line));
-		}
-		in.close();
-	}
-	
-	@Override
-	public void store() throws Exception {
-		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(FileNames.KORISNICI_FILE);
-		for (Korisnik k: this.korisnici) {
-			out.println(k.csvLine());
-			out.flush();
-		}
-		out.close();
-	}
 
-	public KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
+	public synchronized KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
 		
 		if (this.nadjiKorisnika(k.getKorisnickoIme()) != null) 
 			return KorisnikResult.AL_EXISTS;
@@ -72,7 +47,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public KorisnikResult obrisiKorisnika(Korisnik k, Korisnik u) throws Exception {
+	public synchronized KorisnikResult obrisiKorisnika(Korisnik k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getKorisnickoIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
@@ -85,7 +60,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public KorisnikResult izmeniKorisnika(KorisnikChange k, Korisnik u) throws Exception {
+	public synchronized KorisnikResult izmeniKorisnika(KorisnikChange k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
@@ -146,7 +121,7 @@ public class Korisnici implements LoadStoreData{
 		}
 	}
 	
-	public Korisnik login(User u) {
+	public synchronized Korisnik login(User u) {
 		for (Korisnik k: this.korisnici) {
 			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) || k.getEmail().equals(u.getKorisnickoIme())) {
 				if (k.getLozinka().equals(u.getLozinka())) {
@@ -163,6 +138,31 @@ public class Korisnici implements LoadStoreData{
 
 	public void setKorisnici(ArrayList<Korisnik> korisnici) {
 		this.korisnici = korisnici;
+	}
+	
+	@Override
+	public void load() throws Exception {
+		// TODO Auto-generated method stub
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.KORISNICI_FILE));
+		String line;
+		while ((line = in.readLine()) != null) {
+			line = line.trim();
+			if (line.equals(""))
+				continue;
+			this.korisnici.add(Korisnik.parse(line));
+		}
+		in.close();
+	}
+	
+	@Override
+	public void store() throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = new PrintWriter(FileNames.KORISNICI_FILE);
+		for (Korisnik k: this.korisnici) {
+			out.println(k.csvLine());
+			out.flush();
+		}
+		out.close();
 	}
 	
 }

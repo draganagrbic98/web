@@ -44,24 +44,6 @@ public class Masine implements LoadStoreData {
 		this.loadAktivnosti();
 	}
 
-	@Override
-	public void store() throws Exception {
-		// TODO Auto-generated method stub
-		PrintWriter out = new PrintWriter(new FileWriter(FileNames.MASINE_FILE));
-		PrintWriter aktivnostiOut = new PrintWriter(
-				new FileWriter(FileNames.AKTIVNOSTI_FILE));
-		for (VirtuelnaMasina m : this.masine) {
-			out.println(m.csvLine());
-			out.flush();
-			for (Aktivnost a : m.getAktivnosti()) {
-				aktivnostiOut.println(m.getIme() + ";" + a.csvLine());
-				aktivnostiOut.flush();
-			}
-		}
-		out.close();
-		aktivnostiOut.close();
-	}
-
 	private void loadAktivnosti() throws IOException, ParseException {
 
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.AKTIVNOSTI_FILE));
@@ -83,7 +65,7 @@ public class Masine implements LoadStoreData {
 		return this.masine.get(index);
 	}
 
-	public MasinaResult dodajMasinu(VirtuelnaMasina m) throws Exception {
+	public synchronized MasinaResult dodajMasinu(VirtuelnaMasina m) throws Exception {
 
 		if (this.nadjiMasinu(m.getIme()) != null)
 			return MasinaResult.AL_EXISTS;
@@ -111,7 +93,7 @@ public class Masine implements LoadStoreData {
 
 	}
 
-	public MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
+	public synchronized MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
 		if (masina == null)
@@ -125,7 +107,7 @@ public class Masine implements LoadStoreData {
 
 	}
 
-	public MasinaResult izmeniMasinu(MasinaChange m) throws Exception {
+	public synchronized MasinaResult izmeniMasinu(MasinaChange m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 		
@@ -155,7 +137,7 @@ public class Masine implements LoadStoreData {
 		return MasinaResult.OK;
 	}
 
-	public MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {
+	public synchronized MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 
@@ -199,4 +181,22 @@ public class Masine implements LoadStoreData {
 		this.masine = masine;
 	}
 
+	@Override
+	public void store() throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = new PrintWriter(new FileWriter(FileNames.MASINE_FILE));
+		PrintWriter aktivnostiOut = new PrintWriter(new FileWriter(FileNames.AKTIVNOSTI_FILE));
+		
+		for (VirtuelnaMasina m : this.masine) {
+			out.println(m.csvLine());
+			out.flush();
+			for (Aktivnost a : m.getAktivnosti()) {
+				aktivnostiOut.println(m.getIme() + ";" + a.csvLine());
+				aktivnostiOut.flush();
+			}
+		}
+		out.close();
+		aktivnostiOut.close();
+	}
+	
 }
