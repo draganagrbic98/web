@@ -1,6 +1,6 @@
 package model.beans;
 
-import model.CSVData;
+import model.support.CSVData;
 
 public class User implements CSVData {
 

@@ -1,7 +1,7 @@
 package rest.data;
 
-import model.CSVData;
 import model.beans.Organizacija;
+import model.support.CSVData;
 
 public class OrganizacijaChange implements CSVData{
 

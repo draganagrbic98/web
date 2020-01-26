@@ -6,7 +6,8 @@ Vue.component("dodajDisk", {
                 "ime": '', 
                 "tip": '',
                 "kapacitet": 0, 
-                "masina": null
+                "masina": null, 
+                "organizacija": ''
             }, 
             greskaIme: '', 
             greskaTip: '', 
@@ -14,7 +15,10 @@ Vue.component("dodajDisk", {
             greskaServer: '', 
             greska: false, 
             tipovi: [],
-            masine: []
+            masine: [], 
+            organizacije: [], 
+            organizacija: {}, 
+            greskaOrganizacija: ''
         }
     }, 
 
@@ -31,6 +35,17 @@ Vue.component("dodajDisk", {
             	<table>
 
 		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="noviDisk.ime"></td> <td>{{greskaIme}}</td></tr>
+		            
+		            
+		            <tr><td class="left">Organizacija: </td>
+	                <td class="right"><input type="text" v-model="organizacija.ime" v-bind:hidden="organizacije.length>1" disabled>
+	                <select v-model="noviDisk.organizacija" v-bind:hidden="organizacije.length<=1">
+		                <option v-for="o in organizacije">
+		                    {{o.ime}}
+		                </option>
+	                </select></td> 
+	                
+	                <td class="right">{{greskaOrganizacija}}</td></tr>
 		            
 		            <tr><td class="left">Tip: </td>
 		            <td class="right"><select v-model="noviDisk.tip">
@@ -72,6 +87,15 @@ Vue.component("dodajDisk", {
         .catch(error => {
             this.$router.push("masine");
         });
+        
+        axios.get("rest/organizacije/pregled")
+        .then(response => {
+            this.organizacije = response.data;
+            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {};
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
 
         axios.get("rest/masine/pregled")
         .then(response => {
@@ -93,6 +117,7 @@ Vue.component("dodajDisk", {
     		this.greskaKapacitet = '';
     		this.greskaServer = '';
     		this.greska = false;
+    		this.greskaOrganizacija = '';
     		
     	},
 
@@ -100,6 +125,9 @@ Vue.component("dodajDisk", {
             
 
         	this.osvezi();
+        	
+            if (this.organizacije.length == 1) this.noviDisk.organizacija = this.organizacija.ime;
+
 
             if (this.noviDisk.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
@@ -111,6 +139,10 @@ Vue.component("dodajDisk", {
             }
             if (isNaN(parseInt(this.noviDisk.kapacitet)) || parseInt(this.noviDisk.kapacitet) <= 0){
                 this.greskaKapacitet = "Kapacitet mora biti pozitivan ceo broj. ";
+                this.greska = true;
+            }
+            if (this.noviDisk.organizacija == ''){
+                this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
                 this.greska = true;
             }
             if (this.greska) return;

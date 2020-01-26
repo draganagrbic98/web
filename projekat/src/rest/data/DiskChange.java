@@ -1,7 +1,7 @@
 package rest.data;
 
-import model.CSVData;
 import model.beans.Disk;
+import model.support.CSVData;
 
 public class DiskChange implements CSVData{
 

@@ -1,11 +1,11 @@
 package rest.data;
 
-public class JSONRacunZahtev {
+public class RacunZahtev {
 
 	private long pocetniDatum;
 	private long krajnjiDatum;
 
-	public JSONRacunZahtev() {
+	public RacunZahtev() {
 		super();
 	}
 

@@ -1,11 +1,11 @@
 package model.beans;
 
-import model.CSVData;
-import model.GetRacun;
-import model.ReferenceManager;
-import model.TipDiska;
+import model.support.CSVData;
+import model.support.GetRacun;
+import model.support.ReferenceManager;
+import model.support.TipDiska;
 import rest.Main;
-import rest.data.JSONRacunZahtev;
+import rest.data.RacunZahtev;
 
 public class Disk implements CSVData, ReferenceManager, GetRacun {
 
@@ -13,6 +13,7 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 	private TipDiska tip;
 	private int kapacitet;
 	private String masina;
+	private String organizacija;
 
 	public String getIme() {
 		return ime;
@@ -47,6 +48,14 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		this.masina = masina;
 	}
 
+	public String getOrganizacijaID() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(String organizacija) {
+		this.organizacija = organizacija;
+	}
+
 	public Disk() {
 		super();
 	}
@@ -55,8 +64,12 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		this();
 		this.ime = ime;
 	}
-
-	public Disk(String ime, TipDiska tip, int kapacitet, String masina) {
+	
+	public Organizacija getOrganizacija() {
+		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
+	}
+	
+	public Disk(String ime, TipDiska tip, int kapacitet, String masina, String organizacija) {
 		this();
 		this.ime = ime;
 		this.tip = tip;
@@ -64,6 +77,9 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		this.masina = masina;
 		if (this.getMasina() != null)
 			this.getMasina().dodajDisk(this);
+		this.organizacija = organizacija;
+		this.getOrganizacija().dodajDisk(this);
+		
 	}
 
 	@Override
@@ -88,20 +104,28 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		int kapacitet = Integer.parseInt(array[2].trim());
 		String masina = array[3].trim();
 		if (masina.equals("null")) masina = null;
-		return new Disk(ime, tip, kapacitet, masina);
+		String organizacija = array[4].trim();
+		return new Disk(ime, tip, kapacitet, masina, organizacija);
 	}
 
 	@Override
 	public String csvLine() {
 		// TODO Auto-generated method stub
-		return this.ime + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + this.masina;
+		return this.ime + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + this.masina + ";" + this.organizacija;
 	}
 
 	@Override
 	public void updateReference(String className, String oldId, String newId) {
 		// TODO Auto-generated method stub
-		if (this.masina != null && this.masina.equals(oldId))
-			this.masina = newId;
+		if (className.equals("VirtuelnaMasina")) {
+			if (this.masina != null && this.masina.equals(oldId))
+				this.masina = newId;			
+		}
+		else {
+			if (this.organizacija != null && this.organizacija.equals(oldId))
+				this.organizacija = newId;
+		}
+		
 	}
 
 	@Override
@@ -109,14 +133,22 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		// TODO Auto-generated method stub
 		for (VirtuelnaMasina m : Main.masine.getMasine())
 			m.updateReference(this.getClass().getSimpleName(), this.ime, newId);
-
+		for (Organizacija o : Main.organizacije.getOrganizacije())
+			o.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 	}
 
 	@Override
 	public void removeReference(String className, String id) {
 		// TODO Auto-generated method stub
-		if (this.masina != null && this.masina.equals(id))
-			this.masina = null;
+		if (className.equals("VirtuelnaMasina")) {
+			if (this.masina != null && this.masina.equals(id))
+				this.masina = null;			
+		}
+		else {
+			if (this.organizacija != null && this.organizacija.equals(id))
+				this.organizacija = null;
+		}
+		
 	}
 
 	@Override
@@ -124,6 +156,9 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		// TODO Auto-generated method stub
 		for (VirtuelnaMasina m : Main.masine.getMasine())
 			m.removeReference(this.getClass().getSimpleName(), this.ime);
+		for (Organizacija o : Main.organizacije.getOrganizacije())
+			o.removeReference(this.getClass().getSimpleName(), this.ime);
+
 	}
 
 	public VirtuelnaMasina getMasina() {
@@ -131,7 +166,7 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 	}
 
 	@Override
-	public double izracunajRacun(JSONRacunZahtev racunZahtev) {
+	public double izracunajRacun(RacunZahtev racunZahtev) {
 		double racunDiska = 0;
 		double pocetni = racunZahtev.getPocetniDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;
 		double krajnji = racunZahtev.getKrajnjiDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;

@@ -3,11 +3,11 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.CSVData;
-import model.ReferenceManager;
-import model.Uloga;
+import model.support.CSVData;
+import model.support.ReferenceManager;
+import model.support.Uloga;
 import rest.Main;
-import rest.data.JSONRacunZahtev;
+import rest.data.RacunZahtev;
 
 public class Korisnik implements CSVData, ReferenceManager {
 
@@ -212,7 +212,7 @@ public class Korisnik implements CSVData, ReferenceManager {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
 
-	public Racun izracunajRacun(JSONRacunZahtev racunZahtev) {		
+	public Racun izracunajRacun(RacunZahtev racunZahtev) {		
 		HashMap<String, Double> racuniMasine = new HashMap<String, Double>();
 		HashMap<String, Double> racuniDiskovi = new HashMap<String, Double>();
 		double ukupniRacun = 0;

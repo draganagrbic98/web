@@ -6,8 +6,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import model.CSVData;
-import model.ReferenceManager;
+import model.support.CSVData;
+import model.support.FileNames;
+import model.support.ReferenceManager;
 import rest.Main;
 
 public class Organizacija implements CSVData, ReferenceManager {
@@ -136,6 +137,8 @@ public class Organizacija implements CSVData, ReferenceManager {
 			k.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 		for (VirtuelnaMasina m: Main.masine.getMasine())
 			m.updateReference(this.getClass().getSimpleName(), this.ime, newId);
+		for (Disk d: Main.diskovi.getDiskovi())
+			d.updateReference(this.getClass().getSimpleName(), this.ime, newId);
 
 	}
 
@@ -185,7 +188,7 @@ public class Organizacija implements CSVData, ReferenceManager {
 	public void setDefaultLogo() {
 		byte[] img = null;
 		try {
-			img = Files.readAllBytes(Paths.get("./pictures/default.png"));
+			img = Files.readAllBytes(Paths.get(FileNames.DEFAULT_LOGO));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -194,6 +197,11 @@ public class Organizacija implements CSVData, ReferenceManager {
 		encodedImg = Base64.getEncoder().encodeToString(img);
 		
 		this.logo = "data:image/png;base64," + encodedImg;
+	}
+
+	public void dodajDisk(Disk disk) {
+		// TODO Auto-generated method stub
+		this.masine.add(disk.getIme());
 	}
 	
 }

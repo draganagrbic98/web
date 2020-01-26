@@ -1,11 +1,11 @@
 package rest;
 
-import model.FileNames;
 import model.collections.Diskovi;
 import model.collections.Kategorije;
 import model.collections.Korisnici;
 import model.collections.Masine;
 import model.collections.Organizacije;
+import model.support.FileNames;
 import rest.service.DataRest;
 import rest.service.DiskRest;
 import rest.service.KategorijaRest;

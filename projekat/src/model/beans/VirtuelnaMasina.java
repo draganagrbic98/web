@@ -3,12 +3,12 @@ package model.beans;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.CSVData;
-import model.GetRacun;
-import model.ReferenceManager;
-import model.StatusMasine;
+import model.support.CSVData;
+import model.support.GetRacun;
+import model.support.ReferenceManager;
+import model.support.StatusMasine;
 import rest.Main;
-import rest.data.JSONRacunZahtev;
+import rest.data.RacunZahtev;
 
 public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
 	
@@ -237,7 +237,7 @@ public class VirtuelnaMasina implements CSVData, ReferenceManager, GetRacun {
 	}
 
 	@Override
-	public double izracunajRacun(JSONRacunZahtev racunZahtev) {
+	public double izracunajRacun(RacunZahtev racunZahtev) {
 		double racunMasine = 0;
 
 		double jedinicnaCena = izracunajJedinicnuCenu();

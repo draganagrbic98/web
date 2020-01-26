@@ -6,9 +6,10 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import model.FileNames;
-import model.LoadStoreData;
 import model.beans.Disk;
+import model.support.FileNames;
+import model.support.LoadStoreData;
+import rest.Main;
 import rest.data.DiskChange;
 import rest.data.OpResult.DiskResult;
 
@@ -75,6 +76,13 @@ public class Diskovi implements LoadStoreData {
 		
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
+		if (d.getOrganizacija().getMasine().contains(d.getIme()))
+			return DiskResult.INVALID_NAME;
+		
+		if (Main.organizacije.nadjiOrganizaciju(d.getOrganizacijaID()) == null)
+			return DiskResult.ORG_NOT_EXISTS;
+		
+		d.getOrganizacija().dodajDisk(d);
 		this.diskovi.add(d);
 		if (d.getMasina() != null)
 			d.getMasina().dodajDisk(d);

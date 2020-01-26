@@ -4,8 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import model.CSVData;
-import model.StatusMasine;
+import model.support.CSVData;
+import model.support.StatusMasine;
 import rest.Main;
 
 public class Aktivnost implements CSVData {

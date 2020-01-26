@@ -1,7 +1,7 @@
 package rest.data;
 
-import model.CSVData;
 import model.beans.Korisnik;
+import model.support.CSVData;
 
 public class KorisnikChange implements CSVData{
 	

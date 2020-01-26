@@ -3,13 +3,13 @@ package rest.service;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import model.TipDiska;
-import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.Racun;
+import model.support.TipDiska;
+import model.support.Uloga;
 import rest.Main;
 import rest.RestEntity;
-import rest.data.JSONRacunZahtev;
+import rest.data.RacunZahtev;
 import rest.data.OpResponse;
 
 public class DataRest implements RestEntity{
@@ -83,7 +83,7 @@ public class DataRest implements RestEntity{
 				res.status(403);
 				return jsonConvertor.toJson(new OpResponse("Forbidden"));
 			}
-			Racun racun = k.izracunajRacun(jsonConvertor.fromJson(req.body(), JSONRacunZahtev.class));
+			Racun racun = k.izracunajRacun(jsonConvertor.fromJson(req.body(), RacunZahtev.class));
 			return jsonConvertor.toJson(racun);
 		});
 	}

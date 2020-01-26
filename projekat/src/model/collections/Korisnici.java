@@ -5,11 +5,11 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import model.FileNames;
-import model.LoadStoreData;
-import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.User;
+import model.support.FileNames;
+import model.support.LoadStoreData;
+import model.support.Uloga;
 import rest.Main;
 import rest.data.KorisnikChange;
 import rest.data.OpResult.KorisnikResult;

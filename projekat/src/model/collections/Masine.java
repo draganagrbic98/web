@@ -10,12 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.FileNames;
-import model.LoadStoreData;
-import model.StatusMasine;
 import model.beans.Aktivnost;
 import model.beans.Disk;
 import model.beans.VirtuelnaMasina;
+import model.support.FileNames;
+import model.support.LoadStoreData;
+import model.support.StatusMasine;
 import rest.Main;
 import rest.data.MasinaChange;
 import rest.data.OpResult.MasinaResult;
@@ -112,6 +112,9 @@ public class Masine implements LoadStoreData {
 		}
 		if (Main.organizacije.nadjiOrganizaciju(m.getOrganizacijaID()) == null)
 			return MasinaResult.ORG_NOT_EXISTS;
+		
+		if (m.getOrganizacija().getMasine().contains(m.getIme()))
+			return MasinaResult.INVALID_NAME;
 		
 		for (Disk d: m.getDiskovi()) {
 			d.notifyRemoval();

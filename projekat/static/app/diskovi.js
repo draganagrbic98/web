@@ -36,6 +36,10 @@ Vue.component("diskovi", {
     				
     				<table>		                
 		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedDisk.ime" v-bind:disabled="uloga=='KORISNIK'"></td> <td>{{greskaIme}}</td></tr>
+		                
+		          		<tr><td class="left">Organizacija: </td> <td class="right" colspan="2"><input type="text" v-model="selectedDisk.organizacija" disabled></td></tr>
+
+		                
 		                <tr><td class="left">Tip: </td> <td class="right"><select v-model="selectedDisk.tip" v-bind:disabled="uloga=='KORISNIK'"> 
 			                <option v-for="t in tipovi">
 			                    {{t}}
@@ -141,6 +145,14 @@ Vue.component("diskovi", {
 
     mounted(){
     	
+    	axios.get("rest/user/uloga")
+        .then(response => {
+            this.uloga = response.data.result;
+        })
+        .catch(error => {
+            this.$router.push("masine");
+        });
+    	
         axios.get("rest/diskovi/pregled")
         .then(response => {
             this.diskovi = response.data;
@@ -153,14 +165,6 @@ Vue.component("diskovi", {
         axios.get("rest/diskovi/unos/pregled")
         .then(response => {
             this.tipovi = response.data;
-        })
-        .catch(error => {
-            this.$router.push("masine");
-        });
-
-        axios.get("rest/user/uloga")
-        .then(response => {
-            this.uloga = response.data.result;
         })
         .catch(error => {
             this.$router.push("masine");

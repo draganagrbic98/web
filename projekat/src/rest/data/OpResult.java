@@ -20,7 +20,7 @@ public class OpResult {
 	
 	public enum MasinaResult {
 		
-		OK, AL_EXISTS, DOESNT_EXIST, DISK_NOT_EXISTS, ORG_NOT_EXISTS;
+		OK, AL_EXISTS, DOESNT_EXIST, DISK_NOT_EXISTS, ORG_NOT_EXISTS, INVALID_NAME;
 		
 		@Override
 		public String toString() {
@@ -30,7 +30,8 @@ public class OpResult {
 			case 1: return "Uneta masina vec postoji. ";
 			case 2: return "Uneta masina ne postoji. ";
 			case 3: return "Ne postoje svi uneti diskovi. ";
-			default: return "Uneta organizacija ne postoji. ";
+			case 4: return "Uneta organizacija ne postoji. ";
+			default: return "Nevalidno ime. ";
 			}
 		}
 		
@@ -38,7 +39,7 @@ public class OpResult {
 	
 	public enum DiskResult {
 		
-		OK, AL_EXISTS, DOESNT_EXIST;
+		OK, AL_EXISTS, DOESNT_EXIST, INVALID_NAME, ORG_NOT_EXISTS;
 		
 		@Override
 		public String toString() {
@@ -46,7 +47,9 @@ public class OpResult {
 			switch(this.ordinal()) {
 			case 0: return "OK";
 			case 1: return "Unet disk vec postoji. ";
-			default: return "Unet disk ne postoji. ";
+			case 2: return "Unet disk ne postoji. ";
+			case 3: return "Uneto ime nije jedinstveno za resurse organizacije. ";
+			default: return "Uneta organizacija ne postoji. ";
 			}
 		}
 	}

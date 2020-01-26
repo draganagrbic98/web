@@ -1,7 +1,7 @@
 package rest.data;
 
-import model.CSVData;
 import model.beans.VirtuelnaMasina;
+import model.support.CSVData;
 
 public class MasinaChange implements CSVData{
 

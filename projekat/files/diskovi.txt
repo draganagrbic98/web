@@ -1,0 +1,2 @@
+disk2;0;123;null;organizacijaasd
+disk3;0;123;null;organizacijaasd

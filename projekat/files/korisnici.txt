@@ -1,2 +1,1 @@
-super;asd;asd@gmail.com;super;super;0;null
-asd;asd;asdasd@gmail.com;asd;asd;1;asd
+super;super;super;super;super;0;null

@@ -1,4 +1,4 @@
-package model;
+package model.support;
 
 public enum TipDiska {
 	

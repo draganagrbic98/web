@@ -6,9 +6,9 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import model.FileNames;
-import model.LoadStoreData;
 import model.beans.Organizacija;
+import model.support.FileNames;
+import model.support.LoadStoreData;
 import rest.Main;
 import rest.data.OrganizacijaChange;
 import rest.data.OpResult.OrganizacijaResponse;
