@@ -18,47 +18,6 @@ public class Organizacija implements CSVData, ReferenceManager {
 	private String logo;
 	private ArrayList<String> korisnici;
 	private ArrayList<String> masine;
-
-	public String getIme() {
-		return ime;
-	}
-	
-	public void setIme(String ime) {
-		this.notifyUpdate(ime);
-		this.ime = ime;
-	}
-	
-	public String getOpis() {
-		return opis;
-	}
-	
-	public void setOpis(String opis) {
-		this.opis = opis;
-	}
-	
-	public String getLogo() {
-		return logo;
-	}
-	
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
-	
-	public ArrayList<String> getKorisnici() {
-		return korisnici;
-	}
-	
-	public void setKorisnici(ArrayList<String> korisnici) {
-		this.korisnici = korisnici;
-	}
-	
-	public ArrayList<String> getMasine() {
-		return masine;
-	}
-	
-	public void setMasine(ArrayList<String> masine) {
-		this.masine = masine;
-	}
 	
 	public Organizacija() {
 		super();
@@ -76,19 +35,6 @@ public class Organizacija implements CSVData, ReferenceManager {
 		this.ime = ime;
 		this.opis = opis;
 		this.logo = logo;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = String.format("Ime: %s, opis: %s, logo: %s\n", this.ime, this.opis, this.logo);
-		suma += "KORISNICI: \n";
-		for (String k : this.korisnici)
-			suma += k + "\n";
-		suma += "MASINE: \n";
-		for (String m : this.masine)
-			suma += m + "\n";
-		return suma;
 	}
 
 	@Override
@@ -163,16 +109,6 @@ public class Organizacija implements CSVData, ReferenceManager {
 		for (VirtuelnaMasina m: Main.masine.getMasine())
 			m.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
-	
-	public void dodajKorisnika(Korisnik k) {
-		this.korisnici.add(k.getKorisnickoIme());
-	}
-
-	public void dodajMasinu(VirtuelnaMasina m) {
-		this.masine.add(m.getIme());
-	}
-	
-	
 
 	@Override
 	public boolean validData() {
@@ -198,10 +134,46 @@ public class Organizacija implements CSVData, ReferenceManager {
 		
 		this.logo = "data:image/png;base64," + encodedImg;
 	}
-
-	public void dodajDisk(Disk disk) {
-		// TODO Auto-generated method stub
-		this.masine.add(disk.getIme());
+	
+	public String getIme() {
+		return ime;
+	}
+	public void setIme(String ime) {
+		this.notifyUpdate(ime);
+		this.ime = ime;
+	}
+	public String getOpis() {
+		return opis;
+	}
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	public ArrayList<String> getKorisnici() {
+		return korisnici;
+	}
+	public void setKorisnici(ArrayList<String> korisnici) {
+		this.korisnici = korisnici;
+	}
+	public ArrayList<String> getMasine() {
+		return masine;
+	}
+	public void setMasine(ArrayList<String> masine) {
+		this.masine = masine;
 	}
 	
+	public void dodajDisk(Disk disk) {
+		this.masine.add(disk.getIme());
+	}
+	public void dodajMasinu(VirtuelnaMasina m) {
+		this.masine.add(m.getIme());
+	}
+	public void dodajKorisnika(Korisnik k) {
+		this.korisnici.add(k.getKorisnickoIme());
+	}
 }

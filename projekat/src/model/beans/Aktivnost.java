@@ -14,30 +14,6 @@ public class Aktivnost implements CSVData {
 	private Date datumGasenja;
 	private StatusMasine status;
 
-	public Date getDatumPaljenja() {
-		return datumPaljenja;
-	}
-
-	public void setDatumPaljenja(Date datumPaljenja) {
-		this.datumPaljenja = datumPaljenja;
-	}
-
-	public Date getDatumGasenja() {
-		return datumGasenja;
-	}
-
-	public void setDatumGasenja(Date datumGasenja) {
-		this.datumGasenja = datumGasenja;
-	}
-
-	public StatusMasine getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusMasine status) {
-		this.status = status;
-	}
-
 	public Aktivnost() {
 		super();
 	}
@@ -47,19 +23,6 @@ public class Aktivnost implements CSVData {
 		this.datumPaljenja = datumPaljenja;
 		this.datumGasenja = datumGasenja;
 		this.status = status;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
-
-		if (this.datumGasenja == null)
-			return String.format("Datum Paljenja: %s, Datum Gasenja: /, Upaljena: %s", f.format(this.datumPaljenja),
-					this.status);
-		else
-			return String.format("Datum Paljenja: %s, Datum Gasenja: %s, Upaljena: %s", f.format(this.datumPaljenja),
-					f.format(this.datumGasenja), this.status);
 	}
 
 	public static void loadAktivnost(String line) throws ParseException {
@@ -99,6 +62,25 @@ public class Aktivnost implements CSVData {
 		
 		//petre, ovo ti sredi
 		return true;
+	}
+	
+	public Date getDatumPaljenja() {
+		return datumPaljenja;
+	}
+	public void setDatumPaljenja(Date datumPaljenja) {
+		this.datumPaljenja = datumPaljenja;
+	}
+	public Date getDatumGasenja() {
+		return datumGasenja;
+	}
+	public void setDatumGasenja(Date datumGasenja) {
+		this.datumGasenja = datumGasenja;
+	}
+	public StatusMasine getStatus() {
+		return status;
+	}
+	public void setStatus(StatusMasine status) {
+		this.status = status;
 	}
 
 }

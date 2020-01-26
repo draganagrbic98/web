@@ -15,47 +15,6 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 	private String masina;
 	private String organizacija;
 
-	public String getIme() {
-		return ime;
-	}
-
-	public void setIme(String ime) {
-		this.notifyUpdate(ime);
-		this.ime = ime;
-	}
-
-	public TipDiska getTip() {
-		return tip;
-	}
-
-	public void setTip(TipDiska tip) {
-		this.tip = tip;
-	}
-
-	public int getKapacitet() {
-		return kapacitet;
-	}
-
-	public void setKapacitet(int kapacitet) {
-		this.kapacitet = kapacitet;
-	}
-
-	public String getMasinaID() {
-		return masina;
-	}
-
-	public void setMasina(String masina) {
-		this.masina = masina;
-	}
-
-	public String getOrganizacijaID() {
-		return organizacija;
-	}
-
-	public void setOrganizacija(String organizacija) {
-		this.organizacija = organizacija;
-	}
-
 	public Disk() {
 		super();
 	}
@@ -65,28 +24,17 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		this.ime = ime;
 	}
 	
-	public Organizacija getOrganizacija() {
-		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
-	}
-	
 	public Disk(String ime, TipDiska tip, int kapacitet, String masina, String organizacija) {
 		this();
 		this.ime = ime;
 		this.tip = tip;
 		this.kapacitet = kapacitet;
 		this.masina = masina;
-		if (this.getMasina() != null)
-			this.getMasina().dodajDisk(this);
 		this.organizacija = organizacija;
 		this.getOrganizacija().dodajDisk(this);
+		if (this.getMasina() != null)
+			this.getMasina().dodajDisk(this);
 		
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("Ime: %s, tip: %s, kapacitet: %s, masina: %s", this.ime, this.tip, this.kapacitet,
-				this.masina);
 	}
 
 	@Override
@@ -103,8 +51,8 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		TipDiska tip = TipDiska.values()[Integer.parseInt(array[1].trim())];
 		int kapacitet = Integer.parseInt(array[2].trim());
 		String masina = array[3].trim();
-		if (masina.equals("null")) masina = null;
 		String organizacija = array[4].trim();
+		if (masina.equals("null")) masina = null;
 		return new Disk(ime, tip, kapacitet, masina, organizacija);
 	}
 
@@ -161,10 +109,18 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 
 	}
 
-	public VirtuelnaMasina getMasina() {
-		return Main.masine.nadjiMasinu(this.masina);
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
+		
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.tip == null) return false;
+		if (this.kapacitet <= 0) return false;
+		if (this.organizacija == null || this.organizacija.equals("")) return false;
+		return true;
+		
 	}
-
+	
 	@Override
 	public double izracunajRacun(RacunZahtev racunZahtev) {
 		double racunDiska = 0;
@@ -178,19 +134,43 @@ public class Disk implements CSVData, ReferenceManager, GetRacun {
 		
 		return racunDiska;
 	}
-
-	@Override
-	public boolean validData() {
-		// TODO Auto-generated method stub
-		
-		if (this.ime == null || this.ime.equals("")) return false;
-		if (this.tip == null) return false;
-		if (this.kapacitet <= 0) return false;
-		if (this.organizacija == null || this.organizacija.equals("")) return false;
-		return true;
-		
+	
+	public String getIme() {
+		return ime;
 	}
-	
-	
+	public void setIme(String ime) {
+		this.notifyUpdate(ime);
+		this.ime = ime;
+	}
+	public TipDiska getTip() {
+		return tip;
+	}
+	public void setTip(TipDiska tip) {
+		this.tip = tip;
+	}
+	public int getKapacitet() {
+		return kapacitet;
+	}
+	public void setKapacitet(int kapacitet) {
+		this.kapacitet = kapacitet;
+	}
+	public VirtuelnaMasina getMasina() {
+		return Main.masine.nadjiMasinu(this.masina);
+	}
+	public String getMasinaID() {
+		return masina;
+	}
+	public void setMasina(String masina) {
+		this.masina = masina;
+	}
+	public Organizacija getOrganizacija() {
+		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
+	}
+	public String getOrganizacijaID() {
+		return organizacija;
+	}
+	public void setOrganizacija(String organizacija) {
+		this.organizacija = organizacija;
+	}
 
 }

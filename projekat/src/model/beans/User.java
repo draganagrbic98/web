@@ -6,31 +6,9 @@ public class User implements CSVData {
 
 	private String korisnickoIme;
 	private String lozinka;
-	
-	public String getKorisnickoIme() {
-		return korisnickoIme;
-	}
-
-	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
-	}
-
-	public String getLozinka() {
-		return lozinka;
-	}
-
-	public void setLozinka(String lozinka) {
-		this.lozinka = lozinka;
-	}
 
 	public User() {
 		super();
-	}
-
-	public User(String korisnickoIme, String lozinka) {
-		this();
-		this.korisnickoIme = korisnickoIme;
-		this.lozinka = lozinka;
 	}
 
 	public User(String korisnickoIme) {
@@ -38,12 +16,12 @@ public class User implements CSVData {
 		this.korisnickoIme = korisnickoIme;
 	}
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("Korisnicko ime: %s, lozinka: %s", this.korisnickoIme, this.lozinka);
+	public User(String korisnickoIme, String lozinka) {
+		this();
+		this.korisnickoIme = korisnickoIme;
+		this.lozinka = lozinka;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
@@ -66,6 +44,22 @@ public class User implements CSVData {
 		if (this.lozinka == null || this.lozinka.equals("")) return false;
 		return true;
 		
+	}
+	
+	public String getKorisnickoIme() {
+		return korisnickoIme;
+	}
+
+	public void setKorisnickoIme(String korisnickoIme) {
+		this.korisnickoIme = korisnickoIme;
+	}
+
+	public String getLozinka() {
+		return lozinka;
+	}
+
+	public void setLozinka(String lozinka) {
+		this.lozinka = lozinka;
 	}
 
 }

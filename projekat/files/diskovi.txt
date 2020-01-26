@@ -1,2 +1,1 @@
-disk2;0;123;null;organizacijaasd
-disk3;0;123;null;organizacijaasd
+disk1;0;123;null;organizacija1

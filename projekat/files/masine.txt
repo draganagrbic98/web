@@ -1,2 +1,0 @@
-masina1;organizacijaasd;kategorija1
-masina2;organizacijaasd;kategorija1

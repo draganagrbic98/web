@@ -10,38 +10,6 @@ public class Kategorija implements CSVData{
 	private int RAM;
 	private int GPUjezgra;
 	
-	public String getIme() {
-		return ime;
-	}
-	
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
-	
-	public int getBrojJezgara() {
-		return brojJezgara;
-	}
-	
-	public void setBrojJezgara(int brojJezgara) {
-		this.brojJezgara = brojJezgara;
-	}
-	
-	public int getRAM() {
-		return RAM;
-	}
-	
-	public void setRAM(int RAM) {
-		this.RAM = RAM;
-	}
-	
-	public int getGPUjezgra() {
-		return GPUjezgra;
-	}
-	
-	public void setGPUjezgra(int GPUjezgra) {
-		this.GPUjezgra = GPUjezgra;
-	}
-	
 	public Kategorija() {
 		super();
 	}
@@ -57,12 +25,6 @@ public class Kategorija implements CSVData{
 		this.brojJezgara = brojJezgara;
 		this.RAM = RAM;
 		this.GPUjezgra = GPUjezgra;
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return String.format("Ime: %s, broj jezgara: %s, RAM: %s, broj GPU jezgara: %s", this.ime, this.brojJezgara, this.RAM, this.GPUjezgra);
 	}
 	
 	@Override
@@ -88,16 +50,6 @@ public class Kategorija implements CSVData{
 		// TODO Auto-generated method stub
 		return this.ime + ";" + this.brojJezgara + ";" + this.RAM + ";" + this.GPUjezgra;
 	}
-	
-	public boolean hasMasina() {
-		
-		for (VirtuelnaMasina m: Main.masine.getMasine()) {
-			if (m.getKategorija().equals(this)) return true;
-		}
-		return false;
-		
-	}
-	
 
 	@Override
 	public boolean validData() {
@@ -108,6 +60,15 @@ public class Kategorija implements CSVData{
 		if (this.RAM <= 0) return false;
 		if (this.GPUjezgra < 0) return false;
 		return true;
+		
+	}
+	
+	public boolean hasMasina() {
+		
+		for (VirtuelnaMasina m: Main.masine.getMasine()) {
+			if (m.getKategorija().equals(this)) return true;
+		}
+		return false;
 		
 	}
 
@@ -122,6 +83,31 @@ public class Kategorija implements CSVData{
 			}
 		}
 		
+	}
+	
+	public String getIme() {
+		return ime;
+	}
+	public void setIme(String ime) {
+		this.ime = ime;
+	}
+	public int getBrojJezgara() {
+		return brojJezgara;
+	}
+	public void setBrojJezgara(int brojJezgara) {
+		this.brojJezgara = brojJezgara;
+	}
+	public int getRAM() {
+		return RAM;
+	}
+	public void setRAM(int RAM) {
+		this.RAM = RAM;
+	}
+	public int getGPUjezgra() {
+		return GPUjezgra;
+	}
+	public void setGPUjezgra(int GPUjezgra) {
+		this.GPUjezgra = GPUjezgra;
 	}
 
 }
