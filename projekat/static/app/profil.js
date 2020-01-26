@@ -13,6 +13,7 @@ Vue.component("profil", {
 				"uloga": '', 
 				"organizacija": null
 			}, 
+			korisnikID: '',
 			novaLozinka: '', 
 			ponovljenaLozinka: '',
 			greskaEmail: '', 
@@ -20,7 +21,8 @@ Vue.component("profil", {
 			greskaPrezime: '', 
 			greskaLozinka: '', 
 			greskaServer: '',
-			greska: false
+			greska: false,
+			greskaKorisnickoIme: ''
 		}
 	}, 
 
@@ -31,7 +33,7 @@ Vue.component("profil", {
 			<h1>Podaci o korisniku</h1><br><br>
 
 			<table>
-				<tr><td class="right">Korisnicko Ime: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.user.korisnickoIme" disabled></td></tr>
+				<tr><td class="right">Korisnicko Ime: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.user.korisnickoIme">{{greskaKorisnickoIme}}</td></tr>
 				<tr><td class="right">Email: </td> <td class="left"><input type="text" v-model="korisnik.email"></td> <td>{{greskaEmail}}</td></tr>
 				<tr><td class="right">Ime: </td> <td class="left"><input type="text" v-model="korisnik.ime"></td> <td>{{greskaIme}}</td></tr>
 				<tr><td class="right">Prezime: </td> <td class="left"><input type="text" v-model="korisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
@@ -61,7 +63,8 @@ Vue.component("profil", {
 
 		axios.get("rest/user/profil")
 		.then(response => {
-			this.korisnik = response.data
+			this.korisnik = response.data;
+			this.korisnikID = this.korisnik.user.korisnickoIme;
 		})
 		.catch(error => {
 			this.$router.push("/");
@@ -81,12 +84,16 @@ Vue.component("profil", {
 			this.greskaPrezime = '';
 			this.greskaLozinka = '';
 			this.greska = false;
+			this.greskaKorisnickoIme = '';
     		
     	},
 		
 		izmeni: function(){
 			
-			
+			if (this.korisnik.user.korisnickoIme == ''){
+				this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";
+				this.greska = true;
+			}
 
 			if (this.korisnik.email == '' || !this.emailProvera(this.korisnik.email)){
 				this.greskaEmail = "Email nije ispravan. ";
@@ -107,7 +114,7 @@ Vue.component("profil", {
 			if (this.greska) return;
 
 			this.korisnik.user.lozinka = this.novaLozinka != '' ? this.novaLozinka : this.korisnik.user.lozinka;
-			axios.post("rest/korisnici/izmena", {"staroIme": this.korisnik.user.korisnickoIme, "noviKorisnik": this.korisnik})
+			axios.post("rest/korisnici/izmena", {"staroIme": this.korisnikID, "noviKorisnik": this.korisnik})
 			.then(response => {
 				this.$router.push("masine");
 			})

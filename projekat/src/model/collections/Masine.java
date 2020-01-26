@@ -64,8 +64,7 @@ public class Masine implements LoadStoreData {
 
 	private void loadAktivnosti() throws IOException, ParseException {
 
-		BufferedReader in = new BufferedReader(
-				new FileReader(FileNames.AKTIVNOSTI_FILE));
+		BufferedReader in = new BufferedReader(new FileReader(FileNames.AKTIVNOSTI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
@@ -144,9 +143,6 @@ public class Masine implements LoadStoreData {
 		masina.setRAM(m.getNovaMasina().getRAM());
 		masina.setGPUjezgra(m.getNovaMasina().getGPUjezgra());
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
-
-
-		
 		
 		for (Disk d: m.getNovaMasina().getDiskovi()) {
 			d.notifyRemoval();
@@ -154,7 +150,6 @@ public class Masine implements LoadStoreData {
 			masina.dodajDisk(d);
 		}
 		
-
 		this.store();
 		Main.diskovi.store();
 		return MasinaResult.OK;

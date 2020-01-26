@@ -141,7 +141,7 @@ public class Korisnici implements LoadStoreData{
 	public void addSuperAdmin() throws Exception {
 		
 		if (!this.hasSuperAdmin()) {
-			this.korisnici.add(new Korisnik("super", "super", "super", "super", "super", Uloga.SUPER_ADMIN, null));
+			this.korisnici.add(new Korisnik("super", "super", "super@gmail.com", "super", "super", Uloga.SUPER_ADMIN, null));
 			this.store();
 		}
 	}

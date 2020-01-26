@@ -1,7 +1,6 @@
 package model.beans;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import model.support.CSVData;
 import model.support.GetRacun;
@@ -27,6 +26,11 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 		this.aktivnosti = new ArrayList<Aktivnost>();
 		this.diskovi = new ArrayList<String>();
 	}
+	
+	public VirtuelnaMasina(String ime) {
+		this();
+		this.ime = ime;
+	}
 
 	public VirtuelnaMasina(String ime, String organizacija, Kategorija kategorija) {
 		this();
@@ -36,41 +40,7 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 		this.brojJezgara = this.kategorija.getBrojJezgara();
 		this.RAM = this.kategorija.getRAM();
 		this.GPUjezgra = this.kategorija.getGPUjezgra();
-		if (this.getOrganizacija() != null)
-			this.getOrganizacija().dodajMasinu(this);
-	}
-
-	public VirtuelnaMasina(String ime, String organizacija, Kategorija kategorija, ArrayList<String> diskovi) {
-		this();
-		this.ime = ime;
-		this.organizacija = organizacija;
-		this.kategorija = kategorija;
-		this.brojJezgara = this.kategorija.getBrojJezgara();
-		this.RAM = this.kategorija.getRAM();
-		this.GPUjezgra = this.kategorija.getGPUjezgra();
-		this.diskovi = diskovi;
-		if (this.getOrganizacija() != null)
-			this.getOrganizacija().dodajMasinu(this);
-	}
-
-	public VirtuelnaMasina(String ime) {
-		this();
-		this.ime = ime;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String suma = String.format(
-				"Ime: %s, organizacija: %s, kategorija: %s, broj jezgara: %s, RAM: %s, broj GPU jezgara: %s\n",
-				this.ime, this.organizacija, this.kategorija, this.brojJezgara, this.RAM, this.GPUjezgra);
-		suma += "AKTIVNOSTI: \n";
-		for (Aktivnost a : this.aktivnosti)
-			suma += a + "\n";
-		suma += "DISKOVI: \n";
-		for (String s : this.diskovi)
-			suma += s + "\n";
-		return suma;
+		this.getOrganizacija().dodajMasinu(this);
 	}
 
 	@Override
@@ -146,10 +116,6 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 			return StatusMasine.UGASENA;
 
 		return this.aktivnosti.get(this.aktivnosti.size() - 1).getStatus();
-	}
-
-	public void initAktivnost() {
-		this.aktivnosti.add(new Aktivnost(new Date(), null, StatusMasine.UGASENA));
 	}
 
 	@Override

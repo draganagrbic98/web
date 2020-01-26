@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.beans.Disk;
-import model.beans.VirtuelnaMasina;
 import model.support.FileNames;
 import model.support.LoadStoreData;
 import rest.Main;
@@ -99,16 +98,14 @@ public class Diskovi implements LoadStoreData {
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
 
-		System.out.println("MAMA");
-		System.out.println(disk.getMasinaID());
-		System.out.println(d.getNoviDisk().getMasinaID());
+		disk.notifyRemoval();
 		disk.setMasina(d.getNoviDisk().getMasinaID());
+		if (disk.getMasina() != null)
+			disk.getMasina().dodajDisk(disk);
+
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
-		if (disk.getMasina() != null)
-			disk.getMasina().dodajDisk(disk);
-		
 		
 		this.store();
 		return DiskResult.OK;

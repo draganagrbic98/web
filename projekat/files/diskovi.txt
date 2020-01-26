@@ -1,5 +1,0 @@
-disk1;0;123;masin2;organizacija1
-disk2;0;123;masin2;organizacija1
-disk3;0;123;;organizacija2
-asdasd;0;123;masin2;organizacija1
-asdasdasd;0;123;masin2;organizacija1

@@ -99,7 +99,6 @@ public class Kategorije implements LoadStoreData{
 		kategorija.setIme(k.getNovaKategorija().getIme());
 		this.store();
 		Main.masine.store();
-		kategorija.refresh();
 		return KategorijaResult.OK;
 		
 	}
