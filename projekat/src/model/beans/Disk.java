@@ -162,6 +162,9 @@ public class Disk implements CSVData, ValidData, ReferenceManager, GetRacun {
 		return masina;
 	}
 	public void setMasina(String masina) {
+
+		if (this.getMasina() != null)
+			this.getMasina().removeReference("Disk", this.ime);
 		this.masina = masina;
 	}
 	public Organizacija getOrganizacija() {

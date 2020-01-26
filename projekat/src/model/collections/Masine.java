@@ -144,22 +144,16 @@ public class Masine implements LoadStoreData {
 		masina.setRAM(m.getNovaMasina().getRAM());
 		masina.setGPUjezgra(m.getNovaMasina().getGPUjezgra());
 		masina.setAktivnosti(m.getNovaMasina().getAktivnosti());
+
+
 		
-		for (Disk disk : Main.diskovi.getDiskovi()) {
-			if (masina.getDiskoviID().contains(disk.getIme()) && !m.getNovaMasina().getDiskoviID().contains(disk.getIme()))
-				disk.setMasina(null);
-		}
-		
-		for (Disk disk : Main.diskovi.getDiskovi()) {
-			if (m.getNovaMasina().getDiskoviID().contains(disk.getIme()))
-				disk.setMasina(masina.getIme());
-		}
 		
 		for (Disk d: m.getNovaMasina().getDiskovi()) {
 			d.notifyRemoval();
+			d.setMasina(masina.getIme());
+			masina.dodajDisk(d);
 		}
 		
-		masina.setDiskovi(m.getNovaMasina().getDiskoviID());
 
 		this.store();
 		Main.diskovi.store();

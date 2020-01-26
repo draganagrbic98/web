@@ -98,27 +98,17 @@ public class Diskovi implements LoadStoreData {
 		
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
-		
+
+		System.out.println("MAMA");
+		System.out.println(disk.getMasinaID());
+		System.out.println(d.getNoviDisk().getMasinaID());
+		disk.setMasina(d.getNoviDisk().getMasinaID());
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
-		disk.setMasina(d.getNoviDisk().getMasinaID());
+		if (disk.getMasina() != null)
+			disk.getMasina().dodajDisk(disk);
 		
-		for (VirtuelnaMasina vm : Main.masine.getMasine()) {
-			if (vm.getIme().equals(d.getStaraMasina())) {
-				vm.getDiskoviID().remove(disk.getIme());
-				Main.masine.store();
-				break;
-			}
-		}
-		
-		for (VirtuelnaMasina vm : Main.masine.getMasine()) {
-			if (vm.getIme().equals(d.getNoviDisk().getMasinaID())) {
-				vm.getDiskoviID().add(disk.getIme());
-				Main.masine.store();
-				break;
-			}
-		}
 		
 		this.store();
 		return DiskResult.OK;

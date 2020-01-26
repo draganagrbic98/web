@@ -121,10 +121,7 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 	@Override
 	public void removeReference(String className, String id) {
 		// TODO Auto-generated method stub
-		for (String s: this.diskovi) {
-			System.out.println(s + ": " + id);
-		}
-		System.out.println("###########");
+		
 		if (className.equals("Disk")) {
 			int index = this.diskovi.indexOf(id);
 			if (index != -1)
