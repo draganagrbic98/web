@@ -15,29 +15,28 @@ public class DataRest implements RestEntity{
 	@Override
 	public void init() {
 		
-		get("rest/uloge/unos/pregled", (req, res) -> {
+		get("/rest/uloge/unos/pregled", (req, res) -> {
 			
 			res.type("application/json");
-			
 			return jsonConvertor.toJson(new Uloga[] {Uloga.ADMIN, Uloga.KORISNIK});
 			
 		});
 		
-		get("rest/diskovi/unos/pregled", (req, res) -> {
-			res.type("application/json");
+		get("/rest/diskovi/unos/pregled", (req, res) -> {
 			
+			res.type("application/json");
 			return jsonConvertor.toJson(TipDiska.values());
-		});
-		
-		get("rest/kategorije/unos/pregled", (req, res) -> {
-			res.type("application/json");
 			
-			return jsonConvertor.toJson(Main.kategorije.getKategorije());
 		});
 		
-		
-		
-		post("rest/masine/izracunajRacun", (req, res) -> {
+		get("/rest/kategorije/unos/pregled", (req, res) -> {
+			
+			res.type("application/json");
+			return jsonConvertor.toJson(Main.kategorije.getKategorije());
+			
+		});
+
+		post("/rest/masine/izracunajRacun", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");

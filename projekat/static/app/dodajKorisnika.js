@@ -16,13 +16,13 @@ Vue.component("dodajKorisnika", {
             novaLozinka: '',
             ponovljenaLozinka: '',
             greskaKorisnickoIme: '', 
+            greskaLozinka: '', 
+            greskaPonovljenaLozinka: '',
             greskaEmail: '', 
             greskaIme: '', 
             greskaPrezime: '', 
             greskaUloga: '', 
             greskaOrganizacija: '',
-            greskaLozinka: '', 
-            greskaPonovljenaLozinka: '',
             greskaServer: '',
             greska: false, 
             uloge: [],
@@ -64,10 +64,8 @@ Vue.component("dodajKorisnika", {
 		            
 		            <tr><td class="left">Lozinka: </td> <td class="right"><input type="password" v-model="novaLozinka"></td> <td>{{greskaLozinka}}</td></tr>
 		            <tr><td class="left">Ponovljena lozinka: </td> <td class="right"><input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"></td> <td>{{greskaPonovljenaLozinka}}</td></tr>
-		            
 		            <tr><td colspan="3"><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
-		            
 		            <tr><td colspan="3"><router-link to="/korisnici">KORISNICI</router-link><br></td></tr>
 
     			</table>
@@ -91,26 +89,23 @@ Vue.component("dodajKorisnika", {
          .catch(error => {
              this.$router.push("masine");
          });
-
-        axios.get("rest/uloge/unos/pregled")
-        .then(response => {
-            this.uloge = response.data;
-        })
-        .catch(error => {
-            this.$router.push("masine");
-        });
         
+    	 axios.get("rest/uloge/unos/pregled")
+         .then(response => {
+             this.uloge = response.data;
+         })
+         .catch(error => {
+             this.$router.push("masine");
+         });
+    	 
         axios.get("rest/organizacije/pregled")
         .then(response => {
             this.organizacije = response.data;
             this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0] : {}
-
-
         })
         .catch(error => {
             this.$router.push("masine");
         });
-        
         
     },
 
@@ -121,18 +116,16 @@ Vue.component("dodajKorisnika", {
     	},
     	
     	osvezi: function(){
-    		
     		this.greskaKorisnickoIme = '';
+            this.greskaLozinka = '';
+            this.greskaPonovljenaLozinka = '';
             this.greskaEmail = '';
             this.greskaIme = '';
             this.greskaPrezime = '';
             this.greskaUloga = '';
             this.greskaOrganizacija = '';
-            this.greskaLozinka = '';
-            this.greskaPonovljenaLozinka = '';
             this.greskaServer = '';
             this.greska = false;
-    		
     	},
     	
         dodaj: function(){
@@ -142,24 +135,26 @@ Vue.component("dodajKorisnika", {
             this.noviKorisnik.user.lozinka = this.novaLozinka;
             if (this.organizacije.length == 1) this.noviKorisnik.organizacija = this.organizacija.ime;
 
-            
-
             if (this.noviKorisnik.user.korisnickoIme == ''){
                 this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.noviKorisnik.email == '' || !this.emailProvera(this.noviKorisnik.email)){
                 this.greskaEmail = "Email nije ispravan. ";
                 this.greska = true;
             }
+            
             if (this.noviKorisnik.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.noviKorisnik.prezime == ''){
                 this.greskaPrezime = "Prezime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.noviKorisnik.uloga == ''){
                 this.greskaUloga = "Uloga ne sme biti prazna. ";
                 this.greska = true;
@@ -168,14 +163,17 @@ Vue.component("dodajKorisnika", {
                 this.greskaOrganizacija = "Organizacia ne sme biti prazna. ";
                 this.greska = true;
             }
+            
             if (this.novaLozinka == ''){
                 this.greskaLozinka = "Lozinka ne sme biti prazna. ";
                 this.greska = true;
             }
+            
             if (this.ponovljenaLozinka != this.novaLozinka){
                 this.greskaPonovljenaLozinka = "Lozinke se ne poklapaju. ";
                 this.greska = true;
             }
+            
             if (this.greska) return;
 
             axios.post("rest/korisnici/dodavanje", this.noviKorisnik)

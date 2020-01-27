@@ -4,13 +4,14 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 import model.Uloga;
+import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.VirtuelnaMasina;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.MasinaChange;
-import rest.beans.OpResponse;
-import rest.beans.OpResult.MasinaResult;
+import rest.beans.OperationResponse;
+import rest.beans.OperationResult.MasinaResult;
 
 public class MasinaRest implements RestEntity{
 
@@ -24,10 +25,11 @@ public class MasinaRest implements RestEntity{
 			
 			if (k == null) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
 			
 			return jsonConvertor.toJson(k.getMojeMasine());
+			
 		});
 		
 		post("/rest/masine/dodavanje", (req, res) -> {
@@ -43,8 +45,6 @@ public class MasinaRest implements RestEntity{
 			try {
 				
 				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
-				m.setKategorija(Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()));
-				
 				if (m == null || !m.validData()) {
 					res.status(400);
 					return RestEntity.badRequest();	
@@ -55,14 +55,22 @@ public class MasinaRest implements RestEntity{
 					return RestEntity.forbidden();
 				}
 				
-				if (Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()) == null) {
+				for (Disk d: m.getDiskovi()) {
+					if (!k.getMojeOrganizacije().contains(d.getOrganizacija())) {
+						res.status(400);
+						return RestEntity.badRequest();	
+					}
+				}
+				
+				m.setKategorija(Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()));
+				if (m.getKategorija() == null) {
 					res.status(400);
 					return RestEntity.badRequest();	
 				}
 				
 				MasinaResult result = Main.masine.dodajMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -95,9 +103,22 @@ public class MasinaRest implements RestEntity{
 					return RestEntity.forbidden();
 				}
 				
+				for (Disk d: m.getNovaMasina().getDiskovi()) {
+					if (!k.getMojeOrganizacije().contains(d.getOrganizacija())) {
+						res.status(403);
+						return RestEntity.forbidden();
+					}
+				}
+				
+				m.getNovaMasina().setKategorija(Main.kategorije.nadjiKategoriju(m.getNovaMasina().getKategorija().getIme()));
+				if (m.getNovaMasina().getKategorija() == null) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
 				MasinaResult result = Main.masine.izmeniMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -133,7 +154,7 @@ public class MasinaRest implements RestEntity{
 				
 				MasinaResult result = Main.masine.obrisiMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -154,16 +175,20 @@ public class MasinaRest implements RestEntity{
 				return RestEntity.forbidden();
 			}
 			
-			
 			try {
-				VirtuelnaMasina masina = Main.masine.nadjiMasinu(jsonConvertor.fromJson(req.body(), String.class));
-
-				if (!k.getMojeMasine().contains(masina)) {
+				
+				VirtuelnaMasina m = Main.masine.nadjiMasinu(jsonConvertor.fromJson(req.body(), String.class));
+				if (m == null) {
+					res.status(400);
+					return RestEntity.badRequest();	
+				}
+				
+				if (!k.getMojeMasine().contains(m)) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}
 				
-				return jsonConvertor.toJson(masina.upaljena());
+				return jsonConvertor.toJson(m.status());
 				
 			}
 			
@@ -174,7 +199,7 @@ public class MasinaRest implements RestEntity{
 			
 		});
 		
-		post("rest/masine/promeni_status", (req, res) -> {
+		post("rest/masine/promeniStatus", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -194,9 +219,8 @@ public class MasinaRest implements RestEntity{
 				
 				MasinaResult result = Main.masine.promeniStatusMasine(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 
-				
 			}
 			
 			catch(Exception e) {
@@ -204,7 +228,6 @@ public class MasinaRest implements RestEntity{
 				return RestEntity.badRequest();	
 			}
 
-			
 		});
 		
 	}

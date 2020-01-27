@@ -41,8 +41,7 @@ public class Disk implements CSVData, ValidData, ReferenceManager, GetRacun {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof Disk))
-			return false;
+		if (!(obj instanceof Disk)) return false;
 		return ((Disk) obj).ime.equals(this.ime);
 	}
 
@@ -124,52 +123,66 @@ public class Disk implements CSVData, ValidData, ReferenceManager, GetRacun {
 	
 	@Override
 	public double izracunajRacun(RacunZahtev racunZahtev) {
+		
 		double racunDiska = 0;
 		double pocetni = racunZahtev.getPocetniDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;
 		double krajnji = racunZahtev.getKrajnjiDatum() / 1000.0 / 60.0 / 60.0 / 24.0 / 30.0;
 
-		if (tip == TipDiska.HDD)
+		if (this.tip == TipDiska.HDD)
 			racunDiska = (krajnji - pocetni) * 0.1 * kapacitet;
-		else if (tip == TipDiska.SSD)
+		
+		else if (this.tip == TipDiska.SSD)
 			racunDiska = (krajnji - pocetni) * 0.3 * kapacitet;
 		
 		return racunDiska;
+		
 	}
 	
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
 		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
+	
 	public TipDiska getTip() {
 		return tip;
 	}
+	
 	public void setTip(TipDiska tip) {
 		this.tip = tip;
 	}
+	
 	public int getKapacitet() {
 		return kapacitet;
 	}
+	
 	public void setKapacitet(int kapacitet) {
 		this.kapacitet = kapacitet;
 	}
+	
 	public VirtuelnaMasina getMasina() {
 		return Main.masine.nadjiMasinu(this.masina);
 	}
+	
 	public String getMasinaID() {
 		return masina;
 	}
+	
 	public void setMasina(String masina) {
 		this.masina = masina;
 	}
+	
 	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
+	
 	public String getOrganizacijaID() {
 		return organizacija;
 	}
+	
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}

@@ -8,23 +8,38 @@ import model.beans.Korisnik;
 import model.beans.User;
 import rest.Main;
 import rest.RestEntity;
-import rest.beans.OpResponse;
+import rest.beans.OperationResponse;
 
 public class UserRest implements RestEntity {
 
 	@Override
 	public void init() {
 		
+		get("/rest/check/super", (req, res) -> {
+			
+			res.type("application/json");
+			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
+			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
+				res.status(403);
+				return RestEntity.forbidden();
+			}
+			
+			return jsonConvertor.toJson(new OperationResponse("OK"));
+			
+		});
+		
 		get("/rest/check/admin", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
+			
 			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
-			return jsonConvertor.toJson(new OpResponse("OK"));
-
+			
+			return jsonConvertor.toJson(new OperationResponse("OK"));
 			
 		});
 		
@@ -35,23 +50,25 @@ public class UserRest implements RestEntity {
 			
 			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
 			
-			return jsonConvertor.toJson(new OpResponse("OK"));
+			return jsonConvertor.toJson(new OperationResponse("OK"));
 
 			
 		});
 		
-		get("/rest/check/super", (req, res) -> {
+		get("/rest/user/uloga", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			if (k == null || !k.getUloga().equals(Uloga.SUPER_ADMIN)) {
+			
+			if (k == null) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Forbidden"));
+				return RestEntity.forbidden();
 			}
-			return jsonConvertor.toJson(new OpResponse("OK"));
+			
+			return jsonConvertor.toJson(new OperationResponse(k.getUloga() + ""));
 			
 		});
 		
@@ -62,7 +79,7 @@ public class UserRest implements RestEntity {
 			
 			if (k != null) {
 				res.status(403);
-				return jsonConvertor.toJson(new OpResponse("Vec ste prijavljeni. Prvo se odlogujte. "));
+				return jsonConvertor.toJson(new OperationResponse("Vec ste prijavljeni. Prvo se odlogujte. "));
 			}
 			
 			try {
@@ -76,29 +93,30 @@ public class UserRest implements RestEntity {
 				k = Main.korisnici.login(u);
 				if (k == null) {
 					res.status(400);
-					return jsonConvertor.toJson(new OpResponse("Unet korisnik ne postoji. "));
+					return jsonConvertor.toJson(new OperationResponse("Unet korisnik ne postoji. "));
 				}
 				
 				req.session(true).attribute("korisnik", k);
-				return jsonConvertor.toJson(k);
+				return jsonConvertor.toJson(new OperationResponse("OK"));
 				
 			}
 			
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				return RestEntity.badRequest();
 			}
+			
 		});
 		
-		get("rest/user/logout", (req, res) -> {
+		get("/rest/user/logout", (req, res) -> {
 			
 			res.type("application/json");
 			req.session(true).invalidate();
-			return jsonConvertor.toJson(new OpResponse("OK"));
+			return jsonConvertor.toJson(new OperationResponse("OK"));
 			
 		});
 		
-		get("rest/user/profil", (req, res) -> {
+		get("/rest/user/profil", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -109,21 +127,6 @@ public class UserRest implements RestEntity {
 			}
 			
 			return jsonConvertor.toJson(k);
-			
-		});
-		
-		
-		get("rest/user/uloga", (req, res) -> {
-			
-			res.type("application/json");
-			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
-			
-			if (k == null) {
-				res.status(403);
-				return RestEntity.forbidden();
-			}
-			
-			return jsonConvertor.toJson(new OpResponse(k.getUloga() + ""));
 			
 		});
 		

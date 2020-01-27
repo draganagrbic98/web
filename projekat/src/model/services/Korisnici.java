@@ -12,7 +12,7 @@ import model.beans.Korisnik;
 import model.beans.User;
 import rest.Main;
 import rest.beans.KorisnikChange;
-import rest.beans.OpResult.KorisnikResult;
+import rest.beans.OperationResult.KorisnikResult;
 
 public class Korisnici implements LoadStoreData{
 		
@@ -40,8 +40,8 @@ public class Korisnici implements LoadStoreData{
 		if (Main.organizacije.nadjiOrganizaciju(k.getOrganizacijaID()) == null)
 			return KorisnikResult.ORG_NOT_EXISTS;
 		
-		this.korisnici.add(k);
 		k.getOrganizacija().dodajKorisnika(k);
+		this.korisnici.add(k);
 		this.store();
 		return KorisnikResult.OK;
 		
@@ -65,12 +65,10 @@ public class Korisnici implements LoadStoreData{
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
 		
-		if (this.nadjiKorisnika(k.getNoviKorisnik().getKorisnickoIme()) != null && 
-				(!(k.getStaroIme().equals(k.getNoviKorisnik().getKorisnickoIme()))))
+		if (this.nadjiKorisnika(k.getNoviKorisnik().getKorisnickoIme()) != null && (!(k.getStaroIme().equals(k.getNoviKorisnik().getKorisnickoIme()))))
 			return KorisnikResult.AL_EXISTS;
 		
-		if (this.hasEmail(k.getNoviKorisnik().getEmail()) && 
-				(!(korisnik.getEmail().equals(k.getNoviKorisnik().getEmail()))))
+		if (this.hasEmail(k.getNoviKorisnik().getEmail()) && (!(korisnik.getEmail().equals(k.getNoviKorisnik().getEmail()))))
 			return KorisnikResult.EMAIL_EXISTS;
 		
 		if (k.getStaroIme().equals(u.getIme())) {
@@ -90,6 +88,7 @@ public class Korisnici implements LoadStoreData{
 		korisnik.setPrezime(k.getNoviKorisnik().getPrezime());
 		korisnik.setUloga(k.getNoviKorisnik().getUloga());
 		korisnik.setOrganizacija(k.getNoviKorisnik().getOrganizacijaID());
+		
 		this.store();
 		return KorisnikResult.OK;
 		

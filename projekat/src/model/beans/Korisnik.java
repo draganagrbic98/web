@@ -8,6 +8,7 @@ import model.ReferenceManager;
 import model.Uloga;
 import model.ValidData;
 import rest.Main;
+import rest.beans.Racun;
 import rest.beans.RacunZahtev;
 
 public class Korisnik implements CSVData, ValidData, ReferenceManager {
@@ -43,8 +44,7 @@ public class Korisnik implements CSVData, ValidData, ReferenceManager {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof Korisnik))
-			return false;
+		if (!(obj instanceof Korisnik)) return false;
 		return ((Korisnik) obj).user.equals(this.user) || ((Korisnik) obj).email.equals(this.email);
 	}
 
@@ -96,28 +96,6 @@ public class Korisnik implements CSVData, ValidData, ReferenceManager {
 			o.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 	
-	
-
-	public Racun izracunajRacun(RacunZahtev racunZahtev) {		
-		HashMap<String, Double> racuniMasine = new HashMap<String, Double>();
-		HashMap<String, Double> racuniDiskovi = new HashMap<String, Double>();
-		double ukupniRacun = 0;
-		
-		for (VirtuelnaMasina vm: getMojeMasine()) {
-			double racunMasine = vm.izracunajRacun(racunZahtev);
-			racuniMasine.put(vm.getIme(), Math.round(racunMasine * 100.0) / 100.0);
-			ukupniRacun += racunMasine;
-		}
-		
-		for (Disk d: getMojiDiskovi()) {
-			double racunDiska = d.izracunajRacun(racunZahtev);
-			racuniDiskovi.put(d.getIme(), Math.round(racunDiska * 100.0) / 100.0);
-			ukupniRacun += racunDiska;
-		}
-		
-		return new Racun(racuniMasine, racuniDiskovi, Math.round(ukupniRacun * 100.0) / 100.0);
-	}
-	
 	@Override
 	public boolean validData() {
 		// TODO Auto-generated method stub
@@ -131,49 +109,85 @@ public class Korisnik implements CSVData, ValidData, ReferenceManager {
 		
 	}
 	
+	public Racun izracunajRacun(RacunZahtev racunZahtev) {		
+		
+		HashMap<String, Double> racuniMasine = new HashMap<String, Double>();
+		HashMap<String, Double> racuniDiskovi = new HashMap<String, Double>();
+		double ukupniRacun = 0;
+		
+		for (VirtuelnaMasina m: getMojeMasine()) {
+			double racunMasine = m.izracunajRacun(racunZahtev);
+			racuniMasine.put(m.getIme(), Math.round(racunMasine * 100.0) / 100.0);
+			ukupniRacun += racunMasine;
+		}
+		
+		for (Disk d: getMojiDiskovi()) {
+			double racunDiska = d.izracunajRacun(racunZahtev);
+			racuniDiskovi.put(d.getIme(), Math.round(racunDiska * 100.0) / 100.0);
+			ukupniRacun += racunDiska;
+		}
+		
+		return new Racun(racuniMasine, racuniDiskovi, Math.round(ukupniRacun * 100.0) / 100.0);
+		
+	}
+	
 	public String getKorisnickoIme() {
 		return this.user.getKorisnickoIme();
 	}
+	
 	public void setKorisnickoIme(String korisnickoIme) {
 		this.notifyUpdate(korisnickoIme);
 		this.user.setKorisnickoIme(korisnickoIme);
 	}
+	
 	public String getLozinka() {
 		return this.user.getLozinka();
 	}
+	
 	public void setLozinka(String lozinka) {
 		this.user.setLozinka(lozinka);
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+	
 	public String getPrezime() {
 		return prezime;
 	}
+	
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
+	
 	public Uloga getUloga() {
 		return uloga;
 	}
+	
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
+	
 	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
+	
 	public String getOrganizacijaID() {
 		return organizacija;
 	}
+	
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}

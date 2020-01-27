@@ -16,13 +16,14 @@ Vue.component("profil", {
 			korisnikID: '',
 			novaLozinka: '', 
 			ponovljenaLozinka: '',
+			greskaKorisnickoIme: '',
+			greskaLozinka: '', 
 			greskaEmail: '', 
 			greskaIme: '',
 			greskaPrezime: '', 
-			greskaLozinka: '', 
 			greskaServer: '',
-			greska: false,
-			greskaKorisnickoIme: ''
+			greska: false
+			
 		}
 	}, 
 
@@ -47,7 +48,7 @@ Vue.component("profil", {
 			
 			<br><br>
 			
-			<router-link to="/masine">Pocetna Stranica</router-link><br><br>
+			<router-link to="/masine">POCETNA STRANICA</router-link><br><br>
 
 		</div>
 	`, 
@@ -69,6 +70,7 @@ Vue.component("profil", {
 		.catch(error => {
 			this.$router.push("/");
 		});
+		
 	},
 
 	methods: {
@@ -78,17 +80,17 @@ Vue.component("profil", {
     	},
     	
     	osvezi: function(){
-    		
     		this.greskaEmail = '';
 			this.greskaIme = '';
 			this.greskaPrezime = '';
 			this.greskaLozinka = '';
 			this.greska = false;
 			this.greskaKorisnickoIme = '';
-    		
     	},
 		
 		izmeni: function(){
+			
+			this.osvezi();
 			
 			if (this.korisnik.user.korisnickoIme == ''){
 				this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";
@@ -99,21 +101,26 @@ Vue.component("profil", {
 				this.greskaEmail = "Email nije ispravan. ";
 				this.greska = true;
 			}
+			
 			if (this.korisnik.ime == ''){
 				this.greskaIme = "Ime ne sme biti prazno. ";
 				this.greska = true;
 			}
+			
 			if (this.korisnik.prezime == ''){
 				this.greskaPrezime = "Prezime ne sme biti prazno. ";
 				this.greska = true;
 			}
+			
 			if (this.novaLozinka != '' && this.novaLozinka != this.ponovljenaLozinka){
 				this.greskaLozinka = "Lozinke se ne poklapaju. ";
 				this.greska = true;
 			}
+			
 			if (this.greska) return;
 
 			this.korisnik.user.lozinka = this.novaLozinka != '' ? this.novaLozinka : this.korisnik.user.lozinka;
+			
 			axios.post("rest/korisnici/izmena", {"staroIme": this.korisnikID, "noviKorisnik": this.korisnik})
 			.then(response => {
 				this.$router.push("masine");

@@ -8,8 +8,8 @@ import model.beans.Korisnik;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.KorisnikChange;
-import rest.beans.OpResponse;
-import rest.beans.OpResult.KorisnikResult;
+import rest.beans.OperationResponse;
+import rest.beans.OperationResult.KorisnikResult;
 
 public class KorisnikRest implements RestEntity{
 
@@ -55,7 +55,7 @@ public class KorisnikRest implements RestEntity{
 				
 				KorisnikResult result = Main.korisnici.dodajKorisnika(korisnik);
 				if (result != KorisnikResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -63,6 +63,7 @@ public class KorisnikRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();
 			}
+			
 		});
 		
 		post("/rest/korisnici/izmena", (req, res) -> {
@@ -90,7 +91,7 @@ public class KorisnikRest implements RestEntity{
 				
 				KorisnikResult result = Main.korisnici.izmeniKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -98,9 +99,10 @@ public class KorisnikRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();
 			}
+			
 		});
 		
-		post("rest/korisnici/brisanje", (req, res) -> {
+		post("/rest/korisnici/brisanje", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -125,7 +127,7 @@ public class KorisnikRest implements RestEntity{
 				
 				KorisnikResult result = Main.korisnici.obrisiKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -133,6 +135,7 @@ public class KorisnikRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();
 			}
+			
 		});
 	
 	}

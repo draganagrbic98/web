@@ -9,15 +9,15 @@ import model.beans.Korisnik;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.KategorijaChange;
-import rest.beans.OpResponse;
-import rest.beans.OpResult.KategorijaResult;
+import rest.beans.OperationResponse;
+import rest.beans.OperationResult.KategorijaResult;
 
 public class KategorijaRest implements RestEntity{
 	
 	@Override
 	public void init() {
 
-		get("rest/kategorije/pregled", (req, res) -> {
+		get("/rest/kategorije/pregled", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = req.session(true).attribute("korisnik");
@@ -31,7 +31,7 @@ public class KategorijaRest implements RestEntity{
 			
 		});
 		
-		post("rest/kategorije/dodavanje", (req, res) -> {
+		post("/rest/kategorije/dodavanje", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -51,7 +51,7 @@ public class KategorijaRest implements RestEntity{
 				
 				KategorijaResult result = Main.kategorije.dodajKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -59,9 +59,10 @@ public class KategorijaRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();
 			}
+			
 		});
 		
-		post("rest/kategorije/izmena", (req, res) -> {
+		post("/rest/kategorije/izmena", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -81,7 +82,7 @@ public class KategorijaRest implements RestEntity{
 				
 				KategorijaResult result = Main.kategorije.izmeniKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -89,9 +90,10 @@ public class KategorijaRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();
 			}
+			
 		});
 		
-		post("rest/kategorije/brisanje", (req, res) -> {
+		post("/rest/kategorije/brisanje", (req, res) -> {
 			
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
@@ -111,14 +113,15 @@ public class KategorijaRest implements RestEntity{
 				
 				KategorijaResult result = Main.kategorije.obrisiKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
 			catch(Exception e) {
 				res.status(400);
-				return jsonConvertor.toJson(new OpResponse("Bad Request"));
+				return RestEntity.badRequest();
 			}
+			
 		});
 	}
 

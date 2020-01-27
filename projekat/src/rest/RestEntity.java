@@ -2,7 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 
-import rest.beans.OpResponse;
+import rest.beans.OperationResponse;
 
 public interface RestEntity {
 	
@@ -10,16 +10,11 @@ public interface RestEntity {
 	public void init();
 	
 	public static String forbidden() {
-		
-		return jsonConvertor.toJson(new OpResponse("Forbidden"));
-		
+		return jsonConvertor.toJson(new OperationResponse("PRISTUP NEDOZVOLJENOM RESURSU"));
 	}
 	
 	public static String badRequest() {
-		
-		return jsonConvertor.toJson(new OpResponse("Bad Request"));
-		
+		return jsonConvertor.toJson(new OperationResponse("NEVALIDNI PODACI"));
 	}
-	
 
 }

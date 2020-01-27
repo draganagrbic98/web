@@ -22,11 +22,11 @@ Vue.component("dodajMasinu", {
             greskaKategorija: '', 
             greskaServer: '',
             greska: false,
-            diskovi: [],
-            diskoviBackup: [],
             kategorije: [], 
             organizacije: [], 
             organizacija: '',
+            diskovi: [],
+            diskoviBackup: [],
             kat: ''
         }
     }, 
@@ -44,7 +44,6 @@ Vue.component("dodajMasinu", {
             	<table>
             	
 	                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaMasina.ime"></td> <td>{{greskaIme}}</td></tr>
-	                
 	                <tr><td class="left">Organizacija: </td>
 	                <td class="right"><input type="text" v-model="organizacija" v-bind:hidden="organizacije.length>1" disabled>
 	                <select v-model="organizacija" v-bind:hidden="organizacije.length<=1">
@@ -52,7 +51,6 @@ Vue.component("dodajMasinu", {
 		                    {{o.ime}}
 		                </option>
 	                </select></td> 
-	                
 	                <td class="right">{{greskaOrganizacija}}</td></tr>
 	                
 	                <tr><td class="left">Diskovi: </td>
@@ -68,16 +66,13 @@ Vue.component("dodajMasinu", {
 	                    	{{k.ime}}
 	                    </option>
 	                </select> </td>
-	                
 	                <td class="right">{{greskaKategorija}}</td></tr>
 	                
 	                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.brojJezgara" disabled></td></tr>
 	                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.RAM" disabled></td></tr>
 	                <tr><td class="left">GPU jezgra: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.GPUjezgra" disabled></td></tr>
-	                
 	                <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 	                <tr><td colspan="3"><br>{{greskaServer}}<br></td></tr>
-	
 	                <tr><td colspan="3"><br><router-link to="/masine">MASINE</router-link><br></td></tr>
 	                
                 </table>
@@ -103,13 +98,14 @@ Vue.component("dodajMasinu", {
         },
         
 	    organizacija: function() {
+	    	
 	    	let org = this.organizacija;
 	    	this.diskovi = this.diskoviBackup;
-            
 	        this.diskovi = this.diskovi.filter(function(disk) {
 	        	return disk.organizacija === org;
 	        });
-	      }
+	        
+	    }
     },
 
     mounted(){
@@ -166,15 +162,18 @@ Vue.component("dodajMasinu", {
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.novaMasina.organizacija == ''){
                 this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
                 this.greska = true;
             }
+            
             if (this.novaMasina.kategorija == '' || this.kat == ''){
                 this.greskaKategorija = "Kategorija ne sme biti prazna. ";
                 this.greska = true;
             }
-            if (this.greska == true) return;
+            
+            if (this.greska) return;
 
             axios.post("rest/masine/dodavanje", this.novaMasina)
             .then(response => {
@@ -183,6 +182,7 @@ Vue.component("dodajMasinu", {
             .catch(error => {
                 this.greskaServer = error.response.data.result;
             });
+            
         }, 
        
     }, 

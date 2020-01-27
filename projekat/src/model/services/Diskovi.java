@@ -11,7 +11,7 @@ import model.LoadStoreData;
 import model.beans.Disk;
 import rest.Main;
 import rest.beans.DiskChange;
-import rest.beans.OpResult.DiskResult;
+import rest.beans.OperationResult.DiskResult;
 
 public class Diskovi implements LoadStoreData {
 
@@ -35,12 +35,12 @@ public class Diskovi implements LoadStoreData {
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
 		
-		if (d.getOrganizacija().getMasine().contains(d.getIme()))
-			return DiskResult.INVALID_NAME;
-		
 		if (Main.organizacije.nadjiOrganizaciju(d.getOrganizacijaID()) == null)
 			return DiskResult.ORG_NOT_EXISTS;
-		
+
+		if (d.getOrganizacija().getMasine().contains(d.getIme()))
+			return DiskResult.INVALID_NAME;
+				
 		d.getOrganizacija().dodajDisk(d);
 		if (d.getMasina() != null)
 			d.getMasina().dodajDisk(d);
@@ -72,7 +72,7 @@ public class Diskovi implements LoadStoreData {
 		
 		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
-
+		
 		disk.notifyRemoval();
 		disk.setMasina(d.getNoviDisk().getMasinaID());
 		if (disk.getMasina() != null)
@@ -84,6 +84,7 @@ public class Diskovi implements LoadStoreData {
 		
 		this.store();
 		return DiskResult.OK;
+		
 	}
 	
 	public ArrayList<Disk> getDiskovi() {

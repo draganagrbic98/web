@@ -8,9 +8,9 @@ import model.beans.Korisnik;
 import model.beans.Organizacija;
 import rest.Main;
 import rest.RestEntity;
-import rest.beans.OpResponse;
+import rest.beans.OperationResponse;
 import rest.beans.OrganizacijaChange;
-import rest.beans.OpResult.OrganizacijaResponse;
+import rest.beans.OperationResult.OrganizacijaResponse;
 
 public class OrganizacijaRest implements RestEntity{
 
@@ -51,7 +51,7 @@ public class OrganizacijaRest implements RestEntity{
 				
 				OrganizacijaResponse result = Main.organizacije.dodajOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -59,6 +59,7 @@ public class OrganizacijaRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();	
 			}			
+			
 		});
 
 		post("/rest/organizacije/izmena", (req, res) -> {
@@ -72,6 +73,7 @@ public class OrganizacijaRest implements RestEntity{
 			}
 			
 			try {
+				
 				OrganizacijaChange o = jsonConvertor.fromJson(req.body(), OrganizacijaChange.class);
 				if (o == null || !o.validData()) {
 					res.status(400);
@@ -85,13 +87,15 @@ public class OrganizacijaRest implements RestEntity{
 				
 				OrganizacijaResponse result = Main.organizacije.izmeniOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));	
+				return jsonConvertor.toJson(new OperationResponse(result + ""));	
+				
 			}
 			
 			catch(Exception e) {
 				res.status(400);
 				return RestEntity.badRequest();	
 			}			
+			
 		});
 		
 	}

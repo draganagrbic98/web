@@ -18,7 +18,7 @@ import model.beans.Disk;
 import model.beans.VirtuelnaMasina;
 import rest.Main;
 import rest.beans.MasinaChange;
-import rest.beans.OpResult.MasinaResult;
+import rest.beans.OperationResult.MasinaResult;
 
 public class Masine implements LoadStoreData {
 
@@ -40,23 +40,24 @@ public class Masine implements LoadStoreData {
 
 		if (this.nadjiMasinu(m.getIme()) != null)
 			return MasinaResult.AL_EXISTS;
-		
-		for (String str: m.getDiskoviID()) {
-			if (Main.diskovi.nadjiDisk(str) == null)
-				return MasinaResult.DISK_NOT_EXISTS;
-		}
+
 		if (Main.organizacije.nadjiOrganizaciju(m.getOrganizacijaID()) == null)
 			return MasinaResult.ORG_NOT_EXISTS;
-		
+
 		if (m.getOrganizacija().getMasine().contains(m.getIme()))
 			return MasinaResult.INVALID_NAME;
-		
+
+		for (String d: m.getDiskoviID()) {
+			if (Main.diskovi.nadjiDisk(d) == null)
+				return MasinaResult.DISK_NOT_EXISTS;
+		}
+
+		m.getOrganizacija().dodajMasinu(m);
 		for (Disk d: m.getDiskovi()) {
 			d.notifyRemoval();
 			d.setMasina(m.getIme());
 		}
 		
-		m.getOrganizacija().dodajMasinu(m);
 		this.masine.add(m);
 		this.store();
 		Main.diskovi.store();
@@ -67,8 +68,7 @@ public class Masine implements LoadStoreData {
 	public synchronized MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
-		if (masina == null)
-			return MasinaResult.DOESNT_EXIST;
+		if (masina == null) return MasinaResult.DOESNT_EXIST;
 		
 		masina.notifyRemoval();
 		this.masine.remove(masina);
@@ -81,14 +81,11 @@ public class Masine implements LoadStoreData {
 	public synchronized MasinaResult izmeniMasinu(MasinaChange m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
+		if (masina == null) return MasinaResult.DOESNT_EXIST;
 		
-		if (masina == null)
-			return MasinaResult.DOESNT_EXIST;
-		
-		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null
-				&& (!(m.getStaroIme().equals(m.getNovaMasina().getIme()))))
+		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null && (!(m.getStaroIme().equals(m.getNovaMasina().getIme()))))
 			return MasinaResult.AL_EXISTS;
-
+		
 		masina.setIme(m.getNovaMasina().getIme());
 		masina.setOrganizacija(m.getNovaMasina().getOrganizacijaID());
 		masina.setKategorija(m.getNovaMasina().getKategorija());
@@ -106,40 +103,39 @@ public class Masine implements LoadStoreData {
 		this.store();
 		Main.diskovi.store();
 		return MasinaResult.OK;
+		
 	}
 
 	public synchronized MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
-
-		if (masina == null)
-			return MasinaResult.DOESNT_EXIST;
-		if (this.nadjiMasinu(m.getNovaMasina().getIme()) != null
-				&& (!(m.getStaroIme().equals(m.getNovaMasina().getIme()))))
-			return MasinaResult.AL_EXISTS;
-		
+		if (masina == null) return MasinaResult.DOESNT_EXIST;
+				
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		Date date = new Date(System.currentTimeMillis());
 		
-		if (masina.getAktivnosti().isEmpty() == false) {
+		if (!masina.getAktivnosti().isEmpty()) {
+			
 			Aktivnost trenutnaAktivnost = masina.getAktivnosti().get(masina.getAktivnosti().size() - 1);
 			
 			if (trenutnaAktivnost.getStatus() == StatusMasine.UPALJENA) {
 				trenutnaAktivnost.setDatumGasenja(f.parse(f.format(date)));
 				trenutnaAktivnost.setStatus(StatusMasine.UGASENA);
 			}
+			
 			else {
 				Aktivnost novaAktivnost = new Aktivnost(f.parse(f.format(date)), null, StatusMasine.UPALJENA);
 				masina.getAktivnosti().add(novaAktivnost);
 			}
+			
 		}
+		
 		else {
 			Aktivnost novaAktivnost = new Aktivnost(f.parse(f.format(date)), null, StatusMasine.UPALJENA);
 			masina.getAktivnosti().add(novaAktivnost);
 		}
 		
 		this.store();
-		Main.diskovi.store();
 		return MasinaResult.OK;
 		
 	}
@@ -184,6 +180,7 @@ public class Masine implements LoadStoreData {
 	@Override
 	public void store() throws Exception {
 		// TODO Auto-generated method stub
+		
 		PrintWriter out = new PrintWriter(new FileWriter(FileNames.MASINE_FILE));
 		PrintWriter aktivnostiOut = new PrintWriter(new FileWriter(FileNames.AKTIVNOSTI_FILE));
 		
@@ -195,6 +192,7 @@ public class Masine implements LoadStoreData {
 				aktivnostiOut.flush();
 			}
 		}
+		
 		out.close();
 		aktivnostiOut.close();
 	}

@@ -26,8 +26,7 @@ public class User implements CSVData, ValidData {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof User))
-			return false;
+		if (!(obj instanceof User)) return false;
 		return ((User) obj).korisnickoIme.equals(this.korisnickoIme);
 	}
 

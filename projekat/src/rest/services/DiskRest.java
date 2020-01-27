@@ -9,8 +9,8 @@ import model.beans.Korisnik;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.DiskChange;
-import rest.beans.OpResponse;
-import rest.beans.OpResult.DiskResult;
+import rest.beans.OperationResponse;
+import rest.beans.OperationResult.DiskResult;
 
 public class DiskRest implements RestEntity{
 
@@ -54,9 +54,14 @@ public class DiskRest implements RestEntity{
 					return RestEntity.forbidden();
 				}
 				
+				if (d.getMasina() != null && !k.getMojeMasine().contains(d.getMasina())) {
+					res.status(403);
+					return RestEntity.forbidden();
+				}
+				
 				DiskResult result = Main.diskovi.dodajDisk(d);
 				if (result != DiskResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 			}
 			
 			catch(Exception e) {
@@ -89,9 +94,14 @@ public class DiskRest implements RestEntity{
 					return RestEntity.forbidden();
 				}
 				
+				if (d.getNoviDisk().getMasina() != null && !k.getMojeMasine().contains(d.getNoviDisk().getMasina())) {
+					res.status(403);
+					return RestEntity.forbidden();
+				}
+				
 				DiskResult result = Main.diskovi.izmeniDisk(d);
 				if (result != DiskResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -99,6 +109,7 @@ public class DiskRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();	
 			}
+			
 		});
 		
 		post("/rest/diskovi/brisanje", (req, res) -> {
@@ -126,7 +137,7 @@ public class DiskRest implements RestEntity{
 				
 				DiskResult result = Main.diskovi.obrisiDisk(d);
 				if (result != DiskResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OpResponse(result + ""));
+				return jsonConvertor.toJson(new OperationResponse(result + ""));
 				
 			}
 			
@@ -134,6 +145,7 @@ public class DiskRest implements RestEntity{
 				res.status(400);
 				return RestEntity.badRequest();					
 			}
+			
 		});
 		
 	}

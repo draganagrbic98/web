@@ -28,14 +28,15 @@ Vue.component("kategorije", {
     			<div class="izmena">
     				
     				<table>		
+    				
 		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedKategorija.ime"></td> <td>{{greskaIme}}</td></tr>
 		                <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="selectedKategorija.brojJezgara"></td> <td>{{greskaBrojJezgara}}</td></tr>
 		                <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="selectedKategorija.RAM"></td> <td>{{greskaRAM}}</td></tr>
 		                <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="selectedKategorija.GPUjezgra"></td> <td>{{greskaGPUjezgra}}</td></tr>
-		                
 		                <tr><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 		                <tr><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 		                <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+		                
     				</table>
     				
     				<button v-on:click="vratiNaKategorije()">POVRATAK</button>
@@ -74,14 +75,10 @@ Vue.component("kategorije", {
 			    			
 			    				<table>
 			    					<tr><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
-			    					
 			    					<tr><td><router-link to="/organizacije">ORGANIZACIJE</router-link></td></tr>
-		
 		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
 		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
-		    						
 		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>
-		    						
 		    						<tr><td><br><button v-on:click="logout()">ODJAVA</button><br><br></td></tr>
 			    				</table>
 			    		
@@ -118,11 +115,18 @@ Vue.component("kategorije", {
             this.$router.push("masine");
         });
 
-        
-
     }, 
 
     methods: {
+    	
+    	osvezi: function(){
+        	this.greskaIme = '';
+            this.greskaBrojJezgara = '';
+            this.greskaRAM = '';
+            this.greskaGPUjezgra = '';
+            this.greskaServer = '';
+            this.greska = false;
+        },	
 
         selectKategorija: function(kategorija){
             this.selectedKategorija = kategorija;
@@ -135,6 +139,7 @@ Vue.component("kategorije", {
         },
 
         obrisi: function(){
+        	
         	let temp = confirm("Da li ste sigurni?");
         	if (!temp) return;
 
@@ -148,17 +153,6 @@ Vue.component("kategorije", {
             });
 
         },
-        
-        osvezi: function(){
-        	
-        	this.greskaIme = '';
-            this.greskaBrojJezgara = '';
-            this.greskaRAM = '';
-            this.greskaGPUjezgra = '';
-            this.greskaServer = '';
-            this.greska = false;
-        	
-        },
 
         izmeni: function(){
 
@@ -168,18 +162,22 @@ Vue.component("kategorije", {
                 this.greskaIme = "Ime ne sme biti prazno";
                 this.greska = true;
             }
+            
             if (isNaN(parseInt(this.selectedKategorija.brojJezgara)) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
                 this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
+            
             if (isNaN(parseInt(this.selectedKategorija.RAM)) || parseInt(this.selectedKategorija.RAM) <= 0){
                 this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
+            
             if (isNaN(parseInt(this.selectedKategorija.GPUjezgra)) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
                 this.greskaGPUjezgra = "GPU jezgra moraju biti nenegativan ceo broj. ";
                 this.greska = true;
             }
+            
             if (this.greska) return;
 
             axios.post("rest/kategorije/izmena", {"staroIme": this.selectedKategorijaId, "novaKategorija": this.selectedKategorija})

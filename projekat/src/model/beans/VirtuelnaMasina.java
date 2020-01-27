@@ -46,8 +46,7 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof VirtuelnaMasina))
-			return false;
+		if (!(obj instanceof VirtuelnaMasina)) return false;
 		return ((VirtuelnaMasina) obj).ime.equals(this.ime);
 	}
 
@@ -111,24 +110,38 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 			o.removeReference(this.getClass().getSimpleName(), this.ime);
 	}
 
-	public StatusMasine upaljena() {
-		if (this.aktivnosti.isEmpty())
-			return StatusMasine.UGASENA;
+	@Override
+	public boolean validData() {
+		// TODO Auto-generated method stub
 
+		if (this.ime == null || this.ime.equals("")) return false;
+		if (this.organizacija == null || this.organizacija.equals("")) return false;
+		if (this.kategorija == null) return false;
+		if (this.brojJezgara <= 0) return false;
+		if (this.RAM <= 0) return false;
+		if (this.GPUjezgra < 0) return false;
+		if (this.aktivnosti == null) return false;
+		if (this.diskovi == null) return false;
+		return this.kategorija.validData();
+
+	}
+	
+	public StatusMasine status() {
+		if (this.aktivnosti.isEmpty()) return StatusMasine.UGASENA;
 		return this.aktivnosti.get(this.aktivnosti.size() - 1).getStatus();
 	}
-
+	
 	@Override
 	public double izracunajRacun(RacunZahtev racunZahtev) {
+		
 		double racunMasine = 0;
-
-		double jedinicnaCena = izracunajJedinicnuCenu();
-
+		double jedinicnaCena = this.izracunajJedinicnuCenu();
 		double pocetni = racunZahtev.getPocetniDatum() / 1000.0 / 60.0;
 		double krajnji = racunZahtev.getKrajnjiDatum() / 1000.0 / 60.0;
 
 		for (Aktivnost a : aktivnosti) {
 			if (a.getDatumGasenja() != null) {
+				
 				double datumPaljenja = a.getDatumPaljenja().getTime() / 1000.0 / 60.0;
 				double datumGasenja = a.getDatumGasenja().getTime() / 1000.0 / 60.0;
 
@@ -140,12 +153,16 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 
 				if (datumGasenja <= krajnji && datumPaljenja >= pocetni)
 					racunMasine += jedinicnaCena * ((datumGasenja - datumPaljenja) / 60.0 / 24.0 / 30.0);
+				
 				else if (datumGasenja > krajnji && datumPaljenja > pocetni)
 					racunMasine += jedinicnaCena * ((krajnji - datumPaljenja) / 60.0 / 24.0 / 30.0);
+				
 				else if (datumGasenja < krajnji && datumPaljenja < pocetni)
 					racunMasine += jedinicnaCena * ((datumGasenja - pocetni) / 60.0 / 24.0 / 30.0);
 
-			} else {
+			} 
+			else {
+				
 				double datumPaljenja = a.getDatumPaljenja().getTime() / 1000.0 / 60.0;
 
 				if (krajnji - datumPaljenja < 60)
@@ -156,6 +173,7 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 
 				if (datumPaljenja > pocetni)
 					racunMasine += jedinicnaCena * ((krajnji - datumPaljenja) / 60.0 / 24.0 / 30.0);
+				
 				else
 					racunMasine += jedinicnaCena * ((krajnji - pocetni) / 60.0 / 24.0 / 30.0);
 
@@ -169,94 +187,88 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 		return 25 * brojJezgara + 15 * RAM + 1 * GPUjezgra;
 	}
 
-	@Override
-	public boolean validData() {
-		// TODO Auto-generated method stub
-
-		if (this.ime == null || this.ime.equals(""))
-			return false;
-		if (this.organizacija == null || this.organizacija.equals(""))
-			return false;
-		if (this.kategorija == null)
-			return false;
-		if (this.brojJezgara <= 0)
-			return false;
-		if (this.RAM <= 0)
-			return false;
-		if (this.GPUjezgra < 0)
-			return false;
-		if (this.aktivnosti == null)
-			return false;
-		if (this.diskovi == null)
-			return false;
-		return this.kategorija.validData();
-
-	}
-
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
 		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
+	
 	public Organizacija getOrganizacija() {
 		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
 	}
+	
 	public String getOrganizacijaID() {
 		return organizacija;
 	}
+	
 	public void setOrganizacija(String organizacija) {
 		this.organizacija = organizacija;
 	}
+	
 	public Kategorija getKategorija() {
 		return kategorija;
 	}
+	
 	public void setKategorija(Kategorija kategorija) {
 		this.kategorija = kategorija;
 	}
+	
 	public int getBrojJezgara() {
 		return brojJezgara;
 	}
+	
 	public void setBrojJezgara(int brojJezgara) {
 		this.brojJezgara = brojJezgara;
 	}
+	
 	public int getRAM() {
 		return RAM;
 	}
+	
 	public void setRAM(int RAM) {
 		this.RAM = RAM;
 	}
+	
 	public int getGPUjezgra() {
 		return GPUjezgra;
 	}
+	
 	public void setGPUjezgra(int GPUjezgra) {
 		this.GPUjezgra = GPUjezgra;
 	}
+	
 	public ArrayList<Aktivnost> getAktivnosti() {
 		return aktivnosti;
 	}
+	
 	public void setAktivnosti(ArrayList<Aktivnost> aktivnosti) {
 		this.aktivnosti = aktivnosti;
 	}
+	
 	public ArrayList<Disk> getDiskovi() {
 		ArrayList<Disk> diskovi = new ArrayList<Disk>();
 		for (String d : this.diskovi)
 			diskovi.add(Main.diskovi.nadjiDisk(d));
 		return diskovi;
 	}
+	
 	public ArrayList<String> getDiskoviID() {
 		return diskovi;
 	}
+	
 	public void setDiskovi(ArrayList<String> diskovi) {
 		this.diskovi = diskovi;
 	}
 	
-	public void dodajAktivnost(Aktivnost a) {
-		this.aktivnosti.add(a);
-	}
 	public void dodajDisk(Disk d) {
 		this.diskovi.add(d.getIme());
+	}
+	
+	public void dodajAktivnost(Aktivnost a) {
+		this.aktivnosti.add(a);
 	}
 
 }

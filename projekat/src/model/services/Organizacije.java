@@ -11,7 +11,7 @@ import model.LoadStoreData;
 import model.beans.Organizacija;
 import rest.Main;
 import rest.beans.OrganizacijaChange;
-import rest.beans.OpResult.OrganizacijaResponse;
+import rest.beans.OperationResult.OrganizacijaResponse;
 
 public class Organizacije implements LoadStoreData{
 		
@@ -39,6 +39,7 @@ public class Organizacije implements LoadStoreData{
 		this.organizacije.add(o);
 		this.store();
 		return OrganizacijaResponse.OK;
+		
 	}
 
 	public synchronized OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {
@@ -55,6 +56,7 @@ public class Organizacije implements LoadStoreData{
 		organizacija.setLogo(o.getNovaOrganizacija().getLogo());
 		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
 		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
+		
 		this.store();
 		Main.korisnici.store();
 		Main.masine.store();

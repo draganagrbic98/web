@@ -12,14 +12,14 @@ Vue.component("dodajDisk", {
             greskaIme: '', 
             greskaTip: '', 
             greskaKapacitet: '', 
+            greskaOrganizacija: '',
             greskaServer: '', 
             greska: false, 
             tipovi: [],
             masine: [], 
-            masineBackup: [],
             organizacije: [], 
             organizacija: '', 
-            greskaOrganizacija: ''
+            masineBackup: [],
         }
     }, 
 
@@ -36,15 +36,14 @@ Vue.component("dodajDisk", {
             	<table>
 
 		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="noviDisk.ime"></td> <td>{{greskaIme}}</td></tr>
-		            
 		            <tr><td class="left">Organizacija: </td>
+		            
 	                <td class="right"><input type="text" v-model="organizacija" v-bind:hidden="organizacije.length>1" disabled>
 	                <select v-model="organizacija" v-bind:hidden="organizacije.length<=1">
 		                <option v-for="o in organizacije">
 		                    {{o.ime}}
 		                </option>
 	                </select></td> 
-	                
 	                <td class="right">{{greskaOrganizacija}}</td></tr>
 		            
 		            <tr><td class="left">Tip: </td>
@@ -53,11 +52,9 @@ Vue.component("dodajDisk", {
 			                {{t}}
 			            </option>
 		            </select> </td> 
-		            
 		            {{greskaTip}}</td></tr>
 		    		
 		    		<tr><td class="left">Kapacitet: </td> <td class="right"><input type="text" v-model="noviDisk.kapacitet"> </td> <td>{{greskaKapacitet}}</td></tr>
-		    		
 		    		<tr><td class="left">Virtuelna Masina: </td>
 		    		<td class="right" colspan="2"><select v-model="noviDisk.masina">
 			            <option v-for="m in masine">
@@ -68,7 +65,6 @@ Vue.component("dodajDisk", {
 		            
 		            <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
-
 		            <tr><td colspan="3"><router-link to="/diskovi">DISKOVI</router-link><br></td></tr>
 
     			</table>
@@ -79,13 +75,16 @@ Vue.component("dodajDisk", {
     `, 
 
     watch: {
+    	
 		organizacija: function() {
+			
 		    let org = this.organizacija;
 		    this.masine = this.masineBackup;
 	            
 		    this.masine = this.masine.filter(function(masina) {
 		        return masina.organizacija === org;
 		    });
+		    
 		}
     },
     
@@ -95,27 +94,27 @@ Vue.component("dodajDisk", {
         .catch(error => {
             this.$router.push("masine");
         });
-
-        axios.get("rest/diskovi/unos/pregled")
+        
+    	axios.get("rest/diskovi/unos/pregled")
         .then(response => {
             this.tipovi = response.data;
         })
         .catch(error => {
             this.$router.push("masine");
         });
-        
-        axios.get("rest/organizacije/pregled")
+    	
+    	axios.get("rest/masine/pregled")
         .then(response => {
-            this.organizacije = response.data;
-            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0].ime : '';
+            this.masineBackup = response.data;
         })
         .catch(error => {
             this.$router.push("masine");
         });
-
-        axios.get("rest/masine/pregled")
+    	
+        axios.get("rest/organizacije/pregled")
         .then(response => {
-            this.masineBackup = response.data;
+            this.organizacije = response.data;
+            this.organizacija = this.organizacije.length >= 1 ? this.organizacije[0].ime : '';
         })
         .catch(error => {
             this.$router.push("masine");
@@ -129,9 +128,9 @@ Vue.component("dodajDisk", {
     		this.greskaIme = '';
     		this.greskaTip = '';
     		this.greskaKapacitet = '';
+    		this.greskaOrganizacija = '';
     		this.greskaServer = '';
     		this.greska = false;
-    		this.greskaOrganizacija = '';
     	},
 
         dodaj: function(){
@@ -144,18 +143,22 @@ Vue.component("dodajDisk", {
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.noviDisk.tip == ''){
                 this.greskaTip = "Tip ne sme biti prazan. ";
                 this.greska = true;
             }
+            
             if (isNaN(parseInt(this.noviDisk.kapacitet)) || parseInt(this.noviDisk.kapacitet) <= 0){
                 this.greskaKapacitet = "Kapacitet mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
+            
             if (this.noviDisk.organizacija == ''){
                 this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
                 this.greska = true;
             }
+            
             if (this.greska) return;
 
             axios.post("rest/diskovi/dodavanje", this.noviDisk)

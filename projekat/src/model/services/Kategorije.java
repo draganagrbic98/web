@@ -11,7 +11,7 @@ import model.LoadStoreData;
 import model.beans.Kategorija;
 import rest.Main;
 import rest.beans.KategorijaChange;
-import rest.beans.OpResult.KategorijaResult;
+import rest.beans.OperationResult.KategorijaResult;
 
 public class Kategorije implements LoadStoreData{
 	
@@ -62,15 +62,15 @@ public class Kategorije implements LoadStoreData{
 		if (kategorija == null) 
 			return KategorijaResult.DOESNT_EXIST;
 		
-		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && 
-				(!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
+		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
 			return KategorijaResult.AL_EXISTS;
-		
+
+		kategorija.setIme(k.getNovaKategorija().getIme());
 		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
 		kategorija.setRAM(k.getNovaKategorija().getRAM());
 		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
 		kategorija.refresh();
-		kategorija.setIme(k.getNovaKategorija().getIme());
+		
 		this.store();
 		Main.masine.store();
 		return KategorijaResult.OK;
@@ -107,7 +107,6 @@ public class Kategorije implements LoadStoreData{
 			out.println(k.csvLine());
 			out.flush();
 		}
-		
 		out.close();
 	}
 

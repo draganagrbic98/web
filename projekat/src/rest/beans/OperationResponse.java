@@ -1,14 +1,14 @@
 package rest.beans;
 
-public class OpResponse {
+public class OperationResponse {
 	
 	private String result;
 
-	public OpResponse() {
+	public OperationResponse() {
 		super();
 	}
 
-	public OpResponse(String result) {
+	public OperationResponse(String result) {
 		super();
 		this.result = result;
 	}

@@ -24,31 +24,21 @@ public class Main {
 
 	public static Kategorije kategorije = new Kategorije();
 	public static Organizacije organizacije = new Organizacije();
+	public static Korisnici korisnici = new Korisnici();
 	public static Masine masine = new Masine();
 	public static Diskovi diskovi = new Diskovi();
-	public static Korisnici korisnici = new Korisnici();
 
-	public static void loadData() throws Exception {
-		
-		kategorije.load();
-		organizacije.load();
-		masine.load();
-		diskovi.load();
-		korisnici.load();
-		
-	}
-	
 	public static void createFiles() throws IOException {
 		
 		File file = new File("files");
 		if (!file.exists())
 			file.mkdir();
-			
-		file = new File(FileNames.DISKOVI_FILE);
-		if (!file.exists())
-			file.createNewFile();
 
 		file = new File(FileNames.KATEGORIJE_FILE);
+		if (!file.exists())
+			file.createNewFile();
+		
+		file = new File(FileNames.ORGANIZACIJE_FILE);
 		if (!file.exists())
 			file.createNewFile();
 		
@@ -59,16 +49,24 @@ public class Main {
 		file = new File(FileNames.MASINE_FILE);
 		if (!file.exists())
 			file.createNewFile();
+		
+		file = new File(FileNames.DISKOVI_FILE);
+		if (!file.exists())
+			file.createNewFile();
 
 		file = new File(FileNames.AKTIVNOSTI_FILE);
 		if (!file.exists())
 			file.createNewFile();
+
+	}
+
+	public static void loadData() throws Exception {
 		
-		file = new File(FileNames.ORGANIZACIJE_FILE);
-		if (!file.exists())
-			file.createNewFile();
-
-
+		kategorije.load();
+		organizacije.load();
+		korisnici.load();
+		masine.load();
+		diskovi.load();
 		
 	}
 
@@ -83,13 +81,12 @@ public class Main {
 
 		new KategorijaRest().init();
 		new OrganizacijaRest().init();
+		new KorisnikRest().init();
 		new MasinaRest().init();
 		new DiskRest().init();
-		new KorisnikRest().init();
 		new UserRest().init();
 		new DataRest().init();
 
-		
 	}
 
 }

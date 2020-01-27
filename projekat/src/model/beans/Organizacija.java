@@ -1,6 +1,5 @@
 package model.beans;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,8 +40,7 @@ public class Organizacija implements CSVData, ValidData, ReferenceManager {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if (!(obj instanceof Organizacija))
-			return false;
+		if (!(obj instanceof Organizacija)) return false;
 		return ((Organizacija) obj).ime.equals(this.ime);
 	}
 
@@ -123,58 +121,69 @@ public class Organizacija implements CSVData, ValidData, ReferenceManager {
 	}
 
 	public void setDefaultLogo() {
-		byte[] img = null;
+		
 		try {
-			img = Files.readAllBytes(Paths.get(FileNames.DEFAULT_LOGO));
-		} catch (IOException e) {
-			e.printStackTrace();
+			byte[] img = Files.readAllBytes(Paths.get(FileNames.DEFAULT_LOGO));
+			String encodedImg = Base64.getEncoder().encodeToString(img);		
+			this.logo = "data:image/png;base64," + encodedImg;
+		}
+		catch(Exception e) {
+			;
 		}
 		
-		String encodedImg = null;
-		encodedImg = Base64.getEncoder().encodeToString(img);
-		
-		this.logo = "data:image/png;base64," + encodedImg;
 	}
 	
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
 		this.notifyUpdate(ime);
 		this.ime = ime;
 	}
+	
 	public String getOpis() {
 		return opis;
 	}
+	
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
+	
 	public String getLogo() {
 		return logo;
 	}
+	
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
+	
 	public ArrayList<String> getKorisnici() {
 		return korisnici;
 	}
+	
 	public void setKorisnici(ArrayList<String> korisnici) {
 		this.korisnici = korisnici;
 	}
+	
 	public ArrayList<String> getMasine() {
 		return masine;
 	}
+	
 	public void setMasine(ArrayList<String> masine) {
 		this.masine = masine;
+	}
+	
+	public void dodajKorisnika(Korisnik k) {
+		this.korisnici.add(k.getKorisnickoIme());
+	}
+	
+	public void dodajMasinu(VirtuelnaMasina m) {
+		this.masine.add(m.getIme());
 	}
 	
 	public void dodajDisk(Disk disk) {
 		this.masine.add(disk.getIme());
 	}
-	public void dodajMasinu(VirtuelnaMasina m) {
-		this.masine.add(m.getIme());
-	}
-	public void dodajKorisnika(Korisnik k) {
-		this.korisnici.add(k.getKorisnickoIme());
-	}
+	
 }

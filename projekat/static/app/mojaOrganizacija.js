@@ -30,18 +30,15 @@ Vue.component("mojaOrganizacija", {
 	            <div class="izmena_ui">
 
 	    			<table>
+	    			
 	    				<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="organizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
 	                	<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="organizacija.opis"></textarea></td></tr>
-			            
 			            <tr><td class="left">Logo: </td> <td class="right" colspan="2"><br><img v-bind:src="organizacija.logo" text="Logo"></img><br><br></td></tr>
-			            
 		            	<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
-			            
 			            <tr><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
-			                
 			            <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
-			            
 			            <tr><td colspan="3"><router-link to="/masine">MASINE</router-link></td></tr>
+			            
 	    			</table> <br><br>
 	    				
     			</div>
@@ -50,7 +47,7 @@ Vue.component("mojaOrganizacija", {
     				
 	    			<div class="org_masine">
 	    				
-		    			<h1> Virtuelne Masine </h1>
+		    			<h1> Resursi </h1>
 		    				
 		    			<br>
 		    				
@@ -78,8 +75,7 @@ Vue.component("mojaOrganizacija", {
 			                
 			            <div>
 				            <table v-if="organizacija.korisnici.length!=0">
-				                <tr><th>Ime</th></tr>
-				                	
+				                <tr><th>Korisnicko ime</th></tr>
 				                <tr v-for="k in organizacija.korisnici">
 				                	<td>{{k}}</td>
 				                </tr>
@@ -114,28 +110,14 @@ Vue.component("mojaOrganizacija", {
     },
 
     methods: {
-
-        updateLogo: function(event) {
-	  		var reader = new FileReader();
-	  		var instance = this;
-	  		
-	  		reader.onloadend = function() {
-				instance.organizacija.logo = reader.result;
-			}
-			 
-			reader.readAsDataURL(event.target.files[0]);
-        },
         
         osvezi: function(){
-        	
         	this.greskaIme = '';
             this.greskaServer = '';
             this.greska = false;
-        	
         },
         
         izmeni: function(){
-
 
             this.osvezi();
 
@@ -143,6 +125,7 @@ Vue.component("mojaOrganizacija", {
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.greska) return;
             
             axios.post("rest/organizacije/izmena", {"staroIme": this.organizacijaID, "novaOrganizacija": this.organizacija})
@@ -153,6 +136,19 @@ Vue.component("mojaOrganizacija", {
                 this.greskaServer = error.response.data.result;
             });
 
+        },
+        
+        updateLogo: function(event) {
+        	
+	  		var reader = new FileReader();
+	  		var instance = this;
+	  		
+	  		reader.onloadend = function() {
+				instance.organizacija.logo = reader.result;
+			}
+			 
+			reader.readAsDataURL(event.target.files[0]);
+			
         },
 
     }

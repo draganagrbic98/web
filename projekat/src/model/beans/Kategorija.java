@@ -4,7 +4,7 @@ import model.CSVData;
 import model.ValidData;
 import rest.Main;
 
-public class Kategorija implements CSVData, ValidData{
+public class Kategorija implements CSVData, ValidData {
 	
 	private String ime;
 	private int brojJezgara;
@@ -36,14 +36,12 @@ public class Kategorija implements CSVData, ValidData{
 	}
 	
 	public static Kategorija parse(String line) {
-		
 		String[] array = line.split(";");
 		String ime = array[0].trim();
 		int brojJezgara = Integer.parseInt(array[1].trim());
 		int RAM = Integer.parseInt(array[2].trim());
 		int GPUjezgra = Integer.parseInt(array[3].trim());
 		return new Kategorija(ime, brojJezgara, RAM, GPUjezgra);
-		
 	}
 	
 	@Override
@@ -89,24 +87,31 @@ public class Kategorija implements CSVData, ValidData{
 	public String getIme() {
 		return ime;
 	}
+	
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+	
 	public int getBrojJezgara() {
 		return brojJezgara;
 	}
+	
 	public void setBrojJezgara(int brojJezgara) {
 		this.brojJezgara = brojJezgara;
 	}
+	
 	public int getRAM() {
 		return RAM;
 	}
+	
 	public void setRAM(int RAM) {
 		this.RAM = RAM;
 	}
+	
 	public int getGPUjezgra() {
 		return GPUjezgra;
 	}
+	
 	public void setGPUjezgra(int GPUjezgra) {
 		this.GPUjezgra = GPUjezgra;
 	}

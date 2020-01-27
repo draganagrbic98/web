@@ -27,17 +27,13 @@ Vue.component("organizacije", {
 	                <div class="izmena_ui">
 
 	    				<table>
+	    				
 	    					<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedOrganizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
 	                		<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="selectedOrganizacija.opis"></textarea></td></tr>
-		            		
 		            		<tr><td class="left">Logo: </td><td class="right" colspan="2"><br><img v-bind:src="selectedOrganizacija.logo" text="Logo"></img><br><br></td></tr>
-
 		            		<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
-			                
 			                <tr><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
-			                
-			                <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
-			                
+			                <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>      
 	    					<tr><td colspan="3"><button v-on:click="vratiNaOrganizacije()">POVRATAK</button></td></tr>
 
 	    				</table>
@@ -48,7 +44,7 @@ Vue.component("organizacije", {
     				
 	    				<div class="org_masine">
 	    				
-		    				<h1> Virtuelne Masine </h1>
+		    				<h1> Resursi </h1>
 		    				
 		    				<br>
 		    				
@@ -57,7 +53,6 @@ Vue.component("organizacije", {
 			                <div>
 				                <table v-if="selectedOrganizacija.masine.length!=0">
 				                	<tr><th>Ime</th></tr>
-				                	
 				                	<tr v-for="m in selectedOrganizacija.masine">
 				                		<td>{{m}}</td>
 				                	</tr>
@@ -76,8 +71,7 @@ Vue.component("organizacije", {
 			                
 			                <div>
 				                <table v-if="selectedOrganizacija.korisnici.length!=0">
-				                	<tr><th>Ime</th></tr>
-				                	
+				                	<tr><th>Korisnicko ime</th></tr>
 				                	<tr v-for="k in selectedOrganizacija.korisnici">
 				                		<td>{{k}}</td>
 				                	</tr>
@@ -121,14 +115,10 @@ Vue.component("organizacije", {
 			    			
 			    				<table>
 			    					<tr><td><router-link to="/korisnici">KORISNICI</router-link></td></tr>
-			    					
 			    					<tr><td><router-link to="/kategorije">KATEGORIJE</router-link></td></tr>
-		
 		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
-		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
-		    						
-		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>
-		    						
+		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>	
+		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>	
 		    						<tr><td><br><button v-on:click="logout()">ODJAVA</button><br><br></td></tr>
 			    				</table>
 			    		
@@ -164,41 +154,26 @@ Vue.component("organizacije", {
     },
 
     methods: {
+    	
+    	osvezi: function(){
+            this.greskaIme = '';
+            this.greskaServer = '';
+            this.greska = false;
+        },
 
         selectOrganizacija: function(organizacija){
             this.selectedOrganizacija = organizacija;
             this.selectedOrganizacijaId = organizacija.ime;
             this.selected = true;
-
         }, 
         
-        osvezi: function(){
-        	
-        	
-            this.greskaIme = '';
-            this.greskaServer = '';
-            this.greska = false;
-        	
-        },
-
         dodaj: function(){
             this.$router.push("dodajOrganizaciju");
         },
 
-        updateLogo: function(event) {
-	  		var reader = new FileReader();
-	  		var instance = this;
-	  		
-	  		reader.onloadend = function() {
-				instance.selectedOrganizacija.logo = reader.result;
-			}
-			 
-			reader.readAsDataURL(event.target.files[0]);
-        },
-        
         izmeni: function(){
-
-
+        	
+        	this.osvezi();
 
             if (this.selectedOrganizacija.ime == ''){
                 this.greskaIme = "Ime ne sme biti prazno. ";
@@ -207,7 +182,6 @@ Vue.component("organizacije", {
             
             if (this.greska) return;
             
-            
             axios.post("rest/organizacije/izmena", {"staroIme": this.selectedOrganizacijaId, "novaOrganizacija": this.selectedOrganizacija})
             .then(response => {
             	location.reload();
@@ -215,7 +189,7 @@ Vue.component("organizacije", {
             .catch(error => {
                 this.greskaServer = error.response.data.result;
             });
-
+            
         },
 
         vratiNaOrganizacije: function() {
@@ -230,7 +204,20 @@ Vue.component("organizacije", {
             .catch(error => {
                 this.$router.push("/");
             });
-        }
+        }, 
+        
+        updateLogo: function(event) {
+        	
+	  		var reader = new FileReader();
+	  		var instance = this;
+	  		
+	  		reader.onloadend = function() {
+				instance.selectedOrganizacija.logo = reader.result;
+			}
+			 
+			reader.readAsDataURL(event.target.files[0]);
+			
+        },
     }
 
 });

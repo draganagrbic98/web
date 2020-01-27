@@ -6,11 +6,11 @@ Vue.component("korisnici", {
             selectedKorisnik: {}, 
             selectedKorisnikId: '', 
             selected: false,
-            uloga: '',
             greskaIme: '', 
             greskaPrezime: '', 
             greskaServer: '',
             greska: false, 
+            uloga: '',
             uloge: []
         }
     }, 
@@ -28,6 +28,7 @@ Vue.component("korisnici", {
     			<div class="izmena">   
     			         
     				<table>		
+    				
 		                <tr><td class="left">Email: </td> <td class="right" colspan="2"><input type="text" v-model="selectedKorisnik.email" disabled></td></tr>
 		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedKorisnik.ime"></td> <td>{{greskaIme}}</td></tr>
 		                <tr><td class="left">Prezime: </td> <td class="right"><input type="text" v-model="selectedKorisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
@@ -42,10 +43,10 @@ Vue.component("korisnici", {
 		                </td></tr>
 		                
 		                <tr><td class="left">Organizacija: </td> <td class="right" colspan="2"><input type="text" v-model="selectedKorisnik.organizacija" disabled></td></tr>
-		                
 		                <tr><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 		                <tr><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 		                <tr><td colspan="3">{{greskaServer}}<br></td></tr>
+		                
 		            </table>
 		            
     				<button v-on:click="vratiNaKorisnike()">POVRATAK</button>
@@ -65,6 +66,7 @@ Vue.component("korisnici", {
 	    			<div class="left">
 	    			
 	    				<table class="data" border="1">
+	    				
 			                <tr><th>Email</th><th>Ime</th><th>Prezime</th><th v-if="uloga=='SUPER_ADMIN'">Organizacija</th></tr>
 			                <tr v-for="k in korisnici" v-on:click="selectKorisnik(k)">
 			                    <td>{{k.email}}</td>
@@ -72,6 +74,7 @@ Vue.component("korisnici", {
 			                    <td>{{k.prezime}}</td>
 			                    <td v-if="uloga=='SUPER_ADMIN'">{{k.organizacija}}</td>
 			                </tr>
+			                
 		                </table><br><br>
 		                
 	                </div>
@@ -82,17 +85,16 @@ Vue.component("korisnici", {
 		    			
 			    			<tr><td>
 			    			
-			    				<table>			    					
+			    				<table>		
+			    					    					
 			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/kategorije">KATEGORIJE</router-link></td></tr>
 			    					<tr v-if="uloga=='SUPER_ADMIN'"><td><router-link to="/organizacije">ORGANIZACIJE</router-link></td></tr>
 		    						<tr v-if="uloga=='ADMIN'"><td><router-link to="/mojaOrganizacija">MOJA ORGANIZACIJA</router-link></td><tr>
-
 		    						<tr><td><router-link to="/masine">MASINE</router-link></td></tr>
 		    						<tr><td><router-link to="/diskovi">DISKOVI</router-link></td></tr>
-
 		    						<tr><td><router-link to="/profil">PROFIL</router-link></td></tr>
-		    						
 		    						<tr><td><br><button v-on:click="logout()">ODJAVA</button><br><br></td></tr>
+		    						
 			    				</table>
 			    		
 			   				</td></tr>
@@ -117,7 +119,7 @@ Vue.component("korisnici", {
     	
     	axios.get("rest/check/korisnik")
         .catch(error => {
-            this.$router.push("/");
+            this.$router.push("masine");
         });
     	
     	axios.get("rest/user/uloga")
@@ -125,10 +127,9 @@ Vue.component("korisnici", {
             this.uloga = response.data.result;
         })
         .catch(error => {
-            this.$router.push("/");
+            this.$router.push("masine");
         });
     	
-
         axios.get("rest/korisnici/pregled")
         .then(response => {
             this.korisnici = response.data;
@@ -149,26 +150,18 @@ Vue.component("korisnici", {
     }, 
 
     methods: {
-
-    	vratiNaKorisnike: function() {
-            location.reload();
+        
+        osvezi: function(){
+        	this.greskaIme = '';
+            this.greskaPrezime = '';
+            this.greskaServer = '';
+            this.greska = false;
         },
         
         selectKorisnik: function(korisnik){
             this.selectedKorisnik = korisnik;
             this.selectedKorisnikId = korisnik.user.korisnickoIme;
             this.selected = true;
-            
-
-        }, 
-        
-        osvezi: function(){
-        	
-        	this.greskaIme = '';
-            this.greskaPrezime = '';
-            this.greskaServer = '';
-            this.greska = false;
-        	
         },
 
         dodaj: function(){
@@ -176,6 +169,7 @@ Vue.component("korisnici", {
         }, 
 
         obrisi: function(){
+        	
         	let temp = confirm("Da li ste sigurni?");
         	if (!temp) return;
 
@@ -198,10 +192,12 @@ Vue.component("korisnici", {
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.selectedKorisnik.prezime == ''){
                 this.greskaPrezime = "Prezime ne sme biti prazno. ";
                 this.greska = true;
             }
+            
             if (this.greska) return;
 
             axios.post("rest/korisnici/izmena", {"staroIme": this.selectedKorisnikId, "noviKorisnik": this.selectedKorisnik})
@@ -213,9 +209,11 @@ Vue.component("korisnici", {
             });
 
         },
+        
+        vratiNaKorisnike: function() {
+            location.reload();
+        },
 
-        
-        
         logout: function(){
             axios.get("rest/user/logout")
             .then(response => {

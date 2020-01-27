@@ -1,4 +1,4 @@
-package model.beans;
+package rest.beans;
 
 import java.util.HashMap;
 
