@@ -216,10 +216,10 @@ public class MasinaRest implements RestEntity{
 					res.status(400);
 					return RestEntity.badRequest();	
 				}
-				
+								
 				MasinaResult result = Main.masine.promeniStatusMasine(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(Main.masine.nadjiMasinu(m.getStaroIme()));
 
 			}
 			

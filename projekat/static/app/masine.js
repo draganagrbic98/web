@@ -356,10 +356,9 @@ Vue.component("masine", {
         },
         
         pretrazi: function(){
-
             this.masine = [];
+            
             for (let m of this.backup){
-            	
                 let imePassed = (this.pretragaIme != '') ? (m.ime.includes(this.pretragaIme)) : true;
                 let minBrojJezgaraPassed = (this.pretragaMinBrojJezgara != '') ? (m.brojJezgara >= this.pretragaMinBrojJezgara) : true;
                 let maxBrojJezgaraPassed = (this.pretragaMaxBrojJezgara != '') ? (m.brojJezgara <= this.pretragaMaxBrojJezgara) : true;
@@ -368,9 +367,7 @@ Vue.component("masine", {
                 let minGPUjezgraPassed = (this.pretragaMinGPUjezgra != '') ? (m.GPUjezgra >= this.pretragaMinGPUjezgra) : true;
                 let maxGPUjezgraPassed = (this.pretragaMaxGPUjezgra != '') ? (m.GPUjezgra <= this.pretragaMaxGPUjezgra) : true;
                 if (imePassed && minBrojJezgaraPassed && maxBrojJezgaraPassed && minRAMPassed && maxRAMPassed && minGPUjezgraPassed && maxGPUjezgraPassed) this.masine.push(m);
-            
             }
-
         },
 
         izracunajRacun: function(){
@@ -424,14 +421,19 @@ Vue.component("masine", {
         },
         
         promeni_status: function() {
-
+        	
             axios.post("rest/masine/promeniStatus", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
-            	location.reload();
+            	this.selectedMasina = response.data;
+            	
+            	if (this.selectedMasinaStatus === "UGASENA")
+            		this.selectedMasinaStatus = "UPALJENA";
+            	else
+            		this.selectedMasinaStatus = "UGASENA";
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;
-            });        		
+            });
             
     	},
         
