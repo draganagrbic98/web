@@ -107,7 +107,7 @@ Vue.component("masine", {
 		                
 		                <div>
 			                Status: {{selectedMasinaStatus}}<br><br>
-		    			 	<div v-if="uloga=='ADMIN'">
+		    			 	<div v-if="uloga!='KORISNIK'">
 			               		<button v-if="selectedMasinaStatus == 'UGASENA'" v-on:click="promeni_status()">UPALI MASINU</button>
 			                	<button v-if="selectedMasinaStatus == 'UPALJENA'" v-on:click="promeni_status()">UGASI MASINU</button>
 			                </div><br><br>
@@ -424,12 +424,14 @@ Vue.component("masine", {
         	
             axios.post("rest/masine/promeniStatus", {"staroIme": this.selectedMasinaId, "novaMasina": this.selectedMasina})
             .then(response => {
+            	
             	this.selectedMasina = response.data;
             	
             	if (this.selectedMasinaStatus === "UGASENA")
             		this.selectedMasinaStatus = "UPALJENA";
             	else
             		this.selectedMasinaStatus = "UGASENA";
+            	
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

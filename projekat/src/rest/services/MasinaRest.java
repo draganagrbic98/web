@@ -204,7 +204,7 @@ public class MasinaRest implements RestEntity{
 			res.type("application/json");
 			Korisnik k = (Korisnik) req.session(true).attribute("korisnik");
 			
-			if (k == null || !k.getUloga().equals(Uloga.ADMIN)) {
+			if (k == null || k.getUloga().equals(Uloga.KORISNIK)) {
 				res.status(403);
 				return RestEntity.forbidden();
 			}
