@@ -80,10 +80,9 @@ Vue.component("diskovi", {
 	    			<div class="left">
 	    			
 		                <table class="data" border="1">
-			                <tr><th>Ime</th><th>Tip</th><th>Kapacitet</th><th>Virtuelna masina</th><th v-if="uloga=='SUPER_ADMIN'">Organizacija</th></tr>
+			                <tr><th>Ime</th><th>Kapacitet</th><th>Virtuelna masina</th><th v-if="uloga=='SUPER_ADMIN'">Organizacija</th></tr>
 			                <tr v-for="d in diskovi" v-on:click="selectDisk(d)">
 			                    <td>{{d.ime}}</td>
-			                    <td>{{d.tip}}</td>
 			                    <td>{{d.kapacitet}}</td>
 			                    <td>{{d.masina}}</td>
 			                    <td v-if="uloga=='SUPER_ADMIN'">{{d.organizacija}}</td>
