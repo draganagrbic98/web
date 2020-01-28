@@ -27,7 +27,7 @@ public class Aktivnost implements CSVData {
 
 	public static void loadAktivnost(String line) throws ParseException {
 
-		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
+		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy. hh:mm:ss");
 		String[] array = line.split(";");
 		VirtuelnaMasina masina = Main.masine.nadjiMasinu(array[0].trim());
 		
@@ -45,7 +45,7 @@ public class Aktivnost implements CSVData {
 	public String csvLine() {
 		// TODO Auto-generated method stub
 		
-		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy.");
+		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy. hh:mm:ss");
 
 		if (this.datumGasenja == null)
 			return f.format(this.datumPaljenja) + ";" + "/" + ";" + this.status;

@@ -16,7 +16,7 @@ public class RacunZahtev implements ValidData {
 		// TODO Auto-generated method stub
 		if (this.pocetniDatum < 0) return false;
 		if (this.krajnjiDatum < 0) return false;
-		if (this.pocetniDatum < this.krajnjiDatum) return false;
+		if (this.pocetniDatum >= this.krajnjiDatum) return false;
 		return true;
 	}
 
