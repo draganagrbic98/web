@@ -7,11 +7,11 @@ import model.Uloga;
 import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.VirtuelnaMasina;
+import model.services.OperationResult.MasinaResult;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.MasinaChange;
-import rest.beans.OperationResponse;
-import rest.beans.OperationResult.MasinaResult;
+import rest.beans.RestResponse;
 
 public class MasinaRest implements RestEntity{
 
@@ -70,7 +70,7 @@ public class MasinaRest implements RestEntity{
 				
 				MasinaResult result = Main.masine.dodajMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -118,7 +118,7 @@ public class MasinaRest implements RestEntity{
 				
 				MasinaResult result = Main.masine.izmeniMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -154,7 +154,7 @@ public class MasinaRest implements RestEntity{
 				
 				MasinaResult result = Main.masine.obrisiMasinu(m);
 				if (result != MasinaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			

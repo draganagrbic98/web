@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import model.FileNames;
 import model.LoadStoreData;
 import model.beans.Organizacija;
+import model.services.OperationResult.OrganizacijaResponse;
 import rest.Main;
 import rest.beans.OrganizacijaChange;
-import rest.beans.OperationResult.OrganizacijaResponse;
 
 public class Organizacije implements LoadStoreData{
 		

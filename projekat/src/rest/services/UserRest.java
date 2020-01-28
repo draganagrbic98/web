@@ -8,7 +8,7 @@ import model.beans.Korisnik;
 import model.beans.User;
 import rest.Main;
 import rest.RestEntity;
-import rest.beans.OperationResponse;
+import rest.beans.RestResponse;
 
 public class UserRest implements RestEntity {
 
@@ -25,7 +25,7 @@ public class UserRest implements RestEntity {
 				return RestEntity.forbidden();
 			}
 			
-			return jsonConvertor.toJson(new OperationResponse("OK"));
+			return jsonConvertor.toJson(new RestResponse("OK"));
 			
 		});
 		
@@ -39,7 +39,7 @@ public class UserRest implements RestEntity {
 				return RestEntity.forbidden();
 			}
 			
-			return jsonConvertor.toJson(new OperationResponse("OK"));
+			return jsonConvertor.toJson(new RestResponse("OK"));
 			
 		});
 		
@@ -53,7 +53,7 @@ public class UserRest implements RestEntity {
 				return RestEntity.forbidden();
 			}
 			
-			return jsonConvertor.toJson(new OperationResponse("OK"));
+			return jsonConvertor.toJson(new RestResponse("OK"));
 
 			
 		});
@@ -68,7 +68,7 @@ public class UserRest implements RestEntity {
 				return RestEntity.forbidden();
 			}
 			
-			return jsonConvertor.toJson(new OperationResponse(k.getUloga() + ""));
+			return jsonConvertor.toJson(new RestResponse(k.getUloga() + ""));
 			
 		});
 		
@@ -79,7 +79,7 @@ public class UserRest implements RestEntity {
 			
 			if (k != null) {
 				res.status(403);
-				return jsonConvertor.toJson(new OperationResponse("Vec ste prijavljeni. Prvo se odlogujte. "));
+				return jsonConvertor.toJson(new RestResponse("Vec ste prijavljeni. Prvo se odlogujte. "));
 			}
 			
 			try {
@@ -93,11 +93,11 @@ public class UserRest implements RestEntity {
 				k = Main.korisnici.login(u);
 				if (k == null) {
 					res.status(400);
-					return jsonConvertor.toJson(new OperationResponse("Unet korisnik ne postoji. "));
+					return jsonConvertor.toJson(new RestResponse("Unet korisnik ne postoji. "));
 				}
 				
 				req.session(true).attribute("korisnik", k);
-				return jsonConvertor.toJson(new OperationResponse("OK"));
+				return jsonConvertor.toJson(new RestResponse("OK"));
 				
 			}
 			
@@ -112,7 +112,7 @@ public class UserRest implements RestEntity {
 			
 			res.type("application/json");
 			req.session(true).invalidate();
-			return jsonConvertor.toJson(new OperationResponse("OK"));
+			return jsonConvertor.toJson(new RestResponse("OK"));
 			
 		});
 		

@@ -5,11 +5,11 @@ import static spark.Spark.post;
 
 import model.Uloga;
 import model.beans.Korisnik;
+import model.services.OperationResult.KorisnikResult;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.KorisnikChange;
-import rest.beans.OperationResponse;
-import rest.beans.OperationResult.KorisnikResult;
+import rest.beans.RestResponse;
 
 public class KorisnikRest implements RestEntity{
 
@@ -55,7 +55,7 @@ public class KorisnikRest implements RestEntity{
 				
 				KorisnikResult result = Main.korisnici.dodajKorisnika(korisnik);
 				if (result != KorisnikResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -91,7 +91,7 @@ public class KorisnikRest implements RestEntity{
 				
 				KorisnikResult result = Main.korisnici.izmeniKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -127,7 +127,7 @@ public class KorisnikRest implements RestEntity{
 				
 				KorisnikResult result = Main.korisnici.obrisiKorisnika(korisnik, k);
 				if (result != KorisnikResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			

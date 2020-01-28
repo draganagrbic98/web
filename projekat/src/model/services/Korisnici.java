@@ -10,9 +10,9 @@ import model.LoadStoreData;
 import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.User;
+import model.services.OperationResult.KorisnikResult;
 import rest.Main;
 import rest.beans.KorisnikChange;
-import rest.beans.OperationResult.KorisnikResult;
 
 public class Korisnici implements LoadStoreData{
 		

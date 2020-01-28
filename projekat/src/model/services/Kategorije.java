@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import model.FileNames;
 import model.LoadStoreData;
 import model.beans.Kategorija;
+import model.services.OperationResult.KategorijaResult;
 import rest.Main;
 import rest.beans.KategorijaChange;
-import rest.beans.OperationResult.KategorijaResult;
 
 public class Kategorije implements LoadStoreData{
 	

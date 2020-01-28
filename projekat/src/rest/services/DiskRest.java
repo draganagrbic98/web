@@ -6,11 +6,11 @@ import static spark.Spark.post;
 import model.Uloga;
 import model.beans.Disk;
 import model.beans.Korisnik;
+import model.services.OperationResult.DiskResult;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.DiskChange;
-import rest.beans.OperationResponse;
-import rest.beans.OperationResult.DiskResult;
+import rest.beans.RestResponse;
 
 public class DiskRest implements RestEntity{
 
@@ -61,7 +61,7 @@ public class DiskRest implements RestEntity{
 				
 				DiskResult result = Main.diskovi.dodajDisk(d);
 				if (result != DiskResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 			}
 			
 			catch(Exception e) {
@@ -101,7 +101,7 @@ public class DiskRest implements RestEntity{
 				
 				DiskResult result = Main.diskovi.izmeniDisk(d);
 				if (result != DiskResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -137,7 +137,7 @@ public class DiskRest implements RestEntity{
 				
 				DiskResult result = Main.diskovi.obrisiDisk(d);
 				if (result != DiskResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			

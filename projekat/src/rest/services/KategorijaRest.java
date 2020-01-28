@@ -6,11 +6,11 @@ import static spark.Spark.post;
 import model.Uloga;
 import model.beans.Kategorija;
 import model.beans.Korisnik;
+import model.services.OperationResult.KategorijaResult;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.KategorijaChange;
-import rest.beans.OperationResponse;
-import rest.beans.OperationResult.KategorijaResult;
+import rest.beans.RestResponse;
 
 public class KategorijaRest implements RestEntity{
 	
@@ -51,7 +51,7 @@ public class KategorijaRest implements RestEntity{
 				
 				KategorijaResult result = Main.kategorije.dodajKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -82,7 +82,7 @@ public class KategorijaRest implements RestEntity{
 				
 				KategorijaResult result = Main.kategorije.izmeniKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -113,7 +113,7 @@ public class KategorijaRest implements RestEntity{
 				
 				KategorijaResult result = Main.kategorije.obrisiKategoriju(kategorija);
 				if (result != KategorijaResult.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			

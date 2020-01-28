@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import model.FileNames;
 import model.LoadStoreData;
 import model.beans.Disk;
+import model.services.OperationResult.DiskResult;
 import rest.Main;
 import rest.beans.DiskChange;
-import rest.beans.OperationResult.DiskResult;
 
 public class Diskovi implements LoadStoreData {
 

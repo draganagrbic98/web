@@ -6,11 +6,11 @@ import static spark.Spark.post;
 import model.Uloga;
 import model.beans.Korisnik;
 import model.beans.Organizacija;
+import model.services.OperationResult.OrganizacijaResponse;
 import rest.Main;
 import rest.RestEntity;
-import rest.beans.OperationResponse;
+import rest.beans.RestResponse;
 import rest.beans.OrganizacijaChange;
-import rest.beans.OperationResult.OrganizacijaResponse;
 
 public class OrganizacijaRest implements RestEntity{
 
@@ -51,7 +51,7 @@ public class OrganizacijaRest implements RestEntity{
 				
 				OrganizacijaResponse result = Main.organizacije.dodajOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));
+				return jsonConvertor.toJson(new RestResponse(result + ""));
 				
 			}
 			
@@ -87,7 +87,7 @@ public class OrganizacijaRest implements RestEntity{
 				
 				OrganizacijaResponse result = Main.organizacije.izmeniOrganizaciju(o);
 				if (result != OrganizacijaResponse.OK) res.status(400);
-				return jsonConvertor.toJson(new OperationResponse(result + ""));	
+				return jsonConvertor.toJson(new RestResponse(result + ""));	
 				
 			}
 			

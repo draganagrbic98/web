@@ -1,4 +1,4 @@
-package rest.beans;
+package model.services;
 
 public class OperationResult {
 	
