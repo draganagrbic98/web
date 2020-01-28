@@ -22,13 +22,13 @@ public class Organizacije implements LoadStoreData{
 		this.organizacije = new ArrayList<Organizacija>();
 	}
 	
-	public synchronized Organizacija nadjiOrganizaciju(String ime) {
+	public Organizacija nadjiOrganizaciju(String ime) {
 		int index = this.organizacije.indexOf(new Organizacija(ime));
 		if (index == -1) return null;
 		return this.organizacije.get(index);
 	}
 	
-	public synchronized OrganizacijaResponse dodajOrganizaciju(Organizacija o) throws Exception {
+	public OrganizacijaResponse dodajOrganizaciju(Organizacija o) throws Exception {
 		
 		if (this.nadjiOrganizaciju(o.getIme()) != null) 
 			return OrganizacijaResponse.AL_EXISTS;
@@ -42,7 +42,7 @@ public class Organizacije implements LoadStoreData{
 		
 	}
 
-	public synchronized OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {
+	public OrganizacijaResponse izmeniOrganizaciju(OrganizacijaChange o) throws Exception {
 		
 		Organizacija organizacija = this.nadjiOrganizaciju(o.getStaroIme());
 		if (organizacija == null) 

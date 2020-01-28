@@ -23,13 +23,13 @@ public class Korisnici implements LoadStoreData{
 		this.korisnici = new ArrayList<Korisnik>();
 	}
 	
-	public synchronized Korisnik nadjiKorisnika(String korisnickoIme) {
+	public Korisnik nadjiKorisnika(String korisnickoIme) {
 		int index = this.korisnici.indexOf(new Korisnik(korisnickoIme));
 		if (index == -1) return null;
 		return this.korisnici.get(index);
 	}
 
-	public synchronized KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
+	public KorisnikResult dodajKorisnika(Korisnik k) throws Exception {
 		
 		if (this.nadjiKorisnika(k.getKorisnickoIme()) != null) 
 			return KorisnikResult.AL_EXISTS;
@@ -47,7 +47,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public synchronized KorisnikResult obrisiKorisnika(Korisnik k, Korisnik u) throws Exception {
+	public KorisnikResult obrisiKorisnika(Korisnik k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getKorisnickoIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
@@ -60,7 +60,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public synchronized KorisnikResult izmeniKorisnika(KorisnikChange k, Korisnik u) throws Exception {
+	public KorisnikResult izmeniKorisnika(KorisnikChange k, Korisnik u) throws Exception {
 		
 		Korisnik korisnik = this.nadjiKorisnika(k.getStaroIme());
 		if (korisnik == null) return KorisnikResult.DOESNT_EXIST;
@@ -94,7 +94,7 @@ public class Korisnici implements LoadStoreData{
 		
 	}
 	
-	public synchronized Korisnik login(User u) {
+	public Korisnik login(User u) {
 		for (Korisnik k: this.korisnici) {
 			if (k.getKorisnickoIme().equals(u.getKorisnickoIme()) || k.getEmail().equals(u.getKorisnickoIme())) {
 				if (k.getLozinka().equals(u.getLozinka())) {

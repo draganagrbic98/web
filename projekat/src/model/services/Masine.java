@@ -29,14 +29,14 @@ public class Masine implements LoadStoreData {
 		this.masine = new ArrayList<VirtuelnaMasina>();
 	}
 
-	public synchronized VirtuelnaMasina nadjiMasinu(String ime) {
+	public VirtuelnaMasina nadjiMasinu(String ime) {
 		int index = this.masine.indexOf(new VirtuelnaMasina(ime));
 		if (index == -1)
 			return null;
 		return this.masine.get(index);
 	}
 
-	public synchronized MasinaResult dodajMasinu(VirtuelnaMasina m) throws Exception {
+	public MasinaResult dodajMasinu(VirtuelnaMasina m) throws Exception {
 
 		if (this.nadjiMasinu(m.getIme()) != null)
 			return MasinaResult.AL_EXISTS;
@@ -65,7 +65,7 @@ public class Masine implements LoadStoreData {
 
 	}
 
-	public synchronized MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
+	public MasinaResult obrisiMasinu(VirtuelnaMasina m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getIme());
 		if (masina == null) return MasinaResult.DOESNT_EXIST;
@@ -78,7 +78,7 @@ public class Masine implements LoadStoreData {
 
 	}
 
-	public synchronized MasinaResult izmeniMasinu(MasinaChange m) throws Exception {
+	public MasinaResult izmeniMasinu(MasinaChange m) throws Exception {
 
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 		if (masina == null) return MasinaResult.DOESNT_EXIST;
@@ -106,7 +106,7 @@ public class Masine implements LoadStoreData {
 		
 	}
 
-	public synchronized MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {
+	public MasinaResult promeniStatusMasine(MasinaChange m) throws Exception {
 		
 		VirtuelnaMasina masina = this.nadjiMasinu(m.getStaroIme());
 		if (masina == null) return MasinaResult.DOESNT_EXIST;

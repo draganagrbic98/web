@@ -22,7 +22,7 @@ public class Diskovi implements LoadStoreData {
 		this.diskovi = new ArrayList<Disk>();
 	}
 
-	public synchronized Disk nadjiDisk(String ime) {
+	public Disk nadjiDisk(String ime) {
 		
 		int index = this.diskovi.indexOf(new Disk(ime));
 		if (index == -1) return null;
@@ -30,7 +30,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 	
-	public synchronized DiskResult dodajDisk(Disk d) throws Exception {
+	public DiskResult dodajDisk(Disk d) throws Exception {
 		
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
@@ -51,7 +51,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 	
-	public synchronized DiskResult obrisiDisk(Disk d) throws Exception {
+	public DiskResult obrisiDisk(Disk d) throws Exception {
 		
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) 
@@ -64,7 +64,7 @@ public class Diskovi implements LoadStoreData {
 		
 	}
 
-	public synchronized DiskResult izmeniDisk(DiskChange d) throws Exception {
+	public DiskResult izmeniDisk(DiskChange d) throws Exception {
 		
 		Disk disk = this.nadjiDisk(d.getStaroIme());
 		if (disk == null) 

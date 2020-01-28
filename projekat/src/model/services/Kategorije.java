@@ -22,7 +22,7 @@ public class Kategorije implements LoadStoreData{
 		this.kategorije = new ArrayList<Kategorija>();
 	}
 	
-	public synchronized Kategorija nadjiKategoriju(String ime) {
+	public Kategorija nadjiKategoriju(String ime) {
 		
 		int index = this.kategorije.indexOf(new Kategorija(ime));
 		if (index == -1) return null;
@@ -30,7 +30,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 	
-	public synchronized KategorijaResult dodajKategoriju(Kategorija k) throws Exception {
+	public KategorijaResult dodajKategoriju(Kategorija k) throws Exception {
 		
 		if (this.nadjiKategoriju(k.getIme()) != null) 
 			return KategorijaResult.AL_EXISTS;
@@ -41,7 +41,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 	
-	public synchronized KategorijaResult obrisiKategoriju(Kategorija k) throws Exception {
+	public KategorijaResult obrisiKategoriju(Kategorija k) throws Exception {
 		
 		Kategorija kategorija = this.nadjiKategoriju(k.getIme());
 		if (kategorija == null) 
@@ -56,7 +56,7 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 
-	public synchronized KategorijaResult izmeniKategoriju(KategorijaChange k) throws Exception {
+	public KategorijaResult izmeniKategoriju(KategorijaChange k) throws Exception {
 
 		Kategorija kategorija = this.nadjiKategoriju(k.getStaroIme());
 		if (kategorija == null) 
