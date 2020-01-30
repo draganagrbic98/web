@@ -1,4 +1,3 @@
-asd;organizacijaasd;kategorija1
 masina3;organizacija2;kategorija1
 masina4;organizacija2;kategorija1
 masina5;organizacijaasd;kategorija1
