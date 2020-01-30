@@ -49,6 +49,11 @@ public class DataRest implements RestEntity{
 			try {
 				
 				RacunZahtev zahtev = jsonConvertor.fromJson(req.body(), RacunZahtev.class);
+				if (zahtev == null || !zahtev.validData()) {
+					res.status(400);
+					return RestEntity.badRequest();
+				}
+				
 				return jsonConvertor.toJson(k.izracunajRacun(zahtev));
 				
 			}
