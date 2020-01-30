@@ -28,7 +28,7 @@ Vue.component("organizacije", {
 
 	    				<table>
 	    				
-	    					<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedOrganizacija.ime"> <td> </td>{{greskaIme}} </td></tr>
+	    					<tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedOrganizacija.ime"> </td> <td>{{greskaIme}}</td></tr>
 	                		<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="selectedOrganizacija.opis"></textarea></td></tr>
 		            		<tr><td class="left">Logo: </td><td class="right" colspan="2"><br><img v-bind:src="selectedOrganizacija.logo" text="Logo"></img><br><br></td></tr>
 		            		<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
