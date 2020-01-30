@@ -1,2 +1,2 @@
-asd@gmail.com;asd;hura;hura;0;null
-qwe@gmail.com;qwe;qwe;qwe;1;organizacija1
+super@gmail.com;super;super;super;0;null
+qwe@gmail.com;qwe;qwe;qwe;1;organizacijaasd

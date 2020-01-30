@@ -131,7 +131,7 @@ Vue.component("mojaOrganizacija", {
             
             axios.post("rest/organizacije/izmena", {"staroIme": this.organizacijaID, "novaOrganizacija": this.organizacija})
             .then(response => {
-            	location.reload();
+                this.$router.push("masine");
             })
             .catch(error => {
                 this.greskaServer = error.response.data.result;

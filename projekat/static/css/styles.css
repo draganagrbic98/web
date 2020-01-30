@@ -9,10 +9,10 @@ select.pretraga{
 }
 
 textarea{
-	max-width: 200px;
-	max-height: 100px;
 	min-width: 100px;
 	min-height: 50px;
+	max-width: 200px;
+	max-height: 100px;
 }
 
 body {
