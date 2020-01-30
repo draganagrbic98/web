@@ -183,6 +183,10 @@ Vue.component("kategorije", {
             }
             
             if (this.greska) return;
+            
+            this.selectedKategorija.jezgra = parseInt(this.selectedKategorija.jezgra);
+            this.selectedKategorija.ram = parseInt(this.selectedKategorija.ram);
+            this.selectedKategorija.gpu = parseInt(this.selectedKategorija.gpu);
 
             axios.post("rest/kategorije/izmena", {"staroIme": this.selectedKategorijaId, "novaKategorija": this.selectedKategorija})
             .then(response => {

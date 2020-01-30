@@ -161,6 +161,8 @@ Vue.component("dodajDisk", {
             
             if (this.greska) return;
 
+            this.noviDisk.kapacitet = parseInt(this.noviDisk.kapacitet);
+            
             axios.post("rest/diskovi/dodavanje", this.noviDisk)
             .then(response => {
                 this.$router.push("diskovi");

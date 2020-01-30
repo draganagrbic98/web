@@ -249,6 +249,7 @@ Vue.component("diskovi", {
             if (this.greska) return;
             
             this.selectedDisk.masina = this.novaMasina;
+            this.selectedDisk.kapacitet = parseInt(this.selectedDisk.kapacitet);
                         
             axios.post("rest/diskovi/izmena", {"staroIme": this.selectedDiskId, "noviDisk": this.selectedDisk})
             .then(response => {

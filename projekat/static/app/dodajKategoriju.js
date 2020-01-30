@@ -90,6 +90,10 @@ Vue.component("dodajKategoriju", {
             }
             
             if (this.greska) return;
+            
+            this.novaKategorija.jezgra = parseInt(this.novaKategorija.jezgra);
+            this.novaKategorija.ram = parseInt(this.novaKategorija.ram);
+            this.novaKategorija.gpu = parseInt(this.novaKategorija.gpu);
 
             axios.post("rest/kategorije/dodavanje", this.novaKategorija)
             .then(response => {
