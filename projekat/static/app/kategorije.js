@@ -144,6 +144,10 @@ Vue.component("kategorije", {
         	if (!temp) return;
 
             this.selectedKategorija.ime = this.selectedKategorijaId;
+            this.selectedKategorija.jezgra = 0;
+            this.selectedKategorija.ram = 0;
+            this.selectedKategorija.gpu = 0;
+
             axios.post("rest/kategorije/brisanje", this.selectedKategorija)
             .then(response => {
             	location.reload();
