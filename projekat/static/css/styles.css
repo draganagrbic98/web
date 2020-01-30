@@ -88,7 +88,7 @@ div.right table .left {
 /*---------------------------Izmena---------------------------*/
 
 .izmena {
-	width: 80%;
+	width: 60%;
 	height: 75%;
 	
 	margin: auto;
@@ -104,7 +104,7 @@ div.right table .left {
 }
 
 .izmena > button {
-	margin-top: 30%;
+	margin-top: 10%;
 }
 
 .izmena table {
