@@ -325,6 +325,14 @@ Vue.component("masine", {
         	if (!temp) return;
         	
             this.selectMasina.ime = this.selectedMasinaId;
+            this.selectMasina.organizacija = '';
+            this.selectMasina.kategorija = {"ime": '', "jezgra": 0, "ram": 0, "gpu": 0}
+            this.selectMasina.jezgra = 0;
+            this.selectMasina.ram = 0;
+            this.selectMasina.gpu = 0;
+            this.selectMasina.aktivnosti = [];
+            this.selectMasina.diskovi = [];
+
             axios.post("rest/masine/brisanje", this.selectedMasina)
             .then(response => {
             	location.reload();

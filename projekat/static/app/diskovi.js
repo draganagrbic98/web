@@ -212,6 +212,11 @@ Vue.component("diskovi", {
         	if (!temp) return;
 
             this.selectedDisk.ime = this.selectedDiskId;
+            this.selectedDisk.organizacija = '';
+            this.selectedDisk.tip = '';
+            this.selectedDisk.kapacitet = 0;
+            this.selectedDisk.masina = '';
+
             axios.post("rest/diskovi/brisanje", this.selectedDisk)
             .then(response => {
             	location.reload();
