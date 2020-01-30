@@ -47,7 +47,7 @@ public class Kategorije implements LoadStoreData{
 		if (kategorija == null) 
 			return KategorijaResult.DOESNT_EXIST;
 		
-		if (kategorija.hasMasina()) 
+		if (kategorija.hasMasine()) 
 			return KategorijaResult.CANT_DELETE;
 		
 		this.kategorije.remove(kategorija);
@@ -62,14 +62,15 @@ public class Kategorije implements LoadStoreData{
 		if (kategorija == null) 
 			return KategorijaResult.DOESNT_EXIST;
 		
-		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && (!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
+		if (this.nadjiKategoriju(k.getNovaKategorija().getIme()) != null && 
+				(!(k.getStaroIme().equals(k.getNovaKategorija().getIme())))) 
 			return KategorijaResult.AL_EXISTS;
 
 		kategorija.setIme(k.getNovaKategorija().getIme());
-		kategorija.setBrojJezgara(k.getNovaKategorija().getBrojJezgara());
-		kategorija.setRAM(k.getNovaKategorija().getRAM());
-		kategorija.setGPUjezgra(k.getNovaKategorija().getGPUjezgra());
-		kategorija.refresh();
+		kategorija.setJezgra(k.getNovaKategorija().getJezgra());
+		kategorija.setRam(k.getNovaKategorija().getRam());
+		kategorija.setGpu(k.getNovaKategorija().getGpu());
+		kategorija.updateMasine();
 		
 		this.store();
 		Main.masine.store();
@@ -77,17 +78,9 @@ public class Kategorije implements LoadStoreData{
 		
 	}
 	
-	public ArrayList<Kategorija> getKategorije() {
-		return kategorije;
-	}
-
-	public void setKategorije(ArrayList<Kategorija> kategorije) {
-		this.kategorije = kategorije;
-	}
-	
 	@Override
 	public void load() throws Exception {
-		// TODO Auto-generated method stub
+
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.KATEGORIJE_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
@@ -101,13 +94,21 @@ public class Kategorije implements LoadStoreData{
 	
 	@Override
 	public void store() throws Exception {
-		// TODO Auto-generated method stub
+
 		PrintWriter out = new PrintWriter(new FileWriter(FileNames.KATEGORIJE_FILE));
 		for (Kategorija k: this.kategorije) {
 			out.println(k.csvLine());
 			out.flush();
 		}
 		out.close();
+	}
+	
+	public ArrayList<Kategorija> getKategorije() {
+		return kategorije;
+	}
+
+	public void setKategorije(ArrayList<Kategorija> kategorije) {
+		this.kategorije = kategorije;
 	}
 
 }

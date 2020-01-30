@@ -1,1 +1,5 @@
-m1;o1;k1
+masina1;organizacija1;kategorijaasd
+masina2;organizacija1;kategorijaasd
+masina3;organizacija2;kategorijaasd
+masina4;organizacija2;kategorijaasd
+masina5;organizacija1;kategorijaasd

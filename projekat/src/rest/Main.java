@@ -61,15 +61,16 @@ public class Main {
 	}
 
 	public static void loadData() throws Exception {
+		
 		kategorije.load();
 		organizacije.load();
 		korisnici.load();
 		masine.load();
 		diskovi.load();
+		
 	}
 
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 
 		createFiles();
 		loadData();

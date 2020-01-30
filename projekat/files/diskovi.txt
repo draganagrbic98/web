@@ -1,1 +1,2 @@
-d1;0;123;m1;o1
+disk1;organizacija2;0;123;masina4
+disk2;organizacija2;0;123;masina3

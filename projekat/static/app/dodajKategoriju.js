@@ -4,14 +4,14 @@ Vue.component("dodajKategoriju", {
         return{
             novaKategorija: {
                 "ime": '', 
-                "brojJezgara": 0, 
-                "RAM": 0, 
-                "GPUjezgra": 0
+                "jezgra": 0, 
+                "ram": 0, 
+                "gpu": 0
             }, 
             greskaIme: '', 
-            greskaBrojJezgara: '', 
-            greskaRAM: '', 
-            greskaGPUjezgra: '', 
+            greskaJezgra: '', 
+            greskaRam: '', 
+            greskaGpu: '', 
             greskaServer: '', 
             greska: false   
         }
@@ -30,9 +30,9 @@ Vue.component("dodajKategoriju", {
 	    		<table>
 	
 			        <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaKategorija.ime"></td> <td>{{greskaIme}}</td></tr>
-			        <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="novaKategorija.brojJezgara"></td> <td>{{greskaBrojJezgara}}</td></tr>
-			        <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="novaKategorija.RAM"></td> <td>{{greskaRAM}}</td></tr>
-			        <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="novaKategorija.GPUjezgra"></td> <td>{{greskaGPUjezgra}}</td></tr>
+			        <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="novaKategorija.jezgra"></td> <td>{{greskaJezgra}}</td></tr>
+			        <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="novaKategorija.ram"></td> <td>{{greskaRam}}</td></tr>
+			        <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="novaKategorija.gpu"></td> <td>{{greskaGpu}}</td></tr>
 			        <tr><td colspan="3"><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 			        <tr><td colspan="3">{{greskaServer}}<br></td></tr>
 			        <tr><td colspan="3"><router-link to="/kategorije">KATEGORIJE</router-link><br></td></tr>
@@ -58,9 +58,9 @@ Vue.component("dodajKategoriju", {
     	
     	osvezi: function(){
     		this.greskaIme = '';
-            this.greskaBrojJezgara = '';
-            this.greskaRAM = '';
-            this.greskaGPUjezgra = '';
+            this.greskaJezgra = '';
+            this.greskaRam = '';
+            this.greskaGpu = '';
             this.greskaServer = '';
             this.greska = false;
     	},
@@ -70,22 +70,22 @@ Vue.component("dodajKategoriju", {
             this.osvezi();
 
             if (this.novaKategorija.ime == ''){
-                this.greskaIme = "Kategorija ne sme biti prazna. ";
+                this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }
             
-            if (isNaN(parseInt(this.novaKategorija.brojJezgara)) || parseInt(this.novaKategorija.brojJezgara) <= 0){
-                this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
+            if (isNaN(parseInt(this.novaKategorija.jezgra)) || parseInt(this.novaKategorija.jezgra) <= 0){
+                this.greskaJezgra = "Broj jezgara mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
             
-            if (isNaN(parseInt(this.novaKategorija.RAM)) || parseInt(this.novaKategorija.RAM) <= 0){
-                this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
+            if (isNaN(parseInt(this.novaKategorija.ram)) || parseInt(this.novaKategorija.ram) <= 0){
+                this.greskaRam = "RAM mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
             
-            if (isNaN(parseInt(this.novaKategorija.GPUjezgra)) || parseInt(this.novaKategorija.GPUjezgra) < 0){
-                this.greskaGPUjezgra = "GPU jezgra moraju biti nenegativan ceo broj. ";
+            if (isNaN(parseInt(this.novaKategorija.gpu)) || parseInt(this.novaKategorija.gpu) < 0){
+                this.greskaGpu = "GPU jezgra moraju biti nenegativan ceo broj. ";
                 this.greska = true;
             }
             

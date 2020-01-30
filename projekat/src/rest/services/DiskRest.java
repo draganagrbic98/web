@@ -12,7 +12,7 @@ import rest.RestEntity;
 import rest.beans.DiskChange;
 import rest.beans.RestResponse;
 
-public class DiskRest implements RestEntity{
+public class DiskRest implements RestEntity {
 
 	@Override
 	public void init() {
@@ -49,12 +49,12 @@ public class DiskRest implements RestEntity{
 					return RestEntity.badRequest();
 				}
 				
-				if (!k.getMojeOrganizacije().contains(d.getOrganizacija())) {
+				if (!k.getMojeOrganizacije().contains(d.getOrganizacijaRef())) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}
 				
-				if (d.getMasina() != null && !k.getMojeMasine().contains(d.getMasina())) {
+				if (d.getMasinaRef() != null && !k.getMojeMasine().contains(d.getMasinaRef())) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}
@@ -94,7 +94,7 @@ public class DiskRest implements RestEntity{
 					return RestEntity.forbidden();
 				}
 				
-				if (d.getNoviDisk().getMasina() != null && !k.getMojeMasine().contains(d.getNoviDisk().getMasina())) {
+				if (d.getNoviDisk().getMasinaRef() != null && !k.getMojeMasine().contains(d.getNoviDisk().getMasinaRef())) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}
@@ -125,7 +125,7 @@ public class DiskRest implements RestEntity{
 			try {
 				
 				Disk d = jsonConvertor.fromJson(req.body(), Disk.class);
-				if (d == null || !d.validData()) {
+				if (d == null || d.getIme().equals("")) {
 					res.status(400);
 					return RestEntity.badRequest();	
 				}

@@ -3,11 +3,8 @@ Vue.component("profil", {
 	data: function(){
 		return{
 			korisnik: {
-				"user": {
-					"korisnickoIme": '', 
-					"lozinka": '',
-				}, 
 				"email": '', 
+				"lozinka": '',
 				"ime": '', 
 				"prezime": '',
 				"uloga": '', 
@@ -16,9 +13,8 @@ Vue.component("profil", {
 			korisnikID: '',
 			novaLozinka: '', 
 			ponovljenaLozinka: '',
-			greskaKorisnickoIme: '',
-			greskaLozinka: '', 
 			greskaEmail: '', 
+			greskaLozinka: '', 
 			greskaIme: '',
 			greskaPrezime: '', 
 			greskaServer: '',
@@ -34,13 +30,12 @@ Vue.component("profil", {
 			<h1>Podaci o korisniku</h1><br><br>
 
 			<table>
-				<tr><td class="right">Korisnicko Ime: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.user.korisnickoIme">{{greskaKorisnickoIme}}</td></tr>
 				<tr><td class="right">Email: </td> <td class="left"><input type="text" v-model="korisnik.email"></td> <td>{{greskaEmail}}</td></tr>
 				<tr><td class="right">Ime: </td> <td class="left"><input type="text" v-model="korisnik.ime"></td> <td>{{greskaIme}}</td></tr>
 				<tr><td class="right">Prezime: </td> <td class="left"><input type="text" v-model="korisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
 				<tr><td class="right">Uloga: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.uloga" disabled></td></tr>
 				<tr><td class="right">Organizacija: </td> <td class="left" colspan="2"><input type="text" v-model="korisnik.organizacija" disabled></td></tr>
-				<tr><td class="right">Nova Lozinka: </td> <td class="left" colspan="2"><input type="password" v-model="novaLozinka"></td></tr>
+				<tr><td class="right">Nova lozinka: </td> <td class="left" colspan="2"><input type="password" v-model="novaLozinka"></td></tr>
 				<tr><td class="right">Ponovljena lozinka: </td> <td class="left"><input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"></td> <td>{{greskaLozinka}}</td></tr>
 				<tr><td colspan="3"><button v-on:click="izmeni()">IZMENI</button></td></tr>
 				<tr><td colspan="3">{{greskaServer}}</td></tr>
@@ -65,7 +60,7 @@ Vue.component("profil", {
 		axios.get("rest/user/profil")
 		.then(response => {
 			this.korisnik = response.data;
-			this.korisnikID = this.korisnik.user.korisnickoIme;
+			this.korisnikID = this.korisnik.email;
 		})
 		.catch(error => {
 			this.$router.push("/");
@@ -85,17 +80,11 @@ Vue.component("profil", {
 			this.greskaPrezime = '';
 			this.greskaLozinka = '';
 			this.greska = false;
-			this.greskaKorisnickoIme = '';
     	},
 		
 		izmeni: function(){
 			
 			this.osvezi();
-			
-			if (this.korisnik.user.korisnickoIme == ''){
-				this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";
-				this.greska = true;
-			}
 
 			if (this.korisnik.email == '' || !this.emailProvera(this.korisnik.email)){
 				this.greskaEmail = "Email nije ispravan. ";
@@ -119,7 +108,7 @@ Vue.component("profil", {
 			
 			if (this.greska) return;
 
-			this.korisnik.user.lozinka = this.novaLozinka != '' ? this.novaLozinka : this.korisnik.user.lozinka;
+			this.korisnik.lozinka = this.novaLozinka != '' ? this.novaLozinka : this.korisnik.lozinka;
 			
 			axios.post("rest/korisnici/izmena", {"staroIme": this.korisnikID, "noviKorisnik": this.korisnik})
 			.then(response => {

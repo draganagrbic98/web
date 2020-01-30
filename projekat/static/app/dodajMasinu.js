@@ -7,13 +7,13 @@ Vue.component("dodajMasinu", {
                 "organizacija": '', 
                 "kategorija": {
                     "ime": '', 
-                    "brojJezgara": 0, 
-                    "RAM": 0, 
-                    "GPUjezgra": 0
+                    "jezgra": 0, 
+                    "ram": 0, 
+                    "gpu": 0
                 },
-                "brojJezgara": 0, 
-                "RAM": 0, 
-                "GPUjezgra": 0, 
+                "jezgra": 0, 
+                "ram": 0, 
+                "gpu": 0,
                 "aktivnosti": [], 
                 "diskovi": []
             }, 
@@ -45,6 +45,7 @@ Vue.component("dodajMasinu", {
             	
 	                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="novaMasina.ime"></td> <td>{{greskaIme}}</td></tr>
 	                <tr><td class="left">Organizacija: </td>
+	                
 	                <td class="right"><input type="text" v-model="organizacija" v-bind:hidden="organizacije.length>1" disabled>
 	                <select v-model="organizacija" v-bind:hidden="organizacije.length<=1">
 		                <option v-for="o in organizacije">
@@ -58,7 +59,7 @@ Vue.component("dodajMasinu", {
 		                <option v-for="d in diskovi">
 		                    {{d.ime}}
 		                </option>
-	                </select></td></tr>	                
+	                </select></td></tr>	 
 	                
 	                <tr><td class="left">Kategorija: </td>
 	                <td class="right"><select v-model="kat">
@@ -68,13 +69,14 @@ Vue.component("dodajMasinu", {
 	                </select> </td>
 	                <td class="right">{{greskaKategorija}}</td></tr>
 	                
-	                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.brojJezgara" disabled></td></tr>
-	                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.RAM" disabled></td></tr>
-	                <tr><td class="left">GPU jezgra: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.GPUjezgra" disabled></td></tr>
+	                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.jezgra" disabled></td></tr>
+	                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.ram" disabled></td></tr>
+	                <tr><td class="left">GPU jezgra: </td> <td class="right" colspan="2"><input type="text" v-model="novaMasina.gpu" disabled></td></tr>
+	                
 	                <tr><td colspan="3"><br><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 	                <tr><td colspan="3"><br>{{greskaServer}}<br></td></tr>
 	                <tr><td colspan="3"><br><router-link to="/masine">MASINE</router-link><br></td></tr>
-	                
+	                	                
                 </table>
         	</div>
         	
@@ -87,12 +89,12 @@ Vue.component("dodajMasinu", {
           for (let k of this.kategorije){
               if (k.ime == this.kat){
                   this.novaMasina.kategorija.ime = k.ime;
-                  this.novaMasina.kategorija.brojJezgara = k.brojJezgara;
-                  this.novaMasina.kategorija.RAM = k.RAM;
-                  this.novaMasina.kategorija.GPUjezgra = k.GPUjezgra;
-                  this.novaMasina.brojJezgara = k.brojJezgara;
-                  this.novaMasina.RAM = k.RAM;
-                  this.novaMasina.GPUjezgra = k.GPUjezgra;
+                  this.novaMasina.kategorija.jezgra = k.jezgra;
+                  this.novaMasina.kategorija.ram = k.ram;
+                  this.novaMasina.kategorija.gpu = k.gpu;
+                  this.novaMasina.jezgra = k.jezgra;
+                  this.novaMasina.ram = k.ram;
+                  this.novaMasina.gpu = k.gpu;
               }
           }
         },
@@ -101,6 +103,7 @@ Vue.component("dodajMasinu", {
 	    	
 	    	let org = this.organizacija;
 	    	this.diskovi = this.diskoviBackup;
+	    	
 	        this.diskovi = this.diskovi.filter(function(disk) {
 	        	return disk.organizacija === org;
 	        });
@@ -158,7 +161,7 @@ Vue.component("dodajMasinu", {
         	
         	this.novaMasina.organizacija = this.organizacija;
         	
-            if (this.novaMasina.ime == ''){
+            if (this.novaMasina.ime == '' || this.novaMasina.ime === 'null'){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }

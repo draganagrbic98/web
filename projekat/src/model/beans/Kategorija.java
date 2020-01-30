@@ -7,9 +7,9 @@ import rest.Main;
 public class Kategorija implements CSVData, ValidData {
 	
 	private String ime;
-	private int brojJezgara;
-	private int RAM;
-	private int GPUjezgra;
+	private int jezgra;
+	private int ram;
+	private int gpu;
 	
 	public Kategorija() {
 		super();
@@ -19,18 +19,17 @@ public class Kategorija implements CSVData, ValidData {
 		this();
 		this.ime = ime;
 	}
-	
-	public Kategorija(String ime, int brojJezgara, int RAM, int GPUjezgra) {
+
+	public Kategorija(String ime, int jezgra, int ram, int gpu) {
 		this();
 		this.ime = ime;
-		this.brojJezgara = brojJezgara;
-		this.RAM = RAM;
-		this.GPUjezgra = GPUjezgra;
+		this.jezgra = jezgra;
+		this.ram = ram;
+		this.gpu = gpu;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
 		if (!(obj instanceof Kategorija)) return false;
 		return ((Kategorija) obj).ime.equals(this.ime);
 	}
@@ -46,23 +45,53 @@ public class Kategorija implements CSVData, ValidData {
 	
 	@Override
 	public String csvLine() {
-		// TODO Auto-generated method stub
-		return this.ime + ";" + this.brojJezgara + ";" + this.RAM + ";" + this.GPUjezgra;
+		return this.ime + ";" + this.jezgra + ";" + this.ram + ";" + this.gpu;
 	}
 
 	@Override
 	public boolean validData() {
-		// TODO Auto-generated method stub
 
 		if (this.ime == null || this.ime.equals("")) return false;
-		if (this.brojJezgara <= 0) return false;
-		if (this.RAM <= 0) return false;
-		if (this.GPUjezgra < 0) return false;
+		if (this.jezgra <= 0) return false;
+		if (this.ram <= 0) return false;
+		if (this.gpu < 0) return false;
 		return true;
 		
 	}
+
+	public String getIme() {
+		return ime;
+	}
+
+	public void setIme(String ime) {
+		this.ime = ime;
+	}
+
+	public int getJezgra() {
+		return jezgra;
+	}
+
+	public void setJezgra(int jezgra) {
+		this.jezgra = jezgra;
+	}
+
+	public int getRam() {
+		return ram;
+	}
+
+	public void setRam(int ram) {
+		this.ram = ram;
+	}
+
+	public int getGpu() {
+		return gpu;
+	}
+
+	public void setGpu(int gpu) {
+		this.gpu = gpu;
+	}
 	
-	public boolean hasMasina() {
+	public boolean hasMasine() {
 		
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
 			if (m.getKategorija().equals(this)) return true;
@@ -71,49 +100,16 @@ public class Kategorija implements CSVData, ValidData {
 		
 	}
 
-	public void refresh() {
-		// TODO Auto-generated method stub
+	public void updateMasine() {
 		
 		for (VirtuelnaMasina m: Main.masine.getMasine()) {
 			if (m.getKategorija().equals(this)) {
-				m.setBrojJezgara(this.brojJezgara);
-				m.setRAM(this.RAM);
-				m.setGPUjezgra(this.GPUjezgra);
+				m.setJezgra(this.jezgra);
+				m.setRam(this.ram);
+				m.setGpu(this.gpu);
 			}
 		}
 		
-	}
-	
-	public String getIme() {
-		return ime;
-	}
-	
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
-	
-	public int getBrojJezgara() {
-		return brojJezgara;
-	}
-	
-	public void setBrojJezgara(int brojJezgara) {
-		this.brojJezgara = brojJezgara;
-	}
-	
-	public int getRAM() {
-		return RAM;
-	}
-	
-	public void setRAM(int RAM) {
-		this.RAM = RAM;
-	}
-	
-	public int getGPUjezgra() {
-		return GPUjezgra;
-	}
-	
-	public void setGPUjezgra(int GPUjezgra) {
-		this.GPUjezgra = GPUjezgra;
 	}
 
 }

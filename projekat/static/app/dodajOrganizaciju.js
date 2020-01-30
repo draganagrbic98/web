@@ -7,7 +7,7 @@ Vue.component("dodajOrganizaciju", {
                 "opis": null, 
                 "logo": null,
                 "korisnici": [], 
-                "masine": []
+                "resursi": []
             },
             greskaIme: '', 
             greskaServer: '', 
@@ -62,7 +62,7 @@ Vue.component("dodajOrganizaciju", {
 
         	this.osvezi();
 
-            if (this.novaOrganizacija.ime == ''){
+            if (this.novaOrganizacija.ime == '' || this.novaOrganizacija.ime === 'null'){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }

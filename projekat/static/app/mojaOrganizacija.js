@@ -7,7 +7,7 @@ Vue.component("mojaOrganizacija", {
             	"opis": null,
             	"logo": null,
             	"korisnici": [],
-            	"masine": []
+            	"resursi": []
             	
             },
             organizacijaID: '',
@@ -35,6 +35,7 @@ Vue.component("mojaOrganizacija", {
 	                	<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="organizacija.opis"></textarea></td></tr>
 			            <tr><td class="left">Logo: </td> <td class="right" colspan="2"><br><img v-bind:src="organizacija.logo" text="Logo"></img><br><br></td></tr>
 		            	<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
+			            
 			            <tr><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
 			            <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>
 			            <tr><td colspan="3"><router-link to="/masine">MASINE</router-link></td></tr>
@@ -51,13 +52,13 @@ Vue.component("mojaOrganizacija", {
 		    				
 		    			<br>
 		    				
-			            <p v-if="organizacija.masine.length==0">NEMA</p>
+			            <p v-if="organizacija.resursi.length==0">NEMA</p>
 			                
 			            <div>
-				            <table v-if="organizacija.masine.length!=0">
+				            <table v-if="organizacija.resursi.length!=0">
 				                <tr><th>Ime</th></tr>
 				                	
-				                <tr v-for="m in organizacija.masine">
+				                <tr v-for="m in organizacija.resursi">
 				                	<td>{{m}}</td>
 				                </tr>
 				            </table>
@@ -75,7 +76,7 @@ Vue.component("mojaOrganizacija", {
 			                
 			            <div>
 				            <table v-if="organizacija.korisnici.length!=0">
-				                <tr><th>Korisnicko ime</th></tr>
+				                <tr><th>Email</th></tr>
 				                <tr v-for="k in organizacija.korisnici">
 				                	<td>{{k}}</td>
 				                </tr>
@@ -121,7 +122,7 @@ Vue.component("mojaOrganizacija", {
 
             this.osvezi();
 
-            if (this.organizacija.ime == ''){
+            if (this.organizacija.ime == '' || this.organizacija.ime === 'null'){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }

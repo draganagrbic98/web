@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 import model.CSVData;
 import model.GetRacun;
-import model.ReferenceManager;
 import model.StatusMasine;
+import model.UpdateReference;
 import model.ValidData;
 import rest.Main;
 import rest.beans.RacunZahtev;
 
-public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, GetRacun {
+public class VirtuelnaMasina implements CSVData, ValidData, UpdateReference, GetRacun {
 
 	private String ime;
 	private String organizacija;
 	private Kategorija kategorija;
-	private int brojJezgara;
-	private int RAM;
-	private int GPUjezgra;
+	private int jezgra;
+	private int ram;
+	private int gpu;
 	private ArrayList<Aktivnost> aktivnosti;
 	private ArrayList<String> diskovi;
 
@@ -37,15 +37,14 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 		this.ime = ime;
 		this.organizacija = organizacija;
 		this.kategorija = kategorija;
-		this.brojJezgara = this.kategorija.getBrojJezgara();
-		this.RAM = this.kategorija.getRAM();
-		this.GPUjezgra = this.kategorija.getGPUjezgra();
-		this.getOrganizacija().dodajMasinu(this);
+		this.jezgra = this.kategorija.getJezgra();
+		this.ram = this.kategorija.getRam();
+		this.gpu = this.kategorija.getGpu();
+		this.getOrganizacijaRef().dodajResurs(this.ime);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
 		if (!(obj instanceof VirtuelnaMasina)) return false;
 		return ((VirtuelnaMasina) obj).ime.equals(this.ime);
 	}
@@ -60,66 +59,18 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 
 	@Override
 	public String csvLine() {
-		// TODO Auto-generated method stub
 		return this.ime + ";" + this.organizacija + ";" + this.kategorija.getIme();
 	}
 
 	@Override
-	public void updateReference(String className, String oldId, String newId) {
-		// TODO Auto-generated method stub
-		if (className.equals("Disk")) {
-			int index = this.diskovi.indexOf(oldId);
-			if (index != -1)
-				this.diskovi.set(index, newId);
-		} else {
-			if (this.organizacija != null && this.organizacija.equals(oldId))
-				this.organizacija = newId;
-		}
-	}
-
-	@Override
-	public void notifyUpdate(String newId) {
-		// TODO Auto-generated method stub
-		for (Disk d : Main.diskovi.getDiskovi())
-			d.updateReference(this.getClass().getSimpleName(), this.ime, newId);
-		for (Organizacija o : Main.organizacije.getOrganizacije())
-			o.updateReference(this.getClass().getSimpleName(), this.ime, newId);
-
-	}
-
-	@Override
-	public void removeReference(String className, String id) {
-		// TODO Auto-generated method stub
-		
-		if (className.equals("Disk")) {
-			int index = this.diskovi.indexOf(id);
-			if (index != -1)
-				this.diskovi.remove(index);
-		} else {
-			if (this.organizacija != null && this.organizacija.equals(id))
-				this.organizacija = null;
-		}
-	}
-
-	@Override
-	public void notifyRemoval() {
-		// TODO Auto-generated method stub
-		for (Disk d : Main.diskovi.getDiskovi())
-			d.removeReference(this.getClass().getSimpleName(), this.ime);
-		for (Organizacija o : Main.organizacije.getOrganizacije())
-			o.removeReference(this.getClass().getSimpleName(), this.ime);
-	}
-
-	@Override
 	public boolean validData() {
-		// TODO Auto-generated method stub
 
 		if (this.ime == null || this.ime.equals("")) return false;
 		if (this.organizacija == null || this.organizacija.equals("")) return false;
 		if (this.kategorija == null) return false;
-		if (this.brojJezgara <= 0) return false;
-		if (this.RAM <= 0) return false;
-		if (this.GPUjezgra < 0) return false;
+		if (this.jezgra <= 0) return false;
+		if (this.ram <= 0) return false;
+		if (this.gpu < 0) return false;
 		if (this.aktivnosti == null) return false;
 		if (this.diskovi == null) return false;
 		return this.kategorija.validData();
@@ -129,6 +80,110 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 	public StatusMasine status() {
 		if (this.aktivnosti.isEmpty()) return StatusMasine.UGASENA;
 		return this.aktivnosti.get(this.aktivnosti.size() - 1).getStatus();
+	}
+	
+	public String getIme() {
+		return ime;
+	}
+
+	public void setIme(String ime) {
+		this.getOrganizacijaRef().izmeniResurs(this.ime, ime);
+		this.updateReference(ime);
+		this.ime = ime;
+	}
+
+	public String getOrganizacija() {
+		return organizacija;
+	}
+	
+	public Organizacija getOrganizacijaRef() {
+		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
+	}
+
+	public void setOrganizacija(String organizacija) {
+		this.organizacija = organizacija;
+	}
+
+	public Kategorija getKategorija() {
+		return kategorija;
+	}
+
+	public void setKategorija(Kategorija kategorija) {
+		this.kategorija = kategorija;
+	}
+
+	public int getJezgra() {
+		return jezgra;
+	}
+
+	public void setJezgra(int jezgra) {
+		this.jezgra = jezgra;
+	}
+
+	public int getRam() {
+		return ram;
+	}
+
+	public void setRam(int ram) {
+		this.ram = ram;
+	}
+
+	public int getGpu() {
+		return gpu;
+	}
+
+	public void setGpu(int gpu) {
+		this.gpu = gpu;
+	}
+
+	public ArrayList<Aktivnost> getAktivnosti() {
+		return aktivnosti;
+	}
+
+	public void setAktivnosti(ArrayList<Aktivnost> aktivnosti) {
+		this.aktivnosti = aktivnosti;
+	}
+
+	public ArrayList<String> getDiskovi() {
+		return diskovi;
+	}
+
+	public void setDiskovi(ArrayList<String> diskovi) {
+		ArrayList<String> temp = new ArrayList<String>();
+		for (String d: this.diskovi)
+			temp.add(d);
+		for (String d: temp)
+			Main.diskovi.nadjiDisk(d).setMasina(null);
+		for (String d: diskovi)
+			Main.diskovi.nadjiDisk(d).setMasina(this.ime);
+	}
+	
+	public void dodajDisk(String ime) {
+		if (!this.diskovi.contains(ime))
+			this.diskovi.add(ime);
+	}
+
+	public void obrisiDisk(String ime) {
+		this.diskovi.remove(ime);
+	}
+	
+	public void izmeniDisk(String staroIme, String novoIme) {
+		int index = this.diskovi.indexOf(staroIme);
+		if (index != -1)
+			this.diskovi.set(index, novoIme);
+	}
+	
+	public void dodajAktivnost(Aktivnost a) {
+		this.aktivnosti.add(a);
+	}
+
+	@Override
+	public void updateReference(String ime) {
+
+		for (Disk d: Main.diskovi.getDiskovi()) {
+			if (d.getMasinaRef() != null && d.getMasinaRef().equals(this))
+				d.setMasina(ime);
+		}
 	}
 	
 	@Override
@@ -184,91 +239,7 @@ public class VirtuelnaMasina implements CSVData, ValidData, ReferenceManager, Ge
 	}
 
 	private double izracunajJedinicnuCenu() {
-		return 25 * brojJezgara + 15 * RAM + 1 * GPUjezgra;
-	}
-
-	public String getIme() {
-		return ime;
-	}
-	
-	public void setIme(String ime) {
-		this.notifyUpdate(ime);
-		this.ime = ime;
-	}
-	
-	public Organizacija getOrganizacija() {
-		return Main.organizacije.nadjiOrganizaciju(this.organizacija);
-	}
-	
-	public String getOrganizacijaID() {
-		return organizacija;
-	}
-	
-	public void setOrganizacija(String organizacija) {
-		this.organizacija = organizacija;
-	}
-	
-	public Kategorija getKategorija() {
-		return kategorija;
-	}
-	
-	public void setKategorija(Kategorija kategorija) {
-		this.kategorija = kategorija;
-	}
-	
-	public int getBrojJezgara() {
-		return brojJezgara;
-	}
-	
-	public void setBrojJezgara(int brojJezgara) {
-		this.brojJezgara = brojJezgara;
-	}
-	
-	public int getRAM() {
-		return RAM;
-	}
-	
-	public void setRAM(int RAM) {
-		this.RAM = RAM;
-	}
-	
-	public int getGPUjezgra() {
-		return GPUjezgra;
-	}
-	
-	public void setGPUjezgra(int GPUjezgra) {
-		this.GPUjezgra = GPUjezgra;
-	}
-	
-	public ArrayList<Aktivnost> getAktivnosti() {
-		return aktivnosti;
-	}
-	
-	public void setAktivnosti(ArrayList<Aktivnost> aktivnosti) {
-		this.aktivnosti = aktivnosti;
-	}
-	
-	public ArrayList<Disk> getDiskovi() {
-		ArrayList<Disk> diskovi = new ArrayList<Disk>();
-		for (String d : this.diskovi)
-			diskovi.add(Main.diskovi.nadjiDisk(d));
-		return diskovi;
-	}
-	
-	public ArrayList<String> getDiskoviID() {
-		return diskovi;
-	}
-	
-	public void setDiskovi(ArrayList<String> diskovi) {
-		this.diskovi = diskovi;
-	}
-	
-	public void dodajDisk(Disk d) {
-		this.diskovi.add(d.getIme());
-	}
-	
-	public void dodajAktivnost(Aktivnost a) {
-		this.aktivnosti.add(a);
+		return 25 * jezgra + 15 * ram + 1 * gpu;
 	}
 
 }

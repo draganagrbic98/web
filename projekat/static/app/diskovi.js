@@ -13,10 +13,10 @@ Vue.component("diskovi", {
             greskaServer: '', 
             greska: false,
             pretragaIme: '',
-            pretragaVMIme: '',
             pretragaTipDiska: '',
             pretragaMinKapacitet: '',
             pretragaMaxKapacitet: '',
+            pretragaVMIme: '',
             uloga: '', 
             tipovi: [],
             masine: [],
@@ -50,7 +50,6 @@ Vue.component("diskovi", {
 		                
 		                <tr><td class="left">Kapacitet: </td> <td class="right"><input type="text" v-model="selectedDisk.kapacitet" v-bind:disabled="uloga=='KORISNIK'"> </td> <td>{{greskaKapacitet}}</td></tr>
 		                <tr><td class="left">Virtuelna masina: </td> <td class="right" colspan="2"><input type="text" v-model="selectedDisk.masina" disabled> </td></tr>
-		                
 		                <tr v-if="uloga!='KORISNIK'"><td class="left">Nova virtuelna masina: </td> <td class="right" colspan="2"><select v-model="novaMasina">
     						<option v-for="m in masine" v-if="m.organizacija === selectedDisk.organizacija">
     							{{m.ime}}
@@ -60,11 +59,11 @@ Vue.component("diskovi", {
 				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 				        <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 			         	<tr><td colspan="3">{{greskaServer}}<br></td></tr>
-			         	
+			         				         	
     				</table>
     				
     				<button v-on:click="vratiNaDiskove()">POVRATAK</button>
-
+    				
     			</div>
     			
             </div>
@@ -125,14 +124,14 @@ Vue.component("diskovi", {
 								<table>
 								
 					                <tr><td class="left">Ime: </td> <td><input type="text" v-model="pretragaIme"></td></tr>
-					                <tr><td class="left">Tip Diska: </td> <td><select v-model="pretragaTipDiska" class="pretraga"> 
+					                <tr><td class="left">Tip diska: </td> <td><select v-model="pretragaTipDiska" class="pretraga"> 
 						                			<option v-for="t in tipovi">
 						                    			{{t}}
 						                			</option>
 					                		   </select> </td></tr>
-					                <tr><td class="left">Min. Kapacitet: </td> <td><input type="number" min="1" v-model="pretragaMinKapacitet"></td></tr>
-					                <tr><td class="left">Max. Kapacitet: </td> <td><input type="number" min="1" v-model="pretragaMaxKapacitet"></td></tr>
-					                <tr><td class="left">Ime Virtuelne masine: </td> <td><input type="text" v-model="pretragaVMIme"></td></tr>
+					                <tr><td class="left">Min. kapacitet: </td> <td><input type="number" min="1" v-model="pretragaMinKapacitet"></td></tr>
+					                <tr><td class="left">Max. kapacitet: </td> <td><input type="number" min="1" v-model="pretragaMaxKapacitet"></td></tr>
+					                <tr><td class="left">Ime virtuelne masine: </td> <td><input type="text" v-model="pretragaVMIme"></td></tr>
 					                <tr><td colspan="2"><br><button v-on:click="pretrazi()">FILTRIRAJ</button><br><br></td></tr>
 					                
 						        </table>

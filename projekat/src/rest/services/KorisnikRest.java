@@ -48,7 +48,7 @@ public class KorisnikRest implements RestEntity{
 					return RestEntity.badRequest();
 				}
 				
-				if (!k.getMojeOrganizacije().contains(korisnik.getOrganizacija())) {
+				if (!k.getMojeOrganizacije().contains(korisnik.getOrganizacijaRef())) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}
@@ -115,12 +115,12 @@ public class KorisnikRest implements RestEntity{
 			try {
 				
 				Korisnik korisnik = jsonConvertor.fromJson(req.body(), Korisnik.class);
-				if (korisnik == null || korisnik.getKorisnickoIme().equals("")) {
+				if (korisnik == null || korisnik.getEmail().equals("")) {
 					res.status(400);
 					return RestEntity.badRequest();
 				}
 				
-				if (k.getMojiKorisnici().contains(korisnik)) {
+				if (!k.getMojiKorisnici().contains(korisnik)) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}

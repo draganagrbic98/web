@@ -14,9 +14,9 @@ public class Racun {
 
 	public Racun(HashMap<String, Double> racuniMasine, HashMap<String, Double> racuniDiskovi, double ukupniRacun) {
 		this();
-		this.setRacuniMasine(racuniMasine);
-		this.setRacuniDiskovi(racuniDiskovi);
-		this.setUkupniRacun(ukupniRacun);
+		this.racuniMasine = racuniMasine;
+		this.racuniDiskovi = racuniDiskovi;
+		this.ukupniRacun = ukupniRacun;
 	}
 
 	public HashMap<String, Double> getRacuniMasine() {

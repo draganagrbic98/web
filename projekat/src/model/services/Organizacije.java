@@ -48,33 +48,25 @@ public class Organizacije implements LoadStoreData{
 		if (organizacija == null) 
 			return OrganizacijaResponse.DOESNT_EXIST;
 		
-		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && (!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme()))))
+		if (this.nadjiOrganizaciju(o.getNovaOrganizacija().getIme()) != null && 
+				(!(o.getStaroIme().equals(o.getNovaOrganizacija().getIme()))))
 			return OrganizacijaResponse.AL_EXISTS;
 		
 		organizacija.setIme(o.getNovaOrganizacija().getIme());
 		organizacija.setOpis(o.getNovaOrganizacija().getOpis());
 		organizacija.setLogo(o.getNovaOrganizacija().getLogo());
-		organizacija.setKorisnici(o.getNovaOrganizacija().getKorisnici());
-		organizacija.setMasine(o.getNovaOrganizacija().getMasine());
 		
 		this.store();
 		Main.korisnici.store();
 		Main.masine.store();
+		Main.diskovi.store();
 		return OrganizacijaResponse.OK;
 		
 	}
 	
-	public ArrayList<Organizacija> getOrganizacije() {
-		return organizacije;
-	}
-
-	public void setOrganizacije(ArrayList<Organizacija> organizacije) {
-		this.organizacije = organizacije;
-	}
-	
 	@Override
 	public void load() throws Exception {
-		// TODO Auto-generated method stub
+
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.ORGANIZACIJE_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
@@ -88,13 +80,21 @@ public class Organizacije implements LoadStoreData{
 	
 	@Override
 	public void store() throws Exception {
-		// TODO Auto-generated method stub
+
 		PrintWriter out = new PrintWriter(new FileWriter(FileNames.ORGANIZACIJE_FILE));
 		for (Organizacija o: this.organizacije) {
 			out.println(o.csvLine());
 			out.flush();
 		}
 		out.close();
+	}
+	
+	public ArrayList<Organizacija> getOrganizacije() {
+		return organizacije;
+	}
+
+	public void setOrganizacije(ArrayList<Organizacija> organizacije) {
+		this.organizacije = organizacije;
 	}
 
 }

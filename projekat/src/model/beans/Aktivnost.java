@@ -43,7 +43,6 @@ public class Aktivnost implements CSVData {
 
 	@Override
 	public String csvLine() {
-		// TODO Auto-generated method stub
 		
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy. hh:mm:ss");
 
@@ -54,27 +53,27 @@ public class Aktivnost implements CSVData {
 			return f.format(this.datumPaljenja) + ";" + f.format(this.datumGasenja) + ";" + this.status;
 		
 	}
-	
+
 	public Date getDatumPaljenja() {
 		return datumPaljenja;
 	}
-	
+
 	public void setDatumPaljenja(Date datumPaljenja) {
 		this.datumPaljenja = datumPaljenja;
 	}
-	
+
 	public Date getDatumGasenja() {
 		return datumGasenja;
 	}
-	
+
 	public void setDatumGasenja(Date datumGasenja) {
 		this.datumGasenja = datumGasenja;
 	}
-	
+
 	public StatusMasine getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(StatusMasine status) {
 		this.status = status;
 	}

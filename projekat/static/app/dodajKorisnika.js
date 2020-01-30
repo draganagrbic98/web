@@ -3,11 +3,8 @@ Vue.component("dodajKorisnika", {
     data: function(){
         return{
             noviKorisnik: {
-                "user": {
-                    "korisnickoIme": '', 
-                    "lozinka": ''
-                }, 
                 "email": '', 
+                "lozinka": '',
                 "ime": '', 
                 "prezime": '', 
                 "uloga": '', 
@@ -15,10 +12,9 @@ Vue.component("dodajKorisnika", {
             }, 
             novaLozinka: '',
             ponovljenaLozinka: '',
-            greskaKorisnickoIme: '', 
+            greskaEmail: '', 
             greskaLozinka: '', 
             greskaPonovljenaLozinka: '',
-            greskaEmail: '', 
             greskaIme: '', 
             greskaPrezime: '', 
             greskaUloga: '', 
@@ -45,7 +41,6 @@ Vue.component("dodajKorisnika", {
             
 	    		<table>
 
-		            <tr><td class="left">Korisnicko ime: </td> <td class="right"><input type="text" v-model="noviKorisnik.user.korisnickoIme"></td> <td>{{greskaKorisnickoIme}}</td></tr>
 		            <tr><td class="left">Email: </td> <td class="right"><input type="text" v-model="noviKorisnik.email"></td> <td>{{greskaEmail}}</td></tr>
 		            <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="noviKorisnik.ime"></td> <td>{{greskaIme}}</td></tr>
 		            <tr><td class="left">Prezime: </td> <td class="right"><input type="text" v-model="noviKorisnik.prezime"></td> <td>{{greskaPrezime}}</td></tr>
@@ -64,6 +59,7 @@ Vue.component("dodajKorisnika", {
 		            
 		            <tr><td class="left">Lozinka: </td> <td class="right"><input type="password" v-model="novaLozinka"></td> <td>{{greskaLozinka}}</td></tr>
 		            <tr><td class="left">Ponovljena lozinka: </td> <td class="right"><input type="password" v-model="ponovljenaLozinka" v-bind:disabled="novaLozinka==''"></td> <td>{{greskaPonovljenaLozinka}}</td></tr>
+		            
 		            <tr><td colspan="3"><button v-on:click="dodaj()">DODAJ</button><br></td></tr>
 		            <tr><td colspan="3">{{greskaServer}}<br></td></tr>
 		            <tr><td colspan="3"><router-link to="/korisnici">KORISNICI</router-link><br></td></tr>
@@ -116,10 +112,9 @@ Vue.component("dodajKorisnika", {
     	},
     	
     	osvezi: function(){
-    		this.greskaKorisnickoIme = '';
+            this.greskaEmail = '';
             this.greskaLozinka = '';
             this.greskaPonovljenaLozinka = '';
-            this.greskaEmail = '';
             this.greskaIme = '';
             this.greskaPrezime = '';
             this.greskaUloga = '';
@@ -132,13 +127,8 @@ Vue.component("dodajKorisnika", {
         	
         	this.osvezi();
 
-            this.noviKorisnik.user.lozinka = this.novaLozinka;
+            this.noviKorisnik.lozinka = this.novaLozinka;
             if (this.organizacije.length == 1) this.noviKorisnik.organizacija = this.organizacija.ime;
-
-            if (this.noviKorisnik.user.korisnickoIme == ''){
-                this.greskaKorisnickoIme = "Korisnicko ime ne sme biti prazno. ";
-                this.greska = true;
-            }
             
             if (this.noviKorisnik.email == '' || !this.emailProvera(this.noviKorisnik.email)){
                 this.greskaEmail = "Email nije ispravan. ";
@@ -160,7 +150,7 @@ Vue.component("dodajKorisnika", {
                 this.greska = true;
             }
             if (this.noviKorisnik.organizacija == ''){
-                this.greskaOrganizacija = "Organizacia ne sme biti prazna. ";
+                this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
                 this.greska = true;
             }
             

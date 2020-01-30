@@ -32,6 +32,7 @@ Vue.component("organizacije", {
 	                		<tr><td class="left">Opis: </td> <td class="right"><textarea v-model="selectedOrganizacija.opis"></textarea></td></tr>
 		            		<tr><td class="left">Logo: </td><td class="right" colspan="2"><br><img v-bind:src="selectedOrganizacija.logo" text="Logo"></img><br><br></td></tr>
 		            		<tr><td class="left">Novi Logo: </td> <td class="right"><input type="file" accept="image/*" v-on:change="updateLogo($event)"></td></tr>
+			                
 			                <tr><td colspan="3"><br><br><button v-on:click="izmeni()">IZMENI</button></td></tr>
 			                <tr><td colspan="3">{{greskaServer}}<br><br></td></tr>      
 	    					<tr><td colspan="3"><button v-on:click="vratiNaOrganizacije()">POVRATAK</button></td></tr>
@@ -48,12 +49,12 @@ Vue.component("organizacije", {
 		    				
 		    				<br>
 		    				
-			                <p v-if="selectedOrganizacija.masine.length==0">NEMA</p>
+			                <p v-if="selectedOrganizacija.resursi.length==0">NEMA</p>
 			                
 			                <div>
-				                <table v-if="selectedOrganizacija.masine.length!=0">
+				                <table v-if="selectedOrganizacija.resursi.length!=0">
 				                	<tr><th>Ime</th></tr>
-				                	<tr v-for="m in selectedOrganizacija.masine">
+				                	<tr v-for="m in selectedOrganizacija.resursi">
 				                		<td>{{m}}</td>
 				                	</tr>
 				                </table>
@@ -71,7 +72,7 @@ Vue.component("organizacije", {
 			                
 			                <div>
 				                <table v-if="selectedOrganizacija.korisnici.length!=0">
-				                	<tr><th>Korisnicko ime</th></tr>
+				                	<tr><th>Email</th></tr>
 				                	<tr v-for="k in selectedOrganizacija.korisnici">
 				                		<td>{{k}}</td>
 				                	</tr>
@@ -175,7 +176,7 @@ Vue.component("organizacije", {
         	
         	this.osvezi();
 
-            if (this.selectedOrganizacija.ime == ''){
+            if (this.selectedOrganizacija.ime == '' || this.selectedOrganizacija.ime === 'null'){
                 this.greskaIme = "Ime ne sme biti prazno. ";
                 this.greska = true;
             }

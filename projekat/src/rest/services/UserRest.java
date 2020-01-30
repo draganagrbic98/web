@@ -5,10 +5,10 @@ import static spark.Spark.post;
 
 import model.Uloga;
 import model.beans.Korisnik;
-import model.beans.User;
 import rest.Main;
 import rest.RestEntity;
 import rest.beans.RestResponse;
+import rest.beans.User;
 
 public class UserRest implements RestEntity {
 

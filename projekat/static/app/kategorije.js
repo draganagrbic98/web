@@ -7,9 +7,9 @@ Vue.component("kategorije", {
             selectedKategorijaId: '', 
             selected: false, 
             greskaIme: '', 
-            greskaBrojJezgara: '', 
-            greskaRAM: '', 
-            greskaGPUjezgra: '', 
+            greskaJezgra: '', 
+            greskaRam: '', 
+            greskaGpu: '', 
             greskaServer: '', 
             greska: false
         }
@@ -30,9 +30,9 @@ Vue.component("kategorije", {
     				<table>		
     				
 		                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedKategorija.ime"></td> <td>{{greskaIme}}</td></tr>
-		                <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="selectedKategorija.brojJezgara"></td> <td>{{greskaBrojJezgara}}</td></tr>
-		                <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="selectedKategorija.RAM"></td> <td>{{greskaRAM}}</td></tr>
-		                <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="selectedKategorija.GPUjezgra"></td> <td>{{greskaGPUjezgra}}</td></tr>
+		                <tr><td class="left">Broj jezgara: </td> <td class="right"><input type="text" v-model="selectedKategorija.jezgra"></td> <td>{{greskaJezgra}}</td></tr>
+		                <tr><td class="left">RAM: </td> <td class="right"><input type="text" v-model="selectedKategorija.ram"></td> <td>{{greskaRam}}</td></tr>
+		                <tr><td class="left">GPU jezgra: </td> <td class="right"><input type="text" v-model="selectedKategorija.gpu"></td> <td>{{greskaGpu}}</td></tr>
 		                <tr><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 		                <tr><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 		                <tr><td colspan="3">{{greskaServer}}<br></td></tr>
@@ -59,9 +59,9 @@ Vue.component("kategorije", {
 			                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th></tr>
 			                <tr v-for="k in kategorije" v-on:click="selectKategorija(k)">
 			                    <td>{{k.ime}}</td>
-			                    <td>{{k.brojJezgara}}</td>
-			                    <td>{{k.RAM}}</td>
-			                    <td>{{k.GPUjezgra}}</td>
+			                    <td>{{k.jezgra}}</td>
+			                    <td>{{k.ram}}</td>
+			                    <td>{{k.gpu}}</td>
 			                </tr> 
 	                	</table><br><br>
 	                	
@@ -121,9 +121,9 @@ Vue.component("kategorije", {
     	
     	osvezi: function(){
         	this.greskaIme = '';
-            this.greskaBrojJezgara = '';
-            this.greskaRAM = '';
-            this.greskaGPUjezgra = '';
+            this.greskaJezgra = '';
+            this.greskaRam = '';
+            this.greskaGpu = '';
             this.greskaServer = '';
             this.greska = false;
         },	
@@ -163,18 +163,18 @@ Vue.component("kategorije", {
                 this.greska = true;
             }
             
-            if (isNaN(parseInt(this.selectedKategorija.brojJezgara)) || parseInt(this.selectedKategorija.brojJezgara) <= 0){
-                this.greskaBrojJezgara = "Broj jezgara mora biti pozitivan ceo broj. ";
+            if (isNaN(parseInt(this.selectedKategorija.jezgra)) || parseInt(this.selectedKategorija.jegra) <= 0){
+                this.greskaJezgra = "Broj jezgara mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
             
-            if (isNaN(parseInt(this.selectedKategorija.RAM)) || parseInt(this.selectedKategorija.RAM) <= 0){
-                this.greskaRAM = "RAM mora biti pozitivan ceo broj. ";
+            if (isNaN(parseInt(this.selectedKategorija.ram)) || parseInt(this.selectedKategorija.ram) <= 0){
+                this.greskaRam= "RAM mora biti pozitivan ceo broj. ";
                 this.greska = true;
             }
             
-            if (isNaN(parseInt(this.selectedKategorija.GPUjezgra)) || parseInt(this.selectedKategorija.GPUjezgra) < 0){
-                this.greskaGPUjezgra = "GPU jezgra moraju biti nenegativan ceo broj. ";
+            if (isNaN(parseInt(this.selectedKategorija.gpu)) || parseInt(this.selectedKategorija.gpu) < 0){
+                this.greskaGpu = "GPU jezgra moraju biti nenegativan ceo broj. ";
                 this.greska = true;
             }
             

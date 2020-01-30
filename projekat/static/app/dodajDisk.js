@@ -4,22 +4,22 @@ Vue.component("dodajDisk", {
         return{
             noviDisk:{
                 "ime": '', 
+                "organizacija": '',
                 "tip": '',
                 "kapacitet": 0, 
-                "masina": null, 
-                "organizacija": ''
+                "masina": null 
             }, 
             greskaIme: '', 
+            greskaOrganizacija: '',
             greskaTip: '', 
             greskaKapacitet: '', 
-            greskaOrganizacija: '',
             greskaServer: '', 
             greska: false, 
             tipovi: [],
             masine: [], 
             organizacije: [], 
             organizacija: '', 
-            masineBackup: [],
+            masineBackup: []
         }
     }, 
 
@@ -55,7 +55,7 @@ Vue.component("dodajDisk", {
 		            {{greskaTip}}</td></tr>
 		    		
 		    		<tr><td class="left">Kapacitet: </td> <td class="right"><input type="text" v-model="noviDisk.kapacitet"> </td> <td>{{greskaKapacitet}}</td></tr>
-		    		<tr><td class="left">Virtuelna Masina: </td>
+		    		<tr><td class="left">Virtuelna masina: </td>
 		    		<td class="right" colspan="2"><select v-model="noviDisk.masina">
 			            <option v-for="m in masine">
 			                {{m.ime}}
@@ -126,9 +126,9 @@ Vue.component("dodajDisk", {
     	
     	osvezi : function(){
     		this.greskaIme = '';
+    		this.greskaOrganizacija = '';
     		this.greskaTip = '';
     		this.greskaKapacitet = '';
-    		this.greskaOrganizacija = '';
     		this.greskaServer = '';
     		this.greska = false;
     	},
@@ -144,6 +144,11 @@ Vue.component("dodajDisk", {
                 this.greska = true;
             }
             
+            if (this.noviDisk.organizacija == ''){
+                this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
+                this.greska = true;
+            }
+            
             if (this.noviDisk.tip == ''){
                 this.greskaTip = "Tip ne sme biti prazan. ";
                 this.greska = true;
@@ -151,11 +156,6 @@ Vue.component("dodajDisk", {
             
             if (isNaN(parseInt(this.noviDisk.kapacitet)) || parseInt(this.noviDisk.kapacitet) <= 0){
                 this.greskaKapacitet = "Kapacitet mora biti pozitivan ceo broj. ";
-                this.greska = true;
-            }
-            
-            if (this.noviDisk.organizacija == ''){
-                this.greskaOrganizacija = "Organizacija ne sme biti prazna. ";
                 this.greska = true;
             }
             

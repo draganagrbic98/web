@@ -8,6 +8,7 @@ Vue.component("korisnici", {
             selected: false,
             greskaIme: '', 
             greskaPrezime: '', 
+            greskaUloga: '',
             greskaServer: '',
             greska: false, 
             uloga: '',
@@ -39,7 +40,7 @@ Vue.component("korisnici", {
 		                    <option v-for="u in uloge">
 		                        {{u}}
 		                    </option>
-		                </select>
+		                </select> {{greskaUloga}}
 		                </td></tr>
 		                
 		                <tr><td class="left">Organizacija: </td> <td class="right" colspan="2"><input type="text" v-model="selectedKorisnik.organizacija" disabled></td></tr>
@@ -154,13 +155,14 @@ Vue.component("korisnici", {
         osvezi: function(){
         	this.greskaIme = '';
             this.greskaPrezime = '';
+            this.greskaUloga = '';
             this.greskaServer = '';
             this.greska = false;
         },
         
         selectKorisnik: function(korisnik){
             this.selectedKorisnik = korisnik;
-            this.selectedKorisnikId = korisnik.user.korisnickoIme;
+            this.selectedKorisnikId = korisnik.email;
             this.selected = true;
         },
 
@@ -173,7 +175,7 @@ Vue.component("korisnici", {
         	let temp = confirm("Da li ste sigurni?");
         	if (!temp) return;
 
-            this.selectedKorisnik.user.korisnickoIme = this.selectedKorisnikId;
+            this.selectedKorisnik.email = this.selectedKorisnikId;
             axios.post("rest/korisnici/brisanje", this.selectedKorisnik)
             .then(response => {
             	location.reload();
@@ -196,6 +198,11 @@ Vue.component("korisnici", {
             if (this.selectedKorisnik.prezime == ''){
                 this.greskaPrezime = "Prezime ne sme biti prazno. ";
                 this.greska = true;
+            }
+            
+            if (this.selectedKorisnik.uloga == ''){
+            	this.greskaUloga = "Uloga ne sme biti prazna. ";
+            	this.greska = true;
             }
             
             if (this.greska) return;

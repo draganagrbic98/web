@@ -4,7 +4,6 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 import model.Uloga;
-import model.beans.Disk;
 import model.beans.Korisnik;
 import model.beans.VirtuelnaMasina;
 import model.services.OperationResult.MasinaResult;
@@ -50,18 +49,18 @@ public class MasinaRest implements RestEntity{
 					return RestEntity.badRequest();	
 				}				
 				
-				if (!k.getMojeOrganizacije().contains(m.getOrganizacija())) {
+				if (!k.getMojeOrganizacije().contains(m.getOrganizacijaRef())) {
 					res.status(403);
 					return RestEntity.forbidden();
 				}
 				
-				for (Disk d: m.getDiskovi()) {
-					if (!k.getMojeOrganizacije().contains(d.getOrganizacija())) {
-						res.status(400);
-						return RestEntity.badRequest();	
+				for (String d: m.getDiskovi()) {
+					if (!k.getMojeOrganizacije().contains(Main.diskovi.nadjiDisk(d).getOrganizacijaRef())) {
+						res.status(403);
+						return RestEntity.forbidden();						
 					}
 				}
-				
+								
 				m.setKategorija(Main.kategorije.nadjiKategoriju(m.getKategorija().getIme()));
 				if (m.getKategorija() == null) {
 					res.status(400);
@@ -103,10 +102,10 @@ public class MasinaRest implements RestEntity{
 					return RestEntity.forbidden();
 				}
 				
-				for (Disk d: m.getNovaMasina().getDiskovi()) {
-					if (!k.getMojeOrganizacije().contains(d.getOrganizacija())) {
+				for (String d: m.getNovaMasina().getDiskovi()) {
+					if (!k.getMojeOrganizacije().contains(Main.diskovi.nadjiDisk(d).getOrganizacijaRef())) {
 						res.status(403);
-						return RestEntity.forbidden();
+						return RestEntity.forbidden();						
 					}
 				}
 				
@@ -142,7 +141,7 @@ public class MasinaRest implements RestEntity{
 			try {
 				
 				VirtuelnaMasina m = jsonConvertor.fromJson(req.body(), VirtuelnaMasina.class);
-				if (m == null || !m.validData()) {
+				if (m == null || m.getIme().equals("")) {
 					res.status(400);
 					return RestEntity.badRequest();	
 				}
@@ -212,9 +211,14 @@ public class MasinaRest implements RestEntity{
 			try {
 			
 				MasinaChange m = jsonConvertor.fromJson(req.body(), MasinaChange.class);
-				if (m == null || !m.validData()) {
+				if (m == null) {
 					res.status(400);
 					return RestEntity.badRequest();	
+				}
+				
+				if (!k.getMojeMasine().contains(new VirtuelnaMasina(m.getStaroIme()))) {
+					res.status(403);
+					return RestEntity.forbidden();
 				}
 								
 				MasinaResult result = Main.masine.promeniStatusMasine(m);

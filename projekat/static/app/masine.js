@@ -14,12 +14,12 @@ Vue.component("masine", {
             greskaServer: '', 
             greska: false, 
             pretragaIme: '',
-            pretragaMinBrojJezgara: '', 
-            pretragaMaxBrojJezgara: '', 
-            pretragaMinRAM: '', 
-            pretragaMaxRAM: '', 
-            pretragaMinGPUjezgra: '',
-            pretragaMaxGPUjezgra: '',
+            pretragaMinJezgra: '', 
+            pretragaMaxJezgra: '', 
+            pretragaMinRam: '', 
+            pretragaMaxRam: '', 
+            pretragaMinGpu: '',
+            pretragaMaxGpu: '',
             pocetniDatum: '',
             krajnjiDatum: '',
             uloga: '', 
@@ -53,15 +53,15 @@ Vue.component("masine", {
 	                	
 			                <tr><td class="left">Ime: </td> <td class="right"><input type="text" v-model="selectedMasina.ime" v-bind:disabled="uloga=='KORISNIK'"></td> <td>{{greskaIme}}</td></tr>
 			                <tr><td class="left">Organizacija: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.organizacija" disabled></td></tr>
-			                
+			                			          
 			                <tr><td class="left">Diskovi: </td>
 			                <td class="right" colspan="2"><select multiple disabled>
 				                <option v-for="d in selectedMasina.diskovi">
 				                    {{d}}
 				                </option>
 			                </select></td></tr>
-    						
-   			                <tr v-if="uloga!='KORISNIK'"><td class="left">Izmena diskova: </td>
+			                
+			                <tr v-if="uloga!='KORISNIK'"><td class="left">Izmena diskova: </td>
 			                <td class="right" colspan="2"><select v-model="selectedMasina.diskovi" multiple>
 				                <option v-for="d in diskovi" v-if="d.organizacija === selectedMasina.organizacija" v-bind:selected="selectedMasina.diskovi.filter(disk => disk === d.ime).length > 0">
 				                    {{d.ime}}
@@ -75,13 +75,14 @@ Vue.component("masine", {
 			                    </option>
 			                </select></td></tr>
 			                
-			                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.brojJezgara" disabled></td></tr>
-			                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.RAM" disabled></td></tr>
-			                <tr><td class="left">Broj GPU jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.GPUjezgra" disabled></td></tr>
+			                <tr><td class="left">Broj jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.jezgra" disabled></td></tr>
+			                <tr><td class="left">RAM: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.ram" disabled></td></tr>
+			                <tr><td class="left">Broj GPU jezgara: </td> <td class="right" colspan="2"><input type="text" v-model="selectedMasina.gpu" disabled></td></tr>
+				            
 				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="izmeni()">IZMENI</button><br></td></tr>
 				            <tr v-if="uloga!='KORISNIK'"><td colspan="3"><br><button v-on:click="obrisi()">OBRISI</button><br></td></tr>
 			           		<tr><td colspan="3">{{greskaServer}}<br></td></tr>
-	
+			           		    
     					</table>
     					
     					<button v-on:click="vratiNaMasine">POVRATAK</button>
@@ -133,9 +134,9 @@ Vue.component("masine", {
 			                <tr><th>Ime</th><th>Broj jezgara</th><th>RAM</th><th>GPU jezgra</th><th v-if="uloga=='SUPER_ADMIN'">Organizacija</th></tr>
 			                <tr v-for="m in masine" v-on:click="selectMasina(m)">
 			                    <td>{{m.ime}}</td>
-			                    <td>{{m.brojJezgara}}</td>
-			                    <td>{{m.RAM}}</td>
-			                    <td>{{m.GPUjezgra}}</td>
+			                    <td>{{m.jezgra}}</td>
+			                    <td>{{m.ram}}</td>
+			                    <td>{{m.gpu}}</td>
 			                    <td v-if="uloga=='SUPER_ADMIN'">{{m.organizacija}}</td>
 			                </tr>
 		                </table>
@@ -180,12 +181,12 @@ Vue.component("masine", {
 						        
 						        <table>
 							        <tr><td class="left">Ime: </td> <td><input type="text" v-model="pretragaIme"></td></tr>
-							        <tr><td class="left">Min. Broj jezgara: </td> <td><input type="number" min="1" v-model="pretragaMinBrojJezgara"></td></tr>
-							        <tr><td class="left">Max. Broj jezgara: </td> <td><input type="number" min="1" v-model="pretragaMaxBrojJezgara"></td></tr>
-							        <tr><td class="left">Min. RAM: </td> <td><input type="number" min="1" v-model="pretragaMinRAM"></td></tr>
-							        <tr><td class="left">Max. RAM: </td> <td><input type="number" min="1" v-model="pretragaMaxRAM"></td></tr>
-							        <tr><td class="left">Min. GPU jezgra: </td> <td><input type="number" min="0" v-model="pretragaMinGPUjezgra"></td></tr>
-							        <tr><td class="left">Max. GPU jezgra: </td> <td><input type="number" min="0" v-model="pretragaMaxGPUjezgra"></td></tr>
+							        <tr><td class="left">Min. broj jezgara: </td> <td><input type="number" min="1" v-model="pretragaMinJezgra"></td></tr>
+							        <tr><td class="left">Max. broj jezgara: </td> <td><input type="number" min="1" v-model="pretragaMaxJezgra"></td></tr>
+							        <tr><td class="left">Min. RAM: </td> <td><input type="number" min="1" v-model="pretragaMinRam"></td></tr>
+							        <tr><td class="left">Max. RAM: </td> <td><input type="number" min="1" v-model="pretragaMaxRam"></td></tr>
+							        <tr><td class="left">Min. GPU jezgra: </td> <td><input type="number" min="0" v-model="pretragaMinGpu"></td></tr>
+							        <tr><td class="left">Max. GPU jezgra: </td> <td><input type="number" min="0" v-model="pretragaMaxGpu"></td></tr>
 							        <tr><td colspan="2"><br><button v-on:click="pretrazi()">FILTRIRAJ</button><br><br></td></tr>
 							    </table>
 							   
@@ -237,12 +238,12 @@ Vue.component("masine", {
             for (let k of this.kategorije){
                 if (k.ime == this.kat){
                     this.selectedMasina.kategorija.ime = k.ime;
-                    this.selectedMasina.kategorija.brojJezgara = k.brojJezgara;
-                    this.selectedMasina.kategorija.RAM = k.RAM;
-                    this.selectedMasina.kategorija.GPUjezgra = k.GPUjezgra;
-                    this.selectedMasina.brojJezgara = k.brojJezgara;
-                    this.selectedMasina.RAM = k.RAM;
-                    this.selectedMasina.GPUjezgra = k.GPUjezgra;
+                    this.selectedMasina.kategorija.jezgra = k.jezgra;
+                    this.selectedMasina.kategorija.ram = k.ram;
+                    this.selectedMasina.kategorija.gpu = k.gpu;
+                    this.selectedMasina.jezgra = k.jezgra;
+                    this.selectedMasina.ram = k.ram;
+                    this.selectedMasina.gpu = k.gpu;
                 }
             }
         }
@@ -360,13 +361,13 @@ Vue.component("masine", {
             
             for (let m of this.backup){
                 let imePassed = (this.pretragaIme != '') ? (m.ime.includes(this.pretragaIme)) : true;
-                let minBrojJezgaraPassed = (this.pretragaMinBrojJezgara != '') ? (m.brojJezgara >= this.pretragaMinBrojJezgara) : true;
-                let maxBrojJezgaraPassed = (this.pretragaMaxBrojJezgara != '') ? (m.brojJezgara <= this.pretragaMaxBrojJezgara) : true;
-                let minRAMPassed = (this.pretragaMinRAM != '') ? (m.RAM >= this.pretragaMinRAM) : true;
-                let maxRAMPassed = (this.pretragaMaxRAM != '') ? (m.RAM <= this.pretragaMaxRAM) : true;
-                let minGPUjezgraPassed = (this.pretragaMinGPUjezgra != '') ? (m.GPUjezgra >= this.pretragaMinGPUjezgra) : true;
-                let maxGPUjezgraPassed = (this.pretragaMaxGPUjezgra != '') ? (m.GPUjezgra <= this.pretragaMaxGPUjezgra) : true;
-                if (imePassed && minBrojJezgaraPassed && maxBrojJezgaraPassed && minRAMPassed && maxRAMPassed && minGPUjezgraPassed && maxGPUjezgraPassed) this.masine.push(m);
+                let minJezgraPassed = (this.pretragaMinJezgra != '') ? (m.jezgra >= this.pretragaMinJezgra) : true;
+                let maxJezgraPassed = (this.pretragaMaxJezgra != '') ? (m.jezgra <= this.pretragaMaxJezgra) : true;
+                let minRamPassed = (this.pretragaMinRam != '') ? (m.ram >= this.pretragaMinRam) : true;
+                let maxRamPassed = (this.pretragaMaxRam != '') ? (m.ram <= this.pretragaMaxRam) : true;
+                let minGpuPassed = (this.pretragaMinGpu != '') ? (m.gpu >= this.pretragaMinGpu) : true;
+                let maxGpuPassed = (this.pretragaMaxGpu != '') ? (m.gpu <= this.pretragaMaxGpu) : true;
+                if (imePassed && minJezgraPassed && maxJezgraPassed && minRamPassed && maxRamPassed && minGpuPassed && maxGpuPassed) this.masine.push(m);
             }
         },
 

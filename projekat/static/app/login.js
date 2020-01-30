@@ -20,7 +20,7 @@ Vue.component("login", {
             
             <table>
             
-	            <tr><td class="left">Korisnicko ime ili email: </td><td><input type="text" v-model="user.korisnickoIme"></td> <td>{{greskaKorisnickoIme}}</td></tr>
+	            <tr><td class="left">Email: </td><td><input type="text" v-model="user.korisnickoIme"></td> <td>{{greskaKorisnickoIme}}</td></tr>
 	            <tr><td class="left">Lozinka: </td><td><input type="password" v-model="user.lozinka"></td> <td>{{greskaLozinka}}</td></tr>
 	            <tr><td colspan="3"><br><button v-on:click="login()">PRIJAVA</button><br></td></tr>
 	            <tr><td colspan="3">{{greskaLogin}}</td></tr>

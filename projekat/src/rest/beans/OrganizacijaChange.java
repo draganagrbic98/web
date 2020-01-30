@@ -14,7 +14,6 @@ public class OrganizacijaChange implements ValidData {
 	
 	@Override
 	public boolean validData() {
-		// TODO Auto-generated method stub
 
 		if (this.staroIme == null || this.staroIme.equals("")) return false;
 		if (this.novaOrganizacija == null) return false;

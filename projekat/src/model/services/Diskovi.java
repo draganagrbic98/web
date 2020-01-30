@@ -10,7 +10,6 @@ import model.FileNames;
 import model.LoadStoreData;
 import model.beans.Disk;
 import model.services.OperationResult.DiskResult;
-import rest.Main;
 import rest.beans.DiskChange;
 
 public class Diskovi implements LoadStoreData {
@@ -35,15 +34,15 @@ public class Diskovi implements LoadStoreData {
 		if (this.nadjiDisk(d.getIme()) != null) 
 			return DiskResult.AL_EXISTS;
 		
-		if (Main.organizacije.nadjiOrganizaciju(d.getOrganizacijaID()) == null)
-			return DiskResult.ORG_NOT_EXISTS;
+		if (d.getOrganizacijaRef() == null)
+			return DiskResult.ORG_DOESNT_EXIST;
 
-		if (d.getOrganizacija().getMasine().contains(d.getIme()))
+		if (d.getOrganizacijaRef().getResursi().contains(d.getIme()))
 			return DiskResult.INVALID_NAME;
 				
-		d.getOrganizacija().dodajDisk(d);
-		if (d.getMasina() != null)
-			d.getMasina().dodajDisk(d);
+		d.getOrganizacijaRef().dodajResurs(d.getIme());
+		if (d.getMasinaRef() != null)
+			d.getMasinaRef().dodajDisk(d.getIme());
 		
 		this.diskovi.add(d);
 		this.store();
@@ -56,8 +55,11 @@ public class Diskovi implements LoadStoreData {
 		Disk disk = this.nadjiDisk(d.getIme());
 		if (disk == null) 
 			return DiskResult.DOESNT_EXIST;
+
+		disk.getOrganizacijaRef().obrisiResurs(disk.getIme());
+		if (disk.getMasinaRef() != null)
+			disk.getMasinaRef().obrisiDisk(disk.getIme());
 		
-		disk.notifyRemoval();
 		this.diskovi.remove(disk);
 		this.store();
 		return DiskResult.OK;
@@ -70,34 +72,23 @@ public class Diskovi implements LoadStoreData {
 		if (disk == null) 
 			return DiskResult.DOESNT_EXIST;
 		
-		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && (!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
+		if (this.nadjiDisk(d.getNoviDisk().getIme()) != null && 
+				(!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
 		
-		disk.notifyRemoval();
-		disk.setMasina(d.getNoviDisk().getMasinaID());
-		if (disk.getMasina() != null)
-			disk.getMasina().dodajDisk(disk);
-
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());
+		disk.setMasina(d.getNoviDisk().getMasina());
 		
 		this.store();
 		return DiskResult.OK;
 		
 	}
 	
-	public ArrayList<Disk> getDiskovi() {
-		return diskovi;
-	}
-
-	public void setDiskovi(ArrayList<Disk> diskovi) {
-		this.diskovi = diskovi;
-	}
-	
 	@Override
 	public void load() throws Exception {
-		// TODO Auto-generated method stub
+
 		BufferedReader in = new BufferedReader(new FileReader(FileNames.DISKOVI_FILE));
 		String line;
 		while ((line = in.readLine()) != null) {
@@ -111,13 +102,21 @@ public class Diskovi implements LoadStoreData {
 
 	@Override
 	public void store() throws Exception {
-		// TODO Auto-generated method stub
+
 		PrintWriter out = new PrintWriter(new FileWriter(FileNames.DISKOVI_FILE));
 		for (Disk d : this.diskovi) {
 			out.println(d.csvLine());
 			out.flush();
 		}
 		out.close();
+	}
+	
+	public ArrayList<Disk> getDiskovi() {
+		return diskovi;
+	}
+
+	public void setDiskovi(ArrayList<Disk> diskovi) {
+		this.diskovi = diskovi;
 	}
 	
 }
