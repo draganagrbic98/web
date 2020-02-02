@@ -54,7 +54,7 @@ public class Organizacija implements CSVData, ValidData, UpdateReference {
 
 	@Override
 	public String csvLine() {
-		return this.ime + ";" + ((this.logo != null && !this.logo.equals("")) ? this.logo : "null") + ";" + this.logo;
+		return this.ime + ";" + ((this.opis != null && !this.opis.equals("")) ? this.opis : "null") + ";" + this.logo;
 	}
 
 	@Override
