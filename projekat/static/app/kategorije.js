@@ -144,10 +144,25 @@ Vue.component("kategorije", {
         	if (!temp) return;
 
             this.selectedKategorija.ime = this.selectedKategorijaId;
-            this.selectedKategorija.jezgra = 0;
-            this.selectedKategorija.ram = 0;
-            this.selectedKategorija.gpu = 0;
-
+            if (isNaN(parseInt(this.selectedKategorija.jezgra))){
+            	this.selectedKategorija.jezgra = 0;
+            }
+            else{
+            	this.selectedKategorija.jezgra = parseInt(this.selectedKategorija.jezgra);
+            }
+            if (isNaN(parseInt(this.selectedKategorija.ram))){
+            	this.selectedKategorija.ram = 0;
+            }
+            else{
+            	this.selectedKategorija.ram = parseInt(this.selectedKategorija.ram);
+            }
+            if (isNaN(parseInt(this.selectedKategorija.gpu))){
+            	this.selectedKategorija.gpu = 0;
+            }
+            else{
+            	this.selectedKategorija.jezgra = parseInt(this.selectedKategorija.gpu);
+            }
+            
             axios.post("rest/kategorije/brisanje", this.selectedKategorija)
             .then(response => {
             	location.reload();

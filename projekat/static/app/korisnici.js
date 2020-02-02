@@ -176,11 +176,6 @@ Vue.component("korisnici", {
         	if (!temp) return;
 
             this.selectedKorisnik.email = this.selectedKorisnikId;
-            this.selectedKorisnik.lozinka = '';
-            this.selectedKorisnik.ime = '';
-            this.selectedKorisnik.prezime = '';
-            this.selectedKorisnik.uloga = '';
-            this.selectedKorisnik.organizacija = '';
 
             axios.post("rest/korisnici/brisanje", this.selectedKorisnik)
             .then(response => {

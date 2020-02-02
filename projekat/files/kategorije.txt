@@ -1,0 +1,2 @@
+kategorija1;11;11;11
+kategorija2;22;22;22

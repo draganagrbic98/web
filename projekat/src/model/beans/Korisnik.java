@@ -60,7 +60,7 @@ public class Korisnik implements CSVData, ValidData {
 
 	@Override
 	public String csvLine() {
-		return this.email + ";" + this.lozinka + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal() + ";" + this.organizacija;
+		return this.email + ";" + this.lozinka + ";" + this.ime + ";" + this.prezime + ";" + this.uloga.ordinal() + ";" + ((this.organizacija != null && !this.organizacija.equals("")) ? this.organizacija : "null");
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public class Disk implements CSVData, ValidData, GetRacun {
 
 	@Override
 	public String csvLine() {
-		return this.ime + ";" + this.organizacija + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + this.masina;
+		return this.ime + ";" + this.organizacija + ";" + this.tip.ordinal() + ";" + this.kapacitet + ";" + ((this.masina != null && !this.masina.equals("")) ? this.masina : "null");
 	}
 
 	@Override

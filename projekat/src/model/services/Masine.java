@@ -86,6 +86,9 @@ public class Masine implements LoadStoreData {
 				(!(m.getStaroIme().equals(m.getNovaMasina().getIme()))))
 			return MasinaResult.AL_EXISTS;
 		
+		if (m.getNovaMasina().getOrganizacijaRef().getResursi().contains(m.getNovaMasina().getIme()) && !m.getStaroIme().equals(m.getNovaMasina().getIme()))
+			return MasinaResult.INVALID_NAME;
+		
 		masina.setIme(m.getNovaMasina().getIme());
 		masina.setKategorija(m.getNovaMasina().getKategorija());
 		masina.setJezgra(m.getNovaMasina().getJezgra());

@@ -76,6 +76,9 @@ public class Diskovi implements LoadStoreData {
 				(!(d.getStaroIme().equals(d.getNoviDisk().getIme())))) 
 			return DiskResult.AL_EXISTS;
 		
+		if (d.getNoviDisk().getOrganizacijaRef().getResursi().contains(d.getNoviDisk().getIme()) && !d.getStaroIme().equals(d.getNoviDisk().getIme()))
+			return DiskResult.INVALID_NAME;
+		
 		disk.setIme(d.getNoviDisk().getIme());
 		disk.setTip(d.getNoviDisk().getTip());
 		disk.setKapacitet(d.getNoviDisk().getKapacitet());

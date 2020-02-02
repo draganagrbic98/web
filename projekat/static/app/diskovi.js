@@ -212,10 +212,12 @@ Vue.component("diskovi", {
         	if (!temp) return;
 
             this.selectedDisk.ime = this.selectedDiskId;
-            this.selectedDisk.organizacija = '';
-            this.selectedDisk.tip = '';
-            this.selectedDisk.kapacitet = 0;
-            this.selectedDisk.masina = '';
+            if (isNaN(parseInt(this.selectedDisk.kapacitet))){
+                this.selectedDisk.kapacitet = 0;            	
+            }
+            else{
+                this.selectedDisk.kapacitet = parseInt(this.selectedDisk.kapacitet);	
+            }
 
             axios.post("rest/diskovi/brisanje", this.selectedDisk)
             .then(response => {

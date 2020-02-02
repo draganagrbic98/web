@@ -1,0 +1,2 @@
+super@gmail.com;super;super;super;0;null
+asd@gmail.com;asd;asd;asd;1;organizacija1
